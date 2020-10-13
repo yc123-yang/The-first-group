@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sicnu.dao.UserDao">
+
+    <select id="findByName" parameterType="string" resultType="User">
+        select * from user where
+        user_act = #{user_act}
+    </select>
+
+    <select id="findAll" parameterType="string" resultType="User">
+        select * from user
+    </select>
+
+	<select id="findUserById" parameterType="int" resultType="User">
+ 		select * from user where
+ 		user_id=#{user_id}
+ 	</select>
+    <insert id="addUser" parameterType="User" >
+		insert into user
+		(user_act,
+		user_pwd,
+		user_name,
+		user_email,
+		user_number,
+		user_id_number,
+		user_state,
+		user_power)
+		values
+		(#{user_act},
+		#{user_pwd},
+		#{user_name},
+		#{user_email},
+		#{user_number},
+		#{user_id_number},
+		#{user_state},
+		#{user_power})
+	</insert>
+    <update id="updatePwd"  parameterType="User">
+ 		update user set
+ 		user_pwd=#{user_pwd}
+ 		where
+ 		user_act=#{user_act} and
+ 		user_email=#{user_email} and
+ 		user_number=#{user_number} and
+ 		user_id_number=#{user_id_number}
+ 	</update>
+	<update id="changeStatus" parameterType="User">
+ 		update user set user_state=#{state}
+ 		where user_id=#{user_id}
+ 	</update>
+</mapper>
