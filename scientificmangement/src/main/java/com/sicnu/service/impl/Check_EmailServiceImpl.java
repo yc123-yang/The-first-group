@@ -71,7 +71,7 @@ public class Check_EmailServiceImpl implements Check_EmailService {
             rs = new Result("1","验证码已经失效",null);
             return rs;
         }else{
-            rs = new Result("1","验证码成功",null);
+            rs = new Result("0","验证码成功",null);
             return  rs;
         }
 

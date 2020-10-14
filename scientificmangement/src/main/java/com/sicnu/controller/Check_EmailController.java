@@ -21,7 +21,6 @@ public class Check_EmailController {
     public Result addCheckCode(@RequestParam("email")String email) throws MessagingException {
         Result rs =null;
         rs = check_emailService.addCheckCode(email);
-        System.out.println("aaaa");
         return rs;
     }
     @RequestMapping("/user/checkCode")
