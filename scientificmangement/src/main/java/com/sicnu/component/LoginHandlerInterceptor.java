@@ -31,8 +31,11 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
         String attribute = (String)session.getAttribute("stoken");
         System.out.println("sessionToken："+attribute);
 
-//header == null ||
-        if( attribute == null ) {
+
+        if( header == null ||attribute == null ) {
+            returnJson(response, JSON.toJSONString(rs =new Result("401","你还未登录或登录已过期，请先登录",null)));
+            return false;
+        }else if(!attribute.equals(header.split(" ")[1])) {
             returnJson(response, JSON.toJSONString(rs =new Result("401","你还未登录或登录已过期，请先登录",null)));
             return false;
         }else {
