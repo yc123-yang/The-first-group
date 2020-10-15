@@ -3,6 +3,7 @@ package com.sicnu.service.impl;
 import com.sicnu.dao.UserDao;
 import com.sicnu.pojo.User;
 import com.sicnu.service.UserService;
+import com.sicnu.util.MD5Util;
 import com.sicnu.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,8 @@ public class UserSerciceImpl implements UserService {
     @Override
     public Result findByName(String user_act,String user_pwd) {
         Result rs;
+        String md5Password=MD5Util.md5(user_pwd);
+
         User user = userDao.findByName(user_act);
         if (user.getUser_state()==1){
             rs = new Result("1","该用户名被封禁",null);
@@ -31,7 +34,7 @@ public class UserSerciceImpl implements UserService {
         if (user==null){
             rs = new Result("2","用户名错误或不存在",null);
             return rs;
-        }else if(!user_pwd.equals(user.getUser_pwd())){
+        }else if(!md5Password.equals(user.getUser_pwd())){
             rs = new Result("3","密码错误",null);
             return rs;
         }else{
@@ -62,7 +65,7 @@ public class UserSerciceImpl implements UserService {
 
         User user = new User();
         user.setUser_act(user_act);
-        user.setUser_pwd(user_pwd);
+        user.setUser_pwd(MD5Util.md5(user_pwd));
         user.setUser_name(user_name);
         user.setUser_email(user_email);
         user.setUser_number(user_number);
@@ -91,7 +94,7 @@ public class UserSerciceImpl implements UserService {
             rs = new Result("user_id_number","身份证号验证未通过",null);
             return rs;
         }else{
-            userDao.updatePwd(user_act, user_pwd,user_email, user_number, user_id_number);
+            userDao.updatePwd(user_act, MD5Util.md5(user_pwd),user_email, user_number, user_id_number);
             rs = new Result("200","密码修改成功",null);
             return rs;
         }
