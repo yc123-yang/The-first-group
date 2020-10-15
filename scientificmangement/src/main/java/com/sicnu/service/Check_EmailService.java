@@ -9,5 +9,4 @@ import java.util.Date;
 public interface Check_EmailService {
     Result addCheckCode(String email) throws MessagingException;
     Result findByCode(Integer check_code);
-     void delCode();
 }

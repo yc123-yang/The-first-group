@@ -40,6 +40,7 @@ public class Check_EmailServiceImpl implements Check_EmailService {
         Result rs =null;
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
         Date date = new Date();
+        Date overTime = new Date(date.getTime()+300000);
         check_code = new Code().smsCode();
         List<Check_Email> check_emails = check_emailDao.findAllCode();
         for (int i = 0; i <check_emails.size() ; i++) {
@@ -48,15 +49,14 @@ public class Check_EmailServiceImpl implements Check_EmailService {
             }
         }
 
-        check_emailDao.addCheckCode(email, check_code, date);
+        check_emailDao.addCheckCode(email, check_code, overTime);
         rs = new Result("0","验证码发送成功",null);
 
-        Date date1 = new Date(date.getTime()+300000);
 
         MimeMessage mailMessage =  mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mailMessage);
         helper.setSubject("高校科研管理系统注册验证码");
-        helper.setText("<p>您的注册码为：<span style='color:blue;text-decoration:underline'>"+check_code+"</span>,该注册码将会在5分钟后失效，请您尽快进注册验证！</p>",true);
+        helper.setText("<p>您的注册码为：<span style='color:blue;text-decoration:underline'>"+check_code+"</span>,该注册码将会在5分钟("+overTime+")后失效，请您尽快进注册验证！</p>",true);
         helper.setTo(email);
         helper.setFrom("1776557392@qq.com");
         mailSender.send(mailMessage);
@@ -67,7 +67,12 @@ public class Check_EmailServiceImpl implements Check_EmailService {
     public Result findByCode(Integer check_code){
         Result rs =null;
         Check_Email check_email = check_emailDao.findByCode(check_code);
-        if (check_email==null){
+        Date endTime = check_email.getOvertime();
+
+        Date date = new Date();
+        Date startTime = new Date(date.getTime());
+
+        if (startTime.after(endTime)){
             rs = new Result("1","验证码已经失效",null);
             return rs;
         }else{
@@ -77,12 +82,5 @@ public class Check_EmailServiceImpl implements Check_EmailService {
 
     }
 
-    @Scheduled(cron = "0 */5 * * * ?")
-    public void delCode(){
-        logger.info("----验证码生成----"+new SimpleDateFormat(("HH:mm:ss")).format(new Date()));
-        check_emailDao.delCode();
-        logger.info("----验证码失效----"+new SimpleDateFormat(("HH:mm:ss")).format(new Date()));
-
-    }
 
 }
