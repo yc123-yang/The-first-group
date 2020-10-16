@@ -11,7 +11,8 @@
         leader_id,
         project_name,
         project_abstract,
-        declaration,apply_time
+        declaration,
+        apply_time
         )values(
         #{project_stage},
         #{project_type},
@@ -23,20 +24,18 @@
         )
     </insert>
 
-    <select id="userLogin" parameterType="string" resultType="Project">
+    <select id="findAllProject" parameterType="string" resultType="Project">
 		select * from project
 	</select>
 
     <update id="updateProject" parameterType="Project">
         update project set
-        project_id = #{project_id},
-        project_name = #{project_name}，
+        leader_id = #{leader_id},
+        project_name = #{project_name},
         project_abstract=#{project_abstract},
         project_declaration=#{project_declaration}
         where
-        project_id = #{project_id} 
-        And 
-        project_name = #{project_name}
+        project_id = #{project_id}
     </update>
     <update id="updateProjectStage" parameterType="Project">
         update project set
@@ -69,7 +68,7 @@
         p.project_name=#{project_name}
     </select>
 
-    <delete id="delproject" parameterType="Project">
+    <delete id="delProject" parameterType="Project">
         delete from project
         where
         project_id = #{project_id}

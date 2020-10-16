@@ -4,4 +4,26 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sicnu.dao.Project_TeamDao">
 
+    <insert id="addProjectTeam" parameterType="Project_Team">
+        insert into project_team(
+        project_id,
+        user_id,
+        join_time
+        ) values (
+        #{project_id},
+        #{user_id},
+        #{join_time}
+        )
+    </insert>
+
+    <delete id="delProjectTeam" parameterType="Project_Team">
+        delete from project_team
+        where
+        project_id =#{prject_id}
+    </delete>
+    <delete id="delTeamUser" parameterType="Project_Team">
+        delete from project_team
+        where
+        user_id =#{user_id}
+    </delete>
 </mapper>
