@@ -2,54 +2,76 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper>
-    <resultMap id="projectMap" type="Project">
-        <id property="project_id" column="project_id"/>
-        <result property="project_stage" column="project_stage"/>
-        <result property="project_type" column="project_type"/>
-        <result property="leader_id" column="leader_id"/>
-        <result property="project_name" column="project_name"/>
-        <result property="project_abstract" column="project_abstract"/>
-        <result property="declaration" column="declaration"/>
-        <result property="apply_time" column="apply_time"/>
-    </resultMap>
+<mapper namespace="com.sicnu.dao.ProjectDao">
 
-    <!-- 注意：继承userMap -->
-    <resultMap id="userMap" type="Project" extends="projectMap">
-        <!-- 一对多 -->
-        <collection property="projectTeams" ofType="Project_Team">
-            <result property="project_id" column="pid"/>
-            <result property="user_id" column="uid"/>
-            <result property="jion_time" column="jion_time"/>
-            <!-- 一对多 -->
-            <collection property="users" ofType="User">
-                <result property="user_id" column="user_id"/>
-                <result property="user_act" column="user_act"/>
-                <result property="user_pwd" column="user_pwd"/>
-                <result property="user_name" column="user_name"/>
-                <result property="user_email" column="user_email"/>
-                <result property="user_number" column="user_number"/>
-                <result property="user_id_number" column="user_id_number"/>
-                <result property="user_state" column="user_state"/>
-                <result property="user_power" column="user_power"/>
-            </collection>
-        </collection>
-    </resultMap>
+    <insert id="addProject" parameterType="project">
+        insert into project values (
+        project_stage,
+        project_type,
+        leader_id,
+        project_name,
+        project_abstract,
+        declaration,apply_time
+        )values(
+        #{project_stage},
+        #{project_type},
+        #{leader_id},
+        #{project_name},
+        #{project_abstract},
+        #{declaration},
+        #{apply_time}
+        )
+    </insert>
 
-    <!-- 根据id查询用户选择的运营商 -->
-    <select id="selectComboById" parameterType="int" resultMap="comboMap">
-    SELECT
-    p.*,
-    u.user_name,u.user_number,
-    t.overtime,
-    FROM
-    project p,project_team t,user u
-    WHERE
-    u.project_id=t.pid
-    AND
-    t.uid=u.user_id
-    AND
-    u.project_id=#{project_id}
+    <select id="userLogin" parameterType="string" resultType="Project">
+		select * from project
+	</select>
+
+    <update id="updateProject" parameterType="Project">
+        update project set
+        project_id = #{project_id},
+        project_name = #{project_name}，
+        project_abstract=#{project_abstract},
+        project_declaration=#{project_declaration}
+        where
+        project_id = #{project_id} 
+        And 
+        project_name = #{project_name}
+    </update>
+    <update id="updateProjectStage" parameterType="Project">
+        update project set
+        project_stage = #{project_stage},
+        where
+        project_id = #{project_id}
+        And 
+        project_name = #{project_name}
+    </update>
+    <update id="updateProjectType" parameterType="Project">
+        update project set
+        project_type = #{project_type},
+        where
+        project_id = #{project_id}
+        And 
+        project_name = #{project_name}
+    </update>
+    <select id="selectProjectById"  resultType="Project">
+        SELECT
+        p.project_id,p.project_stage,p.project_type,p.project_name,p.apply_time,
+        u.user_name,u.user_number,
+        t.join_time
+        FROM
+        project p,project_team t,user u
+        WHERE
+        p.project_id = t.project_id
+        AND
+        t.user_id=u.user_id
+        AND
+        p.project_name=#{project_name}
     </select>
 
+    <delete id="delproject" parameterType="Project">
+        delete from project
+        where
+        project_id = #{project_id}
+    </delete>
 </mapper>

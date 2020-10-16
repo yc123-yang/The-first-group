@@ -105,6 +105,7 @@ public class Project implements Serializable {
                 ", project_abstract='" + project_abstract + '\'' +
                 ", declaration='" + declaration + '\'' +
                 ", apply_time=" + apply_time +
+                ", projectTeams=" + projectTeams +
                 '}';
     }
 }

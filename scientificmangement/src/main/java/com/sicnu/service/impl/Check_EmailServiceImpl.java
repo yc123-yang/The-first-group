@@ -21,8 +21,6 @@ import java.util.List;
 
 @Service
 public class Check_EmailServiceImpl implements Check_EmailService {
-    private static final Logger logger =LoggerFactory.getLogger(Check_EmailServiceImpl.class);
-
     @Resource
     JavaMailSenderImpl mailSender;
     @Resource

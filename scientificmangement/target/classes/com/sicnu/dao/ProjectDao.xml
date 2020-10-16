@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sicnu.dao.ProjectDao">
+
+
+    <select id="userLogin" parameterType="string" resultType="Project">
+		select * from project
+	</select>
+
+    <update id="findProject"></update>
+
+
+    <select id="selectProjectById"  resultType="Project">
+        SELECT
+        p.project_id,p.project_stage,p.project_type,p.project_name,p.apply_time,
+        u.user_name,u.user_number,
+        t.join_time
+        FROM
+        project p,project_team t,user u
+        WHERE
+        p.project_id = t.project_id
+        AND
+        t.user_id=u.user_id
+        AND
+        p.project_name=#{project_name}
+    </select>
+
+</mapper>
