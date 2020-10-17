@@ -10,7 +10,7 @@ import java.util.List;
 @Mapper
 @Repository
 public interface ProjectDao {
-    List<Project> selectProjectById(String project_name);
+    List<Project> selectProjectByName(String project_name);
     void addProject(String project_stage, String project_type, Integer leader_id, String project_name, String project_abstract, String declaration, Date apply_time);
     List<Project> findAllProject();
     void updateProjectStage(String project_stage);

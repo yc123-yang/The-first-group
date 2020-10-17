@@ -1,5 +1,6 @@
 package com.sicnu.controller;
 
+
 import com.sicnu.service.impl.ProjectServiceImpl;
 import com.sicnu.util.Result;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,16 +15,28 @@ public class ProjectController {
     ProjectServiceImpl projectService;
 
     @RequestMapping("/project/selectProjectById")
-    public Result selectProjectById(String project_name) {
+    public Result selectProjectByName(String project_name) {
         Result rs = null;
-        rs = projectService.selectProjectById(project_name);
+        rs = projectService.selectProjectByName(project_name);
         return rs;
     }
 
+    @RequestMapping("/project/checkProject")
+
+    public Result checkProject(String project_stage, String project_type, Integer leader_id, String project_name, String project_abstract, String declaration, Date apply_time){
+        Result rs =null;
+        rs =projectService.checkProject(project_stage, project_type, leader_id, project_name, project_abstract, declaration, apply_time);
+        return  rs;
+    }
     @RequestMapping("/project/addProject")
-    public Result addProject(String project_stage, String project_type, Integer leader_id, String project_name, String project_abstract, String declaration, Date apply_time) {
+    public Result addProject(String status,String project_stage, String project_type, Integer leader_id, String project_name, String project_abstract, String declaration, Date apply_time) {
         Result rs = null;
-        rs = projectService.addProject(project_stage, project_type, leader_id, project_name, project_abstract, declaration, apply_time);
+        if (status.equals("suceess"))
+        {
+            rs = projectService.addProject(project_stage, project_type, leader_id, project_name, project_abstract, declaration, apply_time);
+        }else {
+            rs = new Result("1","审核未通过",null);
+        }
         return rs;
     }
 
@@ -37,11 +50,9 @@ public class ProjectController {
     @RequestMapping("/project/updateProjectStage")
 
     public Result updateProjectStage(String project_stage) {
-        Result rs =projectService.updateProjectStage(project_stage);
-
+        Result rs =null;
+        rs = projectService.updateProjectStage(project_stage);
         return  rs ;
-
-
     }
 
     @RequestMapping("/project/updateProjectType")

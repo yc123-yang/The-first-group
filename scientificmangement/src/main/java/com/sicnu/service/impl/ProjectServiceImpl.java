@@ -16,13 +16,15 @@ public class ProjectServiceImpl implements ProjectService {
     @Resource
     ProjectDao projectDao;
     @Override
-    public Result selectProjectById(String project_name) {
-        List<Project> project = projectDao.selectProjectById(project_name);
-        return null;
+    public Result selectProjectByName(String project_name) {
+        Result rs =null;
+        List<Project> project = projectDao.selectProjectByName(project_name);
+        rs = new Result("0","查找成功",project);
+        return rs;
     }
 
     @Override
-    public Result addProject(String project_stage, String project_type, Integer leader_id, String project_name, String project_abstract, String declaration, Date apply_time) {
+    public Result checkProject(String project_stage, String project_type, Integer leader_id, String project_name, String project_abstract, String declaration, Date apply_time) {
         Result rs = null;
         Project project = new Project();
         project.setProject_stage(project_stage);
@@ -31,8 +33,14 @@ public class ProjectServiceImpl implements ProjectService {
         project.setProject_name(project_name);
         project.setProject_abstract(project_abstract);
         project.setDeclaration(declaration);
-        return  rs = new Result("0","项目已经上传审核",project);
-//        projectDao.addProject(project_stage, project_type, leader_id, project_name, project_abstract, declaration, apply_time);
+        return  rs = new Result("0","项目申请已经上传,请等待审核审核",project);
+    }
+    @Override
+    public Result addProject(String project_stage, String project_type, Integer leader_id, String project_name, String project_abstract, String declaration, Date apply_time) {
+        Result rs = null;
+        projectDao.addProject(project_stage, project_type, leader_id, project_name, project_abstract, declaration, apply_time);
+        rs = new Result("0","审核通过",null);
+        return rs;
     }
 
     @Override
@@ -71,5 +79,6 @@ public class ProjectServiceImpl implements ProjectService {
         projectDao.updateProject(leader_id, project_name, project_stage, project_type, project_id);
         return  rs = new Result("0","更改成功",null);
     }
+
 
 }
