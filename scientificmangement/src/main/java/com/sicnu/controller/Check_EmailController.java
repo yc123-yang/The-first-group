@@ -16,9 +16,9 @@ public class Check_EmailController {
     @Resource
     Check_EmailServiceImpl check_emailService;
     @RequestMapping("/user/addCode")
-    public Result addCheckCode(@RequestParam("email")String email) throws MessagingException {
+    public Result addCheckCode(@RequestParam("user_email")String user_email) throws MessagingException {
         Result rs =null;
-        rs = check_emailService.addCheckCode(email);
+        rs = check_emailService.addCheckCode(user_email);
         return rs;
     }
     @RequestMapping("/user/checkCode")

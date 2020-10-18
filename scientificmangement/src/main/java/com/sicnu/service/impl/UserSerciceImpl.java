@@ -6,9 +6,13 @@ import com.sicnu.service.UserService;
 import com.sicnu.util.MD5Util;
 import com.sicnu.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -19,32 +23,34 @@ import java.util.UUID;
 public class UserSerciceImpl implements UserService {
     @Resource
     UserDao userDao;
-
+    @Resource
+    JavaMailSenderImpl mailSender;
     @Override
     public Result findByName(String user_act,String user_pwd) {
         Result rs;
         String md5Password=MD5Util.md5(user_pwd);
-
         User user = userDao.findByName(user_act);
+        if(user ==null){
+            rs = new Result("1","用户名不存在",null);
+            return rs;
+        }
+
         if (user.getUser_state()==1){
             rs = new Result("1","该用户名被封禁",null);
             return rs;
         }
-        System.out.println(user);
-        if (user==null){
-            rs = new Result("2","用户名错误或不存在",null);
-            return rs;
-        }else if(!md5Password.equals(user.getUser_pwd())){
+        if(!user.getUser_pwd().equals(md5Password)){
             rs = new Result("3","密码错误",null);
             return rs;
         }else{
             rs = new Result("200","登陆成功",null);
             return rs;
         }
+
     }
 
     @Override
-    public Result addUser(String user_act, String user_pwd, String user_name, String user_email, String user_number, String user_id_number, Integer user_state, Integer user_power) {
+    public Result addUser(String user_act, String user_pwd, String user_name, String user_email, String user_number, String user_id_number, Integer user_state, Integer user_power) throws MessagingException {
         Result rs = null;
         List<User> list = userDao.findAll();
         for (int i = 0; i < list.size(); i++) {
@@ -73,8 +79,18 @@ public class UserSerciceImpl implements UserService {
         user.setUser_state(user_state);
         user.setUser_power(user_power);
         userDao.addUser(user);
-        rs = new Result("200", "用户添加成功", null);
+        rs = new Result("200", "用户注册成功", null);
+
+        Integer userId = userDao.selectUserId(user_email);
+        MimeMessage mailMessage =  mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(mailMessage);
+        helper.setSubject("高校科研管理系统注册验证码");
+        helper.setText("<p>您已注册成功，您的用户名id为：<span style='color:blue;text-decoration:underline'>"+userId+"</span>,请勿遗忘或向他人泄露</p>",true);
+        helper.setTo(user_email);
+        helper.setFrom("1776557392@qq.com");
+        mailSender.send(mailMessage);
         return rs;
+
     }
 
     @Override
@@ -115,11 +131,10 @@ public class UserSerciceImpl implements UserService {
         return rs = new Result("200", "用户状态更改成功", null);
     }
 
-    public Result loginOut(Integer user_id, Integer user_state,HttpSession session){
+    public Result loginOut(HttpSession session){
         Result rs =null;
         session.setAttribute("stoken", null);
         return rs = new Result("200", "用户退出成功", null);
-
     }
 
 }

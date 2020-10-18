@@ -6,8 +6,8 @@
 </head>
 <body>
 <form th:action="@{/user/login}" method="post">
-    username:<input type="text"  name="username" ><br/>
-    password:<input type="password" name="password">
+    username:<input type="text"  name="user_act" ><br/>
+    password:<input type="password" name="user_pwd">
     <input type="submit">
     <!--/*@thymesVar id="msg" type=""*/-->
     <p th:text="${msg}"></p>

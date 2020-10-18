@@ -16,10 +16,14 @@ public class ProjectServiceImpl implements ProjectService {
     @Resource
     ProjectDao projectDao;
     @Override
-    public Result selectProjectByName(String project_name) {
+    public Result selectProjectTeamByName(String project_name) {
         Result rs =null;
-        List<Project> project = projectDao.selectProjectByName(project_name);
-        rs = new Result("0","查找成功",project);
+        List<Project> project = projectDao.selectProjectTeamByName(project_name);
+        if (project!=null){
+            rs = new Result("0","查找成功",project);
+        }else{
+            rs = new Result("0","项目未注册申报或已被删除",project);
+        }
         return rs;
     }
 
@@ -51,18 +55,18 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Result updateProjectStage(String project_stage) {
+    public Result updateProjectStage(String project_stage,Integer project_id,String project_name) {
         Result rs =null;
-        projectDao.updateProjectStage(project_stage);
+        projectDao.updateProjectStage(project_stage, project_id, project_name);
         return  rs = new Result("0","更改成功",null);
 
 
     }
 
     @Override
-    public Result updateProjectType(String project_type) {
+    public Result updateProjectType(String project_type,Integer project_id,String project_name) {
         Result rs =null;
-        projectDao.updateProjectType(project_type);
+        projectDao.updateProjectType(project_type, project_id, project_name);
         return  rs = new Result("0","更改成功",null);
     }
 

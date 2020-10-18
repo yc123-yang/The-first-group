@@ -15,4 +15,5 @@ public interface UserDao {
     void updatePwd(String user_act,String user_pwd,String user_email,String user_number,String user_id_number);
     void changeStatus(Integer user_id,Integer user_state);
     User findUserById(Integer user_id);
+    int selectUserId(String user_email);
 }

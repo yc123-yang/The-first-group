@@ -11,6 +11,7 @@ import com.sicnu.util.TokenProccessor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpSession;
 
 
@@ -21,7 +22,7 @@ public class UserController {
     UserSerciceImpl userSercice;
     //登录验证
     @RequestMapping("/user/login")
-    public Result login(@RequestParam("username") String user_act, @RequestParam("password") String user_pwd, HttpSession session) {
+    public Result login(@RequestParam("user_act") String user_act, @RequestParam("user_pwd") String user_pwd, HttpSession session) {
        Result rs = userSercice.findByName(user_act,user_pwd);
         System.out.println(rs);
        if (rs.getStatus().equals("200")){
@@ -35,7 +36,7 @@ public class UserController {
 
     }
     @RequestMapping("/user/register")
-    public Result addUser(String user_act,String user_pwd ,String user_name,String email,String user_number,String user_id_number,Integer user_state,Integer user_power){
+    public Result addUser(String user_act,String user_pwd ,String user_name,String email,String user_number,String user_id_number,Integer user_state,Integer user_power) throws MessagingException {
         Result rs =null;
         rs =userSercice.addUser(user_act, user_pwd, user_name, email, user_number, user_id_number, user_state, user_power);
         return rs;
@@ -53,8 +54,8 @@ public class UserController {
         return rs;
     }
     @RequestMapping("/user/loginOut")
-    public Result loginOut(Integer user_id, Integer user_state,HttpSession session){
-        Result rs =userSercice.loginOut(user_id, user_state, session);
+    public Result loginOut(HttpSession session){
+        Result rs =userSercice.loginOut(session);
         return rs;
     }
 }

@@ -5,7 +5,7 @@
 <mapper namespace="com.sicnu.dao.ProjectDao">
 
     <insert id="addProject" parameterType="project">
-        insert into project values (
+        insert into project(
         project_stage,
         project_type,
         leader_id,
@@ -13,7 +13,7 @@
         project_abstract,
         declaration,
         apply_time
-        )values(
+        ) values(
         #{project_stage},
         #{project_type},
         #{leader_id},
@@ -30,18 +30,16 @@
 
     <update id="updateProject" parameterType="Project">
         update project set
-        project_id = #{project_id},
-        project_name = #{project_name}，
-        project_abstract=#{project_abstract},
-        project_declaration=#{project_declaration}
+        leader_id = #{leader_id},
+        project_name = #{project_name},
+        project_abstract= #{project_abstract},
+        project_declaration= #{project_declaration}
         where
-        project_id = #{project_id} 
-        And 
-        project_name = #{project_name}
+        project_id = #{project_id}
     </update>
     <update id="updateProjectStage" parameterType="Project">
         update project set
-        project_stage = #{project_stage},
+        project_stage = #{project_stage}
         where
         project_id = #{project_id}
         And 
@@ -49,13 +47,13 @@
     </update>
     <update id="updateProjectType" parameterType="Project">
         update project set
-        project_type = #{project_type},
+        project_type = #{project_type}
         where
         project_id = #{project_id}
         And 
         project_name = #{project_name}
     </update>
-    <select id="selectProjectById"  resultType="Project">
+    <select id="selectProjectTeamByName"  resultType="Project">
         SELECT
         p.project_id,p.project_stage,p.project_type,p.project_name,p.apply_time,
         u.user_name,u.user_number,
@@ -70,7 +68,7 @@
         p.project_name=#{project_name}
     </select>
 
-    <delete id="delproject" parameterType="Project">
+    <delete id="delProject" parameterType="Project">
         delete from project
         where
         project_id = #{project_id}

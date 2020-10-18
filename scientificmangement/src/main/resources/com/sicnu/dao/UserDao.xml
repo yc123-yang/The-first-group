@@ -51,4 +51,7 @@
  		update user set user_state=#{state}
  		where user_id=#{user_id}
  	</update>
+	<select id="selectUserId" parameterType="string" resultType="int">
+		select user_id from user where user_email = #{user_email}
+	</select>
 </mapper>

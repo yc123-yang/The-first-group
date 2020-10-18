@@ -5,8 +5,6 @@ import com.sicnu.pojo.Check_Email;
 import com.sicnu.service.Check_EmailService;
 import com.sicnu.util.Code;
 import com.sicnu.util.Result;
-import org.slf4j.LoggerFactory;
-import org.slf4j.Logger;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -42,7 +40,6 @@ public class Check_EmailServiceImpl implements Check_EmailService {
                 check_emailService.addCheckCode(email);
             }
         }
-
         check_emailDao.addCheckCode(email, check_code, overTime);
         rs = new Result("0","验证码发送成功",null);
 
@@ -62,15 +59,14 @@ public class Check_EmailServiceImpl implements Check_EmailService {
         Result rs =null;
         Check_Email check_email = check_emailDao.findByCode(check_code);
         Date endTime = check_email.getOvertime();
-
         Date date = new Date();
         Date startTime = new Date(date.getTime());
 
         if (startTime.after(endTime)){
-            rs = new Result("1","验证码已经失效",null);
+            rs = new Result("1","验证码已经失效,请重新获取验证码",null);
             return rs;
         }else{
-            rs = new Result("0","验证码成功",null);
+            rs = new Result("0","验证成功",null);
             return  rs;
         }
 

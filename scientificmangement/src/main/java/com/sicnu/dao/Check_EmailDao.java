@@ -12,6 +12,5 @@ import java.util.List;
 public interface Check_EmailDao {
     void addCheckCode(String email, Integer check_code, Date overtime);
     List<Check_Email> findAllCode();
-    void delCode();
     Check_Email findByCode(Integer check_code);
 }

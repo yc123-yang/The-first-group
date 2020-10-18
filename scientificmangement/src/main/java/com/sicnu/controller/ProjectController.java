@@ -1,6 +1,5 @@
 package com.sicnu.controller;
 
-
 import com.sicnu.service.impl.ProjectServiceImpl;
 import com.sicnu.util.Result;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +16,7 @@ public class ProjectController {
     @RequestMapping("/project/selectProjectById")
     public Result selectProjectByName(String project_name) {
         Result rs = null;
-        rs = projectService.selectProjectByName(project_name);
+        rs = projectService.selectProjectTeamByName(project_name);
         return rs;
     }
 
@@ -49,15 +48,15 @@ public class ProjectController {
 
     @RequestMapping("/project/updateProjectStage")
 
-    public Result updateProjectStage(String project_stage) {
+    public Result updateProjectStage(String project_stage,Integer project_id,String project_name) {
         Result rs =null;
-        rs = projectService.updateProjectStage(project_stage);
+        rs = projectService.updateProjectStage(project_stage, project_id, project_name);
         return  rs ;
     }
 
     @RequestMapping("/project/updateProjectType")
-    public Result updateProjectType(String project_type) {
-        Result rs =projectService.updateProjectType(project_type);
+    public Result updateProjectType(String project_type,Integer project_id,String project_name) {
+        Result rs =projectService.updateProjectType(project_type, project_id, project_name);
         return  rs ;
     }
 
