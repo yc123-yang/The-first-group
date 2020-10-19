@@ -24,6 +24,7 @@ public class UserController {
     @RequestMapping("/user/login")
     public Result login(@RequestParam("user_act") String user_act, @RequestParam("user_pwd") String user_pwd, HttpSession session) {
        Result rs = userSercice.findByName(user_act,user_pwd);
+       session.setAttribute("login",user_act);
         System.out.println(rs);
        if (rs.getStatus().equals("200")){
            String token = TokenProccessor.getInstance().makeToken();

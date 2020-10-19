@@ -22,23 +22,12 @@ public class ProjectServiceImpl implements ProjectService {
         if (project!=null){
             rs = new Result("0","查找成功",project);
         }else{
-            rs = new Result("0","项目未注册申报或已被删除",project);
+            rs = new Result("0","项目未注册申报或已被删除",null);
         }
         return rs;
     }
 
-    @Override
-    public Result checkProject(String project_stage, String project_type, Integer leader_id, String project_name, String project_abstract, String declaration, Date apply_time) {
-        Result rs = null;
-        Project project = new Project();
-        project.setProject_stage(project_stage);
-        project.setProject_type(project_type);
-        project.setLeader_id(leader_id);
-        project.setProject_name(project_name);
-        project.setProject_abstract(project_abstract);
-        project.setDeclaration(declaration);
-        return  rs = new Result("0","项目申请已经上传,请等待审核审核",project);
-    }
+
     @Override
     public Result addProject(String project_stage, String project_type, Integer leader_id, String project_name, String project_abstract, String declaration, Date apply_time) {
         Result rs = null;
@@ -53,6 +42,7 @@ public class ProjectServiceImpl implements ProjectService {
         List<Project> projects = projectDao.findAllProject();
         return  rs = new Result("0",null,projects);
     }
+
 
     @Override
     public Result updateProjectStage(String project_stage,Integer project_id,String project_name) {
@@ -71,9 +61,9 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Result delProject(Integer project_id) {
+    public Result delProject(Integer project_id,Integer leader_id,String project_name) {
         Result rs = null;
-        projectDao.delProject(project_id);
+        projectDao.delProject(project_id, leader_id, project_name);
         return rs = new Result("0","删除成功",null);
     }
 

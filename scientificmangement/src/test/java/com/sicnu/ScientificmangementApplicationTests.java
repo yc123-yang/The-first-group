@@ -40,8 +40,10 @@ public class ScientificmangementApplicationTests {
 //        projectDao.addProject("good","good",2018110354,"yy","a","a",new Date(date.getTime()));
 //        project_teamDao.delTeamUser(1);
 //        project_teamDao.delProjectTeam(1);
-        Result rs = userSercice.findByName("root","admin123");
-        System.out.println(rs);
+//        Result rs = userSercice.findByName("root","admin123");
+//        List<Project> projects = projectDao.selectAllTeam();
+//        System.out.println(projects);
+
     }
 
 }

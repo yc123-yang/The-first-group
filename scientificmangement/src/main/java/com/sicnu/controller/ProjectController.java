@@ -13,28 +13,23 @@ public class ProjectController {
     @Resource
     ProjectServiceImpl projectService;
 
-    @RequestMapping("/project/selectProjectById")
+    @RequestMapping("/project/selectProjectByName")
     public Result selectProjectByName(String project_name) {
         Result rs = null;
         rs = projectService.selectProjectTeamByName(project_name);
         return rs;
     }
 
-    @RequestMapping("/project/checkProject")
 
-    public Result checkProject(String project_stage, String project_type, Integer leader_id, String project_name, String project_abstract, String declaration, Date apply_time){
-        Result rs =null;
-        rs =projectService.checkProject(project_stage, project_type, leader_id, project_name, project_abstract, declaration, apply_time);
-        return  rs;
-    }
     @RequestMapping("/project/addProject")
-    public Result addProject(String status,String project_stage, String project_type, Integer leader_id, String project_name, String project_abstract, String declaration, Date apply_time) {
+    public Result addProject(String status,String project_stage, String project_type, Integer leader_id, String project_name, String project_abstract, String declaration, Date apply_time,String fail_text) {
         Result rs = null;
         if (status.equals("suceess"))
         {
             rs = projectService.addProject(project_stage, project_type, leader_id, project_name, project_abstract, declaration, apply_time);
+            rs.setData(fail_text);
         }else {
-            rs = new Result("1","审核未通过",null);
+            rs = new Result("1","审核未通过",fail_text);
         }
         return rs;
     }
@@ -62,9 +57,9 @@ public class ProjectController {
 
     @RequestMapping("/project/delProject")
 
-    public Result delProject(Integer project_id) {
+    public Result delProject(Integer project_id,Integer leader_id,String project_name) {
         Result rs = null;
-        rs = projectService.delProject(project_id);
+        rs = projectService.delProject(project_id, leader_id, project_name);
         return rs ;
     }
 

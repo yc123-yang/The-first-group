@@ -15,6 +15,6 @@ public interface ProjectDao {
     List<Project> findAllProject();
     void updateProjectStage(String project_stage,Integer project_id,String project_name);
     void updateProjectType(String project_type,Integer project_id,String project_name);
-    void delProject(Integer project_id);
+    void delProject(Integer project_id,Integer leader_id,String project_name);
     void updateProject(Integer leader_id,String project_name,String project_stage,String project_type,Integer project_id);
 }

@@ -73,4 +73,17 @@
         where
         project_id = #{project_id}
     </delete>
+
+    <select id="selectAllTeam"  resultType="Project">
+        SELECT
+        p.project_id,p.project_stage,p.project_type,p.project_name,p.apply_time,
+        u.user_name,u.user_number,
+        t.join_time
+        FROM
+        project p,project_team t,user u
+        WHERE
+        p.project_id = t.project_id
+        AND
+        t.user_id=u.user_id
+    </select>
 </mapper>

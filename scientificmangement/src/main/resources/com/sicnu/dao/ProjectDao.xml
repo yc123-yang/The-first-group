@@ -72,5 +72,10 @@
         delete from project
         where
         project_id = #{project_id}
+        And
+        leader_id = #{leader_id}
+        AND
+        projcet_name =#{project_name}
     </delete>
+
 </mapper>
