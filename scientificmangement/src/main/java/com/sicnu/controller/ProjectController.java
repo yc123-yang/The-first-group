@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.mail.MessagingException;
 import java.util.Date;
 
 @RestController
@@ -22,7 +23,7 @@ public class ProjectController {
 
 
     @RequestMapping("/project/addProject")
-    public Result addProject(String status,String project_stage, String project_type, Integer leader_id, String project_name, String project_abstract, String declaration, Date apply_time,String fail_text) {
+    public Result addProject(String status,String project_stage, String project_type, Integer leader_id, String project_name, String project_abstract, String declaration, Date apply_time,String fail_text) throws MessagingException {
         Result rs = null;
         if (status.equals("suceess"))
         {

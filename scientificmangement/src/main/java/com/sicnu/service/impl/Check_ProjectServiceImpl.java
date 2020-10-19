@@ -27,6 +27,11 @@ public class Check_ProjectServiceImpl implements Check_ProjectService {
         return  rs = new Result("0","项目申请已经上传,请等待审核审核",null);
     }
 
+    @Override
+    public void delCheckProjectById(Integer project_id) {
+        check_projectDao.delCheckProjectById(project_id);
+    }
+
 
     @Override
     public Result findAllProject() {

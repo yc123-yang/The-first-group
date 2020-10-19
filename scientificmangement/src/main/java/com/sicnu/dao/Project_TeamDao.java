@@ -11,4 +11,5 @@ public interface Project_TeamDao {
    void addProjectTeam(Integer project_id, Integer user_id, Date join_time);
    void delProjectTeam(Integer project_id);
    void delTeamUser(Integer user_id);
+   Integer selectNumberById(Integer project_id);
 }

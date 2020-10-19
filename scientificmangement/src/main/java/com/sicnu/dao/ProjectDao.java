@@ -17,4 +17,5 @@ public interface ProjectDao {
     void updateProjectType(String project_type,Integer project_id,String project_name);
     void delProject(Integer project_id,Integer leader_id,String project_name);
     void updateProject(Integer leader_id,String project_name,String project_stage,String project_type,Integer project_id);
+    Project selectProjectByName(String project_name,Integer leader_id);
 }

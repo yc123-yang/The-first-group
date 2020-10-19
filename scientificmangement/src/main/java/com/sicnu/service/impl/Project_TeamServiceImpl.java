@@ -1,6 +1,7 @@
 package com.sicnu.service.impl;
 
 
+import com.sicnu.dao.Check_TeamDao;
 import com.sicnu.dao.Project_TeamDao;
 import com.sicnu.service.Project_TeamService;
 import com.sicnu.util.Result;
@@ -12,11 +13,22 @@ import java.util.Date;
 public class Project_TeamServiceImpl implements Project_TeamService {
     @Resource
     Project_TeamDao projectTeamDao;
+
+    @Resource
+    Check_TeamDao check_teamDao;
     @Override
     public Result addProjectTeam(Integer project_id, Integer user_id, Date join_time) {
         Result rs =null;
-        projectTeamDao.addProjectTeam(project_id, user_id, join_time);
-        return rs = new Result("0","添加成功",null);
+        int number = projectTeamDao.selectNumberById(project_id);
+        if (number<10){
+            projectTeamDao.addProjectTeam(project_id, user_id, join_time);
+            check_teamDao.delCheckTeamUser(user_id);
+            rs = new Result("0","添加成功",null);
+        }else{
+            rs =  new Result("1","小组已经满员，请您联系小组管理员",null);
+
+        }
+        return rs ;
     }
 
     @Override

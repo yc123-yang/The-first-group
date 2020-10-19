@@ -24,14 +24,9 @@
         )
     </insert>
 
-    <select id="findAllProject" parameterType="string" resultType="Check_Project">
+    <select id="findAllProject" parameterType="string" resultType="Project">
 		select * from check_project
 	</select>
 
-    <delete id="delCheckProjectById" parameterType="Check_Project">
-        delete from check_project
-        where
-        project_id = #{project_id}
-    </delete>
 
 </mapper>

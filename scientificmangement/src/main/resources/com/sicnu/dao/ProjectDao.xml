@@ -67,7 +67,12 @@
         AND
         p.project_name=#{project_name}
     </select>
-
+    <select id="selectProjectByName"  resultType="Project">
+        SELECT * from project where
+        project_name = #{project_name}
+        and
+        leader_id = #{leader_id}
+    </select>
     <delete id="delProject" parameterType="Project">
         delete from project
         where

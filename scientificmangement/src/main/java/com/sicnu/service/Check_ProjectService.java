@@ -8,5 +8,6 @@ public interface Check_ProjectService {
 
     Result findAllProject();
     Result checkProject(String project_stage, String project_type, Integer leader_id, String project_name, String project_abstract, String declaration, Date apply_time);
+    void delCheckProjectById(Integer project_id);
 
 }

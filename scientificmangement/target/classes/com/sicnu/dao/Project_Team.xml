@@ -26,4 +26,9 @@
         where
         user_id =#{user_id}
     </delete>
+
+    <select id="selectNumberById" resultType="int">
+        select count(*) from project_team where
+        project_id = #{project_id}
+    </select>
 </mapper>

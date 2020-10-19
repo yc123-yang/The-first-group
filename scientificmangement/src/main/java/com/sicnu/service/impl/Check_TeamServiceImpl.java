@@ -1,36 +1,41 @@
 package com.sicnu.service.impl;
 
 
+import com.sicnu.dao.Check_TeamDao;
 import com.sicnu.dao.Project_TeamDao;
+import com.sicnu.pojo.Check_Team;
+import com.sicnu.service.Check_TeamService;
 import com.sicnu.service.Project_TeamService;
 import com.sicnu.util.Result;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.List;
 
 @Service
-public class Check_TeamServiceImpl implements Project_TeamService {
+public class Check_TeamServiceImpl implements Check_TeamService {
     @Resource
-    Project_TeamDao projectTeamDao;
+    Check_TeamDao check_teamDao;
     @Override
-    public Result addProjectTeam(Integer project_id, Integer user_id, Date join_time) {
+    public Result checkProjectTeam(Integer project_id, Integer user_id, Date join_time) {
         Result rs =null;
-        projectTeamDao.addProjectTeam(project_id, user_id, join_time);
-        return rs = new Result("0","添加成功",null);
+        check_teamDao.checkProjectTeam(project_id, user_id, join_time);
+        return rs = new Result("0","您已经上传申请，请您等待回复",null);
     }
 
     @Override
-    public Result delProjectTeam(Integer project_id) {
+    public Result selectCheckUser(Integer project_id) {
+        List<Check_Team> check_teams = check_teamDao.selectCheckUser(project_id);
         Result rs =null;
-        projectTeamDao.delProjectTeam(project_id);
-        return rs = new Result("0","删除成功",null);
+        rs = new Result("0",null,check_teams);
+        return rs;
     }
 
     @Override
-    public Result delTeamUser(Integer user_id) {
-        Result rs =null;
-        projectTeamDao.delTeamUser(user_id);
-        return rs = new Result("0","删除成功",null);
+    public void delCheckTeamUser(Integer user_id) {
+        check_teamDao.delCheckTeamUser(user_id);
     }
+
+
 }

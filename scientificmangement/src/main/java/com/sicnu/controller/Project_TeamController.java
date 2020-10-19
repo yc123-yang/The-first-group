@@ -22,7 +22,6 @@ public class Project_TeamController {
     }
 
     @RequestMapping("/team/delProjectTeam")
-
     public Result delProjectTeam(Integer project_id) {
         Result rs =null;
         rs = projectTeamService.delProjectTeam(project_id);

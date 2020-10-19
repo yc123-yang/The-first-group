@@ -44,6 +44,8 @@ public class ScientificmangementApplicationTests {
 //        List<Project> projects = projectDao.selectAllTeam();
 //        System.out.println(projects);
 
+        Integer a = project_teamDao.selectNumberById(2);
+        System.out.println(2);
     }
 
 }

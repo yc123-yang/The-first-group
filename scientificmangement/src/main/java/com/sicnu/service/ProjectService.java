@@ -3,6 +3,7 @@ package com.sicnu.service;
 import com.sicnu.pojo.Project;
 import com.sicnu.util.Result;
 
+import javax.mail.MessagingException;
 import java.util.Date;
 import java.util.List;
 
@@ -13,6 +14,5 @@ public interface ProjectService {
     Result updateProjectType(String project_type,Integer project_id,String project_name);
     Result delProject(Integer project_id,Integer leader_id,String project_name);
     Result updateProject(Integer leader_id,String project_name,String project_stage,String project_type,Integer project_id);
-    Result addProject(String project_stage, String project_type, Integer leader_id, String project_name, String project_abstract, String declaration, Date apply_time);
-
+    Result addProject(String project_stage, String project_type, Integer leader_id, String project_name, String project_abstract, String declaration, Date apply_time) throws MessagingException;
 }
