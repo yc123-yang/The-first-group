@@ -3,7 +3,6 @@ package com.sicnu;
 
 import com.sicnu.dao.*;
 import com.sicnu.service.impl.CheckEmailServiceImpl;
-import com.sicnu.service.impl.CheckTeamServiceImpl;
 import com.sicnu.service.impl.UserSerciceImpl;
 import com.sicnu.util.Result;
 import org.junit.Test;
