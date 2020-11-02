@@ -1,12 +1,8 @@
 package com.sicnu.component;
 
-import com.sicnu.pojo.User;
-import com.sicnu.service.impl.UserSerciceImpl;
 import com.sicnu.util.Result;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -17,8 +13,7 @@ import java.io.PrintWriter;
 import com.alibaba.fastjson.JSON;
 
 public class LoginHandlerInterceptor implements HandlerInterceptor {
-    @Resource
-    UserSerciceImpl userSercice;
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
@@ -33,7 +28,7 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
 
 
         if( header == null ||attribute == null ) {
-            returnJson(response, JSON.toJSONString(rs =new Result("401","用户名不存在或你还未登录，请先登录",null)));
+            returnJson(response, JSON.toJSONString(rs =new Result("401","你还未登录或登录已过期，请先登录",null)));
             return false;
         }else if(!attribute.equals(header.split(" ")[1])) {
             returnJson(response, JSON.toJSONString(rs =new Result("401","你还未登录或登录已过期，请先登录",null)));

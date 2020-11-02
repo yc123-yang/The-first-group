@@ -1,6 +1,5 @@
 package com.sicnu.service.impl;
 
-import com.sicnu.dao.Check_ProjectDao;
 import com.sicnu.dao.ProjectDao;
 import com.sicnu.dao.UserDao;
 import com.sicnu.pojo.Project;
@@ -26,7 +25,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Resource
     UserDao userDao;
     @Resource
-    Check_ProjectDao check_projectDao;
+    CheckProjectServiceImpl check_projectService;
     @Override
     public Result selectProjectTeamByName(String project_name) {
         Result rs =null;
@@ -49,7 +48,7 @@ public class ProjectServiceImpl implements ProjectService {
             projectDao.addProject(project_stage, project_type, leader_id, project_name, project_abstract, declaration, apply_time);
             rs = new Result("0","审核通过",null);
             Project project1 = projectDao.selectProjectByName(project_name,leader_id);
-            check_projectDao.delCheckProjectById(project1.getProject_id());
+            check_projectService.delCheckProjectById(project1.getProject_id());
 
             MimeMessage mailMessage =  mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mailMessage);

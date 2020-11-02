@@ -2,6 +2,7 @@ package com.sicnu.controller;
 
 import com.sicnu.service.impl.ProjectServiceImpl;
 import com.sicnu.util.Result;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -10,6 +11,8 @@ import javax.mail.MessagingException;
 import java.util.Date;
 
 @RestController
+@CrossOrigin
+
 public class ProjectController {
     @Resource
     ProjectServiceImpl projectService;

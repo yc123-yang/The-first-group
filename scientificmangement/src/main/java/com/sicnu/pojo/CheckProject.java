@@ -1,11 +1,9 @@
 package com.sicnu.pojo;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class Project implements Serializable {
-
+public class CheckProject {
     private Integer project_id;
     private String project_stage;
     private String project_type;
@@ -25,7 +23,7 @@ public class Project implements Serializable {
         this.projectTeams = projectTeams;
     }
 
-    public Project() {
+    public CheckProject() {
     }
 
 

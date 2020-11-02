@@ -31,7 +31,7 @@ public class TransactionAdviceConfig {
 
         DefaultTransactionAttribute txAttr_REQUIRED_READONLY = new DefaultTransactionAttribute();
         txAttr_REQUIRED_READONLY.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
-        txAttr_REQUIRED_READONLY.setReadOnly(true);
+        txAttr_REQUIRED_READONLY.setReadOnly(false);
 
         NameMatchTransactionAttributeSource source = new NameMatchTransactionAttributeSource();
         source.addTransactionalMethod("add*", txAttr_REQUIRED);
@@ -47,6 +47,9 @@ public class TransactionAdviceConfig {
         source.addTransactionalMethod("count*", txAttr_REQUIRED_READONLY);
         source.addTransactionalMethod("is*", txAttr_REQUIRED_READONLY);
         source.addTransactionalMethod("trans*", txAttr_REQUIRED_READONLY);
+        source.addTransactionalMethod("del*", txAttr_REQUIRED_READONLY);
+        source.addTransactionalMethod("check*", txAttr_REQUIRED_READONLY);
+
 
         return new TransactionInterceptor(transactionManager, source);
     }
