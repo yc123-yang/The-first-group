@@ -1,4 +1,4 @@
-package com.sicnu.dao;
+package com.sicnu.mapper;
 
 import com.sicnu.pojo.User;
 import org.apache.ibatis.annotations.Mapper;
@@ -8,7 +8,7 @@ import java.util.List;
 
 @Mapper
 @Repository
-public interface UserDao {
+public interface UserMapper {
     User findByName(String user_act);
     void addUser(User user);
     List<User> findAll();

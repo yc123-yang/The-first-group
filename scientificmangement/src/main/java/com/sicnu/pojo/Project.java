@@ -6,6 +6,7 @@ import java.util.List;
 
 public class Project implements Serializable {
 
+
     private Integer project_id;
     private String project_name;
     private Integer leader_id;
@@ -21,7 +22,7 @@ public class Project implements Serializable {
     private String approval_number;
     private Date start_time;
     private Date plan_time;
-    private Date complete;
+    private Date complete_time;
     private Integer outlay;
     private Integer ct_id;
     private List<ProjectTeam> projectTeams;
@@ -30,11 +31,14 @@ public class Project implements Serializable {
         return projectTeams;
     }
 
+    public Project() {
+    }
+
     public void setProjectTeams(List<ProjectTeam> projectTeams) {
         this.projectTeams = projectTeams;
     }
 
-    public Project(Integer project_id, String project_name, Integer leader_id, Integer department_id, Integer aod_id, Integer sc_id, Integer subject_id, Integer nature_id, Integer level_id, Integer status_id, Integer sd_id, Integer at_id, String approval_number, Date start_time, Date plan_time, Date complete, Integer outlay, Integer ct_id) {
+    public Project(Integer project_id, String project_name, Integer leader_id, Integer department_id, Integer aod_id, Integer sc_id, Integer subject_id, Integer nature_id, Integer level_id, Integer status_id, Integer sd_id, Integer at_id, String approval_number, Date start_time, Date plan_time, Date complete_time, Integer outlay, Integer ct_id) {
         this.project_id = project_id;
         this.project_name = project_name;
         this.leader_id = leader_id;
@@ -50,7 +54,7 @@ public class Project implements Serializable {
         this.approval_number = approval_number;
         this.start_time = start_time;
         this.plan_time = plan_time;
-        this.complete = complete;
+        this.complete_time = complete_time;
         this.outlay = outlay;
         this.ct_id = ct_id;
     }
@@ -175,12 +179,12 @@ public class Project implements Serializable {
         this.plan_time = plan_time;
     }
 
-    public Date getComplete() {
-        return complete;
+    public Date getComplete_time() {
+        return complete_time;
     }
 
-    public void setComplete(Date complete) {
-        this.complete = complete;
+    public void setComplete_time(Date complete_time) {
+        this.complete_time = complete_time;
     }
 
     public Integer getOutlay() {
@@ -217,7 +221,7 @@ public class Project implements Serializable {
                 ", approval_number='" + approval_number + '\'' +
                 ", start_time=" + start_time +
                 ", plan_time=" + plan_time +
-                ", complete=" + complete +
+                ", complete_time=" + complete_time +
                 ", outlay=" + outlay +
                 ", ct_id=" + ct_id +
                 ", projectTeams=" + projectTeams +

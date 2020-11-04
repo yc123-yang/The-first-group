@@ -2,7 +2,7 @@ package com.sicnu.pojo;
 
 import java.io.Serializable;
 
-public class SubajectCategory implements Serializable {
+public class SubjectCategory implements Serializable {
     private Integer sc_id;
     private String sc_name;
 
@@ -22,7 +22,7 @@ public class SubajectCategory implements Serializable {
         this.sc_name = sc_name;
     }
 
-    public SubajectCategory(Integer sc_id, String sc_name) {
+    public SubjectCategory(Integer sc_id, String sc_name) {
         this.sc_id = sc_id;
         this.sc_name = sc_name;
     }

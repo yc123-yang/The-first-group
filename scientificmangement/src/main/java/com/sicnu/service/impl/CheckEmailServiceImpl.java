@@ -1,6 +1,6 @@
 package com.sicnu.service.impl;
 
-import com.sicnu.dao.CheckEmailDao;
+import com.sicnu.mapper.CheckEmailMapper;
 import com.sicnu.pojo.CheckEmail;
 import com.sicnu.service.CheckEmailService;
 import com.sicnu.util.Code;
@@ -18,11 +18,11 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 @Service
-public class CheckEmailServiceImpl implements CheckEmailService {
+public class  CheckEmailServiceImpl implements CheckEmailService {
     @Resource
     JavaMailSenderImpl mailSender;
     @Resource
-    CheckEmailDao check_emailDao;
+    CheckEmailMapper check_emailDao;
     @Resource
     CheckEmailServiceImpl check_emailService;
     @Override

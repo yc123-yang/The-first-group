@@ -1,7 +1,8 @@
 package com.sicnu;
 
 
-import com.sicnu.dao.*;
+import com.sicnu.mapper.*;
+import com.sicnu.pojo.Project;
 import com.sicnu.service.impl.CheckEmailServiceImpl;
 import com.sicnu.service.impl.UserSerciceImpl;
 import com.sicnu.util.Result;
@@ -12,7 +13,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 import javax.mail.MessagingException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 
 //测试方法用的  不用管
@@ -21,22 +24,16 @@ import java.util.Date;
 public class ScientificmangementApplicationTests {
 
     @Resource
-    CheckTeamServiceImpl check_teamService;
-
-    @Resource
-    CheckTeamDao check_teamDao;
+    ProjectMapper projectDao;
     @Resource
     CheckEmailServiceImpl check_emailService;
     @Resource
-    CheckEmailDao check_emailDao;
+    CheckEmailMapper check_emailDao;
     @Resource
-    UserDao userDao;
+    UserMapper userDao;
     @Resource
     UserSerciceImpl  userSercice;
-    @Resource
-    ProjectDao projectDao;
-    @Resource
-    ProjectTeamDao project_teamDao;
+
 
     @Test
     public void contextLoads() throws MessagingException {
@@ -58,6 +55,32 @@ public class ScientificmangementApplicationTests {
 //        System.out.println(2);
 //       check_emailService.delCode(789022);
 //        System.out.println(rs);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Project project = new Project();
+        project.setProject_name("yr");
+        project.setLeader_id(3);
+        project.setDepartment_id(2);
+        project.setAod_id(1);
+        project.setSc_id(1);
+        project.setSubject_id(1);
+        project.setNature_id(1);
+        project.setLevel_id(1);
+        project.setStatus_id(1);
+        project.setSd_id(1);
+        project.setAt_id(1);
+        project.setApproval_number("yy");
+        project.setStart_time(new Date());
+        project.setPlan_time(new Date());
+        project.setComplete_time(new Date());
+        project.setOutlay(10000);
+        project.setCt_id(1);
+//        projectDao.addProject(project);
+        List<Project> projects = projectDao.selectProject(project);
+        System.out.println(projects);
+//        projectDao.delProject(1);
+//        projectDao.updateProject(project);
+//        Integer pid = projectDao.selectProjectId(3,"yr");
+//        System.out.println(pid);
     }
 
 }

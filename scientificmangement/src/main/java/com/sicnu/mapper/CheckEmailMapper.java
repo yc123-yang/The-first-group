@@ -1,4 +1,4 @@
-package com.sicnu.dao;
+package com.sicnu.mapper;
 
 import com.sicnu.pojo.CheckEmail;
 import org.apache.ibatis.annotations.Mapper;
@@ -9,7 +9,7 @@ import java.util.List;
 
 @Mapper
 @Repository
-public interface CheckEmailDao {
+public interface CheckEmailMapper {
     void addCheckCode(String email, Integer check_code, Date overtime);
     List<CheckEmail> findAllCode();
     CheckEmail findByCode(Integer check_code);

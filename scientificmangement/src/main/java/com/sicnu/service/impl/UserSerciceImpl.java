@@ -1,12 +1,11 @@
 package com.sicnu.service.impl;
 
-import com.sicnu.dao.UserDao;
+import com.sicnu.mapper.UserMapper;
 import com.sicnu.pojo.User;
 import com.sicnu.service.UserService;
 import com.sicnu.util.MD5Util;
 import com.sicnu.util.Result;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -14,16 +13,14 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+
 import javax.servlet.http.HttpSession;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class UserSerciceImpl implements UserService {
     @Resource
-    UserDao userDao;
+    UserMapper userDao;
     @Resource
     JavaMailSenderImpl mailSender;
     @Override
