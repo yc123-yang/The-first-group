@@ -1,0 +1,41 @@
+create table user(
+	user_id	int	auto_increment PRIMARY KEY,
+	user_act	char(20)	not null,
+	constraint user_act_unique unique(user_act),
+	user_pwd	char(20)	not null,
+	user_name	char(20)	not null,
+	user_email	char(30)	not null,
+	constraint user_email_unique unique(user_email),
+	user_number	char(30)	not null,
+	constraint user_number_unique unique(user_number),
+	user_id_number	char(30),
+	constraint user_id_number_unique unique(user_id_number),
+	user_state	tinyint	not null,
+	department_id	int	not null,
+	role_id	int	not null
+	);
+
+
+INSERT INTO `mysql`.`user`(`user_id`, `user_act`, `user_pwd`, `user_name`, `user_email`, `user_number`, `user_id_number`, `user_state`, `department_id`, `role_id`) VALUES (1, '1187767534', 'w123456789', '¸ğÀèê¿', '1187767534@qq.com', '2018110342', '130928198905281793', 0, 1, 0);
+INSERT INTO `mysql`.`user`(`user_id`, `user_act`, `user_pwd`, `user_name`, `user_email`, `user_number`, `user_id_number`, `user_state`, `department_id`, `role_id`) VALUES (2, '5630723123', 'x123456789', 'ÀÖ´¾ÑÅ', '9282531826@qq.com', '2018110343', '130532197901235712', 0, 2, 1);
+INSERT INTO `mysql`.`user`(`user_id`, `user_act`, `user_pwd`, `user_name`, `user_email`, `user_number`, `user_id_number`, `user_state`, `department_id`, `role_id`) VALUES (3, '925269085', 'q123456789', 'ÔªÊ¥½Ü', '1140118878@qq.com', '2018110354', '610523198305134774', 1, 3, 3);
+INSERT INTO `mysql`.`user`(`user_id`, `user_act`, `user_pwd`, `user_name`, `user_email`, `user_number`, `user_id_number`, `user_state`, `department_id`, `role_id`) VALUES (4, '946843584', 'e123456789', 'Æ½Ã÷Ô¶', 'angxin@163.com', '2018110363', '51152920020507XXXX', 1, 4, 2);
+INSERT INTO `mysql`.`user`(`user_id`, `user_act`, `user_pwd`, `user_name`, `user_email`, `user_number`, `user_id_number`, `user_state`, `department_id`, `role_id`) VALUES (5, '563000934', 'y123456789', 'Ö£¾¸ç÷', 'xiechen@163.con', '2018110364', '230111197104266110', 0, 5, 4);
+INSERT INTO `mysql`.`user`(`user_id`, `user_act`, `user_pwd`, `user_name`, `user_email`, `user_number`, `user_id_number`, `user_state`, `department_id`, `role_id`) VALUES (6, '199820404', 'r123456789', 'ÆëâùÔÃ', 'xinghao@163.com', '2018110344', '510422198603243893', 1, 1, 5);
+INSERT INTO `mysql`.`user`(`user_id`, `user_act`, `user_pwd`, `user_name`, `user_email`, `user_number`, `user_id_number`, `user_state`, `department_id`, `role_id`) VALUES (7, '013486141', 't123456789', 'Ç®¸èÀ»', 'liangyue@163.com', '2018110341', '150900198904133964', 0, 2, 0);
+INSERT INTO `mysql`.`user`(`user_id`, `user_act`, `user_pwd`, `user_name`, `user_email`, `user_number`, `user_id_number`, `user_state`, `department_id`, `role_id`) VALUES (8, '1919102060', 'u123456789', 'ºØ·¼»ª', '1919102060@qq.com', '2018110303', '522425198109113949', 0, 3, 1);
+INSERT INTO `mysql`.`user`(`user_id`, `user_act`, `user_pwd`, `user_name`, `user_email`, `user_number`, `user_id_number`, `user_state`, `department_id`, `role_id`) VALUES (9, '1919103010', 'i123456789', 'ÀÖêÏÀÙ', '1919103010@qq.com', '2018110304', '511826197005258546', 1, 4, 2);
+INSERT INTO `mysql`.`user`(`user_id`, `user_act`, `user_pwd`, `user_name`, `user_email`, `user_number`, `user_id_number`, `user_state`, `department_id`, `role_id`) VALUES (10, '318598024', 'o123456789', 'ÀÉ·¼ÁÖ', '318598024@qq.com', '2018110305', '431128198405258384', 0, 5, 3);
+INSERT INTO `mysql`.`user`(`user_id`, `user_act`, `user_pwd`, `user_name`, `user_email`, `user_number`, `user_id_number`, `user_state`, `department_id`, `role_id`) VALUES (11, '318598025', 'p123456789', 'ĞíºÍÑÅ', '318598025@qq.com', '2018110306', '141032198805257380', 1, 6, 4);
+INSERT INTO `mysql`.`user`(`user_id`, `user_act`, `user_pwd`, `user_name`, `user_email`, `user_number`, `user_id_number`, `user_state`, `department_id`, `role_id`) VALUES (12, '33203053', 'a123456789', '¿µº®Ïã', '33203053@qq.com', '2018110307', '331122197508146901', 0, 7, 5);
+INSERT INTO `mysql`.`user`(`user_id`, `user_act`, `user_pwd`, `user_name`, `user_email`, `user_number`, `user_id_number`, `user_state`, `department_id`, `role_id`) VALUES (13, '21019113', 's123456789', '»¨»ÛÔÂ', '21019113@qq.com', '2018110308', '510722197109219021', 1, 8, 0);
+INSERT INTO `mysql`.`user`(`user_id`, `user_act`, `user_pwd`, `user_name`, `user_email`, `user_number`, `user_id_number`, `user_state`, `department_id`, `role_id`) VALUES (14, '20353937', 'd123456789', 'Ç®°²»Ü', '20353937@qq.com', '2018110309', '500103198503111941', 0, 9, 1);
+INSERT INTO `mysql`.`user`(`user_id`, `user_act`, `user_pwd`, `user_name`, `user_email`, `user_number`, `user_id_number`, `user_state`, `department_id`, `role_id`) VALUES (15, '20399195', 'f123456789', 'Ûº´ºÑ©', '20399195@qq.com', '2018110310', '511325197406245048', 1, 10, 2);
+INSERT INTO `mysql`.`user`(`user_id`, `user_act`, `user_pwd`, `user_name`, `user_email`, `user_number`, `user_id_number`, `user_state`, `department_id`, `role_id`) VALUES (16, '21580991', 'g123456789', 'Â³·¼Ş¥', '21580991@qq.com', '2018110311', '610122198502268749', 0, 6, 3);
+INSERT INTO `mysql`.`user`(`user_id`, `user_act`, `user_pwd`, `user_name`, `user_email`, `user_number`, `user_id_number`, `user_state`, `department_id`, `role_id`) VALUES (17, '77022377', 'h123456789', 'Ë®ºìÒ¶', '77022377@qq.com', '2018110312', '231084198808141445', 1, 7, 4);
+INSERT INTO `mysql`.`user`(`user_id`, `user_act`, `user_pwd`, `user_name`, `user_email`, `user_number`, `user_id_number`, `user_state`, `department_id`, `role_id`) VALUES (18, '29192026', 'j123456789', '·ëºìÔÆ', '29192026@qq.com', '2018110313', '36100119860426330X', 0, 8, 5);
+INSERT INTO `mysql`.`user`(`user_id`, `user_act`, `user_pwd`, `user_name`, `user_email`, `user_number`, `user_id_number`, `user_state`, `department_id`, `role_id`) VALUES (19, '35386603', 'k123456789', 'ÂÀ·¼Ü°', '35386603@qq.com', '2018110314', '211201197409126100', 1, 9, 0);
+INSERT INTO `mysql`.`user`(`user_id`, `user_act`, `user_pwd`, `user_name`, `user_email`, `user_number`, `user_id_number`, `user_state`, `department_id`, `role_id`) VALUES (20, '99525272', 'l123456789', 'Ğíºç²Ê', '99525272@qq.com', '2018110315', '350781198505122429', 0, 10, 1);
+
+
+	
