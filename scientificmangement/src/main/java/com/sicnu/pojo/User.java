@@ -11,12 +11,14 @@ public class User implements Serializable {
     private String user_number;
     private String user_id_number;
     private Integer user_state;
-    private Integer user_power;
+    private Integer department_id;
+    private Integer role_id;
 
     public User() {
     }
 
-    public User(Integer user_id, String user_act, String user_pwd, String user_name, String user_email, String user_number, String user_id_number, Integer user_state, Integer user_power) {
+
+    public User(Integer user_id, String user_act, String user_pwd, String user_name, String user_email, String user_number, String user_id_number, Integer user_state, Integer department_id, Integer role_id) {
         this.user_id = user_id;
         this.user_act = user_act;
         this.user_pwd = user_pwd;
@@ -25,7 +27,8 @@ public class User implements Serializable {
         this.user_number = user_number;
         this.user_id_number = user_id_number;
         this.user_state = user_state;
-        this.user_power = user_power;
+        this.department_id = department_id;
+        this.role_id = role_id;
     }
 
     public Integer getUser_id() {
@@ -92,12 +95,20 @@ public class User implements Serializable {
         this.user_state = user_state;
     }
 
-    public Integer getUser_power() {
-        return user_power;
+    public Integer getDepartment_id() {
+        return department_id;
     }
 
-    public void setUser_power(Integer user_power) {
-        this.user_power = user_power;
+    public void setDepartment_id(Integer department_id) {
+        this.department_id = department_id;
+    }
+
+    public Integer getRole_id() {
+        return role_id;
+    }
+
+    public void setRole_id(Integer role_id) {
+        this.role_id = role_id;
     }
 
     @Override
@@ -111,7 +122,8 @@ public class User implements Serializable {
                 ", user_number='" + user_number + '\'' +
                 ", user_id_number='" + user_id_number + '\'' +
                 ", user_state=" + user_state +
-                ", user_power=" + user_power +
+                ", department_id=" + department_id +
+                ", role_id=" + role_id +
                 '}';
     }
 }

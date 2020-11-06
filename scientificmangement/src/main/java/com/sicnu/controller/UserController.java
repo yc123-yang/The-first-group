@@ -37,9 +37,9 @@ public class UserController {
 
     }
     @RequestMapping("/user/register")
-    public Result addUser(String user_act,String user_pwd ,String user_name,String email,String user_number,String user_id_number,Integer user_state,Integer user_power) throws MessagingException {
+    public Result addUser( String user_act, String user_pwd, String user_name, String user_email, String user_number, String user_id_number, Integer user_state, Integer department_id, Integer role_id) throws MessagingException{
         Result rs =null;
-        rs =userSercice.addUser(user_act, user_pwd, user_name, email, user_number, user_id_number, user_state, user_power);
+        rs =userSercice.addUser(user_act, user_pwd, user_name, user_email, user_number, user_id_number, user_state, department_id, role_id);
         return rs;
     }
     @RequestMapping("/user/updatePwd")

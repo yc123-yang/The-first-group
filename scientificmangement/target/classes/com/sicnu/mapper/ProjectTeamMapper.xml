@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sicnu.mapper.ProjectTeamMapper">
+
+    <insert id="addTeamUser" parameterType="ProjectTeam">
+        insert into project_team(project_id,user_id,user_role)
+        values(
+        #{project_id},
+        #{user_id},
+        #{user_role}
+        )
+    </insert>
+
+    <delete id="delTeamUser" parameterType="ProjectTeam">
+        delete from projectTeam where user_id = #{user_id}
+    </delete>
+</mapper>

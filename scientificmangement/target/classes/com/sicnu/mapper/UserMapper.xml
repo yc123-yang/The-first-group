@@ -3,13 +3,16 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.sicnu.dao.UserDao">
+<mapper namespace="com.sicnu.mapper.UserMapper">
 
     <select id="findByName" parameterType="string" resultType="User">
         select * from user where
         user_act = #{user_act}
     </select>
-
+	<select id="findByUserName" parameterType="string" resultType="User">
+        select * from user where
+        user_name = #{user_name}
+    </select>
     <select id="findAll" parameterType="string" resultType="User">
         select * from user
     </select>
@@ -27,7 +30,9 @@
 		user_number,
 		user_id_number,
 		user_state,
-		user_power)
+		department_id,
+		role_id
+		)
 		values
 		(#{user_act},
 		#{user_pwd},
@@ -36,7 +41,9 @@
 		#{user_number},
 		#{user_id_number},
 		#{user_state},
-		#{user_power})
+		#{department_id},
+		#{role_id}
+		)
 	</insert>
     <update id="updatePwd"  parameterType="User">
  		update user set

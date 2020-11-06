@@ -1,12 +1,9 @@
 package com.sicnu.pojo;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class Project implements Serializable {
-
-
+public class ReviewProject {
     private Integer project_id;
     private String project_name;
     private Integer leader_id;
@@ -25,12 +22,14 @@ public class Project implements Serializable {
     private Date complete_time;
     private Integer outlay;
     private Integer ct_id;
-    private List<ProjectTeam> projectTeams;
 
-    public Project() {
+
+
+    public ReviewProject() {
     }
 
-    public Project(Integer project_id, String project_name, Integer leader_id, Integer department_id, Integer aod_id, Integer sc_id, Integer subject_id, Integer nature_id, Integer level_id, Integer status_id, Integer sd_id, Integer at_id, String approval_number, Date start_time, Date plan_time, Date complete_time, Integer outlay, Integer ct_id) {
+
+    public ReviewProject(Integer project_id, String project_name, Integer leader_id, Integer department_id, Integer aod_id, Integer sc_id, Integer subject_id, Integer nature_id, Integer level_id, Integer status_id, Integer sd_id, Integer at_id, String approval_number, Date start_time, Date plan_time, Date complete_time, Integer outlay, Integer ct_id) {
         this.project_id = project_id;
         this.project_name = project_name;
         this.leader_id = leader_id;
@@ -195,14 +194,6 @@ public class Project implements Serializable {
         this.ct_id = ct_id;
     }
 
-    public List<ProjectTeam> getProjectTeams() {
-        return projectTeams;
-    }
-
-    public void setProjectTeams(List<ProjectTeam> projectTeams) {
-        this.projectTeams = projectTeams;
-    }
-
     @Override
     public String toString() {
         return "Project{" +
@@ -224,7 +215,6 @@ public class Project implements Serializable {
                 ", complete_time=" + complete_time +
                 ", outlay=" + outlay +
                 ", ct_id=" + ct_id +
-                ", projectTeams=" + projectTeams +
                 '}';
     }
 }

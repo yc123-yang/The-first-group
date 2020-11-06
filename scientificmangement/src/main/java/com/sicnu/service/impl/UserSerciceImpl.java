@@ -5,7 +5,6 @@ import com.sicnu.pojo.User;
 import com.sicnu.service.UserService;
 import com.sicnu.util.MD5Util;
 import com.sicnu.util.Result;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -48,7 +47,7 @@ public class UserSerciceImpl implements UserService {
     }
 
     @Override
-    public Result addUser(String user_act, @Param("user_pwd") String user_pwd, String user_name, String user_email, String user_number, String user_id_number, Integer user_state, Integer user_power) throws MessagingException {
+    public  Result addUser( String user_act, String user_pwd, String user_name, String user_email, String user_number, String user_id_number, Integer user_state, Integer department_id, Integer role_id) throws MessagingException{
         Result rs = null;
         List<User> list = userDao.findAll();
         for (User value : list) {
@@ -75,7 +74,8 @@ public class UserSerciceImpl implements UserService {
         user.setUser_number(user_number);
         user.setUser_id_number(user_id_number);
         user.setUser_state(user_state);
-        user.setUser_power(user_power);
+        user.setDepartment_id(department_id);
+        user.setRole_id(role_id);
         userDao.addUser(user);
         rs = new Result("200", "用户注册成功", null);
 

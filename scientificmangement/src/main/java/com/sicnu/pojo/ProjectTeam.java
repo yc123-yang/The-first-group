@@ -6,7 +6,7 @@ import java.util.List;
 public class ProjectTeam {
     private Integer project_id;
     private Integer user_id;
-    private Date join_time;
+    private String user_role;
 
     private List<User> users ;
     public ProjectTeam() {
@@ -36,20 +36,20 @@ public class ProjectTeam {
         this.user_id = user_id;
     }
 
-    public Date getJoin_time() {
-        return join_time;
+    public String getUser_role() {
+        return user_role;
     }
 
-    public void setJoin_time(Date join_time) {
-        this.join_time = join_time;
+    public void setUser_role(String user_role) {
+        this.user_role = user_role;
     }
 
     @Override
     public String toString() {
-        return "Project_Team{" +
+        return "ProjectTeam{" +
                 "project_id=" + project_id +
                 ", user_id=" + user_id +
-                ", join_time=" + join_time +
+                ", user_role='" + user_role + '\'' +
                 ", users=" + users +
                 '}';
     }

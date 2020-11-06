@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sicnu.mapper.ReviewProjectMapper">
+
+    <insert id="addReviewProject" parameterType="ReviewProject">
+        insert into review_project(
+        project_name,
+        leader_id,
+        department_id,
+        aod_id,
+        sc_id,
+        subject_id,
+        nature_id,
+        level_id,
+        status_id,
+        sd_id,
+        at_id,
+        approval_number,
+        start_time,
+        plan_time,
+        complete_time,
+        outlay,
+        ct_id)
+        values(
+        #{project_name},
+        #{leader_id},
+        #{department_id},
+        #{aod_id},
+        #{sc_id},
+        #{subject_id},
+        #{nature_id},
+        #{level_id},
+        #{status_id},
+        #{sd_id},
+        #{at_id},
+        #{approval_number},
+        #{start_time},
+        #{plan_time},
+        #{complete_time},
+        #{outlay},
+        #{ct_id}
+        )
+    </insert>
+    <select id="selectAllReviewProject" parameterType="ReviewProject" resultType="Project">
+        select * from review_project
+     </select>
+    <delete id="delReviewProject" parameterType="ReviewProject">
+        delete from review_project where
+        project_id = #{project_id}
+    </delete>
+    <select id="selectReviewProject" parameterType="ReviewProject" resultType="ReviewProject">
+        select * from review_project
+        <where>
+            <if test="project_name!=null">
+                and project_name = #{project_name}
+            </if>
+            <if test="leader_id!=null">
+                and leader_id = #{leader_id}
+            </if>
+            <if test="department_id!=null">
+                and department_id = #{department_id}
+            </if>
+            <if test="aod_id!=null">
+                and aod_id = #{aod_id}
+            </if>
+            <if test="sc_id!=null">
+                and sc_id = #{sc_id}
+            </if>
+            <if test="subject_id">
+                and subject_id = #{subject_id}
+            </if>
+            <if test="nature_id!=null">
+                and nature_id =#{nature_id}
+            </if>
+            <if test="level_id!=null">
+                and level_id =#{level_id}
+            </if>
+            <if test="status_id!=null">
+                and status_id =#{status_id}
+            </if>
+            <if test="sd_id!=null">
+                and sd_id =#{sd_id}
+            </if>
+            <if test="at_id!=null">
+                and at_id =#{at_id}
+            </if>
+            <if test="approval_number!=null">
+                and approval_number =#{approval_number}
+            </if>
+            <if test="start_time!=null and complete_time!=null ">
+                <![CDATA[
+                and project.start_time >= #{start_time}
+                and project.start_time <= #{complete_time}
+                ]]>
+            </if>
+            <if test="complete_time!=null and start_time!=null">
+                <![CDATA[
+                and project.complete_time >= #{start_time}
+                and project.complete_time <= #{complete_time}
+                ]]>
+            </if>
+            <if test="outlay!=null">
+                and outlay =#{outlay}
+            </if>
+            <if test="ct_id!=null">
+                and ct_id =#{ct_id}
+            </if>
+
+        </where>
+    </select>
+</mapper>

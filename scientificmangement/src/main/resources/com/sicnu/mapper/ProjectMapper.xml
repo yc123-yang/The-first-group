@@ -3,6 +3,47 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sicnu.mapper.ProjectMapper">
+    <resultMap id="projectMap" type="com.sicnu.pojo.Project">
+        <id property="project_id" column="project_id"/>
+        <result property="project_name" column="project_name"/>
+        <result property="leader_id" column="leader_id"/>
+        <result property="department_id" column="department_id"/>
+        <result property="aod_id" column="aod_id"/>
+        <result property="sc_id" column="sc_id"/>
+        <result property="subject_id" column="subject_id"/>
+        <result property="nature_id" column="nature_id"/>
+        <result property="level_id" column="level_id"/>
+        <result property="status_id" column="status_id"/>
+        <result property="sd_id" column="sd_id"/>
+        <result property="at_id" column="at_id"/>
+        <result property="approval_number" column="approval_number"/>
+        <result property="start_time" column="start_time"/>
+        <result property="plan_time" column="plan_time"/>
+        <result property="complete_time" column="complete_time"/>
+        <result property="outlay" column="outlay"/>
+        <result property="ct_id" column="ct_id"/>
+    </resultMap>
+
+    <resultMap id="projectTeamMap" type="project" extends="projectMap">
+
+        <collection property="projectTeams" ofType="com.sicnu.pojo.ProjectTeam">
+            <result property="project_id" column="project_id"/>
+            <result property="user_id" column="user_id"/>
+            <result property="user_role" column="user_role"/>
+            <collection property="users" ofType="com.sicnu.pojo.User">
+                <id property="user_id" column="user_id"/>
+                <result property="user_act" column="user_act"/>
+                <result property="user_pwd" column="user_pwd"/>
+                <result property="user_name" column="user_name"/>
+                <result property="user_email" column="user_email"/>
+                <result property="user_number" column="user_number"/>
+                <result property="user_id_number" column="user_id_number"/>
+                <result property="user_state" column="user_state"/>
+                <result property="department_id" column="department_id"/>
+                <result property="role_id" column="role_id"/>
+            </collection>
+        </collection>
+    </resultMap>
 
     <insert id="addProject" parameterType="Project">
         insert into project(
@@ -133,5 +174,22 @@
         leader_id = #{leader_id}
         and
         project_name = #{project_name}
+    </select>
+
+
+    <select id="selectTeamByPid" parameterType="int" resultMap="projectTeamMap">
+    SELECT
+    u.user_name,u.department_id,u.role_id,
+    t.user_role
+    FROM
+    user u,
+    project p,
+    project_team t
+    WHERE
+    p.project_id = #{project_id}
+    and
+    p.project_id = t.project_id
+    and
+    t.user_id = u.user_id
     </select>
 </mapper>

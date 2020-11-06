@@ -14,4 +14,5 @@ public interface ProjectMapper {
     void delProject(Integer project_id);
     void updateProject(Project project);
     Integer selectProjectId(Integer leader_id,String project_name);
+    List<Project> selectTeamByPid(Integer project_Id);
 }
