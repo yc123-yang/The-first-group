@@ -3,16 +3,14 @@ package com.sicnu.controller;
 import com.sicnu.service.impl.ProjectTeamServiceImpl;
 import com.sicnu.util.Result;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.lang.reflect.Method;
 
 @Controller
 @ResponseBody
+@CrossOrigin
 public class ProjectTeamController {
     @Resource
     ProjectTeamServiceImpl projectTeamService;

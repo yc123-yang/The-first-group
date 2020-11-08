@@ -4,16 +4,15 @@ import com.sicnu.pojo.Project;
 import com.sicnu.service.impl.ProjectServiceImpl;
 import com.sicnu.util.Result;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.mail.MessagingException;
 
 @Controller
 @ResponseBody
+@CrossOrigin
+
 public class ProjectController {
 
     @Resource
@@ -39,7 +38,7 @@ public class ProjectController {
      * @return
      */
     @RequestMapping(value = "/project/selectProject",method = RequestMethod.POST)
-    public Result selectProject(Project project){
+    public Result selectProject(@RequestBody Project project){
         Result rs =null;
         rs = projectService.selectProject(project);
         return  rs;
@@ -51,7 +50,7 @@ public class ProjectController {
      */
 
     @RequestMapping(value = "/project/updateProject",method = RequestMethod.POST)
-    public Result updateProject(Project project){
+    public Result updateProject(@RequestBody Project project){
         Result rs =null;
         rs = projectService.updateProject(project);
         return  rs;

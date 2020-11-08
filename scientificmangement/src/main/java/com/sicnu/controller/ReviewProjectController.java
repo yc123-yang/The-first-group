@@ -4,7 +4,9 @@ import com.sicnu.pojo.ReviewProject;
 import com.sicnu.service.impl.ReviewProjectServiceImpl;
 import com.sicnu.util.Result;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
@@ -12,6 +14,7 @@ import java.util.List;
 
 @Controller
 @ResponseBody
+@CrossOrigin
 public class ReviewProjectController {
 
     @Resource
@@ -22,7 +25,7 @@ public class ReviewProjectController {
      * @return
      */
     @PostMapping("/review/addReviewProject")
-    public Result addReviewProject(ReviewProject reviewProject){
+    public Result addReviewProject(@RequestBody ReviewProject reviewProject){
         Result rs = null;
         rs = reviewProjectService.addReviewProject(reviewProject);
         return rs;
@@ -57,7 +60,7 @@ public class ReviewProjectController {
      * @return
      */
 
-    public Result selectReviewProject(ReviewProject reviewProject) {
+    public Result selectReviewProject(@RequestBody ReviewProject reviewProject) {
         Result rs = null;
         rs =reviewProjectService.selectReviewProject(reviewProject);
 
