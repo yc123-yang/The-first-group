@@ -3,10 +3,17 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sicnu.mapper.SubjectMapper">
-    <insert id="addRole" parameterType="Subject">
+    <insert id="addSubject" parameterType="Subject">
         insert into subject(subject_name) values(#{subject_name})
     </insert>
-    <delete id="delRole" parameterType="Subject">
+    <delete id="delSubject" parameterType="Subject">
         delete from subject where subject_id = #{subject_id}
     </delete>
+    <select id="findAllSubject" parameterType="Subject">
+        select * from subject
+    </select>
+    <select id="selectSubjectByName" parameterType="Subject">
+        select * from subject where
+        subject_name = #{subject_name}
+    </select>
 </mapper>
