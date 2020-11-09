@@ -1,9 +1,10 @@
 package com.sicnu.pojo;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class ReviewProject {
+public class ReviewProject implements Serializable {
     private Integer project_id;
     private String project_name;
     private Integer leader_id;

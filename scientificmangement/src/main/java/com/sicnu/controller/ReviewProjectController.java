@@ -3,6 +3,7 @@ package com.sicnu.controller;
 import com.sicnu.pojo.ReviewProject;
 import com.sicnu.service.impl.ReviewProjectServiceImpl;
 import com.sicnu.util.Result;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,7 +26,7 @@ public class ReviewProjectController {
      * @return
      */
     @PostMapping("/review/addReviewProject")
-    public Result addReviewProject(@RequestBody ReviewProject reviewProject){
+    public Result addReviewProject(@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") ReviewProject reviewProject){
         Result rs = null;
         rs = reviewProjectService.addReviewProject(reviewProject);
         return rs;

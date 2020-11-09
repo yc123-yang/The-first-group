@@ -55,7 +55,7 @@
  		user_id_number=#{user_id_number}
  	</update>
 	<update id="changeStatus" parameterType="User">
- 		update user set user_state=#{state}
+ 		update user set user_state=#{user_state}
  		where user_id=#{user_id}
  	</update>
 	<select id="selectUserId" parameterType="string" resultType="int">

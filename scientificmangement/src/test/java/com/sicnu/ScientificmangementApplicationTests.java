@@ -105,14 +105,24 @@ public class ScientificmangementApplicationTests {
 //        System.out.println(reviewProjects);
         List<Project> projects = projectDao.selectTeamByPid(2);
         List<Object> list = new ArrayList<>();
-        Map<String,Object> map = new HashMap<String, Object>();
-        for (Project project1 : projects) {
-            map.put("name",project1.getProjectTeams().get(0).getUsers().get(0).getUser_name());
-            map.put("role_id",project1.getProjectTeams().get(0).getUsers().get(0).getRole_id());
-            map.put("user_status",project1.getProjectTeams().get(0).getUser_role());
-            map.put("depart_id",project1.getProjectTeams().get(0).getUsers().get(0).getDepartment_id());
+        for (int i = 0; i <projects.size(); i++) {
+            Map<String,Object> map = new HashMap<String, Object>();
+            map.put("name",projects.get(i).getProjectTeams().get(0).getUsers().get(0).getUser_name());
+            map.put("role_id",projects.get(i).getProjectTeams().get(0).getUsers().get(0).getRole_id());
+            map.put("user_status",projects.get(i).getProjectTeams().get(0).getUser_role());
+            map.put("depart_id",projects.get(i).getProjectTeams().get(0).getUsers().get(0).getDepartment_id());
             list.add(map);
+
         }
+//        for (Project project1 : projects) {
+//            map.put("name",project1.getProjectTeams().get(0).getUsers().get(0).getUser_name());
+//            map.put("role_id",project1.getProjectTeams().get(0).getUsers().get(0).getRole_id());
+//            map.put("user_status",project1.getProjectTeams().get(0).getUser_role());
+//            map.put("depart_id",project1.getProjectTeams().get(0).getUsers().get(0).getDepartment_id());
+//            list.add(map);
+//            map.clear();
+//        }
+
         System.out.println(list);
     }
 

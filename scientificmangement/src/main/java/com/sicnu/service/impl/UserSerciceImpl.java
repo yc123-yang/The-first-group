@@ -119,13 +119,9 @@ public class UserSerciceImpl implements UserService {
     @Override
     public Result changeStatus(Integer user_id, Integer user_state) {
         Result rs =null;
-        User user=userDao.findUserById(user_id);
-        Integer state = user.getUser_state();
-        if (state==0){
-            userDao.changeStatus(user_id,1);
-        }else{
-            userDao.changeStatus(user_id,1);
-        }
+
+        userDao.changeStatus(user_id,user_state);
+
         return rs = new Result("200", "用户状态更改成功", null);
     }
 

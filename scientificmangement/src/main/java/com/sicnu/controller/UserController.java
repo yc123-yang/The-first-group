@@ -49,7 +49,7 @@ public class UserController {
         return rs;
     }
     @RequestMapping("/user/changeStatus")
-    public Result updatePwd(Integer user_id, Integer user_state){
+    public Result changeStatus(Integer user_id, Integer user_state){
         Result rs =null;
         rs = userSercice.changeStatus(user_id,user_state);
         return rs;

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sicnu.mapper.NatureMapper">
+    <insert id="addRole" parameterType="Nature">
+        insert into nature(nature_name) values(#{nature_name})
+    </insert>
+    <delete id="delRole" parameterType="Nature">
+        delete from nature where nature_id = #{nature_id}
+    </delete>
+</mapper>

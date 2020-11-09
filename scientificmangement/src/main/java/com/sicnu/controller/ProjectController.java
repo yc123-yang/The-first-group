@@ -3,6 +3,7 @@ package com.sicnu.controller;
 import com.sicnu.pojo.Project;
 import com.sicnu.service.impl.ProjectServiceImpl;
 import com.sicnu.util.Result;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,9 +11,8 @@ import javax.annotation.Resource;
 import javax.mail.MessagingException;
 
 @Controller
-@ResponseBody
 @CrossOrigin
-
+@ResponseBody
 public class ProjectController {
 
     @Resource
@@ -26,8 +26,9 @@ public class ProjectController {
      * @return
      * @throws MessagingException
      */
-    @RequestMapping(value = "/project/addProject",method = RequestMethod.POST)
-    public Result addProject(@RequestBody Project project,String checkMessage,String message) throws MessagingException {
+    @PostMapping(value = "/project/addProject")
+
+    public Result addProject(@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")Project project, String checkMessage, String message) throws MessagingException {
         Result rs =null;
         rs = projectService.addProject(project,checkMessage,message);
         return rs;
@@ -38,7 +39,7 @@ public class ProjectController {
      * @return
      */
     @RequestMapping(value = "/project/selectProject",method = RequestMethod.POST)
-    public Result selectProject(@RequestBody Project project){
+    public Result selectProject(@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Project project){
         Result rs =null;
         rs = projectService.selectProject(project);
         return  rs;
@@ -65,6 +66,14 @@ public class ProjectController {
         Result rs =null;
         rs = projectService.delProject(project_id);
         return  rs;
+    }
+
+    @RequestMapping(value = "/project/selectTeamByPid",method = RequestMethod.POST)
+    public Result selectTeamByPid(Integer project_Id) {
+        Result rs = null;
+        rs = projectService.selectTeamByPid(project_Id);
+        return rs;
+
     }
 
 }

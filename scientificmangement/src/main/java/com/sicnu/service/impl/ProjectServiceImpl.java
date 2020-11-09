@@ -14,7 +14,9 @@ import javax.annotation.Resource;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service("ProjectServiceImpl")
 public class ProjectServiceImpl implements ProjectService {
@@ -39,6 +41,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public Result addProject(Project project,String checkMessage,String message) throws MessagingException {
 
+        System.out.println("调用");
         Integer projectId = projectDao.selectProjectId(project.getLeader_id(),project.getProject_name());
         User user =  userDao.findUserById(project.getLeader_id());
         MimeMessage mailMessage =  mailSender.createMimeMessage();
@@ -101,18 +104,20 @@ public class ProjectServiceImpl implements ProjectService {
      */
     @Override
     public Result selectTeamByPid(Integer project_Id) {
-        List<Object> list1 = new ArrayList<>();
+        Result rs = null;
+        List<Project> projects = projectDao.selectTeamByPid(2);
         List<Object> list = new ArrayList<>();
 
-        List<Project> projects = projectDao.selectTeamByPid(project_Id);
-        for (Project project : projects) {
-            list1.add(project.getProjectTeams().get(0).getUsers().get(0).getUser_name());
-            list1.add(project.getProjectTeams().get(0).getUsers().get(0).getRole_id());
-            list1.add(project.getProjectTeams().get(0).getUser_role());
-            list1.add(project.getProjectTeams().get(0).getUsers().get(0).getDepartment_id());
-            list.add(list1);
+        for (Project project1 : projects) {
+            Map<String,Object> map = new HashMap<String, Object>();
+            map.put("name",project1.getProjectTeams().get(0).getUsers().get(0).getUser_name());
+            map.put("role_id",project1.getProjectTeams().get(0).getUsers().get(0).getRole_id());
+            map.put("user_status",project1.getProjectTeams().get(0).getUser_role());
+            map.put("depart_id",project1.getProjectTeams().get(0).getUsers().get(0).getDepartment_id());
+            list.add(map);
+
         }
-        return null;
+        return rs = new Result("0","",list);
     }
 
 
