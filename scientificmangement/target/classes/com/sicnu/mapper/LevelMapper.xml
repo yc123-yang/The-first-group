@@ -3,10 +3,17 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sicnu.mapper.LevelMapper">
-    <insert id="addRole" parameterType="Level">
+    <insert id="addLevel" parameterType="Level">
         insert into role(level_name) values(#{level_name})
     </insert>
-    <delete id="delRole" parameterType="Level">
-        delete from role where level_id = #{level_id}
+    <delete id="delLevel" parameterType="Level">
+        delete from level where level_id = #{level_id}
     </delete>
+    <select id="findAllLevel" parameterType="Level">
+        select * from level
+    </select>
+    <select id="selectLevelByName" parameterType="Level">
+        select * from level where
+        level_name = #{level_name}
+    </select>
 </mapper>

@@ -3,10 +3,17 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sicnu.mapper.NatureMapper">
-    <insert id="addRole" parameterType="Nature">
+    <insert id="addNature" parameterType="Nature">
         insert into nature(nature_name) values(#{nature_name})
     </insert>
-    <delete id="delRole" parameterType="Nature">
+    <delete id="delNature" parameterType="Nature">
         delete from nature where nature_id = #{nature_id}
     </delete>
+    <select id="findAllNature" parameterType="Nature">
+        select * from nature
+    </select>
+    <select id="selectNatureByName" parameterType="Nature">
+        select * from auth where
+        nature_name = #{nature_name}
+    </select>
 </mapper>

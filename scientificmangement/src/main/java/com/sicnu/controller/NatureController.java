@@ -1,7 +1,6 @@
 package com.sicnu.controller;
 
-import com.sicnu.mapper.NatureMapper;
-import com.sicnu.pojo.Nature;
+
 import com.sicnu.service.impl.NatureServiceImpl;
 import com.sicnu.util.Result;
 import org.springframework.stereotype.Controller;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 @Controller
 @CrossOrigin
@@ -27,7 +25,7 @@ public class NatureController {
         return rs;
     }
 
-    @PostMapping("/nature/addNature")
+    @PostMapping("/nature/delNature")
     public Result delNature(Integer nature_id) {
         rs = natureService.delNature(nature_id);
         return rs;

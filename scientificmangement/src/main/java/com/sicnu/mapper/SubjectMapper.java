@@ -1,7 +1,6 @@
 package com.sicnu.mapper;
 
 import com.sicnu.pojo.Subject;
-import jdk.internal.loader.AbstractClassLoaderValue;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 

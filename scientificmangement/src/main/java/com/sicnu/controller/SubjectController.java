@@ -33,7 +33,7 @@ public class SubjectController {
         return rs;
     }
 
-    @PostMapping("/subject/delSubject")
+    @PostMapping("/subject/findAllSubject")
     public Result findAllSubject() {
         rs =subjectService.findAllSubject() ;
         return rs;
