@@ -1,18 +1,14 @@
 package com.sicnu.pojo;
 
 import java.io.Serializable;
-import java.util.Date;
 
 public class Subject implements Serializable {
 
     private Integer subject_id;
     private String subject_name;
-    private Date join_time;
+    private Integer sc_id;
 
-    public Subject(Integer subject_id, String subject_name, Date join_time) {
-        this.subject_id = subject_id;
-        this.subject_name = subject_name;
-        this.join_time = join_time;
+    public Subject() {
     }
 
     public Integer getSubject_id() {
@@ -31,12 +27,12 @@ public class Subject implements Serializable {
         this.subject_name = subject_name;
     }
 
-    public Date getJoin_time() {
-        return join_time;
+    public Integer getSc_id() {
+        return sc_id;
     }
 
-    public void setJoin_time(Date join_time) {
-        this.join_time = join_time;
+    public void setSc_id(Integer sc_id) {
+        this.sc_id = sc_id;
     }
 
     @Override
@@ -44,7 +40,7 @@ public class Subject implements Serializable {
         return "Subject{" +
                 "subject_id=" + subject_id +
                 ", subject_name='" + subject_name + '\'' +
-                ", join_time=" + join_time +
+                ", sc_id=" + sc_id +
                 '}';
     }
 }

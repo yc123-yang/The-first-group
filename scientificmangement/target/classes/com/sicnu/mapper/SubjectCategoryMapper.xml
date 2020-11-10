@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sicnu.mapper.SubjectCategoryMapper">
+    <insert id="addSubjectCategory" parameterType="SubjectCategory">
+        insert into subject_category(sc_name) values(#{sc_name})
+    </insert>
+    <delete id="delSubjectCategory" parameterType="SubjectCategory">
+        delete from subject_category where sc_id = #{sc_id}
+    </delete>
+    <select id="findAllSubjectCategory" resultType="SubjectCategory">
+        select * from subject_category
+    </select>
+    <select id="selectSubjectCategoryByName" resultType="SubjectCategory">
+        select * from subject_category where
+        sc_name = #{sc_name}
+    </select>
+</mapper>
