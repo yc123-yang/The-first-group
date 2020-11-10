@@ -9,10 +9,10 @@
     <delete id="delAuth" parameterType="Auth">
         delete from auth where auth_id = #{auth_id}
     </delete>
-    <select id="findAllAuth" parameterType="Auth">
+    <select id="findAllAuth" resultType="Auth">
         select * from auth
     </select>
-    <select id="selectAuthByName" parameterType="Auth">
+    <select id="selectAuthByName"  resultType="Auth">
         select * from auth where
         auth_name = #{auth_name}
     </select>

@@ -9,10 +9,10 @@
     <delete id="delLevel" parameterType="Level">
         delete from level where level_id = #{level_id}
     </delete>
-    <select id="findAllLevel" parameterType="Level">
+    <select id="findAllLevel" resultType="Level">
         select * from level
     </select>
-    <select id="selectLevelByName" parameterType="Level">
+    <select id="selectLevelByName" resultType="Level">
         select * from level where
         level_name = #{level_name}
     </select>

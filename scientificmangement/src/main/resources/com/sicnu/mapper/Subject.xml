@@ -9,10 +9,10 @@
     <delete id="delSubject" parameterType="Subject">
         delete from subject where subject_id = #{subject_id}
     </delete>
-    <select id="findAllSubject" parameterType="Subject">
+    <select id="findAllSubject" resultType="Subject">
         select * from subject
     </select>
-    <select id="selectSubjectByName" parameterType="Subject">
+    <select id="selectSubjectByName" resultType="Subject">
         select * from subject where
         subject_name = #{subject_name}
     </select>

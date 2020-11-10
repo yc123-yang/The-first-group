@@ -23,8 +23,10 @@ public class AuthServiceImpl implements AuthService {
         if (auth==null){
             authMapper.addAuth(auth_name);
             rs = new Result("0","添加权限成功",null);
+        }else {
+            rs = new Result("1","该权限已存在",null);
         }
-        return null;
+        return rs;
     }
 
     @Override

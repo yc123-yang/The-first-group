@@ -9,10 +9,10 @@
     <delete id="delRole" parameterType="Role">
         delete from role where role_id = #{role_id}
     </delete>
-    <select id="findAllRole" parameterType="Role">
+    <select id="findAllRole" resultType="Role">
         select * from role
     </select>
-    <select id="selectRoleByName" parameterType="Role">
+    <select id="selectRoleByName" resultType="Role">
         select * from role where
         role_name = #{rolet_name}
     </select>

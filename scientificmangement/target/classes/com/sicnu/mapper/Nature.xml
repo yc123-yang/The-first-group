@@ -9,10 +9,10 @@
     <delete id="delNature" parameterType="Nature">
         delete from nature where nature_id = #{nature_id}
     </delete>
-    <select id="findAllNature" parameterType="Nature">
+    <select id="findAllNature" resultType="Nature">
         select * from nature
     </select>
-    <select id="selectNatureByName" parameterType="Nature">
+    <select id="selectNatureByName" resultType="Nature">
         select * from auth where
         nature_name = #{nature_name}
     </select>
