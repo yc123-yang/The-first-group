@@ -20,8 +20,10 @@ public class RoleServiceImpl implements RoleService {
         Role role = roleMapper.selectRoleByName(role_name);
         if (role==null){
             roleMapper.addRole(role_name);
+            rs = new Result("0","添加成功",null);
+        }else{
+            rs = new Result("1","该角色已存在",null);
         }
-        rs = new Result("0","添加成功",null);
         return rs;
     }
 

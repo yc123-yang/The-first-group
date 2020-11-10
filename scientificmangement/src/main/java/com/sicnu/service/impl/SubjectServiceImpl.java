@@ -19,8 +19,11 @@ public class SubjectServiceImpl implements SubjectService {
         Subject subject = subjectMapper.selectSubjectByName(subject_name);
         if (subject==null){
             subjectMapper.addSubject(subject_name);
+            rs = new Result("200","添加成功",null);
+
+        }else{
+            rs = new Result("1","删除成功",null);
         }
-        rs = new Result("0","添加成功",null);
         return rs;
     }
 

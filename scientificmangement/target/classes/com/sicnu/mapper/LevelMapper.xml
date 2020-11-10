@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sicnu.mapper.LevelMapper">
     <insert id="addLevel" parameterType="Level">
-        insert into role(level_name) values(#{level_name})
+        insert into level(level_name) values(#{level_name})
     </insert>
     <delete id="delLevel" parameterType="Level">
         delete from level where level_id = #{level_id}

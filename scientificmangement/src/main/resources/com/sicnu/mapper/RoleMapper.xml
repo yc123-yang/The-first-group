@@ -14,6 +14,6 @@
     </select>
     <select id="selectRoleByName" resultType="Role">
         select * from role where
-        role_name = #{rolet_name}
+        role_name = #{role_name}
     </select>
 </mapper>

@@ -20,6 +20,9 @@ public class LevelServiceImpl implements LevelService {
         if (level ==null){
             levelMapper.addLevel(level_name);
             rs = new Result("0","添加等级成功",null);
+        }else{
+            rs = new Result("1","该等级已存在",null);
+
         }
         return rs;
     }

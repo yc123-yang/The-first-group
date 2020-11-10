@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sicnu.mapper.NatureMapper">
     <insert id="addNature" parameterType="Nature">
-        insert into nature(nature_name) values(#{nature_name})
+        insert into nature(nature_name) values (#{nature_name})
     </insert>
     <delete id="delNature" parameterType="Nature">
         delete from nature where nature_id = #{nature_id}
@@ -13,7 +13,7 @@
         select * from nature
     </select>
     <select id="selectNatureByName" resultType="Nature">
-        select * from auth where
+        select * from nature where
         nature_name = #{nature_name}
     </select>
 </mapper>
