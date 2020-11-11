@@ -1,0 +1,39 @@
+create table book(
+	book_id	int	AUTO_INCREMENT PRIMARY KEY,
+	book_name	char(30)	not null,
+	press	char(30)	not null,
+	pl_id	int	not null,
+	bt_id	int	not null,
+	pp_id	int	not null,
+	isbn	char(30)	not null,
+	word_number	char(20)	not null,
+	translate	char(10)	not null,
+	language_id	int	,
+	sc_id	int	not null,
+	subject_id	int	not null,
+	publish_time	timestamp	not null,
+	aod_id	int	not null,
+	sd_id	int	not null,
+	rt_id	int	not null
+);
+
+INSERT INTO `mysql`.`book`(`book_id`, `book_name`, `press`, `pl_id`, `bt_id`, `pp_id`, `isbn`, `word_number`, `translate`, `language_id`, `sc_id`, `subject_id`, `publish_time`, `aod_id`, `sd_id`, `rt_id`) VALUES (1, '朴趾源文学与中国文学之关联研究', '人民邮电出版社', 0, 0, 5, 'ISBN-1', '5003', '是', 0, 0, 5, '2020-11-19 00:00:00', 5, 4, 3);
+INSERT INTO `mysql`.`book`(`book_id`, `book_name`, `press`, `pl_id`, `bt_id`, `pp_id`, `isbn`, `word_number`, `translate`, `language_id`, `sc_id`, `subject_id`, `publish_time`, `aod_id`, `sd_id`, `rt_id`) VALUES (2, '经济韩国语教程', '高等教育出版社', 1, 1, 4, 'ISBN-2', '5070', '否', NULL, 1, 3, '2020-11-27 00:00:00', 4, 2, 2);
+INSERT INTO `mysql`.`book`(`book_id`, `book_name`, `press`, `pl_id`, `bt_id`, `pp_id`, `isbn`, `word_number`, `translate`, `language_id`, `sc_id`, `subject_id`, `publish_time`, `aod_id`, `sd_id`, `rt_id`) VALUES (3, '畅游韩国', '机械工业出版社', 2, 2, 3, 'ISBN-3', '5070', '是', 1, 1, 4, '2020-11-07 00:00:00', 4, 3, 0);
+INSERT INTO `mysql`.`book`(`book_id`, `book_name`, `press`, `pl_id`, `bt_id`, `pp_id`, `isbn`, `word_number`, `translate`, `language_id`, `sc_id`, `subject_id`, `publish_time`, `aod_id`, `sd_id`, `rt_id`) VALUES (4, '中韩口译实训教程', '电子工业出版社', 3, 3, 2, 'ISBN-4', '5050', '否', NULL, 2, 2, '2020-10-28 00:00:00', 2, 1, 1);
+INSERT INTO `mysql`.`book`(`book_id`, `book_name`, `press`, `pl_id`, `bt_id`, `pp_id`, `isbn`, `word_number`, `translate`, `language_id`, `sc_id`, `subject_id`, `publish_time`, `aod_id`, `sd_id`, `rt_id`) VALUES (5, '超越语言的文学', '中国农业出版社', 4, 4, 1, 'ISBN-5', '5300', '是', 2, 2, 1, '2020-11-21 00:00:00', 3, 0, 4);
+INSERT INTO `mysql`.`book`(`book_id`, `book_name`, `press`, `pl_id`, `bt_id`, `pp_id`, `isbn`, `word_number`, `translate`, `language_id`, `sc_id`, `subject_id`, `publish_time`, `aod_id`, `sd_id`, `rt_id`) VALUES (6, '东方传统细想与朝鲜古时调的关系研究', '中国大百科全书出版社', 5, 5, 0, 'ISBN-6', '4500', '否', NULL, 4, 4, '2020-12-05 00:00:00', 0, 4, 2);
+INSERT INTO `mysql`.`book`(`book_id`, `book_name`, `press`, `pl_id`, `bt_id`, `pp_id`, `isbn`, `word_number`, `translate`, `language_id`, `sc_id`, `subject_id`, `publish_time`, `aod_id`, `sd_id`, `rt_id`) VALUES (7, '标准韩国语-同步练习册（第二册）', '科学出版社', 0, 0, 1, 'ISBN-7', '4500', '是', 3, 4, 3, '2020-11-06 00:00:00', 4, 4, 4);
+INSERT INTO `mysql`.`book`(`book_id`, `book_name`, `press`, `pl_id`, `bt_id`, `pp_id`, `isbn`, `word_number`, `translate`, `language_id`, `sc_id`, `subject_id`, `publish_time`, `aod_id`, `sd_id`, `rt_id`) VALUES (8, '韩国语入门', '法律出版社', 1, 1, 2, 'ISBN-8', '9500', '否', NULL, 5, 2, '2020-10-30 00:00:00', 1, 2, 3);
+INSERT INTO `mysql`.`book`(`book_id`, `book_name`, `press`, `pl_id`, `bt_id`, `pp_id`, `isbn`, `word_number`, `translate`, `language_id`, `sc_id`, `subject_id`, `publish_time`, `aod_id`, `sd_id`, `rt_id`) VALUES (9, '中国朝鲜族文学与朝鲜半岛文学的关系研究', '人民卫生出版社', 2, 2, 3, 'ISBN-9', '8500', '是', 4, 5, 4, '2020-11-24 00:00:00', 2, 0, 2);
+INSERT INTO `mysql`.`book`(`book_id`, `book_name`, `press`, `pl_id`, `bt_id`, `pp_id`, `isbn`, `word_number`, `translate`, `language_id`, `sc_id`, `subject_id`, `publish_time`, `aod_id`, `sd_id`, `rt_id`) VALUES (10, '篇章语法理论下的口语终结语尾教育研究', '国防工业出版社', 3, 3, 4, 'ISBN-10', '7500', '是', 5, 3, 1, '2020-11-14 00:00:00', 4, 3, 1);
+INSERT INTO `mysql`.`book`(`book_id`, `book_name`, `press`, `pl_id`, `bt_id`, `pp_id`, `isbn`, `word_number`, `translate`, `language_id`, `sc_id`, `subject_id`, `publish_time`, `aod_id`, `sd_id`, `rt_id`) VALUES (11, '17岁的经济学', '中国对外翻译出版社', 4, 4, 5, 'ISBN-11', '6500', '否', NULL, 3, 3, '2020-11-29 00:00:00', 3, 0, 0);
+INSERT INTO `mysql`.`book`(`book_id`, `book_name`, `press`, `pl_id`, `bt_id`, `pp_id`, `isbn`, `word_number`, `translate`, `language_id`, `sc_id`, `subject_id`, `publish_time`, `aod_id`, `sd_id`, `rt_id`) VALUES (12, '韩国语听力教程（初级-下)', '中国水得水电出版社', 5, 5, 0, 'ISBN-12', '3500', '是', 2, 5, 4, '2020-12-06 00:00:00', 4, 2, 4);
+INSERT INTO `mysql`.`book`(`book_id`, `book_name`, `press`, `pl_id`, `bt_id`, `pp_id`, `isbn`, `word_number`, `translate`, `language_id`, `sc_id`, `subject_id`, `publish_time`, `aod_id`, `sd_id`, `rt_id`) VALUES (13, '朴槿惠日记', '中国建筑工业出版社', 0, 0, 1, 'ISBN-13', '4500', '否', NULL, 3, 2, '2020-11-18 00:00:00', 5, 0, 1);
+INSERT INTO `mysql`.`book`(`book_id`, `book_name`, `press`, `pl_id`, `bt_id`, `pp_id`, `isbn`, `word_number`, `translate`, `language_id`, `sc_id`, `subject_id`, `publish_time`, `aod_id`, `sd_id`, `rt_id`) VALUES (14, '中朝韩现当代小说比较研究', '人民体育出版社', 1, 1, 2, 'ISBN-14', '5100', '否', NULL, 2, 1, '2020-11-07 00:00:00', 3, 4, 4);
+INSERT INTO `mysql`.`book`(`book_id`, `book_name`, `press`, `pl_id`, `bt_id`, `pp_id`, `isbn`, `word_number`, `translate`, `language_id`, `sc_id`, `subject_id`, `publish_time`, `aod_id`, `sd_id`, `rt_id`) VALUES (15, '燕岩文学与中国文学的比较研究', '中国文联出版社', 2, 2, 3, 'ISBN-15', '5200', '是', 3, 1, 5, '2020-11-05 00:00:00', 2, 4, 2);
+INSERT INTO `mysql`.`book`(`book_id`, `book_name`, `press`, `pl_id`, `bt_id`, `pp_id`, `isbn`, `word_number`, `translate`, `language_id`, `sc_id`, `subject_id`, `publish_time`, `aod_id`, `sd_id`, `rt_id`) VALUES (16, '从代理满足到现实批判', '中国时代经济出版社', 3, 3, 3, 'ISBN-16', '5300', '否', NULL, 4, 3, '2020-11-30 00:00:00', 1, 0, 3);
+INSERT INTO `mysql`.`book`(`book_id`, `book_name`, `press`, `pl_id`, `bt_id`, `pp_id`, `isbn`, `word_number`, `translate`, `language_id`, `sc_id`, `subject_id`, `publish_time`, `aod_id`, `sd_id`, `rt_id`) VALUES (17, '韩国现当代文学史', '中国文学出版社', 4, 4, 4, 'ISBN-17', '5400', '否', NULL, 5, 4, '2020-11-28 00:00:00', 0, 2, 0);
+INSERT INTO `mysql`.`book`(`book_id`, `book_name`, `press`, `pl_id`, `bt_id`, `pp_id`, `isbn`, `word_number`, `translate`, `language_id`, `sc_id`, `subject_id`, `publish_time`, `aod_id`, `sd_id`, `rt_id`) VALUES (18, '标准韩国语（二）', '宇航出版社', 5, 5, 4, 'ISBN-18', '5500', '是', 4, 3, 5, '2020-11-07 00:00:00', 4, 4, 2);
+INSERT INTO `mysql`.`book`(`book_id`, `book_name`, `press`, `pl_id`, `bt_id`, `pp_id`, `isbn`, `word_number`, `translate`, `language_id`, `sc_id`, `subject_id`, `publish_time`, `aod_id`, `sd_id`, `rt_id`) VALUES (19, '中韩比较文学研究管窥', '外文出版社', 0, 0, 5, 'ISBN-19', '6000', '否', NULL, 2, 3, '2020-11-28 00:00:00', 0, 2, 3);
+INSERT INTO `mysql`.`book`(`book_id`, `book_name`, `press`, `pl_id`, `bt_id`, `pp_id`, `isbn`, `word_number`, `translate`, `language_id`, `sc_id`, `subject_id`, `publish_time`, `aod_id`, `sd_id`, `rt_id`) VALUES (20, '韩汉移动动词对比研究', '军事科学出版社', 1, 1, 5, 'ISBN-20', '5000', '是', 5, 0, 4, '2020-11-25 00:00:00', 4, 1, 4);
