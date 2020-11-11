@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.mail.MessagingException;
+import java.util.List;
 
 @Controller
 @CrossOrigin
@@ -17,6 +18,8 @@ public class ProjectController {
 
     @Resource
     ProjectServiceImpl projectService;
+
+    private  Result rs;
 
     /**
      * 审核项目
@@ -29,7 +32,6 @@ public class ProjectController {
     @PostMapping(value = "/project/addProject")
 
     public Result addProject(@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")Project project, String checkMessage, String message) throws MessagingException {
-        Result rs =null;
         rs = projectService.addProject(project,checkMessage,message);
         return rs;
     }
@@ -40,7 +42,6 @@ public class ProjectController {
      */
     @RequestMapping(value = "/project/selectProject",method = RequestMethod.POST)
     public Result selectProject(@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Project project){
-        Result rs =null;
         rs = projectService.selectProject(project);
         return  rs;
     }
@@ -52,7 +53,6 @@ public class ProjectController {
 
     @RequestMapping(value = "/project/updateProject",method = RequestMethod.POST)
     public Result updateProject(@RequestBody Project project){
-        Result rs =null;
         rs = projectService.updateProject(project);
         return  rs;
     }
@@ -63,17 +63,21 @@ public class ProjectController {
      */
     @RequestMapping(value = "/project/delProject",method = RequestMethod.POST)
     public Result delProject(Integer project_id){
-        Result rs =null;
         rs = projectService.delProject(project_id);
         return  rs;
     }
 
     @RequestMapping(value = "/project/selectTeamByPid",method = RequestMethod.POST)
     public Result selectTeamByPid(Integer project_Id) {
-        Result rs = null;
         rs = projectService.selectTeamByPid(project_Id);
         return rs;
 
+    }
+
+    @PostMapping("/project/findAllProject")
+    public Result findAllProject() {
+        rs = projectService.findAllProject();
+        return rs;
     }
 
 }

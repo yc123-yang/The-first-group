@@ -12,4 +12,5 @@ public interface ProjectService {
     Result delProject(Integer project_id);
     Result updateProject(Project project);
     Result selectTeamByPid(Integer project_Id);
+    Result findAllProject();
 }

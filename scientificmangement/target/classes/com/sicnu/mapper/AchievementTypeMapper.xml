@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sicnu.mapper.AchievementTypeMapper">
+    <insert id="addAchievementType" parameterType="AchievementType">
+        insert into achievemen_type(at_name) values(#{at_name})
+    </insert>
+    <delete id="delAchievementType" parameterType="AchievementType">
+        delete from achievemen_type where at_id = #{at_id}
+    </delete>
+    <select id="findAllAchievementType" resultType="AchievementType">
+        select * from achievemen_type
+    </select>
+    <select id="selectAchievementTypeByName"  resultType="AchievementType">
+        select * from achievemen_type where
+        at_name = #{at_name}
+    </select>
+</mapper>

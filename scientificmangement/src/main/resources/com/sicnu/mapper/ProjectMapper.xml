@@ -192,4 +192,8 @@
     and
     t.user_id = u.user_id
     </select>
+
+    <select id="findAllProject" resultType="Project">
+        select * from project
+    </select>
 </mapper>

@@ -30,6 +30,8 @@ public class ProjectServiceImpl implements ProjectService {
     @Resource
     JavaMailSenderImpl mailSender;
 
+    private Result rs = null;
+
     /**
      * 审核项目
      * @param project 前端传来项目信息
@@ -47,7 +49,6 @@ public class ProjectServiceImpl implements ProjectService {
         MimeMessage mailMessage =  mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mailMessage);
 
-        Result rs = null;
         if (checkMessage.equals("fail")){
             helper.setSubject("高校科研管理系统注册验证码");
             helper.setText("<p>您的项目申报审核未通过，因为<span style='color:blue;text-decoration:underline'>"+message+"</span>,请您解决之后重新申请。</p>",true);
@@ -78,7 +79,6 @@ public class ProjectServiceImpl implements ProjectService {
      */
     @Override
     public Result selectProject(Project project) {
-        Result rs = null;
         List<Project> projects = projectDao.selectProject(project);
         return rs = new Result("0",null,projects);
     }
@@ -91,7 +91,6 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public Result updateProject(Project project) {
-        Result rs =null;
         projectDao.updateProject(project);
         return rs = new Result("1","修改成功",null);
 
@@ -104,7 +103,6 @@ public class ProjectServiceImpl implements ProjectService {
      */
     @Override
     public Result selectTeamByPid(Integer project_Id) {
-        Result rs = null;
         List<Project> projects = projectDao.selectTeamByPid(2);
         List<Object> list = new ArrayList<>();
 
@@ -120,6 +118,17 @@ public class ProjectServiceImpl implements ProjectService {
         return rs = new Result("0","",list);
     }
 
+    /**
+     * 获取全部项目信息
+     * @return
+     */
+    @Override
+    public Result findAllProject() {
+        List<Project> projects = projectDao.findAllProject();
+        rs = new Result("0",null,projects);
+        return rs;
+    }
+
 
     /**
      * 删除某个项目
@@ -129,7 +138,6 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public Result delProject(Integer project_id) {
-        Result rs = null;
         projectDao.delProject(project_id);
         return rs = new Result("1","删除成功",null);
     }
