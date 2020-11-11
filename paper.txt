@@ -1,0 +1,36 @@
+create table paper(
+	paper_id	int	auto_increment PRIMARY KEY,
+	paper_name	char(40)	not null,
+	pt_id	int	not null,
+	periodical_id	int	not null,
+	publish_time	timestamp	not null,
+	include_number	char(30)	not null,
+	sc_id	int	not null,
+	subject_id	int	not null,
+	aod_id	int	not null,
+	sd_id	int	not null,
+	remark	char(50)
+);
+
+
+
+INSERT INTO `mysql`.`paper`(`paper_id`, `paper_name`, `pt_id`, `periodical_id`, `publish_time`, `include_number`, `sc_id`, `subject_id`, `aod_id`, `sd_id`, `remark`) VALUES (1, '青铜器的种类和名称', 0, 0, '2020-10-29 00:00:00', '收录号1', 0, 0, 0, 10, '备注1');
+INSERT INTO `mysql`.`paper`(`paper_id`, `paper_name`, `pt_id`, `periodical_id`, `publish_time`, `include_number`, `sc_id`, `subject_id`, `aod_id`, `sd_id`, `remark`) VALUES (2, '汉江名称的历史演变', 1, 1, '2020-11-13 11:45:20', '收录号2', 1, 1, 1, 9, '备注2');
+INSERT INTO `mysql`.`paper`(`paper_id`, `paper_name`, `pt_id`, `periodical_id`, `publish_time`, `include_number`, `sc_id`, `subject_id`, `aod_id`, `sd_id`, `remark`) VALUES (3, '胡琴名称考·近现代', 2, 2, '2020-09-29 00:00:00', '收录号3', 2, 2, 2, 8, '备注3');
+INSERT INTO `mysql`.`paper`(`paper_id`, `paper_name`, `pt_id`, `periodical_id`, `publish_time`, `include_number`, `sc_id`, `subject_id`, `aod_id`, `sd_id`, `remark`) VALUES (4, '丝绸之路名称的历史演变', 3, 3, '2020-11-01 00:00:00', '收录号4', 3, 3, 3, 7, '备注4');
+INSERT INTO `mysql`.`paper`(`paper_id`, `paper_name`, `pt_id`, `periodical_id`, `publish_time`, `include_number`, `sc_id`, `subject_id`, `aod_id`, `sd_id`, `remark`) VALUES (5, '中国旅游景点名称的俄译探究', 4, 4, '2020-11-02 00:00:00', '收录号5', 4, 4, 4, 6, '备注5');
+INSERT INTO `mysql`.`paper`(`paper_id`, `paper_name`, `pt_id`, `periodical_id`, `publish_time`, `include_number`, `sc_id`, `subject_id`, `aod_id`, `sd_id`, `remark`) VALUES (6, '民法通则名称的历史考察和现实价值', 5, 5, '2020-11-03 00:00:00', '收录号6', 5, 5, 5, 5, '备注6');
+INSERT INTO `mysql`.`paper`(`paper_id`, `paper_name`, `pt_id`, `periodical_id`, `publish_time`, `include_number`, `sc_id`, `subject_id`, `aod_id`, `sd_id`, `remark`) VALUES (7, '开阳书院的建置和名称的由来', 0, 0, '2020-11-04 00:00:00', '收录号7', 0, 0, 6, 4, '备注7');
+INSERT INTO `mysql`.`paper`(`paper_id`, `paper_name`, `pt_id`, `periodical_id`, `publish_time`, `include_number`, `sc_id`, `subject_id`, `aod_id`, `sd_id`, `remark`) VALUES (8, '华夏、中国、中华名称的由来', 1, 1, '2020-11-05 00:00:00', '收录号8', 1, 1, 7, 3, '备注8');
+INSERT INTO `mysql`.`paper`(`paper_id`, `paper_name`, `pt_id`, `periodical_id`, `publish_time`, `include_number`, `sc_id`, `subject_id`, `aod_id`, `sd_id`, `remark`) VALUES (9, '女太阳壮语名称:汤温妮', 2, 2, '2020-11-06 00:00:00', '收录号9', 2, 2, 8, 2, '备注9');
+INSERT INTO `mysql`.`paper`(`paper_id`, `paper_name`, `pt_id`, `periodical_id`, `publish_time`, `include_number`, `sc_id`, `subject_id`, `aod_id`, `sd_id`, `remark`) VALUES (10, '中国传统工笔画画种名称溯源', 3, 3, '2020-11-07 00:00:00', '收录号10', 3, 3, 9, 1, '备注10');
+INSERT INTO `mysql`.`paper`(`paper_id`, `paper_name`, `pt_id`, `periodical_id`, `publish_time`, `include_number`, `sc_id`, `subject_id`, `aod_id`, `sd_id`, `remark`) VALUES (11, '从文物印记追溯厦门历史名称的变迁', 4, 4, '2020-11-08 00:00:00', '收录号11', 4, 4, 10, 0, '备注11');
+INSERT INTO `mysql`.`paper`(`paper_id`, `paper_name`, `pt_id`, `periodical_id`, `publish_time`, `include_number`, `sc_id`, `subject_id`, `aod_id`, `sd_id`, `remark`) VALUES (12, '芦墟山歌名称的学理界定', 5, 5, '2020-11-09 00:00:00', '收录号12', 5, 5, 0, 10, '备注12');
+INSERT INTO `mysql`.`paper`(`paper_id`, `paper_name`, `pt_id`, `periodical_id`, `publish_time`, `include_number`, `sc_id`, `subject_id`, `aod_id`, `sd_id`, `remark`) VALUES (13, '博物馆文物名称英译问题和分析', 0, 0, '2020-11-10 00:00:00', '收录号13', 0, 0, 1, 9, '备注13');
+INSERT INTO `mysql`.`paper`(`paper_id`, `paper_name`, `pt_id`, `periodical_id`, `publish_time`, `include_number`, `sc_id`, `subject_id`, `aod_id`, `sd_id`, `remark`) VALUES (14, '云南芒市街道名称调查', 1, 1, '2020-11-11 00:00:00', '收录号14', 1, 1, 2, 8, '备注14');
+INSERT INTO `mysql`.`paper`(`paper_id`, `paper_name`, `pt_id`, `periodical_id`, `publish_time`, `include_number`, `sc_id`, `subject_id`, `aod_id`, `sd_id`, `remark`) VALUES (15, '翻译目的论视域下西藏景点名称英译规范化', 2, 2, '2020-11-12 00:00:00', '收录号15', 2, 2, 3, 7, '备注15');
+INSERT INTO `mysql`.`paper`(`paper_id`, `paper_name`, `pt_id`, `periodical_id`, `publish_time`, `include_number`, `sc_id`, `subject_id`, `aod_id`, `sd_id`, `remark`) VALUES (16, '课程名称:艾玛捉迷藏（美术活动）', 3, 3, '2020-11-13 00:00:00', '收录号16', 3, 3, 4, 6, '备注16');
+INSERT INTO `mysql`.`paper`(`paper_id`, `paper_name`, `pt_id`, `periodical_id`, `publish_time`, `include_number`, `sc_id`, `subject_id`, `aod_id`, `sd_id`, `remark`) VALUES (17, '中外品牌名称翻译方法和原则', 4, 4, '2020-11-14 00:00:00', '收录号17', 4, 4, 5, 5, '备注17');
+INSERT INTO `mysql`.`paper`(`paper_id`, `paper_name`, `pt_id`, `periodical_id`, `publish_time`, `include_number`, `sc_id`, `subject_id`, `aod_id`, `sd_id`, `remark`) VALUES (18, '名称相近知识点混合中考题举隅', 5, 5, '2020-11-15 00:00:00', '收录号18', 5, 5, 6, 4, '备注18');
+INSERT INTO `mysql`.`paper`(`paper_id`, `paper_name`, `pt_id`, `periodical_id`, `publish_time`, `include_number`, `sc_id`, `subject_id`, `aod_id`, `sd_id`, `remark`) VALUES (19, '十四种文体名称溯源', 0, 0, '2020-11-16 00:00:00', '收录号19', 0, 0, 7, 3, '备注19');
+INSERT INTO `mysql`.`paper`(`paper_id`, `paper_name`, `pt_id`, `periodical_id`, `publish_time`, `include_number`, `sc_id`, `subject_id`, `aod_id`, `sd_id`, `remark`) VALUES (20, '论广播电视节目名称的商标权危机和应对', 1, 1, '2020-11-17 00:00:00', '收录号20', 1, 1, 8, 2, '备注20');
