@@ -2,6 +2,9 @@ package com.sicnu.pojo;
 
 import java.util.Date;
 
+/**
+ * 验证码
+ */
 public class CheckEmail {
     private String email;
     private Integer check_code;

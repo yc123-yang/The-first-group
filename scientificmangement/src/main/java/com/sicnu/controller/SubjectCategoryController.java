@@ -21,14 +21,14 @@ public class SubjectCategoryController {
     private Result rs;
 
     @PostMapping("/category/addSubjectCategory")
-    public Result addSubjectCategory(String sc_name) {
+    public Result addSubjectCategory(String sc_id,String sc_name) {
 
-        rs =categoryService.addSubjectCategory(sc_name);
+        rs =categoryService.addSubjectCategory(sc_id,sc_name);
         return rs;
     }
 
     @PostMapping("/category/delSubjectCategory")
-    public Result delSubjectCategory(Integer sc_id) {
+    public Result delSubjectCategory(String sc_id) {
 
         rs =categoryService.delSubjectCategory(sc_id);;
         return rs;
@@ -37,6 +37,13 @@ public class SubjectCategoryController {
     @PostMapping("/category/findAllSubjectCategory")
     public Result findAllSubjectCategory() {
         rs =categoryService.findAllSubjectCategory();
+        return rs;
+    }
+
+    @PostMapping("/category/selectSubjectCategory")
+
+    public Result selectSubjectCategory(String sc_id) {
+        rs = categoryService.selectSubjectCategory(sc_id);
         return rs;
     }
 }

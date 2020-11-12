@@ -2,6 +2,9 @@ package com.sicnu.pojo;
 
 import java.io.Serializable;
 
+/**
+ * 结题
+ */
 public class ConclusionType implements Serializable {
     private Integer ct_id;
     private String ct_name;

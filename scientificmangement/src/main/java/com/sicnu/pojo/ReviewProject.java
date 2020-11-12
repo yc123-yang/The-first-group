@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * 项目审核
+ */
 public class ReviewProject implements Serializable {
     private Integer project_id;
     private String project_name;

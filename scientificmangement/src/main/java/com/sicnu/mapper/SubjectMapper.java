@@ -9,8 +9,8 @@ import java.util.List;
 @Repository
 @Mapper
 public interface SubjectMapper {
-    void addSubject(String subject_name);
-    void delSubject(Integer subject_id);
+    void addSubject(String subject_id,String subject_name,String sc_id);
+    void delSubject(String subject_id);
     List<Subject> findAllSubject();
     Subject selectSubjectByName(String subject_name);
 }

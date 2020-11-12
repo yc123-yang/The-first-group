@@ -1,5 +1,8 @@
 package com.sicnu.pojo;
 
+/**
+ * 成果
+ */
 public class AchievementType {
     private Integer ac_id;
     private String at_name;

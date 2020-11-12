@@ -2,6 +2,9 @@ package com.sicnu.pojo;
 
 import java.io.Serializable;
 
+/**
+ * 用户表
+ */
 public class User implements Serializable {
     private Integer user_id;
     private String user_act;

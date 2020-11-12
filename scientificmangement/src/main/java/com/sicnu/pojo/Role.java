@@ -2,6 +2,9 @@ package com.sicnu.pojo;
 
 import java.io.Serializable;
 
+/**
+ * 角色
+ */
 public class Role implements Serializable {
     private Integer role_id;
     private String role_name;

@@ -1,16 +1,26 @@
 package com.sicnu.pojo;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class SubjectCategory implements Serializable {
-    private Integer sc_id;
+    private String sc_id;
     private String sc_name;
+    private List<Subject> subjects;
 
-    public Integer getSc_id() {
+    public List<Subject> getSubjects() {
+        return subjects;
+    }
+
+    public void setSubjects(List<Subject> subjects) {
+        this.subjects = subjects;
+    }
+
+    public String getSc_id() {
         return sc_id;
     }
 
-    public void setSc_id(Integer sc_id) {
+    public void setSc_id(String sc_id) {
         this.sc_id = sc_id;
     }
 
@@ -22,16 +32,17 @@ public class SubjectCategory implements Serializable {
         this.sc_name = sc_name;
     }
 
-    public SubjectCategory(Integer sc_id, String sc_name) {
+    public SubjectCategory(String sc_id, String sc_name) {
         this.sc_id = sc_id;
         this.sc_name = sc_name;
     }
 
     @Override
     public String toString() {
-        return "SubajectCategory{" +
-                "sc_id=" + sc_id +
+        return "SubjectCategory{" +
+                "sc_id='" + sc_id + '\'' +
                 ", sc_name='" + sc_name + '\'' +
+                ", subjects=" + subjects +
                 '}';
     }
 }

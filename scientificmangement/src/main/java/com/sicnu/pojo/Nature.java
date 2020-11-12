@@ -1,5 +1,8 @@
 package com.sicnu.pojo;
 
+/**
+ * 项目性质
+ */
 public class Nature {
     private Integer nature_id;
     private String nature_name;

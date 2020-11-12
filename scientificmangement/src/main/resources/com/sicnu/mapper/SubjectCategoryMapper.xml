@@ -3,8 +3,18 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sicnu.mapper.SubjectCategoryMapper">
+    <resultMap id="subjectMap" type="com.sicnu.pojo.SubjectCategory">
+        <id property="sc_id" column="sc_id"/>
+        <result property="sc_name" column="sc_name"/>
+        <collection property="subjects" ofType="com.sicnu.pojo.Subject">
+            <id property="subject_id" column="subject_id"/>
+            <result property="subject_name" column="subject_name"/>
+            <result property="sc_id" column="sc_id"/>
+        </collection>
+    </resultMap>
+
     <insert id="addSubjectCategory" parameterType="SubjectCategory">
-        insert into subject_category(sc_name) values(#{sc_name})
+        insert into subject_category(sc_id,sc_name) values(#{sc_id},#{sc_name})
     </insert>
     <delete id="delSubjectCategory" parameterType="SubjectCategory">
         delete from subject_category where sc_id = #{sc_id}
@@ -15,5 +25,14 @@
     <select id="selectSubjectCategoryByName" resultType="SubjectCategory">
         select * from subject_category where
         sc_name = #{sc_name}
+    </select>
+    <select id="selectSubjectCategory" resultMap="subjectMap">
+        select sc.sc_name,s.subject_name from
+        subject s,
+        subject_category sc
+        where
+        s.sc_id = sc.sc_id
+        and
+        sc.sc_id =#{sc_id}
     </select>
 </mapper>

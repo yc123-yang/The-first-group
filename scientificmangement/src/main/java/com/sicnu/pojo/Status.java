@@ -2,6 +2,9 @@ package com.sicnu.pojo;
 
 import java.io.Serializable;
 
+/**
+ * 项目状态
+ */
 public class Status implements Serializable {
     private Integer status_id;
     private String status_name;

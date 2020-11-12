@@ -2,6 +2,9 @@ package com.sicnu.pojo;
 
 import java.io.Serializable;
 
+/**
+ * 权限
+ */
 public class Auth implements Serializable {
 
     private Integer auth_id;

@@ -13,6 +13,9 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -78,8 +81,39 @@ public class ProjectServiceImpl implements ProjectService {
      * @return
      */
     @Override
-    public Result selectProject(Project project) {
-        List<Project> projects = projectDao.selectProject(project);
+    public Result selectProject(Project project, String start_time_start, String start_time_end, String complete_time_start, String complete_time_end) throws Exception {
+        Map<String,Object> map = new HashMap<String,Object>();
+        SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd HH:mm:ss");
+        System.out.println("a"+ !start_time_start.equals(""));
+        System.out.println(project.getProject_name());
+        map.put("project_name",project.getProject_name());
+        map.put("leader_id",project.getLeader_id());
+        map.put("department_id",project.getDepartment_id());
+        map.put("aod_id",project.getAod_id());
+        map.put("sc_id",project.getSc_id());
+        map.put("subject_id",project.getSubject_id());
+        map.put("nature_id",project.getNature_id());
+        map.put("level_id",project.getLeader_id());
+        map.put("status_id",project.getStatus_id());
+        map.put("sd_id",project.getSc_id());
+        map.put("at_id",project.getAt_id());
+        map.put("outlay",project.getOutlay());
+        map.put("approval_number",project.getApproval_number());
+        map.put("ct_id",project.getCt_id());
+        if ( !start_time_start.equals("")){
+            map.put("start_time_start", (Date)sdf.parse(start_time_start));
+        }
+        if ( !start_time_end.equals("")){
+            map.put("start_time_end",(Date)sdf.parse(start_time_end));
+        }
+        if ( !complete_time_start.equals("")){
+            map.put("complete_time_start",(Date)sdf.parse(complete_time_start));
+        }
+        if ( !complete_time_end.equals("")){
+            map.put("complete_time_end",(Date)sdf.parse(complete_time_end));
+        }
+        System.out.println(map);
+        List<Project> projects = projectDao.selectProject(map);
         return rs = new Result("0",null,projects);
     }
 

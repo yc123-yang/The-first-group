@@ -2,6 +2,9 @@ package com.sicnu.pojo;
 
 import java.io.Serializable;
 
+/**
+ * 项目等级
+ */
 public class Level implements Serializable {
     private Integer level_id;
     private String nature_name;

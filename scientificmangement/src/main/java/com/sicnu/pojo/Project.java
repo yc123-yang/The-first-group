@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * 项目信息
+ */
 public class Project implements Serializable {
 
 

@@ -3,8 +3,9 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sicnu.mapper.SubjectMapper">
+
     <insert id="addSubject" parameterType="Subject">
-        insert into subject(subject_name) values(#{subject_name})
+        insert into subject(subject_id,subject_name,sc_id) values(#{subject_id},#{subject_name},#{sc_id})
     </insert>
     <delete id="delSubject" parameterType="Subject">
         delete from subject where subject_id = #{subject_id}
@@ -16,4 +17,5 @@
         select * from subject where
         subject_name = #{subject_name}
     </select>
+
 </mapper>

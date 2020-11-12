@@ -3,6 +3,9 @@ package com.sicnu.pojo;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * 项目组
+ */
 public class ProjectTeam {
     private Integer project_id;
     private Integer user_id;

@@ -1,5 +1,8 @@
 package com.sicnu.pojo;
 
+/**
+ * 部门
+ */
 public class Department {
     private Integer department_id;
     private String department_name;

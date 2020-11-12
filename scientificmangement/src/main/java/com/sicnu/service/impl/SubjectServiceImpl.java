@@ -15,10 +15,10 @@ public class SubjectServiceImpl implements SubjectService {
     @Resource
     SubjectMapper subjectMapper;
     @Override
-    public Result addSubject(String subject_name) {
+    public Result addSubject(String subject_id,String subject_name,String sc_id) {
         Subject subject = subjectMapper.selectSubjectByName(subject_name);
         if (subject==null){
-            subjectMapper.addSubject(subject_name);
+            subjectMapper.addSubject(subject_id,subject_name,sc_id);
             rs = new Result("200","添加成功",null);
 
         }else{
@@ -28,7 +28,7 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public Result delSubject(Integer subject_id) {
+    public Result delSubject(String subject_id) {
         subjectMapper.delSubject(subject_id);
         rs = new Result("0","删除成功",null);
 
@@ -41,5 +41,6 @@ public class SubjectServiceImpl implements SubjectService {
         rs = new Result("0",null,subjects);
         return rs;
     }
+
 
 }

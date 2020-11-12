@@ -3,13 +3,20 @@ package com.sicnu.controller;
 import com.sicnu.pojo.Project;
 import com.sicnu.service.impl.ProjectServiceImpl;
 import com.sicnu.util.Result;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.WebRequest;
 
 import javax.annotation.Resource;
 import javax.mail.MessagingException;
-import java.util.List;
+import java.text.ParseException;
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 @Controller
 @CrossOrigin
@@ -21,6 +28,13 @@ public class ProjectController {
 
     private  Result rs;
 
+    @InitBinder
+    public void initBinder(WebDataBinder binder, WebRequest request) {
+
+        //转换日期
+        DateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));// CustomDateEditor为自定义日期编辑器
+    }
     /**
      * 审核项目
      * @param project 前端传来项目信息
@@ -29,6 +43,7 @@ public class ProjectController {
      * @return
      * @throws MessagingException
      */
+
     @PostMapping(value = "/project/addProject")
 
     public Result addProject(@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")Project project, String checkMessage, String message) throws MessagingException {
@@ -38,11 +53,11 @@ public class ProjectController {
     /**
      * 根据前端传来的条件查询 项目信息
      * @param project 前端传到后台的查询信息
-     * @return
+     * @return@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
      */
     @RequestMapping(value = "/project/selectProject",method = RequestMethod.POST)
-    public Result selectProject(@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Project project){
-        rs = projectService.selectProject(project);
+    public Result selectProject( Project project,String start_time_start,String start_time_end, String complete_time_start,String complete_time_end) throws Exception {
+        rs = projectService.selectProject(project, start_time_start, start_time_end, complete_time_start, complete_time_end);
         return  rs;
     }
     /**
@@ -79,5 +94,7 @@ public class ProjectController {
         rs = projectService.findAllProject();
         return rs;
     }
+
+
 
 }

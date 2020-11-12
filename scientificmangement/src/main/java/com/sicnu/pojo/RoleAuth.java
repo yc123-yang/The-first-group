@@ -1,5 +1,8 @@
 package com.sicnu.pojo;
 
+/**
+ * 角色权限
+ */
 public class RoleAuth {
     private Integer role_id;
     private Integer auth_id;
