@@ -2,6 +2,7 @@ package com.sicnu.service.impl;
 
 import com.sicnu.mapper.AuthMapper;
 import com.sicnu.pojo.Auth;
+import com.sicnu.pojo.Role;
 import com.sicnu.service.AuthService;
 import com.sicnu.util.Result;
 import org.springframework.stereotype.Service;
@@ -40,6 +41,12 @@ public class AuthServiceImpl implements AuthService {
         List<Auth> auths = authMapper.findAllAuth();
         rs = new Result("0",null,auths);
         return rs;
+    }
+
+    @Override
+    public List<Auth> getAuth(Integer role_id) {
+        List<Auth> auths = authMapper.getAuth(role_id);
+        return auths;
     }
 
 }

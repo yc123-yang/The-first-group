@@ -1,7 +1,7 @@
 package com.sicnu.config;
 
 
-import com.sicnu.component.LoginHandlerInterceptor;
+//import com.sicnu.component.LoginHandlerInterceptor;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -55,40 +55,40 @@ public class MyMvcConfig extends WebMvcConfigurerAdapter {
      * 拦截，放行
      * @return
      */
-    @Bean
-    public WebMvcConfigurerAdapter webMvcConfigurerAdapter(){
-        WebMvcConfigurerAdapter adapter = new WebMvcConfigurerAdapter() {
-            @Override
-            //页面视图跳转设置
-            public void addViewControllers(ViewControllerRegistry registry) {
-                registry.addViewController("/").setViewName("login");
-                registry.addViewController("/public/index.html").setViewName("login");
-                registry.addViewController("/main.html").setViewName("main");
-                registry.addViewController("/login.html").setViewName("login");
-            }
-            //注册拦截器
-            @Override
-            public void addInterceptors(InterceptorRegistry registry) {
-                //super.addInterceptors(registry);
-                //静态资源；  *.css , *.js
-                //SpringBoot已经做好了静态资源映射
-                System.out.println("拦截启动");
-                registry.addInterceptor(new LoginHandlerInterceptor()).addPathPatterns("/**")
-                        .excludePathPatterns("/","/login.html","/user/*","/project/*","/project/addProject")
-                        .excludePathPatterns("/static/**", "/**/*.css", "/**/*.js", "/**/*.png",
-                                "/**/*.jpg", "/**/*.jpeg", "/**/*.gif", "/**/fonts/*", "/**/*.svg","/static/**.css");
-
-            }
-            @Override
-            public void addResourceHandlers(ResourceHandlerRegistry registry) {
-                registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
-           }
-
-
-        };
-
-        return adapter;
-    }
+//    @Bean
+//    public WebMvcConfigurerAdapter webMvcConfigurerAdapter(){
+//        WebMvcConfigurerAdapter adapter = new WebMvcConfigurerAdapter() {
+//            @Override
+//            //页面视图跳转设置
+//            public void addViewControllers(ViewControllerRegistry registry) {
+//                registry.addViewController("/").setViewName("login");
+//                registry.addViewController("/public/index.html").setViewName("login");
+//                registry.addViewController("/main.html").setViewName("main");
+//                registry.addViewController("/login.html").setViewName("login");
+//            }
+//            //注册拦截器
+//            @Override
+//            public void addInterceptors(InterceptorRegistry registry) {
+//                //super.addInterceptors(registry);
+//                //静态资源；  *.css , *.js
+//                //SpringBoot已经做好了静态资源映射
+//                System.out.println("拦截启动");
+//                registry.addInterceptor(new LoginHandlerInterceptor()).addPathPatterns("/**")
+//                        .excludePathPatterns("/","/login.html","/user/*","/project/*","/project/addProject")
+//                        .excludePathPatterns("/static/**", "/**/*.css", "/**/*.js", "/**/*.png",
+//                                "/**/*.jpg", "/**/*.jpeg", "/**/*.gif", "/**/fonts/*", "/**/*.svg","/static/**.css");
+//
+//            }
+//            @Override
+//            public void addResourceHandlers(ResourceHandlerRegistry registry) {
+//                registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+//           }
+//
+//
+//        };
+//
+//        return adapter;
+//    }
 
 }
 

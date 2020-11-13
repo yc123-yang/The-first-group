@@ -1,0 +1,17 @@
+{
+  "groups": [
+    {
+      "name": "spring.datasource",
+      "type": "javax.sql.DataSource",
+      "sourceType": "com.sicnu.config.DruidConfig",
+      "sourceMethod": "druid()"
+    },
+    {
+      "name": "spring.redis",
+      "type": "com.sicnu.config.ShiroConfig",
+      "sourceType": "com.sicnu.config.ShiroConfig"
+    }
+  ],
+  "properties": [],
+  "hints": []
+}

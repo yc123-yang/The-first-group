@@ -1,6 +1,7 @@
 package com.sicnu.mapper;
 
 import com.sicnu.pojo.Auth;
+import com.sicnu.pojo.Role;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -13,5 +14,6 @@ public interface AuthMapper {
     void delAuth(Integer auth_id);
     List<Auth> findAllAuth();
     Auth selectAuthByName(String auth_name);
+    List<Auth> getAuth(Integer role_id);
 }
 

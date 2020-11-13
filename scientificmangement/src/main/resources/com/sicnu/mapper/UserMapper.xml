@@ -31,7 +31,8 @@
 		user_id_number,
 		user_state,
 		department_id,
-		role_id
+		role_id,
+		salt
 		)
 		values
 		(#{user_act},
@@ -42,7 +43,8 @@
 		#{user_id_number},
 		#{user_state},
 		#{department_id},
-		#{role_id}
+		#{role_id},
+		#{salt}
 		)
 	</insert>
     <update id="updatePwd"  parameterType="User">

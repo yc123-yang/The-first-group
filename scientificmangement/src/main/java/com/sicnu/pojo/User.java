@@ -16,12 +16,12 @@ public class User implements Serializable {
     private Integer user_state;
     private Integer department_id;
     private Integer role_id;
-
+    private String salt;
     public User() {
     }
 
 
-    public User(Integer user_id, String user_act, String user_pwd, String user_name, String user_email, String user_number, String user_id_number, Integer user_state, Integer department_id, Integer role_id) {
+    public User(Integer user_id, String user_act, String user_pwd, String user_name, String user_email, String user_number, String user_id_number, Integer user_state, Integer department_id, Integer role_id, String salt) {
         this.user_id = user_id;
         this.user_act = user_act;
         this.user_pwd = user_pwd;
@@ -32,6 +32,15 @@ public class User implements Serializable {
         this.user_state = user_state;
         this.department_id = department_id;
         this.role_id = role_id;
+        this.salt = salt;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
 
     public Integer getUser_id() {
@@ -127,6 +136,7 @@ public class User implements Serializable {
                 ", user_state=" + user_state +
                 ", department_id=" + department_id +
                 ", role_id=" + role_id +
+                ", salt='" + salt + '\'' +
                 '}';
     }
 }

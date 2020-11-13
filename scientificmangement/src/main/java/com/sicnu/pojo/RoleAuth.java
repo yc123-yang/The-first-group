@@ -1,12 +1,14 @@
 package com.sicnu.pojo;
 
+import java.util.List;
+
 /**
  * 角色权限
  */
 public class RoleAuth {
     private Integer role_id;
     private Integer auth_id;
-
+    List<Role> roleList;
     public RoleAuth() {
     }
 
@@ -26,11 +28,20 @@ public class RoleAuth {
         this.auth_id = auth_id;
     }
 
+    public List<Role> getRoleList() {
+        return roleList;
+    }
+
+    public void setRoleList(List<Role> roleList) {
+        this.roleList = roleList;
+    }
+
     @Override
     public String toString() {
         return "RoleAuth{" +
                 "role_id=" + role_id +
                 ", auth_id=" + auth_id +
+                ", roleList=" + roleList +
                 '}';
     }
 }

@@ -13,4 +13,5 @@ public interface RoleMapper {
     void delRole(Integer role_id);
     List<Role> findAllRole();
     Role selectRoleByName(String role_name);
+    List<Role> getRole(Integer role_id);
 }

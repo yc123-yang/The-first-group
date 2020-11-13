@@ -17,14 +17,12 @@ import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-@Service
+@Service("")
 public class  CheckEmailServiceImpl implements CheckEmailService {
     @Resource
     JavaMailSenderImpl mailSender;
     @Resource
     CheckEmailMapper check_emailDao;
-    @Resource
-    CheckEmailServiceImpl check_emailService;
     @Override
     public Result addCheckCode(String email) throws MessagingException {
         Integer check_code;
@@ -37,7 +35,7 @@ public class  CheckEmailServiceImpl implements CheckEmailService {
         List<CheckEmail> check_emails = check_emailDao.findAllCode();
         for (int i = 0; i <check_emails.size() ; i++) {
             if(check_emails.get(i).getCheck_code()==check_code){
-                check_emailService.addCheckCode(email);
+                check_code = new Code().smsCode();
             }
         }
         check_emailDao.addCheckCode(email, check_code, overTime);

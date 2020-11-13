@@ -2,10 +2,13 @@ package com.sicnu;
 
 
 import com.sicnu.mapper.*;
+import com.sicnu.pojo.Auth;
 import com.sicnu.pojo.Project;
 import com.sicnu.pojo.ReviewProject;
+import com.sicnu.service.impl.AuthServiceImpl;
 import com.sicnu.service.impl.CheckEmailServiceImpl;
-import com.sicnu.service.impl.UserSerciceImpl;
+import com.sicnu.service.impl.RoleServiceImpl;
+import com.sicnu.service.impl.UserServiceImpl;
 import com.sicnu.util.Result;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,8 +37,9 @@ public class ScientificmangementApplicationTests {
     @Resource
     UserMapper userDao;
     @Resource
-    UserSerciceImpl  userSercice;
-
+    UserServiceImpl userService;
+    @Resource
+    AuthServiceImpl authService;
 
     @Test
     public void contextLoads() throws MessagingException {
@@ -103,17 +107,17 @@ public class ScientificmangementApplicationTests {
 //        reviewProjectMapper.addReviewProject(reviewProject);
 //        List<ReviewProject> reviewProjects =reviewProjectMapper.selectReviewProject();
 //        System.out.println(reviewProjects);
-        List<Project> projects = projectDao.selectTeamByPid(2);
-        List<Object> list = new ArrayList<>();
-        for (int i = 0; i <projects.size(); i++) {
-            Map<String,Object> map = new HashMap<String, Object>();
-            map.put("name",projects.get(i).getProjectTeams().get(0).getUsers().get(0).getUser_name());
-            map.put("role_id",projects.get(i).getProjectTeams().get(0).getUsers().get(0).getRole_id());
-            map.put("user_status",projects.get(i).getProjectTeams().get(0).getUser_role());
-            map.put("depart_id",projects.get(i).getProjectTeams().get(0).getUsers().get(0).getDepartment_id());
-            list.add(map);
-
-        }
+//        List<Project> projects = projectDao.selectTeamByPid(2);
+//        List<Object> list = new ArrayList<>();
+//        for (int i = 0; i <projects.size(); i++) {
+//            Map<String,Object> map = new HashMap<String, Object>();
+//            map.put("name",projects.get(i).getProjectTeams().get(0).getUsers().get(0).getUser_name());
+//            map.put("role_id",projects.get(i).getProjectTeams().get(0).getUsers().get(0).getRole_id());
+//            map.put("user_status",projects.get(i).getProjectTeams().get(0).getUser_role());
+//            map.put("depart_id",projects.get(i).getProjectTeams().get(0).getUsers().get(0).getDepartment_id());
+//            list.add(map);
+//
+//        }
 //        for (Project project1 : projects) {
 //            map.put("name",project1.getProjectTeams().get(0).getUsers().get(0).getUser_name());
 //            map.put("role_id",project1.getProjectTeams().get(0).getUsers().get(0).getRole_id());
@@ -123,7 +127,9 @@ public class ScientificmangementApplicationTests {
 //            map.clear();
 //        }
 
-        System.out.println(list);
+//        System.out.println(list);
+        List<Auth> auths = authService.getAuth(1);
+        System.out.println(auths);
     }
 
 }
