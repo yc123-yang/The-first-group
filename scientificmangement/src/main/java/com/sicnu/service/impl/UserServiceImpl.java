@@ -178,7 +178,8 @@ public class UserServiceImpl implements UserService {
     }
 
     public Result loginOut(HttpSession session){
-        session.setAttribute("stoken", null);
+        Subject subject = SecurityUtils.getSubject();
+        subject.logout();
         return rs = new Result("200", "用户退出成功", null);
     }
 
