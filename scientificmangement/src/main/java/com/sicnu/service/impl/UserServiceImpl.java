@@ -1,6 +1,7 @@
 package com.sicnu.service.impl;
 
-import com.sicnu.component.CacheUser;
+import com.sicnu.pojo.CacheUser;
+import com.sicnu.mapper.CacheUserMapper;
 import com.sicnu.mapper.UserMapper;
 import com.sicnu.pojo.User;
 import com.sicnu.service.UserService;
@@ -26,7 +27,10 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Service
@@ -34,68 +38,79 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     @Resource
     UserMapper userDao;
+
+    @Resource
+    CacheUserMapper cacheUserMapper;
+
     @Resource
     JavaMailSenderImpl mailSender;
+
+    @Resource
+    AuthServiceImpl authService;
 
     private Result rs = null;
 
     @Override
     public Result findByName(String user_act,String user_pwd) {
-        // 获取Subject实例对象，用户实例
-        Subject currentUser = SecurityUtils.getSubject();
-        // 将用户名和密码封装到UsernamePasswordToken
-        UsernamePasswordToken token = new UsernamePasswordToken(user_act, user_pwd);
+        cacheUserMapper.delCacheUser();
+        User user1 = new User();
+        user1.setUser_act(user_act);
+        user1.setUser_pwd(user_pwd);
+        new PasswordMd().encryptPassword(user1);
 
-        CacheUser cacheUser;
+        User user2 = userDao.findByName(user_act);
 
+        if (user2==null){
+            rs = new Result("1","用户名不存在",null);
+            return rs;
+        }
+        if (user2.getUser_state()==1){
+            rs = new Result("1","该用户名被封禁",null);
+            return rs;
+        }
+        if (!user1.getUser_pwd().equals(user2.getUser_pwd())){
+            rs = new Result("3","密码错误",null);
+            return rs;
+        }else{
+            // 获取Subject实例对象，用户实例
+            Subject currentUser = SecurityUtils.getSubject();
+            // 将用户名和密码封装到UsernamePasswordToken
+            UsernamePasswordToken token = new UsernamePasswordToken(user_act, user_pwd);
 
-        try {
-            // 传到 MyShiroRealm 类中的方法进行认证
-            currentUser.login(token);
-            // 构建缓存用户信息返回给前端
-            User user = (User) currentUser.getPrincipals().getPrimaryPrincipal();
-//            cacheUser = CacheUser.builder()
-//                    .token(currentUser.getSession().getId().toString())
-//                    .build();
-//            BeanUtils.copyProperties(user, cacheUser);
-//            log.warn("CacheUser is {}", cacheUser.toString());
-            return rs = new Result("0","登录成功",null);
+            CacheUser cacheUser;
+            try {
+                // 传到 MyShiroRealm 类中的方法进行认证
+                currentUser.login(token);
+                // 构建缓存用户信息返回给前端
+                User user = (User) currentUser.getPrincipals().getPrimaryPrincipal();
+                cacheUser = CacheUser.builder()
+                        .token(currentUser.getSession().getId().toString())
+                        .build();
+                BeanUtils.copyProperties(user, cacheUser);
+                cacheUserMapper.addCacheUser(cacheUser);
+                log.warn("CacheUser is {}", cacheUser.toString());
+                List<Object> auths = authService.getAuth(user2.getRole_id());
+                List<Object> list = new ArrayList<>();
+                Map<String,Object> map = new HashMap<>();
+                map.put("userData",cacheUser);
+                map.put("auth",auths);
+                list.add(map);
+                rs = new Result("0","登录成功",list);
 
-        } catch (UnknownAccountException e) {
-            log.error("账户不存在异常：", e);
-            throw new LoginException("账户不存在",e);
-        } catch (IncorrectCredentialsException e) {
-            log.error("凭据错误（密码错误）异常：", e);
+            } catch (UnknownAccountException e) {
+                log.error("账户不存在异常：", e);
+                throw new LoginException("账户不存在",e);
+            } catch (IncorrectCredentialsException e) {
+                log.error("凭据错误（密码错误）异常：", e);
 
-            throw new LoginException("密码不正确!", e);
-        } catch (AuthenticationException e) {
-            log.error("身份验证异常:", e);
-            throw new LoginException("用户验证失败!", e);
+                throw new LoginException("密码不正确!", e);
+            } catch (AuthenticationException e) {
+                log.error("身份验证异常:", e);
+                throw new LoginException("用户验证失败!", e);
+            }
+            return rs;
         }
 
-
-
-
-
-//        Result rs;
-//        String md5Password=MD5Util.md5(user_pwd);
-//        User user = userDao.findByName(user_act);
-//        if(user ==null){
-//            rs = new Result("1","用户名不存在",null);
-//            return rs;
-//        }
-//
-//        if (user.getUser_state()==1){
-//            rs = new Result("1","该用户名被封禁",null);
-//            return rs;
-//        }
-//        if(!user.getUser_pwd().equals(md5Password)){
-//            rs = new Result("3","密码错误",null);
-//            return rs;
-//        }else{
-//            rs = new Result("200","登陆成功",null);
-//            return rs;
-//        }
     }
 
     @Override

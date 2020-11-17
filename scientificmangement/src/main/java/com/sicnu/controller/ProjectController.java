@@ -4,6 +4,7 @@ import com.sicnu.pojo.Project;
 import com.sicnu.service.impl.ProjectServiceImpl;
 import com.sicnu.util.Result;
 import org.apache.ibatis.annotations.Param;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -55,9 +56,9 @@ public class ProjectController {
      * @param project 前端传到后台的查询信息
      * @return@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
      */
-    @RequestMapping(value = "/project/selectProject",method = RequestMethod.POST)
-    public Result selectProject( Project project,String start_time_start,String start_time_end, String complete_time_start,String complete_time_end) throws Exception {
-        rs = projectService.selectProject(project, start_time_start, start_time_end, complete_time_start, complete_time_end);
+    @RequestMapping(value = "/project/selectProjectByCondition",method = RequestMethod.POST)
+    public Result selectProject( Project project,String start_time_start,String start_time_end, String complete_time_start,String complete_time_end,String plan_time_start,String plan_time_end,Integer pageNum,Integer pageSize) throws Exception {
+        rs = projectService.selectProjectByCondition(project, start_time_start, start_time_end, complete_time_start, complete_time_end, plan_time_start, plan_time_end, pageNum, pageSize);
         return  rs;
     }
     /**
@@ -95,6 +96,12 @@ public class ProjectController {
         return rs;
     }
 
-
+    @RequestMapping(value = "/project/selectAllProjectByCondition",method = RequestMethod.POST)
+    public Result selectAllProjectByCondition( Project project,String start_time_start,String start_time_end, String complete_time_start,String complete_time_end,String plan_time_start,String plan_time_end, Integer pageNum, Integer pageSize) throws Exception {
+        System.out.println("pageSize="+pageSize);
+        System.out.println(start_time_start);
+        rs = projectService.selectAllProjectByCondition(project, start_time_start, start_time_end, complete_time_start, complete_time_end, plan_time_start, plan_time_end, pageNum, pageSize);
+        return  rs;
+    }
 
 }

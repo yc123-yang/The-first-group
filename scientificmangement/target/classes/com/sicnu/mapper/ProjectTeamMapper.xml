@@ -16,4 +16,9 @@
     <delete id="delTeamUser" parameterType="ProjectTeam">
         delete from projectTeam where user_id = #{user_id}
     </delete>
+    <select id="selectProject_id" parameterType="ProjectTeam" resultType="int">
+        select project_id from project_team
+        where
+        user_id = #{user_id}
+    </select>
 </mapper>

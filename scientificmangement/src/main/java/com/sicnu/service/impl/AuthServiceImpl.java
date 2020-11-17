@@ -8,6 +8,7 @@ import com.sicnu.util.Result;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -44,9 +45,13 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public List<Auth> getAuth(Integer role_id) {
+    public List<Object> getAuth(Integer role_id) {
         List<Auth> auths = authMapper.getAuth(role_id);
-        return auths;
+        List<Object> authList = new ArrayList<>();
+        for (Auth auth : auths) {
+            authList.add(auth.getAuth_name());
+        }
+        return authList;
     }
 
 }

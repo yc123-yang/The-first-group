@@ -12,14 +12,16 @@ import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreato
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 
 import java.time.Duration;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Properties;
 
 /**
- * @author ：leigq
- * @date ：2019/6/28 16:53
+ * @author ：yangchun
+ * @date ：2020/11/13
  * @description：shiro配置
  */
 @Configuration
@@ -35,8 +37,8 @@ public class ShiroConfig {
 
     /**
      * Filter工厂，设置对应的过滤条件和跳转条件
-     * create by: leigq
-     * create time: 2019/7/3 14:29
+     * create by: yangchun
+     * create time: 2020/11/13
      *
      * @return ShiroFilterFactoryBean
      */
@@ -46,6 +48,16 @@ public class ShiroConfig {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
 
+        // 配器shirot认登录面地址，前后端分离中登录累面跳转应由前端路由控制，后台仅返回json数据, 对应LoginController中unauth请求
+        shiroFilterFactoryBean.setLoginUrl("/user/un_auth");
+
+        // 登录成功后要跳转的链接, 此项目是前后端分离，故此行注释掉，登录成功之后返回用户基本信息及token给前端
+        // shiroFilterFactoryBean.setSuccessUrl("/index");
+
+        // 未授权界面, 对应unauthorized 请求
+        shiroFilterFactoryBean.setUnauthorizedUrl("/user/unauthorized");
+
+
         // 过滤器链定义映射
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
 
@@ -54,29 +66,17 @@ public class ShiroConfig {
          * 过滤链定义，从上向下顺序执行，authc 应放在 anon 下面
          * */
         filterChainDefinitionMap.put("/login", "anon");
-        // 配置不会被拦截的链接 顺序判断，因为前端模板采用了thymeleaf，这里不能直接使用 ("/static/**", "anon")来配置匿名访问，必须配置到每个静态目录
         filterChainDefinitionMap.put("/css/**", "anon");
         filterChainDefinitionMap.put("/fonts/**", "anon");
         filterChainDefinitionMap.put("/img/**", "anon");
         filterChainDefinitionMap.put("/js/**", "anon");
         filterChainDefinitionMap.put("/html/**", "anon");
         filterChainDefinitionMap.put("/user/**", "anon");
-
         // 所有url都必须认证通过才可以访问
         filterChainDefinitionMap.put("/**", "authc");
-
         // 配置退出 过滤器,其中的具体的退出代码Shiro已经替我们实现了, 位置放在 anon、authc下面
         filterChainDefinitionMap.put("/user/loginOut", "logout");
 
-        // 如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面
-        // 配器shirot认登录累面地址，前后端分离中登录累面跳转应由前端路由控制，后台仅返回json数据, 对应LoginController中unauth请求
-        shiroFilterFactoryBean.setLoginUrl("/user/login");
-
-        // 登录成功后要跳转的链接, 此项目是前后端分离，故此行注释掉，登录成功之后返回用户基本信息及token给前端
-        // shiroFilterFactoryBean.setSuccessUrl("/index");
-
-        // 未授权界面, 对应LoginController中 unauthorized 请求
-        shiroFilterFactoryBean.setUnauthorizedUrl("/unauthorized");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
     }
@@ -84,8 +84,8 @@ public class ShiroConfig {
 
     /**
      * 凭证匹配器（由于我们的密码校验交给Shiro的SimpleAuthenticationInfo进行处理了）
-     * create by: leigq
-     * create time: 2019/7/3 14:30
+     * create by: yangchun
+     * create time: 2020/11/13
      *
      * @return HashedCredentialsMatcher
      */
@@ -101,14 +101,14 @@ public class ShiroConfig {
 
     /**
      * 将自己的验证方式加入容器
-     * create by: leigq
-     * create time: 2019/7/3 14:30
+     * create by: yangchun
+     * create time: 2020/11/13
      *
      * @return MyShiroRealm
      */
     @Bean
-    public com.sicnu.config.MyShiroRealm myShiroRealm() {
-        com.sicnu.config.MyShiroRealm myShiroRealm = new com.sicnu.config.MyShiroRealm();
+    public MyShiroRealm myShiroRealm() {
+        MyShiroRealm myShiroRealm = new com.sicnu.config.MyShiroRealm();
         myShiroRealm.setCredentialsMatcher(hashedCredentialsMatcher());
         return myShiroRealm;
     }
@@ -123,8 +123,8 @@ public class ShiroConfig {
 
     /**
      * 自定义sessionManager
-     * create by: leigq
-     * create time: 2019/7/3 14:31
+     * create by: yangchun
+     * create time: 2020/11/13
      *
      * @return SessionManager
      */
@@ -140,9 +140,9 @@ public class ShiroConfig {
 
 
     /**
-     * create by: leigq
+     * create by: yangchun
      * description: 权限管理，配置主要是Realm的管理认证
-     * create time: 2019/7/1 10:09
+     * create time: 2020/11/13
      *
      * @return SecurityManager
      */
@@ -181,11 +181,11 @@ public class ShiroConfig {
         return cookie;
     }
 
-    /* 此项目使用 shiro 场景为前后端分离项目，这里先注释掉，统一异常处理已在 GlobalExceptionHand.java 中实现 */
+    /* 此项目使用 shiro 场景为前后端分离项目，统一异常处理已在 GlobalExceptionHand.java 中实现 */
     /**
-     * create by: leigq
+     * create by: yangchun
      * description: 异常处理, 详见：https://www.cnblogs.com/libra0920/p/6289848.html
-     * create time: 2019/7/1 10:28
+     * create time: 2020/11/13
      * @return SimpleMappingExceptionResolver
      */
 //    @Bean(name = "simpleMappingExceptionResolver")
@@ -193,11 +193,20 @@ public class ShiroConfig {
 //        SimpleMappingExceptionResolver r = new SimpleMappingExceptionResolver();
 //        Properties mappings = new Properties();
 //        mappings.setProperty("DatabaseException", "databaseError");//数据库异常处理
-//        mappings.setProperty("UnauthorizedException", "/user/403");
+//        mappings.setProperty("UnauthorizedException", "/user/unauthorized");
+//                             unauthorized
 //        r.setExceptionMappings(mappings);  // None by default
 //        r.setDefaultErrorView("error");    // No default
 //        r.setExceptionAttribute("exception");     // Default is "exception"
-//        //r.setWarnLogCategory("example.MvcLogger");     // No default
+//        r.setWarnLogCategory("example.MvcLogger");     // No default
 //        return r;
+//    }
+//    @Bean("simpleMappingExceptionResolver")
+//    public SimpleMappingExceptionResolver simpleMappingExceptionResolver() {
+//        SimpleMappingExceptionResolver resolver = new SimpleMappingExceptionResolver();
+//        Properties mappings = new Properties();
+//        mappings.setProperty("org.apache.shiro.authz.UnauthorizedException", "/user/unauthorized");
+//        resolver.setExceptionMappings(mappings);
+//        return resolver;
 //    }
 }

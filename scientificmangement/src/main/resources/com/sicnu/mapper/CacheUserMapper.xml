@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sicnu.mapper.CacheUserMapper">
+    <select id="findAllCacheUser" parameterType="string" resultType="CacheUser">
+        select * from cache_user
+    </select>
+
+    <insert id="addCacheUser" parameterType="CacheUser" >
+		insert into cache_user
+		(user_id,
+		user_act,
+		user_name,
+		user_email,
+		user_state,
+		token
+		)
+		values
+		(#{user_id},
+		#{user_act},
+		#{user_name},
+		#{user_email},
+		#{user_state},
+		#{token}
+		)
+	</insert>
+
+	<delete id="delCacheUser" parameterType="CacheUser">
+		delete from cache_user
+	</delete>
+</mapper>

@@ -1,12 +1,13 @@
 package com.sicnu.config;
 
 
+import com.sicnu.mapper.AuthMapper;
 import com.sicnu.mapper.UserMapper;
 import com.sicnu.pojo.Auth;
 import com.sicnu.pojo.Role;
 import com.sicnu.pojo.User;
-import com.sicnu.service.impl.AuthServiceImpl;
 import com.sicnu.service.impl.RoleServiceImpl;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -23,8 +24,8 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * @author ：leigq
- * @date ：2019/6/28 16:31
+ * @author ：yangchun
+ * @date ：2020/11/13 09:04
  * @description：自定义 shiroRealm, 主要是重写其认证、授权
  */
 @Slf4j
@@ -37,13 +38,14 @@ public class MyShiroRealm extends AuthorizingRealm {
     private RoleServiceImpl roleService;
 
     @Resource
-    private AuthServiceImpl authService;
+    private AuthMapper authMapper;
+
 
 
     /**
-     * create by: leigq
+     * create by: yangchun
      * description: 授权
-     * create time: 2019/7/1 10:32
+     * create time: 2020/11/13 09:04
      *
      * @return 权限信息，包括角色以及权限
      */
@@ -62,7 +64,7 @@ public class MyShiroRealm extends AuthorizingRealm {
         for (Role role : roles) {
             authorizationInfo.addRole(role.getRole_name());
             // 根据角色查询权限
-            List<Auth> permissions = authService.getAuth(role.getRole_id());
+            List<Auth> permissions = authMapper.getAuth(role.getRole_id());
             for (Auth p : permissions) {
                 authorizationInfo.addStringPermission(p.getAuth_name());
             }
@@ -71,12 +73,13 @@ public class MyShiroRealm extends AuthorizingRealm {
     }
 
     /**
-     * create by: leigq
+     * create by: yangchun
      * description: 主要是用来进行身份认证的，也就是说验证用户输入的账号和密码是否正确。
-     * create time: 2019/7/1 09:04
+     * create time: 2020/11/13
      *
      * @return 身份验证信                                                                                                            息
      */
+    @SneakyThrows
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         log.warn("开始进行身份认证......");
@@ -88,10 +91,10 @@ public class MyShiroRealm extends AuthorizingRealm {
         //实际项目中，这里可以根据实际情况做缓存，如果不做，Shiro自己也是有时间间隔机制，2分钟内不会重复执行该方法
         User user = iUserService.findByName(userName);
         if (Objects.isNull(user)) {
-            return null;
+            return null ;
         }
+
         System.out.println("aaa"+user.getUser_pwd());
-        System.out.println(token);
         return new SimpleAuthenticationInfo(
                 // 这里传入的是user对象，比对的是用户名，直接传入用户名也没错，但是在授权部分就需要自己重新从数据库里取权限
                 user,
@@ -102,5 +105,6 @@ public class MyShiroRealm extends AuthorizingRealm {
                 getName()
         );
     }
+
 
 }

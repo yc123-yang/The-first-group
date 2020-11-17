@@ -1,5 +1,8 @@
 package com.sicnu.service.impl;
 
+import com.sicnu.mapper.ProjectTeamMapper;
+import com.sicnu.pojo.CacheUser;
+import com.sicnu.mapper.CacheUserMapper;
 import com.sicnu.mapper.ProjectMapper;
 import com.sicnu.mapper.UserMapper;
 import com.sicnu.pojo.Project;
@@ -28,10 +31,18 @@ public class ProjectServiceImpl implements ProjectService {
     ReviewProjectServiceImpl reviewProjectService;
     @Resource
     ProjectMapper projectDao;
+
     @Resource
     UserMapper userDao;
+
     @Resource
     JavaMailSenderImpl mailSender;
+
+    @Resource
+    CacheUserMapper cacheUserMapper;
+
+    @Resource
+    ProjectTeamMapper teamMapper;
 
     private Result rs = null;
 
@@ -81,40 +92,59 @@ public class ProjectServiceImpl implements ProjectService {
      * @return
      */
     @Override
-    public Result selectProject(Project project, String start_time_start, String start_time_end, String complete_time_start, String complete_time_end) throws Exception {
+    public Result selectProjectByCondition(Project project, String start_time_start, String start_time_end, String complete_time_start, String complete_time_end, String plan_time_start,String plan_time_end,Integer pageNum,Integer pageSize) throws Exception {
         Map<String,Object> map = new HashMap<String,Object>();
-        SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd HH:mm:ss");
-        System.out.println("a"+ !start_time_start.equals(""));
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        List<CacheUser> cacheUsers = cacheUserMapper.findAllCacheUser();
+        //获取登录用户的id
+        Integer uid = cacheUsers.get(0).getUser_id();
+        System.out.println(uid);
         System.out.println(project.getProject_name());
         map.put("project_name",project.getProject_name());
-        map.put("leader_id",project.getLeader_id());
+        map.put("leader_id",uid);
         map.put("department_id",project.getDepartment_id());
-        map.put("aod_id",project.getAod_id());
+        map.put("project_id",project.getProject_id());
         map.put("sc_id",project.getSc_id());
         map.put("subject_id",project.getSubject_id());
         map.put("nature_id",project.getNature_id());
-        map.put("level_id",project.getLeader_id());
+        map.put("level_id",project.getLevel_id());
         map.put("status_id",project.getStatus_id());
-        map.put("sd_id",project.getSc_id());
-        map.put("at_id",project.getAt_id());
+        map.put("sd_id",project.getSd_id());
         map.put("outlay",project.getOutlay());
         map.put("approval_number",project.getApproval_number());
         map.put("ct_id",project.getCt_id());
+        map.put("pageNum",pageNum);
+        map.put("pageSize",pageSize);
         if ( !start_time_start.equals("")){
-            map.put("start_time_start", (Date)sdf.parse(start_time_start));
+            map.put("start_time_start", sdf.parse(start_time_start));
         }
         if ( !start_time_end.equals("")){
-            map.put("start_time_end",(Date)sdf.parse(start_time_end));
+            map.put("start_time_end",sdf.parse(start_time_end));
         }
         if ( !complete_time_start.equals("")){
-            map.put("complete_time_start",(Date)sdf.parse(complete_time_start));
+            map.put("complete_time_start",sdf.parse(complete_time_start));
         }
         if ( !complete_time_end.equals("")){
-            map.put("complete_time_end",(Date)sdf.parse(complete_time_end));
+            map.put("complete_time_end",sdf.parse(complete_time_end));
+        }
+        if ( !plan_time_start.equals("")){
+            map.put("plan_time_start",sdf.parse(plan_time_start));
+        }
+        if ( !plan_time_end.equals("")){
+            map.put("plan_time_end",sdf.parse(plan_time_end));
         }
         System.out.println(map);
-        List<Project> projects = projectDao.selectProject(map);
-        return rs = new Result("0",null,projects);
+        List<Project> projects = projectDao.selectProjectByCondition(map);
+        Integer total = projectDao.selectTotalProject(map);
+        Map<String,Object> map1 = new HashMap<>();
+        map1.put("total",total);
+        List<Object> list = new ArrayList<>();
+        list.add(map1);
+        list.add(projects);
+
+        return rs = new Result("0",null,list);
     }
 
     /**
@@ -125,6 +155,8 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public Result updateProject(Project project) {
+
+
         projectDao.updateProject(project);
         return rs = new Result("1","修改成功",null);
 
@@ -158,6 +190,7 @@ public class ProjectServiceImpl implements ProjectService {
      */
     @Override
     public Result findAllProject() {
+
         List<Project> projects = projectDao.findAllProject();
         rs = new Result("0",null,projects);
         return rs;
@@ -176,6 +209,60 @@ public class ProjectServiceImpl implements ProjectService {
         return rs = new Result("1","删除成功",null);
     }
 
+    /**
+     * 根据前端传来的条件查询 项目信息
+     * @param project 前端传到后台的查询信息
+     * @return
+     */
+    @Override
+    public Result selectAllProjectByCondition(Project project, String start_time_start, String start_time_end, String complete_time_start, String complete_time_end, String plan_time_start,String plan_time_end,Integer pageNum,Integer pageSize) throws Exception {
+        Map<String,Object> map = new HashMap<String,Object>();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        System.out.println(project.getProject_name());
+        map.put("project_name",project.getProject_name());
+        map.put("department_id",project.getDepartment_id());
+        map.put("project_id",project.getProject_id());
+        map.put("sc_id",project.getSc_id());
+        map.put("subject_id",project.getSubject_id());
+        map.put("nature_id",project.getNature_id());
+        map.put("level_id",project.getLevel_id());
+        map.put("status_id",project.getStatus_id());
+        map.put("sd_id",project.getSd_id());
+        map.put("outlay",project.getOutlay());
+        map.put("approval_number",project.getApproval_number());
+        map.put("ct_id",project.getCt_id());
+        map.put("pageNum",pageNum);
+        map.put("pageSize",pageSize);
+        if ( !start_time_start.equals("")){
+            map.put("start_time_start", sdf.parse(start_time_start));
+        }
+        if ( !start_time_end.equals("")){
+            map.put("start_time_end",sdf.parse(start_time_end));
+        }
+        if ( !complete_time_start.equals("")){
+            map.put("complete_time_start",sdf.parse(complete_time_start));
+        }
+        if ( !complete_time_end.equals("")){
+            map.put("complete_time_end",sdf.parse(complete_time_end));
+        }
+        if ( !plan_time_start.equals("")){
+            map.put("plan_time_start",sdf.parse(plan_time_start));
+        }
+        if ( !plan_time_end.equals("")){
+            map.put("plan_time_end",sdf.parse(plan_time_end));
+        }
+        System.out.println(map);
+        List<Project> projects = projectDao.selectProjectByCondition (map);
+        Integer total = projectDao.selectTotalProject(map);
+        Map<String,Object> map1 = new HashMap<>();
+        map1.put("total",total);
+        List<Object> list = new ArrayList<>();
+        list.add(map1);
+        list.add(projects);
+        return rs = new Result("0",null,list);
+    }
 
 
 }

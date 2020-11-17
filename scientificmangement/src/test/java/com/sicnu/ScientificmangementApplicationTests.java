@@ -1,15 +1,13 @@
 package com.sicnu;
 
 
+import com.sicnu.pojo.CacheUser;
 import com.sicnu.mapper.*;
-import com.sicnu.pojo.Auth;
 import com.sicnu.pojo.Project;
 import com.sicnu.pojo.ReviewProject;
 import com.sicnu.service.impl.AuthServiceImpl;
 import com.sicnu.service.impl.CheckEmailServiceImpl;
-import com.sicnu.service.impl.RoleServiceImpl;
 import com.sicnu.service.impl.UserServiceImpl;
-import com.sicnu.util.Result;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,7 +15,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 import javax.mail.MessagingException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -40,7 +37,10 @@ public class ScientificmangementApplicationTests {
     UserServiceImpl userService;
     @Resource
     AuthServiceImpl authService;
-
+    @Resource
+    ProjectTeamMapper teamMapper;
+    @Resource
+    CacheUserMapper cacheUserMapper;
     @Test
     public void contextLoads() throws MessagingException {
 //        List<Project> project = projectDao.findAllProject();
@@ -127,9 +127,13 @@ public class ScientificmangementApplicationTests {
 //            map.clear();
 //        }
 
+//        cacheUserMapper.delCacheUser();
+//        System.out.println(cacheUsers);
 //        System.out.println(list);
-        List<Auth> auths = authService.getAuth(1);
-        System.out.println(auths);
+//        List<Object> auths = authService.getAuth(1);
+//        System.out.println(auths);
+        List<Integer> projectIds = teamMapper.selectProject_id(0);
+        System.out.println(projectIds);
     }
 
 }

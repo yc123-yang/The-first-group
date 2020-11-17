@@ -10,5 +10,5 @@ public interface AuthService {
     Result addAuth(String auth_name);
     Result delAuth(Integer auth_id);
     Result findAllAuth();
-    List<Auth> getAuth(Integer role_id);
+    List<Object> getAuth(Integer role_id);
 }

@@ -1,4 +1,4 @@
-package com.sicnu.component;
+package com.sicnu.pojo;
 
 import lombok.Builder;
 import lombok.Data;
@@ -17,13 +17,17 @@ public class CacheUser implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private String user_email;
+    private Integer cid;
+
+    private Integer user_id;
+
+    private String user_act;
 
     private String user_name;
 
-    private Integer state;
+    private String user_email;
 
-    private String user_act;
+    private Integer user_state;
 
     private String token;
 }

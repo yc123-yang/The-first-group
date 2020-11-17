@@ -87,17 +87,18 @@
     <select id="selectProject" parameterType="java.util.HashMap" resultType="Project">
         select * from project
         <where>
+
+            <if test="project_id!=null and project_id!=''">
+                and project_id = #{project_id}
+            </if>
             <if test="project_name!=null and project_name!=''" >
                 and project_name = #{project_name}
-            </if>
-            <if test="leader_id!=null and leader_id!=''">
-                and leader_id = #{leader_id}
             </if>
             <if test="department_id!=null and department_id!=''">
                 and department_id = #{department_id}
             </if>
-            <if test="aod_id!=null and aod_id!=''">
-                and aod_id = #{aod_id}
+            <if test="leader_id!=null and leader_id!=''">
+                and leader_id = #{leader_id}
             </if>
             <if test="sc_id!=null and sc_id!=''">
                 and sc_id = #{sc_id}
@@ -123,13 +124,19 @@
             <if test="approval_number!=null and approval_number!=''">
                 and approval_number =#{approval_number}
             </if>
-            <if test="start_time_start!=null and start_time_start!='' and start_time_end!=null and start_time_end!=''">
+            <if test="start_time_start!=null  and start_time_end!=null ">
                 <![CDATA[
                 and project.start_time >= #{start_time_start}
                 and project.start_time <= #{start_time_end}
                 ]]>
             </if>
-            <if test="complete_time_start!=null and complete_time_start !='' and complete_time_end!=null and complete_time_end!=''">
+            <if test="plan_time_start!=null  and plan_time_end!=null ">
+                <![CDATA[
+                and project.plan_time >= #{plan_time_start}
+                and project.plan_time <= #{plan_time_end}
+                ]]>
+            </if>
+            <if test="complete_time_start!=null  and complete_time_end!=null ">
                 <![CDATA[
                 and project.complete_time >= #{complete_time_start}
                 and project.complete_time <= #{complete_time_end}
@@ -141,8 +148,11 @@
             <if test="ct_id!=null and ct_id!=''">
                 and ct_id =#{ct_id}
             </if>
-
         </where>
+        <if test="pageNum != null and pageSize != null">
+            <bind name="key_offset" value="(pageNum-1)*pageSize"></bind>
+            limit #{key_offset},#{pageSize}
+        </if>
     </select>
     <delete id="delProject" parameterType="Project">
         delete from project
@@ -195,5 +205,71 @@
 
     <select id="findAllProject" resultType="Project">
         select * from project
+    </select>
+    <select id="selectTotalProject" parameterType="java.util.HashMap" resultType="int">
+        select count(*) total from project
+        <where>
+
+            <if test="project_id!=null and project_id!=''">
+                and project_id = #{project_id}
+            </if>
+            <if test="project_name!=null and project_name!=''" >
+                and project_name = #{project_name}
+            </if>
+            <if test="department_id!=null and department_id!=''">
+                and department_id = #{department_id}
+            </if>
+            <if test="leader_id!=null and leader_id!=''">
+                and leader_id = #{leader_id}
+            </if>
+            <if test="sc_id!=null and sc_id!=''">
+                and sc_id = #{sc_id}
+            </if>
+            <if test="subject_id and subject_id!=''">
+                and subject_id = #{subject_id}
+            </if>
+            <if test="nature_id!=null and nature_id!=''">
+                and nature_id =#{nature_id}
+            </if>
+            <if test="level_id!=null and level_id!=''">
+                and level_id =#{level_id}
+            </if>
+            <if test="status_id!=null and status_id!=''">
+                and status_id =#{status_id}
+            </if>
+            <if test="sd_id!=null and sd_id!=''">
+                and sd_id =#{sd_id}
+            </if>
+            <if test="at_id!=null and at_id!=''">
+                and at_id =#{at_id}
+            </if>
+            <if test="approval_number!=null and approval_number!=''">
+                and approval_number =#{approval_number}
+            </if>
+            <if test="start_time_start!=null  and start_time_end!=null ">
+                <![CDATA[
+                and project.start_time >= #{start_time_start}
+                and project.start_time <= #{start_time_end}
+                ]]>
+            </if>
+            <if test="plan_time_start!=null  and plan_time_end!=null ">
+                <![CDATA[
+                and project.plan_time >= #{plan_time_start}
+                and project.plan_time <= #{plan_time_end}
+                ]]>
+            </if>
+            <if test="complete_time_start!=null  and complete_time_end!=null ">
+                <![CDATA[
+                and project.complete_time >= #{complete_time_start}
+                and project.complete_time <= #{complete_time_end}
+                ]]>
+            </if>
+            <if test="outlay!=null and outlay!=''">
+                and outlay =#{outlay}
+            </if>
+            <if test="ct_id!=null and ct_id!=''">
+                and ct_id =#{ct_id}
+            </if>
+        </where>
     </select>
 </mapper>
