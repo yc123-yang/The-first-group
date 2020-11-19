@@ -19,9 +19,9 @@ public class NatureServiceImpl implements NatureService {
         Nature nature = natureMapper.selectNatureByName(nature_name);
         if (nature==null){
             natureMapper.addNature(nature_name);
-            rs = new Result("0","添加成功",null);
+            rs = new Result("0","添加项目性质成功",null);
         }else{
-            rs = new Result("1","已经存在",null);
+            rs = new Result("1","项目性质已经存在",null);
 
         }
         return rs;

@@ -1,5 +1,6 @@
 package com.sicnu.controller;
 
+import com.sicnu.pojo.Project;
 import com.sicnu.pojo.ReviewProject;
 import com.sicnu.service.impl.ReviewProjectServiceImpl;
 import com.sicnu.util.Result;
@@ -11,23 +12,24 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 @Controller
 @ResponseBody
 @CrossOrigin
-public class ReviewProjectController {
+public class ReviewProjectController  {
 
     @Resource
     ReviewProjectServiceImpl reviewProjectService;
+
+    private Result rs = null;
+
     /**
-     *
+     *项目申请
      * @param reviewProject
      * @return
      */
     @PostMapping("/review/addReviewProject")
     public Result addReviewProject(@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") ReviewProject reviewProject){
-        Result rs = null;
         rs = reviewProjectService.addReviewProject(reviewProject);
         return rs;
     }
@@ -39,7 +41,6 @@ public class ReviewProjectController {
     @PostMapping("/review/selectAllReviewProject")
 
     public Result selectAllReviewProject() {
-        Result rs = null;
         rs =reviewProjectService.selectAllReviewProject();
         return rs ;
     }
@@ -48,22 +49,31 @@ public class ReviewProjectController {
      * 删除待审核的项目
      * @param project_id
      */
-
+    @PostMapping("/review/delReviewProject")
     public Result delReviewProject(Integer project_id) {
-        Result rs =null;
        rs = reviewProjectService.delReviewProject(project_id);
         return rs;
     }
 
+
     /**
-     * 根据条件查看要待审核的项目
-     * @param reviewProject
+     *根据条件查询未通过审核得项目
+     * @param project
+     * @param start_time_start
+     * @param start_time_end
+     * @param complete_time_start
+     * @param plan_time_start
+     * @param plan_time_end
+     * @param complete_time_end
+     * @param pageNum
+     * @param pageSize
      * @return
+     * @throws Exception
      */
 
-    public Result selectReviewProject(@RequestBody ReviewProject reviewProject) {
-        Result rs = null;
-        rs =reviewProjectService.selectReviewProject(reviewProject);
+    @PostMapping("/review/selectReviewProjectByCondition")
+    public Result selectReviewProjectByCondition(Project project, String start_time_start, String start_time_end, String complete_time_start, String plan_time_start, String plan_time_end, String complete_time_end, Integer pageNum, Integer pageSize) throws Exception {
+        rs =reviewProjectService.selectReviewProjectByCondition(project, start_time_start, start_time_end, complete_time_start, plan_time_start, plan_time_end, complete_time_end, pageNum, pageSize);
 
         return rs ;
     }

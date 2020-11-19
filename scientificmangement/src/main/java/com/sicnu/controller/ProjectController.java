@@ -90,12 +90,21 @@ public class ProjectController {
 
     }
 
-    @PostMapping("/project/findAllProject")
-    public Result findAllProject() {
-        rs = projectService.findAllProject();
-        return rs;
-    }
 
+    /**
+     * 根据条件获取所有项目
+     * @param project 项目筛选条件
+     * @param start_time_start
+     * @param start_time_end
+     * @param complete_time_start
+     * @param complete_time_end
+     * @param plan_time_start
+     * @param plan_time_end
+     * @param pageNum
+     * @param pageSize
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value = "/project/selectAllProjectByCondition",method = RequestMethod.POST)
     public Result selectAllProjectByCondition( Project project,String start_time_start,String start_time_end, String complete_time_start,String complete_time_end,String plan_time_start,String plan_time_end, Integer pageNum, Integer pageSize) throws Exception {
         System.out.println("pageSize="+pageSize);
@@ -104,4 +113,14 @@ public class ProjectController {
         return  rs;
     }
 
+    /**
+     * 根据项目id获取项目信息
+     * @param project_id
+     * @return
+     */
+    @PostMapping("/project/findProjectById")
+    public Result findProjectById(Integer project_id) {
+        rs =projectService.findProjectById(project_id);
+        return rs;
+    }
 }

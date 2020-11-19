@@ -17,6 +17,6 @@ public interface ProjectMapper {
     void updateProject(Project project);
     Integer selectProjectId(Integer leader_id,String project_name);
     List<Project> selectTeamByPid(Integer project_Id);
-    List<Project> findAllProject();
     Integer selectTotalProject(Map<String,Object> map);
+    Project findProjectById(Integer project_id);
 }

@@ -32,7 +32,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * user：使用系统的用户
+ * 用户信息操作
+ */
 @Service
 @Slf4j
 public class UserServiceImpl implements UserService {
@@ -50,30 +53,42 @@ public class UserServiceImpl implements UserService {
 
     private Result rs = null;
 
+    /**
+     * 用户登录
+     * @param user_act：用户登录的账户
+     * @param user_pwd：用户的登录密码
+     * @return 反馈用户是否登录的情况
+     */
     @Override
-    public Result findByName(String user_act,String user_pwd) {
+    public Result findByUserAct(String user_act,String user_pwd) {
+        //删除上一个用户的缓存信息
         cacheUserMapper.delCacheUser();
+        //获取用户的登录的账户密码
         User user1 = new User();
         user1.setUser_act(user_act);
         user1.setUser_pwd(user_pwd);
+        //对用户账户加盐 密码加密
         new PasswordMd().encryptPassword(user1);
 
-        User user2 = userDao.findByName(user_act);
+        //根据用户账户查找账户
+        User user2 = userDao.findByUserAct(user_act);
 
+        //对登录用户进行检验
         if (user2==null){
-            rs = new Result("1","用户名不存在",null);
+            rs = new Result("401","用户名不存在",null);
             return rs;
         }
         if (user2.getUser_state()==1){
-            rs = new Result("1","该用户名被封禁",null);
+            rs = new Result("402","该用户名被封禁",null);
             return rs;
         }
         if (!user1.getUser_pwd().equals(user2.getUser_pwd())){
-            rs = new Result("3","密码错误",null);
+            rs = new Result("403","密码错误",null);
             return rs;
         }else{
             // 获取Subject实例对象，用户实例
             Subject currentUser = SecurityUtils.getSubject();
+
             // 将用户名和密码封装到UsernamePasswordToken
             UsernamePasswordToken token = new UsernamePasswordToken(user_act, user_pwd);
 
@@ -81,21 +96,27 @@ public class UserServiceImpl implements UserService {
             try {
                 // 传到 MyShiroRealm 类中的方法进行认证
                 currentUser.login(token);
-                // 构建缓存用户信息返回给前端
+
+                // 构建缓存用户信息返回给前端，并保存到
                 User user = (User) currentUser.getPrincipals().getPrimaryPrincipal();
                 cacheUser = CacheUser.builder()
                         .token(currentUser.getSession().getId().toString())
                         .build();
+                //复制登录用户的关键信息到缓存库
                 BeanUtils.copyProperties(user, cacheUser);
+                //吧用户信息添加到缓存库
                 cacheUserMapper.addCacheUser(cacheUser);
+                //输出日志
                 log.warn("CacheUser is {}", cacheUser.toString());
+                //获取用户角色权限 反馈给前端
                 List<Object> auths = authService.getAuth(user2.getRole_id());
                 List<Object> list = new ArrayList<>();
                 Map<String,Object> map = new HashMap<>();
                 map.put("userData",cacheUser);
                 map.put("auth",auths);
                 list.add(map);
-                rs = new Result("0","登录成功",list);
+                //反馈登录信息
+                rs = new Result("200","登录成功",list);
 
             } catch (UnknownAccountException e) {
                 log.error("账户不存在异常：", e);
@@ -113,25 +134,42 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    /**
+     * 用户注册
+     * @param user_act 用户名
+     * @param user_pwd 密码
+     * @param user_name 用户姓名
+     * @param user_email 用户邮箱
+     * @param user_number 用户个人学校编号
+     * @param user_id_number 用户身份证
+     * @param user_state 用户状态 默认是0 0是正常 1是封禁
+     * @param department_id 用户部门id
+     * @param role_id 用户角色 id 与 用户权限有关
+     * @return
+     * @throws MessagingException
+     */
     @Override
     public  Result addUser( String user_act, String user_pwd, String user_name, String user_email, String user_number, String user_id_number, Integer user_state, Integer department_id, Integer role_id) throws MessagingException{
-        List<User> list = userDao.findAll();
+       //获取用户表所有用户
+        List<User> list = userDao.findAllUser();
+        //所有用户信息进行比对
         for (User value : list) {
             if (value.getUser_act().equals(user_act)) {
-                rs = new Result("user_act", "该用户名已存在", null);
+                rs = new Result("401", "该用户名已存在", null);
                 return rs;
             } else if (value.getUser_number().equals(user_number)) {
-                rs = new Result("user_number", "该学号已经注册过", null);
+                rs = new Result("402", "该学号已经注册过", null);
                 return rs;
             } else if (value.getUser_id_number().equals(user_id_number)) {
-                rs = new Result("user_id_number", "该身份证已经注册过", null);
+                rs = new Result("403", "该身份证已经注册过", null);
                 return rs;
             } else if (value.getUser_email().equals(user_email)) {
-                rs = new Result("user_email", "该邮箱已经注册过", null);
+                rs = new Result("405", "该邮箱已经注册过", null);
                 return rs;
             }
         }
 
+        //若信息通过校验 就开始进行录入
         User user = new User();
         user.setUser_act(user_act);
         user.setUser_pwd(user_pwd);
@@ -143,11 +181,13 @@ public class UserServiceImpl implements UserService {
         user.setDepartment_id(department_id);
         user.setRole_id(role_id);
 
-        //加密
+        //对用户账号密码进行操作
         new PasswordMd().encryptPassword(user);
         user.setSalt(ByteSource.Util.bytes(user.getUser_act()).toString());
+        //把用户信息注入
         userDao.addUser(user);
         rs = new Result("200", "用户注册成功", null);
+        //获取用户id，通过邮箱方式反馈给用户
         Integer userId = userDao.selectUserId(user_email);
         MimeMessage mailMessage =  mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mailMessage);
@@ -160,20 +200,33 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    /**
+     * 对用户信息进行更新
+     * @param user_act 用户账号
+     * @param user_pwd 密码
+     * @param user_email 邮箱
+     * @param user_number 编号
+     * @param user_id_number 用户身份证号
+     * @return
+     */
+
     @Override
     public Result updatePwd(String user_act, String user_pwd, String user_email, String user_number, String user_id_number) {
-        User user =userDao.findByName(user_act);
+        //根据用户名获取用户信息
+        User user =userDao.findByUserAct(user_act);
+
+        //进行信息校验
         if (user==null){
-            rs = new Result("error","用户名不存在",null);
+            rs = new Result("400","用户名不存在",null);
             return rs;
         }else if (!user.getUser_email().equals(user_email)){
-            rs = new Result("user_email","邮箱验证未通过",null);
+            rs = new Result("401","邮箱验证未通过",null);
             return rs;
         }else if (!user.getUser_number().equals(user_number)){
-            rs = new Result("user_number","学号验证未通过",null);
+            rs = new Result("402","学号验证未通过",null);
             return rs;
         }else if (!user.getUser_id_number().equals(user_id_number)){
-            rs = new Result("user_id_number","身份证号验证未通过",null);
+            rs = new Result("403","身份证号验证未通过",null);
             return rs;
         }else{
             userDao.updatePwd(user_act, MD5Util.md5(user_pwd),user_email, user_number, user_id_number);
@@ -184,6 +237,12 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    /**
+     * 管理功能，对用户账号的封禁
+     * @param user_id 用户id
+     * @param user_state 用户账号状态
+     * @return
+     */
     @Override
     public Result changeStatus(Integer user_id, Integer user_state) {
 
@@ -192,9 +251,15 @@ public class UserServiceImpl implements UserService {
         return rs = new Result("200", "用户状态更改成功", null);
     }
 
+    /**
+     * 退出登录
+     */
     public Result loginOut(HttpSession session){
         Subject subject = SecurityUtils.getSubject();
+        //shiro清空用户登录信息
         subject.logout();
+        //清苦缓存
+        cacheUserMapper.delCacheUser();
         return rs = new Result("200", "用户退出成功", null);
     }
 

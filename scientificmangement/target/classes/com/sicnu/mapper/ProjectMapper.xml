@@ -84,7 +84,7 @@
         #{ct_id}
         )
     </insert>
-    <select id="selectProject" parameterType="java.util.HashMap" resultType="Project">
+    <select id="selectProjectByCondition" parameterType="java.util.HashMap" resultType="Project">
         select * from project
         <where>
 
@@ -203,8 +203,9 @@
     t.user_id = u.user_id
     </select>
 
-    <select id="findAllProject" resultType="Project">
-        select * from project
+    <select id="findProjectById" parameterType="Project" resultType="Project">
+        select * from project where
+        project_id = #{project_id}
     </select>
     <select id="selectTotalProject" parameterType="java.util.HashMap" resultType="int">
         select count(*) total from project

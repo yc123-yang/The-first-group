@@ -17,7 +17,6 @@ import javax.annotation.Resource;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
-import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,10 +46,11 @@ public class ProjectServiceImpl implements ProjectService {
     private Result rs = null;
 
     /**
+     *
      * 审核项目
      * @param project 前端传来项目信息
-     * @param checkMessage 审核结果反馈
-     * @param message 审核为通过反馈的原因
+     * @param checkMessage 审核结果反馈 fail不通过 success 通过
+     * @param message 审核不通过反馈的原因
      * @return
      * @throws MessagingException
      */
@@ -58,19 +58,25 @@ public class ProjectServiceImpl implements ProjectService {
     public Result addProject(Project project,String checkMessage,String message) throws MessagingException {
 
         System.out.println("调用");
+        //获取项目id 返给用户
         Integer projectId = projectDao.selectProjectId(project.getLeader_id(),project.getProject_name());
+        //获取项目负责人信息
         User user =  userDao.findUserById(project.getLeader_id());
+        //创建邮件环境，反馈信息
         MimeMessage mailMessage =  mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mailMessage);
 
+        //如果不通过审核反馈
         if (checkMessage.equals("fail")){
             helper.setSubject("高校科研管理系统注册验证码");
             helper.setText("<p>您的项目申报审核未通过，因为<span style='color:blue;text-decoration:underline'>"+message+"</span>,请您解决之后重新申请。</p>",true);
+           //负责人邮箱
             helper.setTo(user.getUser_email());
             helper.setFrom("1776557392@qq.com");
             mailSender.send(mailMessage);
+            //从待审核里面删除
             reviewProjectService.delReviewProject(projectId);
-            rs = new Result("1","审核结果已反馈",null);
+            rs = new Result("400","审核结果已反馈",null);
         }else{
             project.setStatus_id(2);
             projectDao.addProject(project);
@@ -79,17 +85,27 @@ public class ProjectServiceImpl implements ProjectService {
             helper.setTo(user.getUser_email());
             helper.setFrom("1776557392@qq.com");
             mailSender.send(mailMessage);
+            //从待审核删除
             reviewProjectService.delReviewProject(projectId);
-            rs = new Result("0","审核结果已反馈",null);
+            rs = new Result("200","审核结果已反馈",null);
         }
 
         return rs;
     }
 
     /**
-     * 根据前端传来的条件查询 项目信息
-     * @param project 前端传到后台的查询信息
+     * 根据条件查询项目信息
+     * @param project
+     * @param start_time_start
+     * @param start_time_end
+     * @param complete_time_start
+     * @param complete_time_end
+     * @param plan_time_start
+     * @param plan_time_end
+     * @param pageNum
+     * @param pageSize
      * @return
+     * @throws Exception
      */
     @Override
     public Result selectProjectByCondition(Project project, String start_time_start, String start_time_end, String complete_time_start, String complete_time_end, String plan_time_start,String plan_time_end,Integer pageNum,Integer pageSize) throws Exception {
@@ -97,6 +113,7 @@ public class ProjectServiceImpl implements ProjectService {
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
+        //获取登陆用户的缓存信息
         List<CacheUser> cacheUsers = cacheUserMapper.findAllCacheUser();
         //获取登录用户的id
         Integer uid = cacheUsers.get(0).getUser_id();
@@ -136,7 +153,9 @@ public class ProjectServiceImpl implements ProjectService {
             map.put("plan_time_end",sdf.parse(plan_time_end));
         }
         System.out.println(map);
+        //根据传来的条件筛选用户
         List<Project> projects = projectDao.selectProjectByCondition(map);
+        //根据条件获取的项目条数
         Integer total = projectDao.selectTotalProject(map);
         Map<String,Object> map1 = new HashMap<>();
         map1.put("total",total);
@@ -144,8 +163,9 @@ public class ProjectServiceImpl implements ProjectService {
         list.add(map1);
         list.add(projects);
 
-        return rs = new Result("0",null,list);
+        return rs = new Result("200",null,list);
     }
+
 
     /**
      * 编辑项目信息
@@ -156,9 +176,8 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public Result updateProject(Project project) {
 
-
         projectDao.updateProject(project);
-        return rs = new Result("1","修改成功",null);
+        return rs = new Result("200","修改成功",null);
 
     }
 
@@ -169,9 +188,9 @@ public class ProjectServiceImpl implements ProjectService {
      */
     @Override
     public Result selectTeamByPid(Integer project_Id) {
-        List<Project> projects = projectDao.selectTeamByPid(2);
+        List<Project> projects = projectDao.selectTeamByPid(project_Id);
         List<Object> list = new ArrayList<>();
-
+        //获取组员信息
         for (Project project1 : projects) {
             Map<String,Object> map = new HashMap<String, Object>();
             map.put("name",project1.getProjectTeams().get(0).getUsers().get(0).getUser_name());
@@ -181,19 +200,7 @@ public class ProjectServiceImpl implements ProjectService {
             list.add(map);
 
         }
-        return rs = new Result("0","",list);
-    }
-
-    /**
-     * 获取全部项目信息
-     * @return
-     */
-    @Override
-    public Result findAllProject() {
-
-        List<Project> projects = projectDao.findAllProject();
-        rs = new Result("0",null,projects);
-        return rs;
+        return rs = new Result("200",null,list);
     }
 
 
@@ -206,7 +213,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public Result delProject(Integer project_id) {
         projectDao.delProject(project_id);
-        return rs = new Result("1","删除成功",null);
+        return rs = new Result("200","删除成功",null);
     }
 
     /**
@@ -217,6 +224,8 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public Result selectAllProjectByCondition(Project project, String start_time_start, String start_time_end, String complete_time_start, String complete_time_end, String plan_time_start,String plan_time_end,Integer pageNum,Integer pageSize) throws Exception {
         Map<String,Object> map = new HashMap<String,Object>();
+
+        //时间格式设置
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -261,7 +270,19 @@ public class ProjectServiceImpl implements ProjectService {
         List<Object> list = new ArrayList<>();
         list.add(map1);
         list.add(projects);
-        return rs = new Result("0",null,list);
+        return rs = new Result("200",null,list);
+    }
+
+    /**
+     * 根据项目id获取项目信息
+     * @param project_id
+     * @return
+     */
+    @Override
+    public Result findProjectById(Integer project_id) {
+        Project project =projectDao.findProjectById(project_id);
+        rs = new Result("200",null,project);
+        return rs;
     }
 
 
