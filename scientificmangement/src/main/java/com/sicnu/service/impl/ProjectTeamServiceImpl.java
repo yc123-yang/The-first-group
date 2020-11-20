@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
+/**
+ * 项目组
+ */
 @Service
 public class ProjectTeamServiceImpl implements ProjectTeamService {
 

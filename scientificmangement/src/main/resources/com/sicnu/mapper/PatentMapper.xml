@@ -6,28 +6,94 @@
 
     <insert id="addPatent" parameterType="Patent">
         insert into Patent(
-        patentName,
-        ptId,
-        prId,
-        psId,
-        aodId,
-        applicationNumber,
-        applicationTime,
-        publicNumber,
-        publicTime,
-        authorizationNumber,
-        authorizationTime
+        patent_name,
+        pt_id,
+        pr_id,
+        ps_id,
+        aod_id,
+        application_number,
+        application_time,
+        public_number,
+        public_time,
+        authorization_number,
+        authorization_time
         ) values(
-        #{patentName},
-        #{ptId},
-        #{prId},
-        #{aodId},
-        #{applicationNumber},
-        #{applicationTime},
-        #{publicNumber},
-        #{publicTime},
-        #{authorizationNumber},
-        #{authorizationTime}
+        #{patent_name},
+        #{pt_id},
+        #{pr_id},
+        #{ps_id},
+        #{aod_id},
+        #{application_number},
+        #{application_time},
+        #{public_number},
+        #{public_time},
+        #{authorization_number},
+        #{authorization_time}
         )
     </insert>
+    <select id="selectPatentByNumber" parameterType="Patent" resultType="Patent">
+        select * from Patent
+        where
+        application_number = #{application_number}
+        and
+        public_number = #{public_number}
+        and
+        authorization_number = #{authorization_number}
+    </select>
+    <select id="selectPatentByCondition" parameterType="java.util.HashMap" resultType="Patent">
+        select * from patent
+        <where>
+            <if test="patent_name!=null and patent_name!=''">
+                and patent_name = #{patent_name}
+            </if>
+            <if test="pt_id!=null and pt_id!=''" >
+                and pt_id = #{pt_id}
+            </if>
+            <if test="pr_id!=null and pr_id!=''">
+                and pr_id = #{pr_id}
+            </if>
+            <if test="ps_id!=null and ps_id!=''">
+                and ps_id = #{ps_id}
+            </if>
+            <if test="aod_id!=null and aod_id!=''">
+                and aod_id = #{aod_id}
+            </if>
+            <if test="application_number and application_number!=''">
+                and application_number = #{application_number}
+            </if>
+            <if test="application_time_start!=null  and application_time_end!=null ">
+                <![CDATA[
+                and project.application_time >= #{application_time_start}
+                and project.application_time <= #{application_time_end}
+                ]]>
+            </if>
+            <if test="public_number!=null and public_number!=''">
+                and public_number =#{public_number}
+            </if>
+            <if test="public_time_start!=null  and public_time_end!=null ">
+                <![CDATA[
+                and project.public_time >= #{public_time_start}
+                and project.public_time <= #{public_time_end}
+                ]]>
+            </if>
+            <if test="authorization_number!=null and authorization_number!=''">
+                and authorization_number =#{authorization_number}
+            </if>
+            <if test="authorization_time_start!=null  and authorization_time_end!=null ">
+                <![CDATA[
+                and project.authorization_time >= #{authorization_time_start}
+                and project.authorization_time <= #{authorization_time_end}
+                ]]>
+            </if>
+        </where>
+        <if test="pageNum != null and pageSize != null">
+            <bind name="key_offset" value="(pageNum-1)*pageSize"></bind>
+            limit #{key_offset},#{pageSize}
+        </if>
+    </select>
+    <delete id="delPatentById" parameterType="int">
+        delete from patent
+        where
+        patent_id = #{patent_id}
+    </delete>
 </mapper>

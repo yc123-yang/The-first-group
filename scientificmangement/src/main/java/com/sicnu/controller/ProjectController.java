@@ -68,7 +68,7 @@ public class ProjectController {
      */
 
     @RequestMapping(value = "/project/updateProject",method = RequestMethod.POST)
-    public Result updateProject(@RequestBody Project project){
+    public Result updateProject(Project project){
         rs = projectService.updateProject(project);
         return  rs;
     }

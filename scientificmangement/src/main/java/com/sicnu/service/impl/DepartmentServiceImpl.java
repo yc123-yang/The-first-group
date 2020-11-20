@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.List;
 
+/**
+ * l用户来源部门
+ */
 @Service
 public class DepartmentServiceImpl implements DepartmentService {
 

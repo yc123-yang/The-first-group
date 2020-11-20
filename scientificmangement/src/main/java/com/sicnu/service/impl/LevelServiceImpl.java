@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.List;
 
+/**
+ * 项目等级
+ */
 @Service
 public class LevelServiceImpl implements LevelService {
     private Result rs;

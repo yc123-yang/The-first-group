@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.List;
 
+/**
+ * 用户角色
+ */
 @Service
 public class RoleServiceImpl implements RoleService {
 

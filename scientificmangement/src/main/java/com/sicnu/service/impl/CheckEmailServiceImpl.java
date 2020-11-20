@@ -17,7 +17,10 @@ import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-@Service("")
+/**
+ * 邮箱验证码模拟短信验证
+ */
+@Service
 public class  CheckEmailServiceImpl implements CheckEmailService {
     @Resource
     JavaMailSenderImpl mailSender;

@@ -87,7 +87,6 @@
     <select id="selectProjectByCondition" parameterType="java.util.HashMap" resultType="Project">
         select * from project
         <where>
-
             <if test="project_id!=null and project_id!=''">
                 and project_id = #{project_id}
             </if>
@@ -160,23 +159,62 @@
         project_id = #{project_id}
     </delete>
     <update id="updateProject" parameterType="Project">
-        update Project set
-        project_name = #{project_name},
-        leader_id = #{leader_id},
-        department_id =#{department_id},
-        aod_id =#{aod_id},
-        sc_id = #{sc_id},
-        subject_id = #{subject_id},
-        nature_id =#{nature_id},
-        level_id =#{level_id},
-        status_id =#{status_id},
-        sd_id =#{sd_id},
-        at_id =#{at_id},
-        approval_number =#{approval_number},
-        start_time =#{start_time},
-        complete_time =#{complete_time},
-        outlay =#{outlay},
-        ct_id =#{ct_id}
+        update Project
+        <trim prefix="set" suffixOverrides=",">
+            <if test="project_name!=null and project_name!=''">
+                project_name = #{project_name},
+            </if>
+            <if test="leader_id!=null and leader_id!=''">
+                leader_id = #{leader_id},
+            </if>
+            <if test="department_id!=null and department_id!=''">
+                 department_id = #{department_id},
+            </if>
+            <if test="aod_id!=null and aod_id!=''">
+                 aod_id = #{aod_id},
+            </if>
+            <if test="sc_id!=null and sc_id!=''">
+                 sc_id = #{sc_id},
+            </if>
+            <if test="subject_id!=null and subject_id!=''">
+                 subject_id = #{subject_id},
+            </if>
+            <if test="nature_id!=null and nature_id!=''">
+                 nature_id = #{nature_id},
+            </if>
+            <if test="level_id!=null and level_id!=''">
+                 level_id = #{level_id},
+            </if>
+            <if test="status_id!=null and status_id!=''">
+                 status_id = #{status_id},
+            </if>
+            <if test="sd_id!=null and sd_id!=''">
+                 sd_id = #{sd_id},
+            </if>
+            <if test="at_id!=null and at_id!=''">
+                 at_id = #{at_id},
+            </if>
+            <if test="approval_number!=null and approval_number!=''">
+                 approval_number = #{approval_number},
+            </if>
+            <if test="start_time!=null">
+                start_time = #{start_time},
+            </if>
+            <if test="plan_time!=null">
+                plan_time =#{plan_time},
+            </if>
+            <if test="complete_time!=null ">
+                 complete_time = #{complete_time},
+            </if>
+            <if test="outlay!=null and outlay!=''">
+                 outlay = #{outlay},
+            </if>
+            <if test="ct_id!=null and ct_id!=''">
+                 ct_id = #{ct_id}
+            </if>
+        </trim>
+        where
+        project_id =#{project_id}
     </update>
     <select id="selectProjectId" parameterType="Project" resultType="int">
         select project_id from project

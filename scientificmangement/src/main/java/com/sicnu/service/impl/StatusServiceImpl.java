@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.List;
 
+/**
+ * 项目状态
+ */
 @Service
 public class StatusServiceImpl implements StatusService {
     @Resource

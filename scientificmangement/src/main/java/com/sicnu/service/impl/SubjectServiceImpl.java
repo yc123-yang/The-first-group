@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.List;
 
+/**
+ * 一级学科
+ */
 @Service
 public class SubjectServiceImpl implements SubjectService {
     private Result rs;

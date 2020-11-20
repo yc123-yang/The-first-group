@@ -11,6 +11,9 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 用户权限
+ */
 @Service
 public class AuthServiceImpl implements AuthService {
 

@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.List;
 
+/**
+ * 一项目性质
+ */
 @Service
 public class NatureServiceImpl implements NatureService {
     @Resource

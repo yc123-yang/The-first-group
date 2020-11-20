@@ -13,6 +13,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 学科门类
+ */
 @Service
 public class SubjectCategoryServiceImpl implements SubjectCategoryService {
     @Resource
