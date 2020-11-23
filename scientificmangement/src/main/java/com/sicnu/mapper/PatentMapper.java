@@ -18,4 +18,5 @@ public interface PatentMapper {
     Patent selectPatentByNumber(String application_number,String public_number,String authorization_number);
     void delPatentById(Integer patent_id);
     List<Patent> selectPatentByCondition(Map<String,Object> map);
+    void updatePatent(Patent patent);
 }

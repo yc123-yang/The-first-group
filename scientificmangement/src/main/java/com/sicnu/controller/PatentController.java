@@ -38,8 +38,21 @@ public class PatentController {
     }
 
     @PostMapping("/patent/selectPatentByCondition")
-    public Result selectPatentByCondition(Patent patent, String application_time_start, String application_time_end, String public_time_start, String public_time_end, String authorization_time_start, String authorization_time_end) throws ParseException {
-        rs = patentService.selectPatentByCondition(patent, application_time_start, application_time_end, public_time_start, public_time_end, authorization_time_start, authorization_time_end);
+    public Result selectPatentByCondition(Patent patent, String application_time_start, String application_time_end, String public_time_start, String public_time_end, String authorization_time_start, String authorization_time_end,Integer pageSize,Integer pageNum) throws ParseException {
+        System.out.println(patent);
+        rs = patentService.selectPatentByCondition(patent, application_time_start, application_time_end, public_time_start, public_time_end, authorization_time_start, authorization_time_end, pageSize, pageNum);
+        return rs;
+    }
+
+    @PostMapping("/patent/updatePatent")
+    public Result updatePatent(Patent patent) {
+        rs = patentService.updatePatent(patent);
+        return rs;
+    }
+
+    @PostMapping("/patent/delPatentById")
+    public Result delPatentById(Integer patent_id) {
+        rs = patentService.delPatentById(patent_id);
         return rs;
     }
 }

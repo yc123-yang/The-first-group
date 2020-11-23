@@ -1,8 +1,8 @@
 package com.sicnu.exception;
 
 /**
- * @author ：leigq
- * @date ：2019/7/1 09:26
+ * @author ：杨春
+ * @date ：2020/10/1 09:26
  * @description：登录异常
  */
 public class LoginException extends RuntimeException {

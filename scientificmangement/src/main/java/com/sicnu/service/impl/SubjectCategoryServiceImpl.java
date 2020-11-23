@@ -1,7 +1,6 @@
 package com.sicnu.service.impl;
 
 import com.sicnu.mapper.SubjectCategoryMapper;
-import com.sicnu.pojo.Subject;
 import com.sicnu.pojo.SubjectCategory;
 import com.sicnu.service.SubjectCategoryService;
 import com.sicnu.util.Result;

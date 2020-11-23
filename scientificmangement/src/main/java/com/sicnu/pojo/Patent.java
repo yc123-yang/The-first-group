@@ -9,6 +9,7 @@ import java.util.Date;
  */
 public class Patent implements Serializable {
   private Integer patent_id;
+  private Integer leader_id;
   private String patent_name;
   private Integer pt_id;
   private Integer pr_id;
@@ -30,6 +31,14 @@ public class Patent implements Serializable {
 
   public void setPatent_id(Integer patent_id) {
     this.patent_id = patent_id;
+  }
+
+  public Integer getLeader_id() {
+    return leader_id;
+  }
+
+  public void setLeader_id(Integer leader_id) {
+    this.leader_id = leader_id;
   }
 
   public String getPatent_name() {
@@ -124,6 +133,7 @@ public class Patent implements Serializable {
   public String toString() {
     return "Patent{" +
             "patent_id=" + patent_id +
+            ", leader_id=" + leader_id +
             ", patent_name='" + patent_name + '\'' +
             ", pt_id=" + pt_id +
             ", pr_id=" + pr_id +

@@ -1,8 +1,5 @@
 package com.sicnu.controller;
 
-import com.sicnu.mapper.LevelMapper;
-import com.sicnu.pojo.Level;
-import com.sicnu.service.LevelService;
 import com.sicnu.service.impl.LevelServiceImpl;
 import com.sicnu.util.Result;
 import org.springframework.stereotype.Controller;
@@ -11,7 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 @Controller
 @CrossOrigin

@@ -1,6 +1,5 @@
 package com.sicnu.controller;
 
-import com.sicnu.pojo.Role;
 import com.sicnu.service.impl.RoleServiceImpl;
 import com.sicnu.util.Result;
 import org.springframework.stereotype.Controller;

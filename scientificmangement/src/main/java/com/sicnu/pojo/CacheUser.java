@@ -1,7 +1,10 @@
 package com.sicnu.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
@@ -13,9 +16,12 @@ import java.io.Serializable;
  */
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
+//@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"})
 public class CacheUser implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 10L;
 
     private Integer cid;
 
@@ -30,4 +36,6 @@ public class CacheUser implements Serializable {
     private Integer user_state;
 
     private String token;
+
+
 }

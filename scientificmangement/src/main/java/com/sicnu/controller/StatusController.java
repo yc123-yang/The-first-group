@@ -1,6 +1,5 @@
 package com.sicnu.controller;
 
-import com.sicnu.pojo.Status;
 import com.sicnu.service.impl.StatusServiceImpl;
 import com.sicnu.util.Result;
 import org.springframework.stereotype.Controller;

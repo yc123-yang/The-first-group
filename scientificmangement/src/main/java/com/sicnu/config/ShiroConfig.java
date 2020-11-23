@@ -2,7 +2,6 @@ package com.sicnu.config;
 
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.mgt.SecurityManager;
-import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
@@ -12,7 +11,6 @@ import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreato
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 
 import java.time.Duration;
 import java.util.LinkedHashMap;
@@ -108,7 +106,7 @@ public class ShiroConfig {
      */
     @Bean
     public MyShiroRealm myShiroRealm() {
-        MyShiroRealm myShiroRealm = new com.sicnu.config.MyShiroRealm();
+        MyShiroRealm myShiroRealm = new MyShiroRealm();
         myShiroRealm.setCredentialsMatcher(hashedCredentialsMatcher());
         return myShiroRealm;
     }
@@ -120,20 +118,6 @@ public class ShiroConfig {
     public JavaUuidSessionIdGenerator sessionIdGenerator() {
         return new JavaUuidSessionIdGenerator();
     }
-
-    /**
-     * 自定义sessionManager
-     * create by: yangchun
-     * create time: 2020/11/13
-     *
-     * @return SessionManager
-     */
-//    @Bean
-//    public SessionManager sessionManager() {
-//        MySessionManager mySessionManager = new MySessionManager();
-//        mySessionManager.setSessionDAO(redisSessionDAO());
-//        return mySessionManager;
-//    }
 
 
 
@@ -181,32 +165,5 @@ public class ShiroConfig {
         return cookie;
     }
 
-    /* 此项目使用 shiro 场景为前后端分离项目，统一异常处理已在 GlobalExceptionHand.java 中实现 */
-    /**
-     * create by: yangchun
-     * description: 异常处理, 详见：https://www.cnblogs.com/libra0920/p/6289848.html
-     * create time: 2020/11/13
-     * @return SimpleMappingExceptionResolver
-     */
-//    @Bean(name = "simpleMappingExceptionResolver")
-//    public SimpleMappingExceptionResolver createSimpleMappingExceptionResolver() {
-//        SimpleMappingExceptionResolver r = new SimpleMappingExceptionResolver();
-//        Properties mappings = new Properties();
-//        mappings.setProperty("DatabaseException", "databaseError");//数据库异常处理
-//        mappings.setProperty("UnauthorizedException", "/user/unauthorized");
-//                             unauthorized
-//        r.setExceptionMappings(mappings);  // None by default
-//        r.setDefaultErrorView("error");    // No default
-//        r.setExceptionAttribute("exception");     // Default is "exception"
-//        r.setWarnLogCategory("example.MvcLogger");     // No default
-//        return r;
-//    }
-//    @Bean("simpleMappingExceptionResolver")
-//    public SimpleMappingExceptionResolver simpleMappingExceptionResolver() {
-//        SimpleMappingExceptionResolver resolver = new SimpleMappingExceptionResolver();
-//        Properties mappings = new Properties();
-//        mappings.setProperty("org.apache.shiro.authz.UnauthorizedException", "/user/unauthorized");
-//        resolver.setExceptionMappings(mappings);
-//        return resolver;
-//    }
+
 }

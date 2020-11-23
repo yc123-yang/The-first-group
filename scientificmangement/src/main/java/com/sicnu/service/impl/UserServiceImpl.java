@@ -5,7 +5,6 @@ import com.sicnu.mapper.CacheUserMapper;
 import com.sicnu.mapper.UserMapper;
 import com.sicnu.pojo.User;
 import com.sicnu.service.UserService;
-import com.sicnu.util.MD5Util;
 import com.sicnu.util.PasswordMd;
 import com.sicnu.util.Result;
 import lombok.extern.slf4j.Slf4j;
@@ -214,7 +213,9 @@ public class UserServiceImpl implements UserService {
     public Result updatePwd(String user_act, String user_pwd, String user_email, String user_number, String user_id_number) {
         //根据用户名获取用户信息
         User user =userDao.findByUserAct(user_act);
-
+        User user1 = new User();
+        user1.setUser_pwd(user_pwd);
+        new PasswordMd().encryptPassword(user1);
         //进行信息校验
         if (user==null){
             rs = new Result("400","用户名不存在",null);
@@ -229,7 +230,7 @@ public class UserServiceImpl implements UserService {
             rs = new Result("403","身份证号验证未通过",null);
             return rs;
         }else{
-            userDao.updatePwd(user_act, MD5Util.md5(user_pwd),user_email, user_number, user_id_number);
+            userDao.updatePwd(user_act, user1.getUser_pwd(),user_email, user_number, user_id_number);
             rs = new Result("200","密码修改成功",null);
             return rs;
         }

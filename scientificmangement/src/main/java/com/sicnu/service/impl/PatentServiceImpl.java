@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,10 +39,34 @@ public class PatentServiceImpl implements PatentService {
         return rs;
     }
 
+    /**
+     * 根据条件查询专利
+     * @param patent
+     * @param application_time_start
+     * @param application_time_end
+     * @param public_time_start
+     * @param public_time_end
+     * @param authorization_time_start
+     * @param authorization_time_end
+     * @param pageSize
+     * @param pageNum
+     * @return
+     * @throws ParseException
+     */
     @Override
-    public Result selectPatentByCondition(Patent patent, String application_time_start, String application_time_end, String public_time_start, String public_time_end, String authorization_time_start, String authorization_time_end) throws ParseException {
+    public Result selectPatentByCondition(Patent patent, String application_time_start, String application_time_end, String public_time_start, String public_time_end, String authorization_time_start, String authorization_time_end,Integer pageSize,Integer pageNum) throws ParseException {
         Map<String,Object> map = new HashMap<>();
-        map.put("patent",patent);
+        map.put("patent_name",patent.getPatent_name());
+        map.put("leader_id",patent.getLeader_id());
+        map.put("pt_id",patent.getPt_id());
+        map.put("pr_id",patent.getPr_id());
+        map.put("ps_id",patent.getPs_id());
+        map.put("aod_id",patent.getAod_id());
+        map.put("application_number",patent.getApplication_number());
+        map.put("public_number",patent.getPublic_number());
+        map.put("authorization_number",patent.getApplication_number());
+        map.put("pageNum",pageNum);
+        map.put("pageSize",pageSize);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         if ( !application_time_start.equals("")){
             map.put("application_time_start",sdf.parse(application_time_start));
@@ -63,8 +86,33 @@ public class PatentServiceImpl implements PatentService {
         if ( !authorization_time_end.equals("")){
             map.put("authorization_time_end",sdf.parse(authorization_time_end));
         }
+        System.out.println(map);
         List<Patent> patents = patentMapper.selectPatentByCondition(map);
         return rs = new Result("200",null,patents);
+    }
+
+    /**
+     * 更新专利
+     * @param patent
+     * @return
+     */
+    @Override
+    public Result updatePatent(Patent patent) {
+        patentMapper.updatePatent(patent);
+        rs = new Result("200","修改成功",null);
+        return rs;
+    }
+
+    /**
+     * 删除
+     * @param patent_id
+     * @return
+     */
+    @Override
+    public Result delPatentById(Integer patent_id) {
+        patentMapper.delPatentById(patent_id);
+        rs =new Result("200","删除成功",null);
+        return rs;
     }
 
 

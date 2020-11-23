@@ -1,6 +1,5 @@
 package com.sicnu.controller;
 
-import com.sicnu.pojo.SubjectCategory;
 import com.sicnu.service.impl.SubjectCategoryServiceImpl;
 import com.sicnu.util.Result;
 import org.springframework.stereotype.Controller;

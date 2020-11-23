@@ -1,7 +1,6 @@
 package com.sicnu;
 
 
-import com.sicnu.pojo.CacheUser;
 import com.sicnu.mapper.*;
 import com.sicnu.pojo.Project;
 import com.sicnu.pojo.ReviewProject;

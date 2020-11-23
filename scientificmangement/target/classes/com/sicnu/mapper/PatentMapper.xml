@@ -7,6 +7,7 @@
     <insert id="addPatent" parameterType="Patent">
         insert into Patent(
         patent_name,
+        leader_id,
         pt_id,
         pr_id,
         ps_id,
@@ -19,6 +20,7 @@
         authorization_time
         ) values(
         #{patent_name},
+        #{leader_id},
         #{pt_id},
         #{pr_id},
         #{ps_id},
@@ -46,6 +48,9 @@
             <if test="patent_name!=null and patent_name!=''">
                 and patent_name = #{patent_name}
             </if>
+            <if test="leader_id!=null and leader_id!=''">
+                and leader_id = #{leader_id}
+            </if>
             <if test="pt_id!=null and pt_id!=''" >
                 and pt_id = #{pt_id}
             </if>
@@ -58,13 +63,13 @@
             <if test="aod_id!=null and aod_id!=''">
                 and aod_id = #{aod_id}
             </if>
-            <if test="application_number and application_number!=''">
+            <if test="application_number!=null and application_number!=''">
                 and application_number = #{application_number}
             </if>
             <if test="application_time_start!=null  and application_time_end!=null ">
                 <![CDATA[
-                and project.application_time >= #{application_time_start}
-                and project.application_time <= #{application_time_end}
+                and patent.application_time >= #{application_time_start}
+                and patent.application_time <= #{application_time_end}
                 ]]>
             </if>
             <if test="public_number!=null and public_number!=''">
@@ -72,8 +77,8 @@
             </if>
             <if test="public_time_start!=null  and public_time_end!=null ">
                 <![CDATA[
-                and project.public_time >= #{public_time_start}
-                and project.public_time <= #{public_time_end}
+                and patent.public_time >= #{public_time_start}
+                and patent.public_time <= #{public_time_end}
                 ]]>
             </if>
             <if test="authorization_number!=null and authorization_number!=''">
@@ -81,8 +86,8 @@
             </if>
             <if test="authorization_time_start!=null  and authorization_time_end!=null ">
                 <![CDATA[
-                and project.authorization_time >= #{authorization_time_start}
-                and project.authorization_time <= #{authorization_time_end}
+                and patent.authorization_time >= #{authorization_time_start}
+                and patent.authorization_time <= #{authorization_time_end}
                 ]]>
             </if>
         </where>
@@ -91,6 +96,54 @@
             limit #{key_offset},#{pageSize}
         </if>
     </select>
+    <update id="updatePatent" parameterType="Patent">
+        update patent
+        <trim prefix="set" suffixOverrides=",">
+            <if test="patent_name!=null and patent_name!=''">
+                 patent_name = #{patent_name},
+            </if>
+            <if test="leader_id!=null and leader_id!=''">
+                 leader_id = #{leader_id},
+            </if>
+            <if test="pt_id!=null and pt_id!=''" >
+                 pt_id = #{pt_id},
+            </if>
+            <if test="pr_id!=null and pr_id!=''">
+                 pr_id = #{pr_id},
+            </if>
+            <if test="ps_id!=null and ps_id!=''">
+                 ps_id = #{ps_id},
+            </if>
+            <if test="aod_id!=null and aod_id!=''">
+                 aod_id = #{aod_id},
+            </if>
+            <if test="application_number!=null and application_number!=''">
+                 application_number = #{application_number},
+            </if>
+            <if test="application_time!=null  ">
+                <![CDATA[
+                 application_time = #{application_time},
+                ]]>
+            </if>
+            <if test="public_number!=null and public_number!=''">
+                 public_number =#{public_number},
+            </if>
+            <if test="public_time!=null ">
+                <![CDATA[
+                 public_time = #{public_time},
+                ]]>
+            </if>
+            <if test="authorization_number!=null and authorization_number!=''">
+                 authorization_number =#{authorization_number},
+            </if>
+            <if test="authorization_time!=null ">
+                <![CDATA[
+                authorization_time = #{authorization_time},
+                ]]>
+            </if>
+        </trim>
+        where patent_id = #{patent_id}
+    </update>
     <delete id="delPatentById" parameterType="int">
         delete from patent
         where
