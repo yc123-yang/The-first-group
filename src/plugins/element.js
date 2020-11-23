@@ -26,9 +26,12 @@ import {
   Pagination,
   Dialog,
   Tabs,
-  TabPane
+  TabPane,
+  Tree,
+  MessageBox
 } from 'element-ui'
 
+Vue.use(Tree)
 Vue.use(TabPane)
 Vue.use(Tabs)
 Vue.use(Dialog)
@@ -56,3 +59,4 @@ Vue.use(Form)
 Vue.use(Input)
 Vue.use(FormItem)
 Vue.prototype.$message = Message
+Vue.prototype.$confirm = MessageBox.confirm

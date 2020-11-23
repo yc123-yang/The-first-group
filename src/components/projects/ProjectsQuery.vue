@@ -210,31 +210,31 @@ export default {
       // 单位 id:name 对象
       departmentObj: {},
       // 单位对象列表
-      departmentList: [{ department_id: 1, department_name: '单位1' }, { department_id: 2, department_name: '单位2' }],
+      departmentList: [],
       // 学科门类 id:name 对象
       scObj: {},
       // 学科门类列表
-      scList: [{ sc_id: 1, sc_name: '学科门类1' },{ sc_id: 2, sc_name: '学科门类2' }],
+      scList: [],
       // 一级学科 id:name 对象
       subjectObj: {},
       // 一级学科列表
-      subjectList: [{ subject_id: 1, subject_name: '一级学科1' }, { subject_id: 2, subject_name: '一级学科2' }],
+      subjectList: [],
       // 项目性质 id:name 对象
       natureObj: {},
       // 项目性质列表
-      natureList: [{ nature_id: 1, nature_name: '项目性质1' }, { nature_id: 2, nature_name: '项目性质2' }],
+      natureList: [],
       // 项目级别 id:name 对象
       levelObj: {},
       // 项目级别列表
-      levelList: [{ level_id: 1, level_name: '项目级别1' }, { level_id: 2, level_name: '项目级别2' }],
+      levelList: [],
       // 项目状态 id:name 对象
       statusObj: {},
       // 项目状态列表
-      statusList: [{ status_id: 1, status_name: '项目状态1' }, { status_id: 2, status_name: '项目状态2' }],
+      statusList: [],
       // 结题形式 id:name 对象
       ctObj: {},
       // 结题形式列表
-      ctList: [{ ct_id: 1, ct_name: '结题形式1' }, { ct_id: 2, ct_name: '结题形式2' }]
+      ctList: []
     }
   },
   async created() {

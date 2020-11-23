@@ -24,6 +24,7 @@ axios.interceptors.request.use(config => {
 axios.interceptors.response.use(result => {
   const data = result.data
   if (data.status === '401') {
+    window.sessionStorage.clear()
     router.push('/login')
     Vue.prototype.$message.error(data.msg)
   }

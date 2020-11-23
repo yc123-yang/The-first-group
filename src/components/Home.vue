@@ -49,99 +49,17 @@ export default {
   data () {
     return {
       // 左侧菜单数据
-      menulist: [
-        {
-          id: 101,
-          name: '科研项目',
-          path: null,
-          children: [
-            {
-              id: 211,
-              name: '科研项目',
-              path: 'projects'
-            }
-          ]
-        }, {
-          id: 102,
-          name: '科研成果',
-          path: null,
-          children: [
-            {
-              id: 221,
-              name: '论文成果',
-              path: 'papers'
-            }, {
-              id: 222,
-              name: '著作成果',
-              path: 'books'
-            }, {
-              id: 223,
-              name: '科研成果获奖',
-              path: 'awards'
-            }, {
-              id: 224,
-              name: '专利与产品',
-              path: 'products'
-            }
-          ]
-        }, {
-          id: 103,
-          name: '项目经费',
-          path: null,
-          children: [
-            {
-              id: 231,
-              name: '管理项目经费',
-              path: 'funding'
-            }
-          ]
-        }, {
-          id: 104,
-          name: '科研考核',
-          path: null,
-          children: [
-            {
-              id: 241,
-              name: '考核结果',
-              path: 'assess'
-            }
-          ]
-        }, {
-          id: 105,
-          name: '审核申请',
-          path: null,
-          children: [
-            {
-              id: 251,
-              name: '审核项目申请',
-              path: 'check/project'
-            }, {
-              id: 252,
-              name: '审核论文成果申请',
-              path: 'check/papers'
-            }, {
-              id: 253,
-              name: '审核著作成果申请',
-              path: 'check/books'
-            }, {
-              id: 254,
-              name: '审核科研获奖申请',
-              path: 'check/awards'
-            }, {
-              id: 255,
-              name: '审核专利产品申请',
-              path: 'check/products'
-            }
-          ]
-        }
-      ],
+      menulist: [],
       // 图标转换对象
       iconsObj: {
         101: 'el-icon-tickets',
         102: 'el-icon-s-opportunity',
         103: 'el-icon-money',
         104: 'el-icon-s-data',
-        105: 'el-icon-s-comment'
+        105: 'el-icon-s-comment',
+        106: 'el-icon-user-solid',
+        107: 'el-icon-circle-check',
+        108: 'el-icon-document'
       },
       // 是否折叠菜单
       isCollapse: false,
@@ -150,6 +68,7 @@ export default {
     }
   },
   created () {
+    this.getMenuList()
     this.activeNav = window.sessionStorage.getItem('activeNav')
   },
   methods: {
@@ -157,6 +76,10 @@ export default {
       window.sessionStorage.clear()
       this.$message('退出登录')
       this.$router.push('/login')
+    },
+    async getMenuList() {
+      const { data: res } = await this.$http.post('/getmenulist')
+      this.menulist = res.data
     },
     saveNavState (activeNav) {
       window.sessionStorage.setItem('activeNav', activeNav)
