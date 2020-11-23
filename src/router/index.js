@@ -12,6 +12,7 @@ import Projects from '../components/projects/Projects.vue'
 import ProjectsQuery from '../components/projects/ProjectsQuery.vue'
 import ProjectsManage from '../components/projects/ProjectsManage.vue'
 import RoleEdit from '../components/Authorization/RoleEdit.vue'
+import AssignRole from '../components/Authorization/AssignRole.vue'
 
 Vue.use(VueRouter)
 axios.defaults.baseURL = 'http://localhost:8080/'
@@ -43,7 +44,8 @@ const routes = [
           { path: '/projects/manage', component: ProjectsManage }
         ]
       },
-      { path: '/roleEdit', component: RoleEdit }
+      { path: '/roleEdit', component: RoleEdit },
+      { path: '/assignRole', component: AssignRole }
     ]
   }
 ]

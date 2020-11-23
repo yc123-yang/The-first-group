@@ -124,7 +124,7 @@ const menulist = [{
   }, {
     id: 272,
     name: '分配角色',
-    path: 'userRole',
+    path: 'assignRole',
     children: [{ id: 3712, name: '分配角色', path: null }]
   }]
 }, {
@@ -256,6 +256,14 @@ const ctList = Mock.mock({
     'ct_name|+1': ['结题形式1', '结题形式2', '结题形式3', '结题形式4', '结题形式5']
   }]
 })
+// 角色列表
+const roleList = Mock.mock({
+  'list|5': [{
+    'role_id|+1': 1,
+    'role_name|+1': ['角色1', '角色2', '角色3', '角色4', '角色5'],
+    role_discribe: '@string(20)'
+  }]
+})
 
 
 if( flag ){
@@ -346,11 +354,7 @@ if( flag ){
   Mock.mock('http://localhost:8080/getrolelist', 'post', {
     status: '0',
     msg: '获取角色列表成功',
-    'data|5': [{
-      'role_id|+1': 1,
-      role_name: '@cname',
-      role_discribe: '@string(20)'
-    }]
+    data: roleList.list
   })
   // 根绝角色id获取树状权限
   Mock.mock('http://localhost:8080/getAuthlistById', 'post', {
@@ -364,5 +368,36 @@ if( flag ){
     msg: '修改角色权限成功',
     data: null
   })
+  // 响应用户-角色列表请求
+  Mock.mock('http://localhost:8080/getUserRoleList', 'post', {
+    status: '0',
+    msg: '请求用户-角色列表成功',
+    'data|5': [{
+      'user_id|+1': 1,
+      user_act: '@string(10)',
+      user_name: '@cname',
+      role_id: 1,
+      role_name: roleList.list[0].role_name
+    }]
+  })
+  // 根据用户id获取角色及部分用户信息
+  Mock.mock('http://localhost:8080/getUserRoleById', 'post', {
+    status: '0',
+    msg: '获取用户角色数据成功',
+    data: {
+      'user_id|1-5': 1,
+      user_act: '@string(10)',
+      user_name: '@cname',
+      role_id: 1,
+      role_name: '角色1'
+    }
+  })
+  // 设置用户角色
+  Mock.mock('http://localhost:8080/setRole', 'post', {
+    status: '0',
+    msg: '修改用户角色成功',
+    data: null
+  })
+
 }
   

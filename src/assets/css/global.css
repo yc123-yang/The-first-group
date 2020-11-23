@@ -36,3 +36,16 @@ p, label {
 .el-table__body tr:hover > td{
   background-color:#0084ff11 !important;
 }
+
+.dialog {
+  font-size: 0;
+}
+.dialog label {
+  width: 90px;
+  color: #99a9bf;
+}
+.dialog .el-form-item {
+  margin-right: 0;
+  margin-bottom: 0;
+  /* width: 50%; */
+}
