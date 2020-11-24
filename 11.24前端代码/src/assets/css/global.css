@@ -1,0 +1,38 @@
+/* 全局样式表 */
+html, body, #app {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+p, label {
+  color: #333333;
+}
+
+.el-breadcrumb{
+  margin-bottom: 15px;
+  font-size: 12px;
+}
+
+.el-card{
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15) !important;
+  margin-top: 15px !important;
+}
+
+.el-pagination {
+  margin-top: 15px;
+}
+
+.columnInput {
+  width: 100%;
+  line-height: 24px;
+  margin-top: 10px;
+}
+
+.el-menu--horizontal>.el-menu-item{
+  height: 40px;
+  line-height: 40px;
+}
+
+.el-table__body tr:hover > td{
+  background-color:#0084ff11 !important;
+}
