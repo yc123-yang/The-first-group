@@ -87,7 +87,9 @@ export default {
       // 角色列表
       roleList: [],
       // 用户角色表单对象
-      userRoleInfo: {}
+      userRoleInfo: {},
+      // 角色id名称转换object
+      roleObj: {}
     }
   },
   created() {
@@ -96,16 +98,23 @@ export default {
   methods: {
     // 获取用户-角色列表
     async getUserRoleList() {
-      const { data: res } = await this.$http.post("/getUserRoleList", this.userInfo)
+      const { data: res0 } = await this.$http.post('/role/findAllRole')
+      this.roleList = res0.data
+      this.roleList.forEach(item => this.roleObj[item.role_id] = item.role_name)
+      const { data: res } = await this.$http.post("/user/findAllUser", this.userInfo)
       this.userRoleList = res.data
+      this.userRoleList.forEach(item => item.role_name = this.roleObj[item.role_id])
+      console.log(this.userRoleList)
     },
     // 点击按钮，显示分配角色对话框
     async showAssignRoleDialog(userRole){
       this.userRoleInfo = userRole
-      const { data: res } = await this.$http.post('/getrolelist')
+      const { data: res } = await this.$http.post('/role/findAllRole')
       this.roleList = res.data
-      const { data: res2 } = await this.$http.post('/getUserRoleById', userRole.user_id)
+      this.userRoleInfo = userRole
+      const { data: res2 } = await this.$http.post('/user/findUserById', this.$qs.stringify({ user_id: this.userRoleInfo.user_id }))
       this.userRoleInfo = res2.data
+      console.log(res2)
       this.AssignRoleDialogVisible = true
     },
     async assignRole() {
@@ -116,11 +125,11 @@ export default {
       }).catch(err => err)
       if(res === 'cancel') return this.$message.info('取消了本次操作')
       // 更改用户角色
-      const { data: res1 } = await this.$http.post('/setRole', {
+      const { data: res1 } = await this.$http.post('/user/updateUserRole', this.$qs.stringify({
         user_id: this.userRoleInfo.user_id,
         role_id: this.userRoleInfo.role_id
-      })
-      if(res1.status !== '0') return this.$message.error('修改用户角色失败')
+      }))
+      if(res1.status !== '200') return this.$message.error('修改用户角色失败')
       this.$message.success('修改用户角色成功')
       this.getUserRoleList()
       this.AssignRoleDialogVisible = false

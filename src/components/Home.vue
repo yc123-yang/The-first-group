@@ -23,13 +23,13 @@
                 <!-- 图标 -->
                 <i :class="iconsObj[item.id]"></i>
                 <!-- 文本 -->
-                <span>{{ item.name }}</span>
+                <span>{{ item.title }}</span>
               </template>
-              <el-menu-item v-for="subItem in item.children" :index="'/' + subItem.path" :key="subItem.id"
-                @click="saveNavState('/'+subItem.path)">
+              <el-menu-item v-for="subItem in item.childrenPermissions" :index="subItem.resourcePath" :key="subItem.id"
+                @click="saveNavState(subItem.resourcePath)">
                 <template slot="title">
                   <i class="el-icon-menu"></i>
-                  <span>{{subItem.name}}</span>
+                  <span>{{subItem.title}}</span>
                 </template>
               </el-menu-item>
             </el-submenu>
@@ -52,14 +52,14 @@ export default {
       menulist: [],
       // 图标转换对象
       iconsObj: {
-        101: 'el-icon-tickets',
-        102: 'el-icon-s-opportunity',
-        103: 'el-icon-money',
-        104: 'el-icon-s-data',
-        105: 'el-icon-s-comment',
-        106: 'el-icon-user-solid',
-        107: 'el-icon-circle-check',
-        108: 'el-icon-document'
+        1: 'el-icon-tickets',
+        2: 'el-icon-s-opportunity',
+        3: 'el-icon-money',
+        4: 'el-icon-s-data',
+        5: 'el-icon-s-comment',
+        35: 'el-icon-user-solid',
+        36: 'el-icon-circle-check',
+        37: 'el-icon-document'
       },
       // 是否折叠菜单
       isCollapse: false,
@@ -78,8 +78,11 @@ export default {
       this.$router.push('/login')
     },
     async getMenuList() {
-      const { data: res } = await this.$http.post('/getmenulist')
+      const { data: res } = await this.$http.post('/user/getUserMenu')
+      console.log(res)
+      res.data.sort((a,b) => ((a.id < b.id) ? -1 : (a.id > b.id) ? 1 : 0))
       this.menulist = res.data
+      this.menulist.sort((a, b) => ((a.id < b.id) ? -1 : (a.id > b.id) ? 1 : 0))
     },
     saveNavState (activeNav) {
       window.sessionStorage.setItem('activeNav', activeNav)

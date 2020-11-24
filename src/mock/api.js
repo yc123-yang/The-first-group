@@ -1,141 +1,141 @@
 import Mock from 'mockjs'
-var flag = true
+var flag = false
 
 // 菜单列表+权限列表
 const menulist = [{
-  id: 101,
-  name: '科研项目',
-  path: null,
-  children: [{
-    id: 211,
-    name: '科研项目',
-    path: 'projects',
-    children: [
-      { id: 3111, name: '查看科研项目', path: 'projects/query' },
-      { id: 3112, name: '管理科研项目', path: 'projects/manage' }
+  id: 1,
+  title: '科研项目',
+  resourcePath: 0,
+  childrenPermissions: [{
+    id: 6,
+    title: '科研项目',
+    resourcePath: 'projects',
+    childrenPermissions: [
+        { id: 18, title: '查看科研项目', resourcePath: 'projects/query' },
+        { id: 19, title: '管理科研项目', resourcePath: 'projects/manage' }
+      ]
+    }]
+  }, {
+    id: 2,
+    title: '科研成果',
+    resourcePath: 0,
+    childrenPermissions: [{
+      id: 7,
+      title: '论文成果',
+      resourcePath: 'papers',
+      childrenPermissions: [
+        { id: 20, title: '查看论文成果', resourcePath: 'papers/query' },
+        { id: 21, title: '管理论文成果', resourcePath: 'papers/manage' }
+      ]
+    }, {
+    id: 8,
+    title: '著作成果',
+    resourcePath: 'books',
+    childrenPermissions: [
+      { id: 22, title: '查看著作成果', resourcePath: 'books/query' },
+      { id: 23, title: '管理著作成果', resourcePath: 'books/manage' }
+    ]
+  }, {
+    id: 9,
+    title: '科研成果获奖',
+    resourcePath: 'awards',
+    childrenPermissions: [
+      { id: 24, title: '查看成果获奖', resourcePath: 'awards/query' },
+      { id: 25, title: '管理成果获奖', resourcePath: 'awards/manage' }
+    ]
+  }, {
+    id: 10,
+    title: '专利与产品',
+    resourcePath: 'patents',
+    childrenPermissions: [
+      { id: 26, title: '查看专利产品', resourcePath: 'patents/query' },
+      { id: 27, title: '管理专利产品', resourcePath: 'patents/manage' }
     ]
   }]
 }, {
-  id: 102,
-  name: '科研成果',
-  path: null,
-  children: [{
-    id: 221,
-    name: '论文成果',
-    path: 'papers',
-    children: [
-      { id: 3211, name: '查看论文成果', path: 'papers/query' },
-      { id: 3212, name: '管理论文成果', path: 'papers/manage' }
-    ]
-  }, {
-    id: 222,
-    name: '著作成果',
-    path: 'books',
-    children: [
-      { id: 3221, name: '查看著作成果', path: 'books/query' },
-      { id: 3222, name: '管理著作成果', path: 'books/manage' }
-    ]
-  }, {
-    id: 223,
-    name: '科研成果获奖',
-    path: 'awards',
-    children: [
-      { id: 3231, name: '查看成果获奖', path: 'awards/query' },
-      { id: 3232, name: '管理成果获奖', path: 'awards/manage' }
-    ]
-  }, {
-    id: 224,
-    name: '专利与产品',
-    path: 'patents',
-    children: [
-      { id: 3241, name: '查看专利产品', path: 'patents/query' },
-      { id: 3242, name: '管理专利产品', path: 'patents/manage' }
-    ]
+  id: 3,
+  title: '项目经费',
+  resourcePath: 0,
+  childrenPermissions: [{
+    id: 11,
+    title: '管理项目经费',
+    resourcePath: 'funding',
+    childrenPermissions: [{ id: 28, title: '管理项目经费', resourcePath: 0 }]
   }]
 }, {
-  id: 103,
-  name: '项目经费',
-  path: null,
-  children: [{
-    id: 231,
-    name: '管理项目经费',
-    path: 'funding',
-    children: [{ id: 3311, name: '管理项目经费', path: null }]
+  id: 4,
+  title: '科研考核',
+  resourcePath: 0,
+  childrenPermissions: [{
+    id: 12,
+    title: '考核结果',
+    resourcePath: 'assess',
+    childrenPermissions: [{ id: 29, title: '查看考核结果', resourcePath: 0 }]
   }]
 }, {
-  id: 104,
-  name: '科研考核',
-  path: null,
-  children: [{
-    id: 241,
-    name: '考核结果',
-    path: 'assess',
-    children: [{ id: 3411, name: '查看考核结果', path: null }]
+  id: 5,
+  title: '审核申请',
+  resourcePath: 0,
+  childrenPermissions: [{
+    id: 13,
+    title: '审核项目申请',
+    resourcePath: 'checkproject',
+    childrenPermissions: [{ id: 30, title: '审核项目申请', resourcePath: 0 }]
+  }, {
+    id: 14,
+    title: '审核论文成果申请',
+    resourcePath: 'checkpapers',
+    childrenPermissions: [{ id: 31, title: '审核论文成果申请', resourcePath: 0 }]
+  }, {
+    id: 15,
+    title: '审核著作成果申请',
+    resourcePath: 'checkbooks',
+    childrenPermissions: [{ id: 32, title: '审核著作成果申请', resourcePath: 0 }]
+  }, {
+    id: 16,
+    title: '审核科研获奖申请',
+    resourcePath: 'checkawards',
+    childrenPermissions: [{ id: 33, title: '审核科研获奖申请', resourcePath: 0 }]
+  }, {
+    id: 17,
+    title: '审核专利产品申请',
+    resourcePath: 'checkproducts',
+    childrenPermissions: [{ id: 34, title: '审核专利产品申请', resourcePath: 0 }]
   }]
 }, {
-  id: 105,
-  name: '审核申请',
-  path: null,
-  children: [{
-    id: 251,
-    name: '审核项目申请',
-    path: 'checkproject',
-    children: [{ id: 3511, name: '审核项目申请', path: null }]
-  }, {
-    id: 252,
-    name: '审核论文成果申请',
-    path: 'checkpapers',
-    children: [{ id: 3521, name: '审核论文成果申请', path: null }]
-  }, {
-    id: 253,
-    name: '审核著作成果申请',
-    path: 'checkbooks',
-    children: [{ id: 3531, name: '审核著作成果申请', path: null }]
-  }, {
-    id: 254,
-    name: '审核科研获奖申请',
-    path: 'checkawards',
-    children: [{ id: 3541, name: '审核科研获奖申请', path: null }]
-  }, {
-    id: 255,
-    name: '审核专利产品申请',
-    path: 'checkproducts',
-    children: [{ id: 3551, name: '审核主力产品申请', path: null }]
+  id: 35,
+  title: '用户管理',
+  resourcePath: 0,
+  childrenPermissions: [{
+    id: 38,
+    title: '编辑用户信息',
+    resourcePath: 'userEdit',
+    childrenPermissions: [{ id: 42, title: '编辑用户信息', resourcePath: 0 }]
   }]
 }, {
-  id: 106,
-  name: '用户管理',
-  path: null,
-  children: [{
-    id: 261,
-    name: '编辑用户信息',
-    path: 'userEdit',
-    children: [{ id: 3611, name: '编辑用户信息', path: null }]
-  }]
-}, {
-  id: 107,
-  name: '权限管理',
-  path: null,
-  children: [{
-    id: 271,
-    name: '管理角色',
-    path: 'roleEdit',
-    children: [{ id: 3711, name: '管理角色', path: null }]
+  id: 36,
+  title: '权限管理',
+  resourcePath: 0,
+  childrenPermissions: [{
+    id: 39,
+    title: '管理角色',
+    resourcePath: 'roleEdit',
+    childrenPermissions: [{ id: 43, title: '管理角色', resourcePath: 0 }]
   }, {
-    id: 272,
-    name: '分配角色',
-    path: 'assignRole',
-    children: [{ id: 3712, name: '分配角色', path: null }]
+    id: 40,
+    title: '分配角色',
+    resourcePath: 'assignRole',
+    childrenPermissions: [{ id: 44, title: '分配角色', resourcePath: 0 }]
   }]
 }, {
-  id: 108,
-  name: '数据管理',
-  path: null,
-  children: [{
-    id: 281,
-    name: '管理字典数据',
-    path: 'data',
-    children: [{ id: 3811, name: '管理字典数据', path: null }]
+  id: 37,
+  title: '数据管理',
+  resourcePath: 0,
+  childrenPermissions: [{
+    id: 41,
+    title: '管理字典数据',
+    resourcePath: 'data',
+    childrenPermissions: [{ id: 45, title: '管理字典数据', resourcePath: 0 }]
   }]
 }]
 // 部分权限（测试用）

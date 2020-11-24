@@ -9,8 +9,11 @@
     <!-- 卡片视图 -->
     <el-card>
       <el-menu mode="horizontal" active-text-color="#409EFF" :default-active="activeTab" router>
-        <el-menu-item index="/awards/query">查询获奖成果</el-menu-item>
-        <el-menu-item index="/awards/manage">管理获奖成果</el-menu-item>
+        <el-menu-item v-for="item in tabList" :index="item.auth_resource" :key="item.auth_id">
+          <template slot="title">
+            <span>{{item.auth_name}}</span>
+          </template>
+        </el-menu-item>
       </el-menu>
       <router-view></router-view>
     </el-card>
@@ -22,12 +25,19 @@ export default {
   data() {
     return {
       activeTab: "/awards/query",
+      tabList: []
     };
   },
   created() {
     this.activeTab = window.sessionStorage.getItem("activeTab");
+    this.getTabList()
   },
-  methods: {},
+  methods: {
+    async getTabList() {
+      const { data: res } = await this.$http.post('/auth/findAuthByPid', this.$qs.stringify({ auth_pid: 9 }))
+      this.tabList = res.data
+    }
+  },
 };
 </script>
 

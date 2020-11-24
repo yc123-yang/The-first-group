@@ -52,10 +52,10 @@ export default {
         const { data: res } = await this.$http.post('user/login', this.$qs.stringify(this.loginForm))
         console.log(res)
         // 如果登录失败，显示失败信息
-        if (res.status !== '0') return this.$message.error(res.msg)
+        if (res.status !== '200') return this.$message.error(res.msg)
         // 登录成功，跳转到主页
         this.$message.success(res.msg)
-        window.sessionStorage.setItem('token', res.data[0].userData.token)
+        window.sessionStorage.setItem('token', res.data.token)
         this.$router.push('/home')
       })
     },

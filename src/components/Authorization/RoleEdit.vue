@@ -25,7 +25,7 @@
     </el-card>
 
     <!-- 编辑权限对话框 -->
-    <el-dialog title="修改角色权限" :visible.sync="AuthorEditDialogVisible" width="50%">
+    <el-dialog title="修改角色权限" :visible.sync="AuthorEditDialogVisible" width="50%" @closed="resetAuthTree">
       <el-tree :data="allAuthList" show-checkbox :props="authTreeProps" default-expand-all ref="authTree"
         node-key="id" :default-checked-keys="checkedKeys">
       </el-tree>
@@ -51,11 +51,146 @@ export default {
       // 角色权限列表，树形
       authList: [],
       // 所有权限列表，树形
-      allAuthList: [],
+      allAuthList: [{
+        id: 1,
+        title: '科研项目',
+        resourcePath: 0,
+        childrenPermissions: [{
+          id: 6,
+          title: '科研项目',
+          resourcePath: 'projects',
+          childrenPermissions: [
+              { id: 18, title: '查看科研项目', resourcePath: 'projects/query' },
+              { id: 19, title: '管理科研项目', resourcePath: 'projects/manage' }
+            ]
+          }]
+        }, {
+          id: 2,
+          title: '科研成果',
+          resourcePath: 0,
+          childrenPermissions: [{
+            id: 7,
+            title: '论文成果',
+            resourcePath: 'papers',
+            childrenPermissions: [
+              { id: 20, title: '查看论文成果', resourcePath: 'papers/query' },
+              { id: 21, title: '管理论文成果', resourcePath: 'papers/manage' }
+            ]
+          }, {
+          id: 8,
+          title: '著作成果',
+          resourcePath: 'books',
+          childrenPermissions: [
+            { id: 22, title: '查看著作成果', resourcePath: 'books/query' },
+            { id: 23, title: '管理著作成果', resourcePath: 'books/manage' }
+          ]
+        }, {
+          id: 9,
+          title: '科研成果获奖',
+          resourcePath: 'awards',
+          childrenPermissions: [
+            { id: 24, title: '查看成果获奖', resourcePath: 'awards/query' },
+            { id: 25, title: '管理成果获奖', resourcePath: 'awards/manage' }
+          ]
+        }, {
+          id: 10,
+          title: '专利与产品',
+          resourcePath: 'patents',
+          childrenPermissions: [
+            { id: 26, title: '查看专利产品', resourcePath: 'patents/query' },
+            { id: 27, title: '管理专利产品', resourcePath: 'patents/manage' }
+          ]
+        }]
+      }, {
+        id: 3,
+        title: '项目经费',
+        resourcePath: 0,
+        childrenPermissions: [{
+          id: 11,
+          title: '管理项目经费',
+          resourcePath: 'funding',
+          childrenPermissions: [{ id: 28, title: '管理项目经费', resourcePath: 0 }]
+        }]
+      }, {
+        id: 4,
+        title: '科研考核',
+        resourcePath: 0,
+        childrenPermissions: [{
+          id: 12,
+          title: '考核结果',
+          resourcePath: 'assess',
+          childrenPermissions: [{ id: 29, title: '查看考核结果', resourcePath: 0 }]
+        }]
+      }, {
+        id: 5,
+        title: '审核申请',
+        resourcePath: 0,
+        childrenPermissions: [{
+          id: 13,
+          title: '审核项目申请',
+          resourcePath: 'checkproject',
+          childrenPermissions: [{ id: 30, title: '审核项目申请', resourcePath: 0 }]
+        }, {
+          id: 14,
+          title: '审核论文成果申请',
+          resourcePath: 'checkpapers',
+          childrenPermissions: [{ id: 31, title: '审核论文成果申请', resourcePath: 0 }]
+        }, {
+          id: 15,
+          title: '审核著作成果申请',
+          resourcePath: 'checkbooks',
+          childrenPermissions: [{ id: 32, title: '审核著作成果申请', resourcePath: 0 }]
+        }, {
+          id: 16,
+          title: '审核科研获奖申请',
+          resourcePath: 'checkawards',
+          childrenPermissions: [{ id: 33, title: '审核科研获奖申请', resourcePath: 0 }]
+        }, {
+          id: 17,
+          title: '审核专利产品申请',
+          resourcePath: 'checkproducts',
+          childrenPermissions: [{ id: 34, title: '审核专利产品申请', resourcePath: 0 }]
+        }]
+      }, {
+        id: 35,
+        title: '用户管理',
+        resourcePath: 0,
+        childrenPermissions: [{
+          id: 38,
+          title: '编辑用户信息',
+          resourcePath: 'userEdit',
+          childrenPermissions: [{ id: 42, title: '编辑用户信息', resourcePath: 0 }]
+        }]
+      }, {
+        id: 36,
+        title: '权限管理',
+        resourcePath: 0,
+        childrenPermissions: [{
+          id: 39,
+          title: '管理角色',
+          resourcePath: 'roleEdit',
+          childrenPermissions: [{ id: 43, title: '管理角色', resourcePath: 0 }]
+        }, {
+          id: 40,
+          title: '分配角色',
+          resourcePath: 'assignRole',
+          childrenPermissions: [{ id: 44, title: '分配角色', resourcePath: 0 }]
+        }]
+      }, {
+        id: 37,
+        title: '数据管理',
+        resourcePath: 0,
+        childrenPermissions: [{
+          id: 41,
+          title: '管理字典数据',
+          resourcePath: 'data',
+          childrenPermissions: [{ id: 45, title: '管理字典数据', resourcePath: 0 }]
+        }]
+      }],
       // 权限编辑树形控件属性对象
       authTreeProps: {
-        children: 'children',
-        label: 'name'
+        children: 'childrenPermissions',
+        label: 'title'
       },
       // 权限树中默认勾选的项
       checkedKeys: []
@@ -67,22 +202,22 @@ export default {
   methods: {
     // 获取角色列表
     async getRoleList() {
-      const { data: res } = await this.$http.post('/getrolelist')
+      const { data: res } = await this.$http.post('/role/findAllRole')
       if( res.status !== '0' ) return this.$message.error('获取角色列表失败')
       this.roleList = res.data
     },
     // 点击按钮，显示修改角色权限对话框
     async showAuthorEditDialog(role) {
-      const { data: res } = await this.$http.post('/getAuthlistById', role.role_id)
+      const { data: res } = await this.$http.post('/user/queryPermissionByRoleId', this.$qs.stringify({ role_id: role.role_id}))
       this.authList = res.data
-      const { data: res2 } = await this.$http.post('/getmenulist');
-      this.allAuthList = res2.data
+      // 获取全部权限数据
+      this.allAuthList = this.allAuthList
       this.roleInfo = role
       // 将该角色拥有的权限id读入checkedKeys列表中
       this.checkedKeys = []
       this.authList.forEach(item => {
-        item.children.forEach(item2 => {
-          item2.children.forEach(item3 => this.checkedKeys.push(item3.id) )
+        item.childrenPermissions.forEach(item2 => {
+          item2.childrenPermissions.forEach(item3 => this.checkedKeys.push(item3.id) )
         })
       })
       this.AuthorEditDialogVisible = true
@@ -98,16 +233,18 @@ export default {
       // 更改角色权限
       var alist = this.$refs.authTree.getCheckedKeys()
       this.$refs.authTree.getHalfCheckedKeys().forEach(item => alist.push(item))
-      console.log(alist)
-      const { data: res1 } = await this.$http.post('/role/editAuthById', {
-        role_id: val,
-        authList: alist
-      })
+      var postForm = { role_id: val, authList: alist }
+      console.log(postForm)
+      const { data: res1 } = await this.$http.get('/roleAuth/updateAuth?role_id='+val+"&authList="+alist)
       console.log(res1)
-      if( res1.status !== '0' ) return this.$message.error('修改角色权限失败')
+      if( res1.status !== '200' ) return this.$message.error('修改角色权限失败')
       this.$message.success('修改角色权限成功')
       this.getRoleList()
       this.AuthorEditDialogVisible = false
+    },
+    // 重置权限树
+    resetAuthTree() {
+      this.$refs.authTree.setCheckedKeys([])
     }
   }  
 }
