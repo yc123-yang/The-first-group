@@ -3,9 +3,14 @@ html, body, #app {
   height: 100%;
   margin: 0;
   padding: 0;
+  min-width: 1366px;
 }
 p, label {
   color: #333333;
+}
+* {
+  margin: 0;
+  padding: 0;
 }
 
 .el-breadcrumb{
@@ -48,4 +53,7 @@ p, label {
   margin-right: 0;
   margin-bottom: 0;
   /* width: 50%; */
+}
+.el-dialog {
+  min-width: 800px;
 }

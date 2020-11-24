@@ -29,8 +29,10 @@ import {
   TabPane,
   Tree,
   MessageBox,
+  Tag
 } from 'element-ui'
 
+Vue.use(Tag)
 Vue.use(Tree)
 Vue.use(TabPane)
 Vue.use(Tabs)

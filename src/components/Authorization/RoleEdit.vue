@@ -16,24 +16,59 @@
         <el-table-column prop="role_discribe" label="角色描述"></el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button type="primary" icon="el-icon-edit" size="mini"></el-button>
-            <el-button type="warning" icon="el-icon-setting" size="mini" @click="showAuthorEditDialog(scope.row)"></el-button>
-            <el-button type="danger" icon="el-icon-delete" size="mini"></el-button>
+            <el-button type="primary" icon="el-icon-edit" size="mini">编辑</el-button>
+            <el-button type="warning" icon="el-icon-setting" size="mini" @click="showAuthorEditDialog(scope.row)">修改权限</el-button>
+            <el-button type="danger" icon="el-icon-delete" size="mini">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
     </el-card>
 
     <!-- 编辑权限对话框 -->
-    <el-dialog title="修改角色权限" :visible.sync="AuthorEditDialogVisible" width="50%" @closed="resetAuthTree">
-      <el-tree :data="allAuthList" show-checkbox :props="authTreeProps" default-expand-all ref="authTree"
-        node-key="id" :default-checked-keys="checkedKeys">
-      </el-tree>
+    <el-dialog title="修改角色权限" :visible.sync="AuthorEditDialogVisible" width="70%" @closed="resetAuthTree">
+        <el-row :gutter="10">
+          <el-col :span="8">
+            <el-card style="max-height: 105vh; overflow: auto;">
+              <el-tree :data="allAuthList" show-checkbox :props="authTreeProps" default-expand-all ref="authTree"
+                node-key="id" :default-checked-keys="checkedKeys" @check="selectionChange">
+              </el-tree>
+            </el-card>
+          </el-col>
+          <el-col :span="16">
+            <el-card  style="height: 105vh;">
+              <el-row v-for="item in allAuthList" v-if="showTag(item.id)" :key="item.id" class="borderBottom vcenter">
+                <el-col :span="5">
+                  <el-tag type="warning">{{item.title}}</el-tag>
+                  <i class="el-icon-caret-right"></i>
+                </el-col>
+                <el-col :span="19">
+                  <el-row v-for="item2 in item.childrenPermissions" v-if="showTag(item2.id)" :key="item2.id" class="vcenter">
+                    <el-col :span="6">
+                      <el-tag type="success">{{item2.title}}</el-tag>
+                      
+                    </el-col>
+                    <el-col :span="3">
+                      <i class="el-icon-caret-right"></i>
+                    </el-col>
+                    <el-col :span="15">
+                      <el-tag v-for="item3 in item2.childrenPermissions" v-if="showTag(item3.id)" :key="item3.id">
+                        {{item3.title}}
+                      </el-tag>
+                    </el-col>
+                  </el-row>
+                </el-col>
+              </el-row>
+            </el-card>
+          </el-col>
+        </el-row>
+        
+        
+        
 
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="AuthorEditDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="editAuthor(roleInfo.role_id)">确 定</el-button>
-      </span>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="AuthorEditDialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="editAuthor(roleInfo.role_id)">确 定</el-button>
+        </span>
     </el-dialog>
   </div>
 </template>
@@ -50,6 +85,8 @@ export default {
       roleInfo: {},
       // 角色权限列表，树形
       authList: [],
+      // 角色权限id列表，列表
+      authArr: [],
       // 所有权限列表，树形
       allAuthList: [{
         id: 1,
@@ -215,9 +252,15 @@ export default {
       this.roleInfo = role
       // 将该角色拥有的权限id读入checkedKeys列表中
       this.checkedKeys = []
+      this.authArr = []
       this.authList.forEach(item => {
+        this.authArr.push(item.id)
         item.childrenPermissions.forEach(item2 => {
-          item2.childrenPermissions.forEach(item3 => this.checkedKeys.push(item3.id) )
+          this.authArr.push(item2.id)
+          item2.childrenPermissions.forEach(item3 => {
+            this.checkedKeys.push(item3.id)
+            this.authArr.push(item3.id)
+          })
         })
       })
       this.AuthorEditDialogVisible = true
@@ -245,11 +288,29 @@ export default {
     // 重置权限树
     resetAuthTree() {
       this.$refs.authTree.setCheckedKeys([])
+    },
+    // 判断标签是否出现
+    showTag(authId) {
+      return this.authArr.indexOf(authId) > -1
+    },
+    // 复选框选中状态变化
+    selectionChange() {
+      this.authArr = this.$refs.authTree.getHalfCheckedKeys()
+      this.$refs.authTree.getCheckedKeys().forEach(item => this.authArr.push(item))
     }
   }  
 }
 </script>
 
 <style lang="less" scoped>
-
+.el-tag{
+  margin: 7px;
+}
+.borderBottom{
+  border-bottom: 1px solid #eee;
+}
+.vcenter{
+  display: flex;
+  align-items: center;
+}
 </style>
