@@ -25,16 +25,19 @@ public class AwardController {
         rs = awardService.addAward(award);
         return rs;
     }
+
     @PostMapping("/award/selectAwardByCondition")
     public Result selectAwardByCondition(Award award, String award_time_start, String award_time_end, Integer pageSize, Integer pageNum) throws ParseException {
-        rs =awardService.selectAwardByCondition(award, award_time_start, award_time_end, pageSize, pageNum);
+        rs = awardService.selectAwardByCondition(award, award_time_start, award_time_end, pageSize, pageNum);
         return rs;
     }
+
     @PostMapping("/award/updateAward")
     public Result updateAward(Award award) {
         rs = awardService.updateAward(award);
         return rs;
     }
+
     @PostMapping("/award/delAward")
     public Result delAward(Integer award_id) {
         rs = awardService.delAward(award_id);

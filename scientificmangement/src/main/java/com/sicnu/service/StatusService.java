@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface StatusService {
     Result addStatus(String status_name);
+
     Result delStatus(Integer status_id);
+
     Result findAllStatus();
 }

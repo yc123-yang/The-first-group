@@ -11,9 +11,15 @@ import java.util.List;
 @Mapper
 public interface AuthMapper {
     void addAuth(String auth_name);
+
     void delAuth(Integer auth_id);
+
     List<Auth> findAllAuth();
+
     Auth selectAuthByName(String auth_name);
+
     List<Auth> getAuth(Integer role_id);
+
+    List<Auth> findAuthByPid(Integer user_id, Integer auth_pid);
 }
 

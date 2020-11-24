@@ -19,14 +19,15 @@ public class LevelController {
 
     @PostMapping("/level/addLevel")
     public Result addLevel(String level_name) {
-        rs =levelService.addLevel(level_name);
+        rs = levelService.addLevel(level_name);
         return rs;
     }
 
     @PostMapping("/level/delLevel")
     public Result delLevel(Integer level_id) {
 
-        rs = levelService.delLevel(level_id);;
+        rs = levelService.delLevel(level_id);
+        ;
         return rs;
     }
 

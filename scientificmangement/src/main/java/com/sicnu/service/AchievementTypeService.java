@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface AchievementTypeService {
     Result addAchievementType(String at_name);
+
     Result delAchievementType(Integer at_id);
+
     Result findAllAchievementType();
 }

@@ -17,6 +17,7 @@ public class StatusController {
     @Resource
     StatusServiceImpl statusService;
     private Result rs;
+
     @PostMapping("/status/addStatus")
     public Result addStatus(String status_name) {
 
@@ -27,7 +28,7 @@ public class StatusController {
 
     @PostMapping("/status/delStatus")
     public Result delStatus(Integer status_id) {
-        rs =statusService.delStatus(status_id);
+        rs = statusService.delStatus(status_id);
         return rs;
     }
 

@@ -9,7 +9,7 @@
         select * from user where
         user_act = #{user_act}
     </select>
-	<select id="findByUserName" parameterType="string" resultType="User">
+    <select id="findByUserName" parameterType="string" resultType="User">
         select * from user where
         user_name = #{user_name}
     </select>
@@ -17,50 +17,76 @@
         select * from user
     </select>
 
-	<select id="findUserById" parameterType="int" resultType="User">
- 		select * from user where
- 		user_id=#{user_id}
- 	</select>
-    <insert id="addUser" parameterType="User" >
-		insert into user
-		(user_act,
-		user_pwd,
-		user_name,
-		user_email,
-		user_number,
-		user_id_number,
-		user_state,
-		department_id,
-		role_id,
-		salt
-		)
-		values
-		(#{user_act},
-		#{user_pwd},
-		#{user_name},
-		#{user_email},
-		#{user_number},
-		#{user_id_number},
-		#{user_state},
-		#{department_id},
-		#{role_id},
-		#{salt}
-		)
-	</insert>
-    <update id="updatePwd"  parameterType="User">
- 		update user set
- 		user_pwd=#{user_pwd}
- 		where
- 		user_act=#{user_act} and
- 		user_email=#{user_email} and
- 		user_number=#{user_number} and
- 		user_id_number=#{user_id_number}
- 	</update>
-	<update id="changeStatus" parameterType="User">
- 		update user set user_state=#{user_state}
- 		where user_id=#{user_id}
- 	</update>
-	<select id="selectUserId" parameterType="string" resultType="int">
-		select user_id from user where user_email = #{user_email}
-	</select>
+    <select id="findUserById" parameterType="int" resultType="User">
+        select * from user where
+        user_id=#{user_id}
+    </select>
+    <insert id="addUser" parameterType="User">
+        insert into user
+        (user_act,
+        user_pwd,
+        user_name,
+        user_email,
+        user_number,
+        user_id_number,
+        user_state,
+        department_id,
+        role_id,
+        salt
+        )
+        values
+        (#{user_act},
+        #{user_pwd},
+        #{user_name},
+        #{user_email},
+        #{user_number},
+        #{user_id_number},
+        #{user_state},
+        #{department_id},
+        #{role_id},
+        #{salt}
+        )
+    </insert>
+    <update id="updatePwd" parameterType="User">
+        update user set
+        user_pwd=#{user_pwd}
+        where
+        user_act=#{user_act} and
+        user_email=#{user_email} and
+        user_number=#{user_number} and
+        user_id_number=#{user_id_number}
+    </update>
+    <update id="changeStatus" parameterType="User">
+        update user set user_state=#{user_state}
+        where user_id=#{user_id}
+    </update>
+    <select id="selectUserId" parameterType="string" resultType="int">
+        select user_id from user where user_email = #{user_email}
+    </select>
+    <select id="queryPermissionByUserId" parameterType="int" resultType="Permission">
+        select auth.auth_id id, auth_pid pid, auth_name title, auth_resource resourcePath, open isOpen
+        from user, role_auth, auth
+        where user_id = #{user_id}
+        and user.role_id = role_auth.role_id
+        and auth.auth_id = role_auth.auth_id
+        and auth.open = 1
+    </select>
+    <select id="queryPermissionByRoleId" parameterType="int" resultType="Permission">
+        select auth.auth_id id, auth_pid pid, auth_name title, auth_resource resourcePath, open isOpen
+        from role, role_auth, auth
+        where role.role_id = #{role_id}
+        and role.role_id = role_auth.role_id
+        and auth.auth_id = role_auth.auth_id
+        and auth.open = 1
+    </select>
+    <select id="queryAllPermission" parameterType="int" resultType="Permission">
+        select auth.auth_id id, auth_pid pid, auth_name title, auth_resource resourcePath, open isOpen
+        from auth
+    </select>
+    <update id="updateUserRole" parameterType="User">
+        update user set
+        role_id = #{role_id}
+        where
+        user_id = #{user_id}
+    </update>
 </mapper>

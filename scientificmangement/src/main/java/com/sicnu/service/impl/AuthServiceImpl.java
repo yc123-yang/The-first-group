@@ -24,11 +24,11 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public Result addAuth(String auth_name) {
         Auth auth = authMapper.selectAuthByName(auth_name);
-        if (auth==null){
+        if (auth == null) {
             authMapper.addAuth(auth_name);
-            rs = new Result("0","添加权限成功",null);
-        }else {
-            rs = new Result("1","该权限已存在",null);
+            rs = new Result("0", "添加权限成功", null);
+        } else {
+            rs = new Result("1", "该权限已存在", null);
         }
         return rs;
     }
@@ -36,13 +36,13 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public Result delAuth(Integer auth_id) {
         authMapper.delAuth(auth_id);
-        return rs = new Result("0","删除成功",null);
+        return rs = new Result("0", "删除成功", null);
     }
 
     @Override
     public Result findAllAuth() {
         List<Auth> auths = authMapper.findAllAuth();
-        rs = new Result("0",null,auths);
+        rs = new Result("0", null, auths);
         return rs;
     }
 
@@ -51,9 +51,15 @@ public class AuthServiceImpl implements AuthService {
         List<Auth> auths = authMapper.getAuth(role_id);
         List<Object> authList = new ArrayList<>();
         for (Auth auth : auths) {
-            authList.add(auth.getAuth_name());
+            authList.add(auth.getAuth_resource());
         }
         return authList;
+    }
+
+    @Override
+    public Result findAuthByPid(Integer user_id, Integer auth_pid) {
+        List<Auth> auths = authMapper.findAuthByPid(user_id, auth_pid);
+        return rs = new Result("200", "查找成功", auths);
     }
 
 }

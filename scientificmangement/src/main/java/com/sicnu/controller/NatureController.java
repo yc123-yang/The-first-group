@@ -32,7 +32,7 @@ public class NatureController {
 
     @PostMapping("/nature/findAllNature")
     public Result findAllNature() {
-        rs= natureService.findAllNature();
+        rs = natureService.findAllNature();
         return rs;
     }
 }

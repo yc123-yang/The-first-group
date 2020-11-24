@@ -9,6 +9,7 @@ public class RoleAuth {
     private Integer role_id;
     private Integer auth_id;
     List<Role> roleList;
+
     public RoleAuth() {
     }
 

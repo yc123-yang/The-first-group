@@ -11,7 +11,8 @@ public class ProjectTeam {
     private Integer user_id;
     private String user_role;
 
-    private List<User> users ;
+    private List<User> users;
+
     public ProjectTeam() {
     }
 

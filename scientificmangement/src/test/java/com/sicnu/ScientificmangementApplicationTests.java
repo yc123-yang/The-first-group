@@ -40,6 +40,7 @@ public class ScientificmangementApplicationTests {
     ProjectTeamMapper teamMapper;
     @Resource
     CacheUserMapper cacheUserMapper;
+
     @Test
     public void contextLoads() throws MessagingException {
 //        List<Project> project = projectDao.findAllProject();

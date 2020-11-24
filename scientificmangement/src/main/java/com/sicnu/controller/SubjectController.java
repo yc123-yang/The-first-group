@@ -18,20 +18,20 @@ public class SubjectController {
     SubjectServiceImpl subjectService;
 
     @PostMapping("/subject/addSubject")
-    public Result addSubject(String subject_id,String subject_name,String sc_id) {
-        rs = subjectService.addSubject(subject_id,subject_name,sc_id);
+    public Result addSubject(String subject_id, String subject_name, String sc_id) {
+        rs = subjectService.addSubject(subject_id, subject_name, sc_id);
         return rs;
     }
 
     @PostMapping("/subject/delSubject")
     public Result delSubject(String subject_id) {
-        rs =  subjectService.delSubject(subject_id);
+        rs = subjectService.delSubject(subject_id);
         return rs;
     }
 
     @PostMapping("/subject/findAllSubject")
     public Result findAllSubject() {
-        rs =subjectService.findAllSubject() ;
+        rs = subjectService.findAllSubject();
         return rs;
     }
 

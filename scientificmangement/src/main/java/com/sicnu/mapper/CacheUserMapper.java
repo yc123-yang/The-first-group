@@ -11,6 +11,8 @@ import java.util.List;
 public interface CacheUserMapper {
 
     void addCacheUser(CacheUser cacheUser);
+
     List<CacheUser> findAllCacheUser();
+
     void delCacheUser();
 }

@@ -11,7 +11,10 @@ import java.util.List;
 @Mapper
 public interface NatureMapper {
     void addNature(String nature_name);
+
     void delNature(Integer nature_id);
+
     Nature selectNatureByName(String nature_name);
+
     List<Nature> findAllNature();
 }

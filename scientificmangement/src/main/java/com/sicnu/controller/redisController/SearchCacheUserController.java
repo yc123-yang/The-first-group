@@ -15,8 +15,9 @@ import java.util.List;
 public class SearchCacheUserController {
     @Resource
     SearchCacheUser searchCacheUser;
+
     @PostMapping("/searchCacheUser")
-    public List searchCacheUser(){
+    public List searchCacheUser() {
         List list = searchCacheUser.searchCacheUser();
         System.out.println(list);
         return list;

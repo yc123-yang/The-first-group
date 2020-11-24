@@ -24,18 +24,18 @@ public class SearchCacheUser implements SearchCacheUserService {
     @Autowired
     CacheUserMapper cacheUserMapper;
 
-    public List searchCacheUser(){
+    public List searchCacheUser() {
         List list = new ArrayList<>();
         if (redisUtil.hasKey("cacheUserList")) {
             log.warn("从redis中获取数据.");
             list = redisList.get("cacheUserList", 0, -1);
-           } else {
+        } else {
             list = cacheUserMapper.findAllCacheUser();
             log.warn("从数据库中获取数据.");
             log.warn("将数据存入redis...");
             redisList.set("cacheUserList", list);
             log.info("成功存入redis.");
-            }
+        }
         return list;
     }
 }

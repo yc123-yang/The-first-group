@@ -9,7 +9,10 @@ import java.util.List;
 
 public interface PaperService {
     Result addPaper(Paper paper);
-    Result selectPaperByCondition(Paper paper,String publish_time_start,String publish_time_end,Integer pageNum,Integer pageSize) throws ParseException;
+
+    Result selectPaperByCondition(Paper paper, String publish_time_start, String publish_time_end, Integer pageNum, Integer pageSize) throws ParseException;
+
     Result updatePaper(Paper paper);
+
     Result delPaperById(Integer paper_id);
 }

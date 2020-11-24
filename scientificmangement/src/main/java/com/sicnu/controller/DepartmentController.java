@@ -17,10 +17,11 @@ public class DepartmentController {
     @Resource
     DepartmentServiceImpl departmentService;
     private Result rs;
+
     @PostMapping("/department/addDepartmentType")
     public Result addDepartmentType(String department_name) {
 
-        rs =departmentService.addDepartmentType(department_name);
+        rs = departmentService.addDepartmentType(department_name);
         return rs;
     }
 
@@ -32,7 +33,7 @@ public class DepartmentController {
 
     @PostMapping("/department/findAllDepartmentType")
     public Result findAllDepartmentType() {
-        rs  = departmentService.findAllDepartmentType();
+        rs = departmentService.findAllDepartmentType();
         return rs;
     }
 }

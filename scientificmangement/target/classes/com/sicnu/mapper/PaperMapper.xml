@@ -45,7 +45,7 @@
             <if test="leader_id!=null and leader_id!=''">
                 and leader_id = #{leader_id}
             </if>
-            <if test="periodical_id!=null and periodical_id!=''" >
+            <if test="periodical_id!=null and periodical_id!=''">
                 and periodical_id = #{periodical_id}
             </if>
             <if test="publish_time_start!=null and publish_time_end!=null ">
@@ -82,13 +82,13 @@
         update paper
         <trim prefix="set" suffixOverrides=",">
             <if test="paper_name!=null and paper_name!=''">
-                 paper_name = #{paper_name},
+                paper_name = #{paper_name},
             </if>
             <if test="leader_id!=null and leader_id!=''">
-                 leader_id = #{leader_id},
+                leader_id = #{leader_id},
             </if>
-            <if test="periodical_id!=null and periodical_id!=''" >
-                 periodical_id = #{periodical_id},
+            <if test="periodical_id!=null and periodical_id!=''">
+                periodical_id = #{periodical_id},
             </if>
             <if test="publish_time!=null">
                 <![CDATA[
@@ -96,19 +96,19 @@
                 ]]>
             </if>
             <if test="include_number!=null and include_number!=''">
-                 include_number = #{include_number},
+                include_number = #{include_number},
             </if>
             <if test="sc_id!=null and sc_id!=''">
-                 sc_id = #{sc_id},
+                sc_id = #{sc_id},
             </if>
             <if test="subject_id!=null and subject_id!=''">
-                 subject_id = #{subject_id},
+                subject_id = #{subject_id},
             </if>
             <if test="aod_id!=null and aod_id!=''">
-                 aod_id =#{aod_id},
+                aod_id =#{aod_id},
             </if>
             <if test="sd_id!=null and sd_id!=''">
-                 sd_id =#{sd_id},
+                sd_id =#{sd_id},
             </if>
             <if test="remark!=null  and remark!='' ">
                 remark =#{remark}

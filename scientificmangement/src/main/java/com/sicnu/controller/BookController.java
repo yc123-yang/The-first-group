@@ -27,7 +27,7 @@ public class BookController {
     }
 
     @PostMapping("/book/selectBookByCondition")
-    public Result selectBookByCondition(Book book,String publish_time_start,String publish_time_end,Integer pageSize,Integer pageNum) throws ParseException {
+    public Result selectBookByCondition(Book book, String publish_time_start, String publish_time_end, Integer pageSize, Integer pageNum) throws ParseException {
         rs = bookService.selectBookByCondition(book, publish_time_start, publish_time_end, pageSize, pageNum);
         return rs;
     }
@@ -35,7 +35,7 @@ public class BookController {
     @PostMapping("/book/delBook")
     public Result delBook(Integer book_id) {
         rs = bookService.delBook(book_id);
-        return  rs;
+        return rs;
     }
 
     @PostMapping("/book/updateBook")

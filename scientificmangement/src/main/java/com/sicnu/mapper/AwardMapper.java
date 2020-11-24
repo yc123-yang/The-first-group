@@ -11,9 +11,13 @@ import java.util.Map;
 @Repository
 public interface AwardMapper {
     void addAward(Award award);
+
     Award selectAwardByNumber(String issuing_authority);
-    List<Award> selectAwardByCondition(Map<String,Object> map);
+
+    List<Award> selectAwardByCondition(Map<String, Object> map);
+
     void updateAward(Award award);
+
     void delAward(Integer award_id);
 
 }

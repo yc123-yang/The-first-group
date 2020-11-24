@@ -10,7 +10,10 @@ import java.util.Map;
 
 public interface BookService {
     Result addBook(Book book);
-    Result selectBookByCondition(Book book,String publish_time_start,String publish_time_end,Integer pageSize,Integer pageNum) throws ParseException;
+
+    Result selectBookByCondition(Book book, String publish_time_start, String publish_time_end, Integer pageSize, Integer pageNum) throws ParseException;
+
     Result delBook(Integer book_id);
+
     Result updateBook(Integer book_id);
 }

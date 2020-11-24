@@ -15,7 +15,7 @@ public class NoPermissionException {
     @ResponseBody
     @ExceptionHandler(UnauthorizedException.class)
     public Result handleShiroException(Exception ex) {
-        Result rs =new Result("404","无操作权限",null);
+        Result rs = new Result("404", "无操作权限", null);
         return rs;
     }
 //    @ResponseBody

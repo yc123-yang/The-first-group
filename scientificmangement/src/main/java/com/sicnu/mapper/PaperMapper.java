@@ -12,8 +12,12 @@ import java.util.Map;
 @Repository
 public interface PaperMapper {
     void addPaper(Paper paper);
+
     Paper selectPaperByNumber(String include_number);
-    List<Paper> selectPaperByCondition(Map<String,Object> map);
+
+    List<Paper> selectPaperByCondition(Map<String, Object> map);
+
     void updatePaper(Paper paper);
+
     void delPaperById(Integer paper_id);
 }

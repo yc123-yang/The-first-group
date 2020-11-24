@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface NatureService {
     Result addNature(String nature_name);
+
     Result delNature(Integer nature_id);
+
     Result findAllNature();
 }

@@ -17,15 +17,16 @@ public class StatusServiceImpl implements StatusService {
     @Resource
     StatusMapper statusMapper;
     private Result rs;
+
     @Override
     public Result addStatus(String status_name) {
 
         Status status = statusMapper.selectStatusByName(status_name);
-        if (status==null){
+        if (status == null) {
             statusMapper.addStatus(status_name);
-            rs = new Result("0","添加项目状态字典成功",null);
-        }else{
-            rs = new Result("1","该项目状态字典已经存在",null);
+            rs = new Result("0", "添加项目状态字典成功", null);
+        } else {
+            rs = new Result("1", "该项目状态字典已经存在", null);
 
         }
         return rs;
@@ -34,14 +35,14 @@ public class StatusServiceImpl implements StatusService {
     @Override
     public Result delStatus(Integer status_id) {
         statusMapper.delStatus(status_id);
-        rs = new Result("0","删除项目状态成功",null);
+        rs = new Result("0", "删除项目状态成功", null);
         return rs;
     }
 
     @Override
     public Result findAllStatus() {
         List<Status> statuses = statusMapper.findAllStatus();
-        rs=new Result("0",null,statuses);
+        rs = new Result("0", null, statuses);
         return rs;
     }
 }

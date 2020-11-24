@@ -45,7 +45,7 @@
     </insert>
     <select id="selectAllReviewProject" parameterType="ReviewProject" resultType="Project">
         select * from review_project
-     </select>
+    </select>
     <delete id="delReviewProject" parameterType="ReviewProject">
         delete from review_project where
         project_id = #{project_id}
@@ -56,7 +56,7 @@
             <if test="project_id!=null and project_id!=''">
                 and project_id = #{project_id}
             </if>
-            <if test="project_name!=null and project_name!=''" >
+            <if test="project_name!=null and project_name!=''">
                 and project_name = #{project_name}
             </if>
             <if test="department_id!=null and department_id!=''">
@@ -126,7 +126,7 @@
             <if test="project_id!=null and project_id!=''">
                 and project_id = #{project_id}
             </if>
-            <if test="project_name!=null and project_name!=''" >
+            <if test="project_name!=null and project_name!=''">
                 and project_name = #{project_name}
             </if>
             <if test="department_id!=null and department_id!=''">

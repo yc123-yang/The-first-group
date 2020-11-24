@@ -12,11 +12,18 @@ import java.util.Map;
 @Mapper
 public interface ProjectMapper {
     void addProject(Project project);
-    List<Project> selectProjectByCondition(Map<String,Object> map);
+
+    List<Project> selectProjectByCondition(Map<String, Object> map);
+
     void delProject(Integer project_id);
+
     void updateProject(Project project);
-    Integer selectProjectId(Integer leader_id,String project_name);
+
+    Integer selectProjectId(Integer leader_id, String project_name);
+
     List<Project> selectTeamByPid(Integer project_Id);
-    Integer selectTotalProject(Map<String,Object> map);
+
+    Integer selectTotalProject(Map<String, Object> map);
+
     Project findProjectById(Integer project_id);
 }

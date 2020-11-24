@@ -28,7 +28,6 @@ public class ReviewProject implements Serializable {
     private Integer ct_id;
 
 
-
     public ReviewProject() {
     }
 

@@ -90,7 +90,7 @@
             <if test="project_id!=null and project_id!=''">
                 and project_id = #{project_id}
             </if>
-            <if test="project_name!=null and project_name!=''" >
+            <if test="project_name!=null and project_name!=''">
                 and project_name = #{project_name}
             </if>
             <if test="department_id!=null and department_id!=''">
@@ -168,34 +168,34 @@
                 leader_id = #{leader_id},
             </if>
             <if test="department_id!=null and department_id!=''">
-                 department_id = #{department_id},
+                department_id = #{department_id},
             </if>
             <if test="aod_id!=null and aod_id!=''">
-                 aod_id = #{aod_id},
+                aod_id = #{aod_id},
             </if>
             <if test="sc_id!=null and sc_id!=''">
-                 sc_id = #{sc_id},
+                sc_id = #{sc_id},
             </if>
             <if test="subject_id!=null and subject_id!=''">
-                 subject_id = #{subject_id},
+                subject_id = #{subject_id},
             </if>
             <if test="nature_id!=null and nature_id!=''">
-                 nature_id = #{nature_id},
+                nature_id = #{nature_id},
             </if>
             <if test="level_id!=null and level_id!=''">
-                 level_id = #{level_id},
+                level_id = #{level_id},
             </if>
             <if test="status_id!=null and status_id!=''">
-                 status_id = #{status_id},
+                status_id = #{status_id},
             </if>
             <if test="sd_id!=null and sd_id!=''">
-                 sd_id = #{sd_id},
+                sd_id = #{sd_id},
             </if>
             <if test="at_id!=null and at_id!=''">
-                 at_id = #{at_id},
+                at_id = #{at_id},
             </if>
             <if test="approval_number!=null and approval_number!=''">
-                 approval_number = #{approval_number},
+                approval_number = #{approval_number},
             </if>
             <if test="start_time!=null">
                 start_time = #{start_time},
@@ -204,13 +204,13 @@
                 plan_time =#{plan_time},
             </if>
             <if test="complete_time!=null ">
-                 complete_time = #{complete_time},
+                complete_time = #{complete_time},
             </if>
             <if test="outlay!=null and outlay!=''">
-                 outlay = #{outlay},
+                outlay = #{outlay},
             </if>
             <if test="ct_id!=null and ct_id!=''">
-                 ct_id = #{ct_id}
+                ct_id = #{ct_id}
             </if>
         </trim>
         where
@@ -226,19 +226,19 @@
 
 
     <select id="selectTeamByPid" parameterType="int" resultMap="projectTeamMap">
-    SELECT
-    u.user_name,u.department_id,u.role_id,
-    t.user_role
-    FROM
-    user u,
-    project p,
-    project_team t
-    WHERE
-    p.project_id = #{project_id}
-    and
-    p.project_id = t.project_id
-    and
-    t.user_id = u.user_id
+        SELECT
+        u.user_name,u.department_id,u.role_id,
+        t.user_role
+        FROM
+        user u,
+        project p,
+        project_team t
+        WHERE
+        p.project_id = #{project_id}
+        and
+        p.project_id = t.project_id
+        and
+        t.user_id = u.user_id
     </select>
 
     <select id="findProjectById" parameterType="Project" resultType="Project">
@@ -252,7 +252,7 @@
             <if test="project_id!=null and project_id!=''">
                 and project_id = #{project_id}
             </if>
-            <if test="project_name!=null and project_name!=''" >
+            <if test="project_name!=null and project_name!=''">
                 and project_name = #{project_name}
             </if>
             <if test="department_id!=null and department_id!=''">

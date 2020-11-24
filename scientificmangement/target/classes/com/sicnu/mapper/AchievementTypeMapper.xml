@@ -12,7 +12,7 @@
     <select id="findAllAchievementType" resultType="AchievementType">
         select * from achievemen_type
     </select>
-    <select id="selectAchievementTypeByName"  resultType="AchievementType">
+    <select id="selectAchievementTypeByName" resultType="AchievementType">
         select * from achievemen_type where
         at_name = #{at_name}
     </select>

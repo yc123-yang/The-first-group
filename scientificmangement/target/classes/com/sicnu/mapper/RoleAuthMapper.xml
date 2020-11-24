@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sicnu.mapper.RoleAuthMapper">
+    <insert id="addRole" parameterType="RoleAuth">
+        insert into role_auth(role_id,auth_id)
+        values(
+        #{role_id},
+        #{auth_id}
+        )
+    </insert>
+
+    <delete id="delAuth" parameterType="RoleAuth">
+        delete from role_auth
+        where
+        role_id = #{role_id}
+    </delete>
+
+</mapper>

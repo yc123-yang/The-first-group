@@ -15,8 +15,12 @@ import java.util.Map;
 @Repository
 public interface PatentMapper {
     void addPatent(Patent patent);
-    Patent selectPatentByNumber(String application_number,String public_number,String authorization_number);
+
+    Patent selectPatentByNumber(String application_number, String public_number, String authorization_number);
+
     void delPatentById(Integer patent_id);
-    List<Patent> selectPatentByCondition(Map<String,Object> map);
+
+    List<Patent> selectPatentByCondition(Map<String, Object> map);
+
     void updatePatent(Patent patent);
 }

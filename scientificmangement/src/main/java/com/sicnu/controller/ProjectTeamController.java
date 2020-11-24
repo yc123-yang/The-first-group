@@ -13,12 +13,14 @@ import javax.annotation.Resource;
 public class ProjectTeamController {
     @Resource
     ProjectTeamServiceImpl projectTeamService;
-    @RequestMapping(value = "/team/addTeamUser",method = RequestMethod.POST)
+
+    @RequestMapping(value = "/team/addTeamUser", method = RequestMethod.POST)
     public Result addTeamUser(Integer project_id, String user_name, String user_role, Integer role_id, Integer department_id) {
         Result rs = null;
-        rs =projectTeamService.addTeamUser(project_id, user_name, user_role, role_id, department_id);
-         return rs;
+        rs = projectTeamService.addTeamUser(project_id, user_name, user_role, role_id, department_id);
+        return rs;
     }
+
     @PostMapping(value = "/team/delTeamUser")
     public Result delTeamUser(Integer user_id) {
         Result rs = null;

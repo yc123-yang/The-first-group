@@ -13,7 +13,6 @@ public class Subject implements Serializable {
     }
 
 
-
     public String getSubject_id() {
         return subject_id;
     }

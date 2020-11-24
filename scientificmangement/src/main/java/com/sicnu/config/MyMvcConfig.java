@@ -2,6 +2,7 @@ package com.sicnu.config;
 
 
 //import com.sicnu.component.LoginHandlerInterceptor;
+
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +18,7 @@ import java.io.IOException;
 public class MyMvcConfig extends WebMvcConfigurerAdapter {
     /**
      * 跨域的过滤机制
+     *
      * @return
      */
     @Bean

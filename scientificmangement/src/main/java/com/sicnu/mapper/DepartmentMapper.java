@@ -10,7 +10,10 @@ import java.util.List;
 @Mapper
 public interface DepartmentMapper {
     void addDepartmentType(String department_name);
+
     void delDepartmentType(Integer department_id);
+
     List<Department> findAllDepartmentType();
+
     Department selectDepartmentTypeByName(String department_name);
 }

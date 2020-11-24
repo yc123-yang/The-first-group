@@ -10,7 +10,10 @@ import java.util.List;
 @Mapper
 public interface AchievementTypeMapper {
     void addAchievementType(String at_name);
+
     void delAchievementType(Integer at_id);
+
     List<AchievementType> findAllAchievementType();
+
     AchievementType selectAchievementTypeByName(String at_name);
 }

@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 public class MyServerConfig {
     @Bean
 
-    public ServletListenerRegistrationBean myListener(){
+    public ServletListenerRegistrationBean myListener() {
         ServletListenerRegistrationBean<MyListener> registrationBean = new ServletListenerRegistrationBean<>(new MyListener());
         return registrationBean;
     }

@@ -11,8 +11,9 @@ import java.io.Serializable;
 /**
  * 缓存用户信息
  * <br/>
- * @author     ：leigq
- * @date       ：2019/7/3 14:40
+ *
+ * @author ：leigq
+ * @date ：2019/7/3 14:40
  */
 @Data
 @Builder

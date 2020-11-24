@@ -10,7 +10,10 @@ import java.util.List;
 @Mapper
 public interface ConclusionTypeMapper {
     void addConclusionType(String ct_name);
+
     void delConclusionType(Integer ct_id);
+
     List<ConclusionType> findAllConclusionType();
+
     ConclusionType selectConclusionTypeByName(String ct_name);
 }

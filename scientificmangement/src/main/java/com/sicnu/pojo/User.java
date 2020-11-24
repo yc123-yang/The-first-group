@@ -17,6 +17,7 @@ public class User implements Serializable {
     private Integer department_id;
     private Integer role_id;
     private String salt;
+
     public User() {
     }
 

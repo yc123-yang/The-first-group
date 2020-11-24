@@ -12,7 +12,7 @@
     <select id="findAllConclusionType" resultType="ConclusionType">
         select * from conclusion_type
     </select>
-    <select id="selectConclusionTypeByName"  resultType="ConclusionType">
+    <select id="selectConclusionTypeByName" resultType="ConclusionType">
         select * from conclusion_type where
         ct_name = #{ct_name}
     </select>

@@ -14,7 +14,10 @@ import java.util.List;
 
 public interface CheckEmailMapper {
     void addCheckCode(String email, Integer check_code, Date overtime);
+
     List<CheckEmail> findAllCode();
+
     CheckEmail findByCode(Integer check_code);
+
     void delCode(Integer check_code);
 }

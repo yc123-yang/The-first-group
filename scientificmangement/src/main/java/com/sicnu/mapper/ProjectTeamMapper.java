@@ -9,7 +9,9 @@ import java.util.List;
 @Repository
 @Mapper
 public interface ProjectTeamMapper {
-    void addTeamUser(Integer project_id,Integer role_id,Integer user_role);
+    void addTeamUser(Integer project_id, Integer role_id, Integer user_role);
+
     void delTeamUser(Integer user_id);
+
     List<Integer> selectProject_id(Integer user_id);
 }

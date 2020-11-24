@@ -112,15 +112,10 @@ public class ShiroConfig {
     }
 
 
-
-
     @Bean
     public JavaUuidSessionIdGenerator sessionIdGenerator() {
         return new JavaUuidSessionIdGenerator();
     }
-
-
-
 
 
     /**

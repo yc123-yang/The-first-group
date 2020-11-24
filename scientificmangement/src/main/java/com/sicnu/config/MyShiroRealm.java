@@ -41,7 +41,6 @@ public class MyShiroRealm extends AuthorizingRealm {
     private AuthMapper authMapper;
 
 
-
     /**
      * create by: yangchun
      * description: 授权
@@ -91,10 +90,10 @@ public class MyShiroRealm extends AuthorizingRealm {
         //实际项目中，这里可以根据实际情况做缓存，如果不做，Shiro自己也是有时间间隔机制，2分钟内不会重复执行该方法
         User user = iUserService.findByUserAct(userName);
         if (Objects.isNull(user)) {
-            return null ;
+            return null;
         }
 
-        System.out.println("aaa"+user.getUser_pwd());
+        System.out.println("aaa" + user.getUser_pwd());
         return new SimpleAuthenticationInfo(
                 // 这里传入的是user对象，比对的是用户名，直接传入用户名也没错，但是在授权部分就需要自己重新从数据库里取权限
                 user,

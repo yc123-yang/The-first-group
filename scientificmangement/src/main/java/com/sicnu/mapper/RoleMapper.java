@@ -10,8 +10,12 @@ import java.util.List;
 @Mapper
 public interface RoleMapper {
     void addRole(String role_name);
+
     void delRole(Integer role_id);
+
     List<Role> findAllRole();
+
     Role selectRoleByName(String role_name);
+
     List<Role> getRole(Integer role_id);
 }

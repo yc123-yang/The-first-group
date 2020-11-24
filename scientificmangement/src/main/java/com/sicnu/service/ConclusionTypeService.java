@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface ConclusionTypeService {
     Result addConclusionType(String ct_name);
+
     Result delConclusionType(Integer ct_id);
+
     Result findAllConclusionType();
 }

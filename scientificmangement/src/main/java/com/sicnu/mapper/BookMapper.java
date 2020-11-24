@@ -12,8 +12,12 @@ import java.util.Map;
 @Repository
 public interface BookMapper {
     void addBook(Book book);
+
     Book selectBookByNumber(Date publish_time);
-    List<Book> selectBookByCondition(Map<String,Object> map);
+
+    List<Book> selectBookByCondition(Map<String, Object> map);
+
     void delBook(Integer book_id);
+
     void updateBook(Integer book_id);
 }

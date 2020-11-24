@@ -17,11 +17,12 @@ public class AchievementTypeController {
     @Resource
     AchievementTypeServiceImpl AchievementType;
 
-    private Result rs ;
+    private Result rs;
+
     @PostMapping("/achievementType/addAchievementType")
     public Result addAchievementType(String at_name) {
 
-        rs= AchievementType.addAchievementType(at_name);
+        rs = AchievementType.addAchievementType(at_name);
         return rs;
     }
 
@@ -30,7 +31,7 @@ public class AchievementTypeController {
     public Result delAchievementType(Integer at_id) {
 
         AchievementType.delAchievementType(at_id);
-        rs =new Result("0","删除成功",null);
+        rs = new Result("0", "删除成功", null);
 
         return rs;
     }

@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface DepartmentService {
     Result addDepartmentType(String department_name);
+
     Result delDepartmentType(Integer department_id);
+
     Result findAllDepartmentType();
 }

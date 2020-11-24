@@ -7,6 +7,9 @@
     <resultMap id="authMap" type="com.sicnu.pojo.Auth">
         <id property="auth_id" column="auth_id"/>
         <result property="auth_name" column="auth_name"/>
+        <result property="auth_resource" column="auth_resource"/>
+        <result property="auth_pid" column="auth_pid"/>
+        <result property="open" column="open"/>
     </resultMap>
     <resultMap id="authRoleMap" type="com.sicnu.pojo.Auth" extends="authMap">
         <collection property="roleAuths" ofType="com.sicnu.pojo.RoleAuth">
@@ -28,17 +31,28 @@
     <select id="findAllAuth" resultType="Auth">
         select * from auth
     </select>
-    <select id="selectAuthByName"  resultType="Auth">
+    <select id="selectAuthByName" resultType="Auth">
         select * from auth where
         auth_name = #{auth_name}
     </select>
-    <select id="getAuth" parameterType="int" resultMap="authRoleMap" >
-        select auth_name from auth a,role_auth ra,role r
+    <select id="getAuth" parameterType="int" resultMap="authRoleMap">
+        select auth_resource from auth a,role_auth ra,role r
         where
         a.auth_id = ra.auth_id
         and
         r.role_id = ra.role_id
         and
         r.role_id = #{role_id}
+    </select>
+    <select id="findAuthByPid" parameterType="int" resultType="Auth">
+        select auth.* from auth,user,role_auth
+        where
+        user_id = #{user_id}
+        and
+        auth.auth_pid = #{auth_pid}
+        and
+        user.role_id = role_auth.role_id
+        and
+        auth.auth_id = role_auth.auth_id
     </select>
 </mapper>
