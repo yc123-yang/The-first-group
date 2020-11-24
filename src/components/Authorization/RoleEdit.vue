@@ -98,6 +98,7 @@ export default {
       // 更改角色权限
       var alist = this.$refs.authTree.getCheckedKeys()
       this.$refs.authTree.getHalfCheckedKeys().forEach(item => alist.push(item))
+      console.log(alist)
       const { data: res1 } = await this.$http.post('/role/editAuthById', {
         role_id: val,
         authList: alist

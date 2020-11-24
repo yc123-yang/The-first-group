@@ -28,7 +28,7 @@ import {
   Tabs,
   TabPane,
   Tree,
-  MessageBox
+  MessageBox,
 } from 'element-ui'
 
 Vue.use(Tree)
