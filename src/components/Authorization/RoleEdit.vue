@@ -36,19 +36,18 @@
           </el-col>
           <el-col :span="16">
             <el-card  style="height: 105vh;">
-              <el-row v-for="item in allAuthList" v-if="showTag(item.id)" :key="item.id" class="borderBottom vcenter">
+              <el-row v-for="item in allAuthList" :key="item.id" :class="['vcenter', showTag(item.id)?'borderBottom':'']">
                 <el-col :span="5">
-                  <el-tag type="warning">{{item.title}}</el-tag>
-                  <i class="el-icon-caret-right"></i>
+                  <el-tag type="warning" v-if="showTag(item.id)">{{item.title}}</el-tag>
+                  <i class="el-icon-caret-right" v-if="showTag(item.id)"></i>
                 </el-col>
                 <el-col :span="19">
-                  <el-row v-for="item2 in item.childrenPermissions" v-if="showTag(item2.id)" :key="item2.id" class="vcenter">
+                  <el-row v-for="item2 in item.childrenPermissions" :key="item2.id" class="vcenter">
                     <el-col :span="6">
-                      <el-tag type="success">{{item2.title}}</el-tag>
-                      
+                      <el-tag type="success"  v-if="showTag(item2.id)">{{item2.title}}</el-tag>
                     </el-col>
                     <el-col :span="3">
-                      <i class="el-icon-caret-right"></i>
+                      <i class="el-icon-caret-right" v-if="showTag(item2.id)"></i>
                     </el-col>
                     <el-col :span="15">
                       <el-tag v-for="item3 in item2.childrenPermissions" v-if="showTag(item3.id)" :key="item3.id">
