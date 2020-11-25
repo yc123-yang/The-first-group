@@ -20,27 +20,39 @@ public class PaperTypeServiceImpl implements PaperTypeService {
 
     @Override
     public Result addPaperType(String pt_name) {
-        PaperType paperType = paperTypeMapper.selectPaperTypeByName(pt_name);
-        if (paperType != null) {
-            rs = new Result("401", "该字典已经存在", null);
-        } else {
-            paperTypeMapper.addPaperType(pt_name);
-            rs = new Result("200", "字典擦汗如成功", null);
+        try {
+            PaperType paperType = paperTypeMapper.selectPaperTypeByName(pt_name);
+            if (paperType != null) {
+                rs = new Result("401", "该字典已经存在", null);
+            } else {
+                paperTypeMapper.addPaperType(pt_name);
+                rs = new Result("200", "字典擦汗如成功", null);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return rs;
     }
 
     @Override
     public Result delPaperType(Integer pt_id) {
-        paperTypeMapper.delPaperType(pt_id);
-        rs = new Result("200", "删除成功", null);
+        try {
+            paperTypeMapper.delPaperType(pt_id);
+            rs = new Result("200", "删除成功", null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 
     @Override
     public Result findAllPaperType() {
-        List<PaperType> paperTypes = paperTypeMapper.findAllPaperType();
-        rs = new Result("200", null, paperTypes);
+        try {
+            List<PaperType> paperTypes = paperTypeMapper.findAllPaperType();
+            rs = new Result("200", null, paperTypes);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return rs;
     }

@@ -21,12 +21,16 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Result addRole(String role_name) {
-        Role role = roleMapper.selectRoleByName(role_name);
-        if (role == null) {
-            roleMapper.addRole(role_name);
-            rs = new Result("0", "添加成功", null);
-        } else {
-            rs = new Result("1", "该角色已存在", null);
+        try {
+            Role role = roleMapper.selectRoleByName(role_name);
+            if (role == null) {
+                roleMapper.addRole(role_name);
+                rs = new Result("0", "添加成功", null);
+            } else {
+                rs = new Result("1", "该角色已存在", null);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return rs;
     }
@@ -34,22 +38,35 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public Result delRole(Integer role_id) {
 
-        roleMapper.delRole(role_id);
-        rs = new Result("0", "删除成功", null);
+        try {
+            roleMapper.delRole(role_id);
+            rs = new Result("0", "删除成功", null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 
     @Override
     public Result findAllRole() {
-        List<Role> roles = roleMapper.findAllRole();
-        rs = new Result("0", null, roles);
+        try {
+            List<Role> roles = roleMapper.findAllRole();
+            rs = new Result("0", null, roles);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 
     @Override
     public List<Role> getRole(Integer role_id) {
-        List<Role> roles = roleMapper.getRole(role_id);
-        rs = new Result("0", null, roles);
+        List<Role> roles = null;
+        try {
+            roles = roleMapper.getRole(role_id);
+            rs = new Result("0", null, roles);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return roles;
     }
 

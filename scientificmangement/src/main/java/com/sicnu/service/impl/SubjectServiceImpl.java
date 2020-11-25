@@ -20,29 +20,41 @@ public class SubjectServiceImpl implements SubjectService {
 
     @Override
     public Result addSubject(String subject_id, String subject_name, String sc_id) {
-        Subject subject = subjectMapper.selectSubjectByName(subject_name);
-        if (subject == null) {
-            subjectMapper.addSubject(subject_id, subject_name, sc_id);
-            rs = new Result("0", "添加一级学科成功", null);
+        try {
+            Subject subject = subjectMapper.selectSubjectByName(subject_name);
+            if (subject == null) {
+                subjectMapper.addSubject(subject_id, subject_name, sc_id);
+                rs = new Result("0", "添加一级学科成功", null);
 
-        } else {
-            rs = new Result("1", "C", null);
+            } else {
+                rs = new Result("1", "C", null);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return rs;
     }
 
     @Override
     public Result delSubject(String subject_id) {
-        subjectMapper.delSubject(subject_id);
-        rs = new Result("0", "删除成功", null);
+        try {
+            subjectMapper.delSubject(subject_id);
+            rs = new Result("0", "删除成功", null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return rs;
     }
 
     @Override
     public Result findAllSubject() {
-        List<Subject> subjects = subjectMapper.findAllSubject();
-        rs = new Result("0", null, subjects);
+        try {
+            List<Subject> subjects = subjectMapper.findAllSubject();
+            rs = new Result("0", null, subjects);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 

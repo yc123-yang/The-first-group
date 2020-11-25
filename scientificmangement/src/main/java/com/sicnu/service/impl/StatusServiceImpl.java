@@ -21,28 +21,40 @@ public class StatusServiceImpl implements StatusService {
     @Override
     public Result addStatus(String status_name) {
 
-        Status status = statusMapper.selectStatusByName(status_name);
-        if (status == null) {
-            statusMapper.addStatus(status_name);
-            rs = new Result("0", "添加项目状态字典成功", null);
-        } else {
-            rs = new Result("1", "该项目状态字典已经存在", null);
+        try {
+            Status status = statusMapper.selectStatusByName(status_name);
+            if (status == null) {
+                statusMapper.addStatus(status_name);
+                rs = new Result("0", "添加项目状态字典成功", null);
+            } else {
+                rs = new Result("1", "该项目状态字典已经存在", null);
 
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return rs;
     }
 
     @Override
     public Result delStatus(Integer status_id) {
-        statusMapper.delStatus(status_id);
-        rs = new Result("0", "删除项目状态成功", null);
+        try {
+            statusMapper.delStatus(status_id);
+            rs = new Result("0", "删除项目状态成功", null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 
     @Override
     public Result findAllStatus() {
-        List<Status> statuses = statusMapper.findAllStatus();
-        rs = new Result("0", null, statuses);
+        try {
+            List<Status> statuses = statusMapper.findAllStatus();
+            rs = new Result("0", null, statuses);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 }

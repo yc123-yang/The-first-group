@@ -18,6 +18,7 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.BeanUtils;
+import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -143,52 +144,58 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public Result addUser(String user_act, String user_pwd, String user_name, String user_email, String user_number, String user_id_number, Integer user_state, Integer department_id, Integer role_id) throws MessagingException {
-        //获取用户表所有用户
-        List<User> list = userDao.findAllUser();
-        //所有用户信息进行比对
-        for (User value : list) {
-            if (value.getUser_act().equals(user_act)) {
-                rs = new Result("401", "该用户名已存在", null);
-                return rs;
-            } else if (value.getUser_number().equals(user_number)) {
-                rs = new Result("402", "该学号已经注册过", null);
-                return rs;
-            } else if (value.getUser_id_number().equals(user_id_number)) {
-                rs = new Result("403", "该身份证已经注册过", null);
-                return rs;
-            } else if (value.getUser_email().equals(user_email)) {
-                rs = new Result("405", "该邮箱已经注册过", null);
-                return rs;
+        try {
+            //获取用户表所有用户
+            List<User> list = userDao.findAllUser();
+            //所有用户信息进行比对
+            for (User value : list) {
+                if (value.getUser_act().equals(user_act)) {
+                    rs = new Result("401", "该用户名已存在", null);
+                    return rs;
+                } else if (value.getUser_number().equals(user_number)) {
+                    rs = new Result("402", "该学号已经注册过", null);
+                    return rs;
+                } else if (value.getUser_id_number().equals(user_id_number)) {
+                    rs = new Result("403", "该身份证已经注册过", null);
+                    return rs;
+                } else if (value.getUser_email().equals(user_email)) {
+                    rs = new Result("405", "该邮箱已经注册过", null);
+                    return rs;
+                }
             }
+
+            //若信息通过校验 就开始进行录入
+            User user = new User();
+            user.setUser_act(user_act);
+            user.setUser_pwd(user_pwd);
+            user.setUser_name(user_name);
+            user.setUser_email(user_email);
+            user.setUser_number(user_number);
+            user.setUser_id_number(user_id_number);
+            user.setUser_state(user_state);
+            user.setDepartment_id(department_id);
+            user.setRole_id(role_id);
+
+            //对用户账号密码进行操作
+            new PasswordMd().encryptPassword(user);
+            user.setSalt(ByteSource.Util.bytes(user.getUser_act()).toString());
+            //把用户信息注入
+            userDao.addUser(user);
+            rs = new Result("200", "用户注册成功", null);
+            //获取用户id，通过邮箱方式反馈给用户
+            Integer userId = userDao.selectUserId(user_email);
+            MimeMessage mailMessage = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mailMessage);
+            helper.setSubject("高校科研管理系统注册验证码");
+            helper.setText("<p>您已注册成功，您的用户名id为：<span style='color:blue;text-decoration:underline'>" + userId + "</span>,请勿遗忘或向他人泄露</p>", true);
+            helper.setTo(user_email);
+            helper.setFrom("1776557392@qq.com");
+            mailSender.send(mailMessage);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        } catch (MailException e) {
+            e.printStackTrace();
         }
-
-        //若信息通过校验 就开始进行录入
-        User user = new User();
-        user.setUser_act(user_act);
-        user.setUser_pwd(user_pwd);
-        user.setUser_name(user_name);
-        user.setUser_email(user_email);
-        user.setUser_number(user_number);
-        user.setUser_id_number(user_id_number);
-        user.setUser_state(user_state);
-        user.setDepartment_id(department_id);
-        user.setRole_id(role_id);
-
-        //对用户账号密码进行操作
-        new PasswordMd().encryptPassword(user);
-        user.setSalt(ByteSource.Util.bytes(user.getUser_act()).toString());
-        //把用户信息注入
-        userDao.addUser(user);
-        rs = new Result("200", "用户注册成功", null);
-        //获取用户id，通过邮箱方式反馈给用户
-        Integer userId = userDao.selectUserId(user_email);
-        MimeMessage mailMessage = mailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(mailMessage);
-        helper.setSubject("高校科研管理系统注册验证码");
-        helper.setText("<p>您已注册成功，您的用户名id为：<span style='color:blue;text-decoration:underline'>" + userId + "</span>,请勿遗忘或向他人泄露</p>", true);
-        helper.setTo(user_email);
-        helper.setFrom("1776557392@qq.com");
-        mailSender.send(mailMessage);
         return rs;
 
     }
@@ -206,11 +213,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Result updatePwd(String user_act, String user_pwd, String user_email, String user_number, String user_id_number) {
-        //根据用户名获取用户信息
-        User user = userDao.findByUserAct(user_act);
-        User user1 = new User();
-        user1.setUser_pwd(user_pwd);
-        new PasswordMd().encryptPassword(user1);
+        User user = null;
+        User user1 = null;
+        try {
+            //根据用户名获取用户信息
+            user = userDao.findByUserAct(user_act);
+            user1 = new User();
+            user1.setUser_pwd(user_pwd);
+            new PasswordMd().encryptPassword(user1);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         //进行信息校验
         if (user == null) {
             rs = new Result("400", "用户名不存在", null);
@@ -243,7 +256,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public Result changeStatus(Integer user_id, Integer user_state) {
 
-        userDao.changeStatus(user_id, user_state);
+        try {
+            userDao.changeStatus(user_id, user_state);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return rs = new Result("200", "用户状态更改成功", null);
     }
@@ -252,48 +269,81 @@ public class UserServiceImpl implements UserService {
      * 退出登录
      */
     public Result loginOut(HttpSession session) {
-        Subject subject = SecurityUtils.getSubject();
-        //shiro清空用户登录信息
-        subject.logout();
-        //清苦缓存
-        cacheUserMapper.delCacheUser();
+        try {
+            Subject subject = SecurityUtils.getSubject();
+            //shiro清空用户登录信息
+            subject.logout();
+            //清苦缓存
+            cacheUserMapper.delCacheUser();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs = new Result("200", "用户退出成功", null);
     }
 
     @Override
     public Result findAllUser() {
-        List<User> users = userDao.findAllUser();
+        List<User> users = null;
+        try {
+            users = userDao.findAllUser();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs = new Result("200", null, users);
     }
 
     //根据用户名查询用户信息
     @Override
     public Set<Permission> queryPermissionByUserId(Integer user_id) {
-        Set<Permission> userPermissions = userDao.queryPermissionByUserId(user_id);
+        Set<Permission> userPermissions = null;
+        try {
+            userPermissions = userDao.queryPermissionByUserId(user_id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return userPermissions;
     }
 
     @Override
     public Set<Permission> queryPermissionByRoleId(Integer role_id) {
-        Set<Permission> userPermissions = userDao.queryPermissionByRoleId(role_id);
+        Set<Permission> userPermissions = null;
+        try {
+            userPermissions = userDao.queryPermissionByRoleId(role_id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return userPermissions;
     }
 
     @Override
     public Set<Permission> queryAllPermission() {
-        Set<Permission> userPermissions = userDao.queryAllPermission();
+        Set<Permission> userPermissions = null;
+        try {
+            userPermissions = userDao.queryAllPermission();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return userPermissions;
     }
 
     @Override
     public Result updateUserRole(Integer role_id, Integer user_id) {
-        userDao.updateUserRole(role_id, user_id);
+        try {
+            userDao.updateUserRole(role_id, user_id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs = new Result("200", "更改成功", null);
     }
 
     @Override
     public Result findUserById(Integer user_id) {
-        User user = userDao.findUserById(user_id);
+        User user = null;
+        try {
+            user = userDao.findUserById(user_id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs = new Result("200", "查询成功", user);
     }
 
