@@ -1,6 +1,8 @@
 package com.sicnu.service.impl;
 
+import com.sicnu.mapper.CacheUserMapper;
 import com.sicnu.mapper.PatentMapper;
+import com.sicnu.pojo.CacheUser;
 import com.sicnu.pojo.Patent;
 import com.sicnu.service.PatentService;
 import com.sicnu.util.Result;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +26,8 @@ public class PatentServiceImpl implements PatentService {
 
     private Result rs = null;
 
+    @Resource
+    CacheUserMapper cacheUserMapper;
     /**
      * 添加专利
      *
@@ -59,8 +64,14 @@ public class PatentServiceImpl implements PatentService {
     @Override
     public Result selectPatentByCondition(Patent patent, String application_time_start, String application_time_end, String public_time_start, String public_time_end, String authorization_time_start, String authorization_time_end, Integer pageSize, Integer pageNum) throws ParseException {
         Map<String, Object> map = new HashMap<>();
+
+        //获取登陆用户的缓存信息
+        List<CacheUser> cacheUsers = cacheUserMapper.findAllCacheUser();
+        //获取登录用户的id
+        Integer uid = cacheUsers.get(0).getUser_id();
+
         map.put("patent_name", patent.getPatent_name());
-        map.put("leader_id", patent.getLeader_id());
+        map.put("leader_id", uid);
         map.put("pt_id", patent.getPt_id());
         map.put("pr_id", patent.getPr_id());
         map.put("ps_id", patent.getPs_id());
@@ -90,8 +101,14 @@ public class PatentServiceImpl implements PatentService {
             map.put("authorization_time_end", sdf.parse(authorization_time_end));
         }
         System.out.println(map);
+        Integer total = patentMapper.selectTotalPatent(map);
         List<Patent> patents = patentMapper.selectPatentByCondition(map);
-        return rs = new Result("200", null, patents);
+        Map<String, Object> map1 = new HashMap<>();
+        map1.put("total", total);
+        List<Object> list = new ArrayList<>();
+        list.add(map1);
+        list.add(patents);
+        return rs = new Result("200", null, list);
     }
 
     /**
@@ -118,6 +135,49 @@ public class PatentServiceImpl implements PatentService {
         patentMapper.delPatentById(patent_id);
         rs = new Result("200", "删除成功", null);
         return rs;
+    }
+
+    @Override
+    public Result selectAllPatentByCondition(Patent patent, String application_time_start, String application_time_end, String public_time_start, String public_time_end, String authorization_time_start, String authorization_time_end, Integer pageSize, Integer pageNum) throws ParseException {
+        Map<String, Object> map = new HashMap<>();
+        map.put("patent_name", patent.getPatent_name());
+        map.put("pt_id", patent.getPt_id());
+        map.put("pr_id", patent.getPr_id());
+        map.put("ps_id", patent.getPs_id());
+        map.put("aod_id", patent.getAod_id());
+        map.put("application_number", patent.getApplication_number());
+        map.put("public_number", patent.getPublic_number());
+        map.put("authorization_number", patent.getApplication_number());
+        map.put("pageNum", pageNum);
+        map.put("pageSize", pageSize);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        if (!application_time_start.equals("")) {
+            map.put("application_time_start", sdf.parse(application_time_start));
+        }
+        if (!application_time_end.equals("")) {
+            map.put("application_time_end", sdf.parse(application_time_end));
+        }
+        if (!public_time_start.equals("")) {
+            map.put("public_time_start", sdf.parse(public_time_start));
+        }
+        if (!public_time_end.equals("")) {
+            map.put("public_time_end", sdf.parse(public_time_end));
+        }
+        if (!authorization_time_start.equals("")) {
+            map.put("authorization_time_start", sdf.parse(authorization_time_start));
+        }
+        if (!authorization_time_end.equals("")) {
+            map.put("authorization_time_end", sdf.parse(authorization_time_end));
+        }
+        System.out.println(map);
+        Integer total = patentMapper.selectTotalPatent(map);
+        List<Patent> patents = patentMapper.selectPatentByCondition(map);
+        Map<String, Object> map1 = new HashMap<>();
+        map1.put("total", total);
+        List<Object> list = new ArrayList<>();
+        list.add(map1);
+        list.add(patents);
+        return rs = new Result("200", null, list);
     }
 
 

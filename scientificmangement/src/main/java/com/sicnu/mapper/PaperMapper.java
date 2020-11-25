@@ -20,4 +20,6 @@ public interface PaperMapper {
     void updatePaper(Paper paper);
 
     void delPaperById(Integer paper_id);
+
+    Integer selectTotalPaper(Map<String, Object> map);
 }

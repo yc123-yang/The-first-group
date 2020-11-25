@@ -1,184 +1,184 @@
 package com.sicnu.pojo;
 
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 public class Book {
 
-    private Integer bookId;
-    private Integer leaderId;
-    private String bookName;
-    private String press;
-    private Integer plId;
-    private Integer btId;
-    private Integer ppId;
-    private String isbn;
-    private String wordNumber;
-    private String trans;
-    private Integer languageId;
-    private String scId;
-    private String subjectId;
-    private java.sql.Timestamp publishTime;
-    private Integer aodId;
-    private Integer sdId;
-    private Integer rtId;
+  private Integer book_id;
+  private Integer leader_id;
+  private String book_name;
+  private String press;
+  private Integer pl_id;
+  private Integer bt_id;
+  private Integer pp_id;
+  private String isbn;
+  private String word_number;
+  private String trans;
+  private Integer language_id;
+  private String sc_id;
+  private String subject_id;
+  private Date publish_time;
+  private Integer aod_id;
+  private Integer sd_id;
+  private Integer rt_id;
 
-    public Integer getBookId() {
-        return bookId;
-    }
+  public Integer getBook_id() {
+    return book_id;
+  }
 
-    public void setBookId(Integer bookId) {
-        this.bookId = bookId;
-    }
+  public void setBook_id(Integer book_id) {
+    this.book_id = book_id;
+  }
 
-    public Integer getLeaderId() {
-        return leaderId;
-    }
+  public Integer getLeader_id() {
+    return leader_id;
+  }
 
-    public void setLeaderId(Integer leaderId) {
-        this.leaderId = leaderId;
-    }
+  public void setLeader_id(Integer leader_id) {
+    this.leader_id = leader_id;
+  }
 
-    public String getBookName() {
-        return bookName;
-    }
+  public String getBook_name() {
+    return book_name;
+  }
 
-    public void setBookName(String bookName) {
-        this.bookName = bookName;
-    }
+  public void setBook_name(String book_name) {
+    this.book_name = book_name;
+  }
 
-    public String getPress() {
-        return press;
-    }
+  public String getPress() {
+    return press;
+  }
 
-    public void setPress(String press) {
-        this.press = press;
-    }
+  public void setPress(String press) {
+    this.press = press;
+  }
 
-    public Integer getPlId() {
-        return plId;
-    }
+  public Integer getPl_id() {
+    return pl_id;
+  }
 
-    public void setPlId(Integer plId) {
-        this.plId = plId;
-    }
+  public void setPl_id(Integer pl_id) {
+    this.pl_id = pl_id;
+  }
 
-    public Integer getBtId() {
-        return btId;
-    }
+  public Integer getBt_id() {
+    return bt_id;
+  }
 
-    public void setBtId(Integer btId) {
-        this.btId = btId;
-    }
+  public void setBt_id(Integer bt_id) {
+    this.bt_id = bt_id;
+  }
 
-    public Integer getPpId() {
-        return ppId;
-    }
+  public Integer getPp_id() {
+    return pp_id;
+  }
 
-    public void setPpId(Integer ppId) {
-        this.ppId = ppId;
-    }
+  public void setPp_id(Integer pp_id) {
+    this.pp_id = pp_id;
+  }
 
-    public String getIsbn() {
-        return isbn;
-    }
+  public String getIsbn() {
+    return isbn;
+  }
 
-    public void setIsbn(String isbn) {
-        this.isbn = isbn;
-    }
+  public void setIsbn(String isbn) {
+    this.isbn = isbn;
+  }
 
-    public String getWordNumber() {
-        return wordNumber;
-    }
+  public String getWord_number() {
+    return word_number;
+  }
 
-    public void setWordNumber(String wordNumber) {
-        this.wordNumber = wordNumber;
-    }
+  public void setWord_number(String word_number) {
+    this.word_number = word_number;
+  }
 
-    public String getTrans() {
-        return trans;
-    }
+  public String getTrans() {
+    return trans;
+  }
 
-    public void setTrans(String trans) {
-        this.trans = trans;
-    }
+  public void setTrans(String trans) {
+    this.trans = trans;
+  }
 
-    public Integer getLanguageId() {
-        return languageId;
-    }
+  public Integer getLanguage_id() {
+    return language_id;
+  }
 
-    public void setLanguageId(Integer languageId) {
-        this.languageId = languageId;
-    }
+  public void setLanguage_id(Integer language_id) {
+    this.language_id = language_id;
+  }
 
-    public String getScId() {
-        return scId;
-    }
+  public String getSc_id() {
+    return sc_id;
+  }
 
-    public void setScId(String scId) {
-        this.scId = scId;
-    }
+  public void setSc_id(String sc_id) {
+    this.sc_id = sc_id;
+  }
 
-    public String getSubjectId() {
-        return subjectId;
-    }
+  public String getSubject_id() {
+    return subject_id;
+  }
 
-    public void setSubjectId(String subjectId) {
-        this.subjectId = subjectId;
-    }
+  public void setSubject_id(String subject_id) {
+    this.subject_id = subject_id;
+  }
 
-    public Timestamp getPublishTime() {
-        return publishTime;
-    }
+  public Date getPublish_time() {
+    return publish_time;
+  }
 
-    public void setPublishTime(Timestamp publishTime) {
-        this.publishTime = publishTime;
-    }
+  public void setPublish_time(Date publish_time) {
+    this.publish_time = publish_time;
+  }
 
-    public Integer getAodId() {
-        return aodId;
-    }
+  public Integer getAod_id() {
+    return aod_id;
+  }
 
-    public void setAodId(Integer aodId) {
-        this.aodId = aodId;
-    }
+  public void setAod_id(Integer aod_id) {
+    this.aod_id = aod_id;
+  }
 
-    public Integer getSdId() {
-        return sdId;
-    }
+  public Integer getSd_id() {
+    return sd_id;
+  }
 
-    public void setSdId(Integer sdId) {
-        this.sdId = sdId;
-    }
+  public void setSd_id(Integer sd_id) {
+    this.sd_id = sd_id;
+  }
 
-    public Integer getRtId() {
-        return rtId;
-    }
+  public Integer getRt_id() {
+    return rt_id;
+  }
 
-    public void setRtId(Integer rtId) {
-        this.rtId = rtId;
-    }
+  public void setRt_id(Integer rt_id) {
+    this.rt_id = rt_id;
+  }
 
-    @Override
-    public String toString() {
-        return "Book{" +
-                "bookId=" + bookId +
-                ", leaderId=" + leaderId +
-                ", bookName='" + bookName + '\'' +
-                ", press='" + press + '\'' +
-                ", plId=" + plId +
-                ", btId=" + btId +
-                ", ppId=" + ppId +
-                ", isbn='" + isbn + '\'' +
-                ", wordNumber='" + wordNumber + '\'' +
-                ", trans='" + trans + '\'' +
-                ", languageId=" + languageId +
-                ", scId='" + scId + '\'' +
-                ", subjectId='" + subjectId + '\'' +
-                ", publishTime=" + publishTime +
-                ", aodId=" + aodId +
-                ", sdId=" + sdId +
-                ", rtId=" + rtId +
-                '}';
-    }
+  @Override
+  public String toString() {
+    return "Book{" +
+            "book_id=" + book_id +
+            ", leader_id=" + leader_id +
+            ", book_name='" + book_name + '\'' +
+            ", press='" + press + '\'' +
+            ", pl_id=" + pl_id +
+            ", bt_id=" + bt_id +
+            ", pp_id=" + pp_id +
+            ", isbn='" + isbn + '\'' +
+            ", word_number='" + word_number + '\'' +
+            ", trans='" + trans + '\'' +
+            ", language_id=" + language_id +
+            ", sc_id='" + sc_id + '\'' +
+            ", subject_id='" + subject_id + '\'' +
+            ", publish_time=" + publish_time +
+            ", aod_id=" + aod_id +
+            ", sd_id=" + sd_id +
+            ", rt_id=" + rt_id +
+            '}';
+  }
 }

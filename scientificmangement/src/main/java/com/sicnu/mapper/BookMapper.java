@@ -20,4 +20,5 @@ public interface BookMapper {
     void delBook(Integer book_id);
 
     void updateBook(Integer book_id);
+    int selectTotalBook(Map<String, Object> map);
 }

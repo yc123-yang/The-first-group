@@ -43,4 +43,11 @@ public class PaperController {
         rs = paperService.delPaperById(paper_id);
         return rs;
     }
+
+    @PostMapping("/paper/selectAllPaperByCondition")
+    public Result selectAllPaperByCondition(Paper paper, String publish_time_start, String publish_time_end, Integer pageNum, Integer pageSize) throws ParseException {
+        rs = paperService.selectAllPaperByCondition(paper, publish_time_start, publish_time_end, pageNum, pageSize);
+        return rs;
+    }
+
 }

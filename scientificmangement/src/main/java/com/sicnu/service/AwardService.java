@@ -16,4 +16,6 @@ public interface AwardService {
     Result updateAward(Award award);
 
     Result delAward(Integer award_id);
-}
+    public Result selectAllAwardByCondition(Award award, String award_time_start, String award_time_end, Integer pageSize, Integer pageNum) throws ParseException ;
+
+    }

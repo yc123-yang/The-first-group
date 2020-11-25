@@ -44,4 +44,11 @@ public class BookController {
         rs = bookService.updateBook(book_id);
         return rs;
     }
+
+    @PostMapping("/book/selectAllBookByCondition")
+    public Result selectAllBookByCondition(Book book, String publish_time_start, String publish_time_end, Integer pageSize, Integer pageNum) throws ParseException {
+        rs = bookService.selectAllBookByCondition(book, publish_time_start, publish_time_end, pageSize, pageNum);
+        return rs;
+    }
+
 }

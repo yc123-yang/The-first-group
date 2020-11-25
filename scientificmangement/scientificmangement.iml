@@ -112,7 +112,6 @@
     <orderEntry type="library" name="Maven: com.sun.mail:jakarta.mail:1.6.5" level="project" />
     <orderEntry type="library" name="Maven: com.sun.activation:jakarta.activation:1.2.2" level="project" />
     <orderEntry type="library" name="Maven: mysql:mysql-connector-java:8.0.21" level="project" />
-    <orderEntry type="library" name="Maven: org.webjars:jquery:3.3.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework.boot:spring-boot-starter-test:2.3.4.RELEASE" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework.boot:spring-boot-test:2.3.4.RELEASE" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework.boot:spring-boot-test-autoconfigure:2.3.4.RELEASE" level="project" />

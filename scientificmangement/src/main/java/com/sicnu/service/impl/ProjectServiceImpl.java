@@ -271,6 +271,7 @@ public class ProjectServiceImpl implements ProjectService {
             map.put("plan_time_end", sdf.parse(plan_time_end));
         }
         System.out.println(map);
+
         List<Project> projects = projectDao.selectProjectByCondition(map);
         Integer total = projectDao.selectTotalProject(map);
         Map<String, Object> map1 = new HashMap<>();

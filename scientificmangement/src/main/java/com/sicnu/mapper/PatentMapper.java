@@ -23,4 +23,5 @@ public interface PatentMapper {
     List<Patent> selectPatentByCondition(Map<String, Object> map);
 
     void updatePatent(Patent patent);
+    Integer selectTotalPatent(Map<String, Object> map);
 }

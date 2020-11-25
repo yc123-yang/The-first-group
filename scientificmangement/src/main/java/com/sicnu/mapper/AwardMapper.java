@@ -19,5 +19,5 @@ public interface AwardMapper {
     void updateAward(Award award);
 
     void delAward(Integer award_id);
-
+    Integer selectTotalAward(Map<String, Object> map);
 }

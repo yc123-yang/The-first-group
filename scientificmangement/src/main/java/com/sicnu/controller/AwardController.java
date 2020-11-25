@@ -43,4 +43,10 @@ public class AwardController {
         rs = awardService.delAward(award_id);
         return rs;
     }
+
+    @PostMapping("/award/selectAllAwardByCondition")
+    public Result selectAllAwardByCondition(Award award, String award_time_start, String award_time_end, Integer pageSize, Integer pageNum) throws ParseException {
+        rs = awardService.selectAllAwardByCondition(award, award_time_start, award_time_end, pageSize, pageNum);
+        return rs;
+    }
 }

@@ -56,4 +56,10 @@ public class PatentController {
         rs = patentService.delPatentById(patent_id);
         return rs;
     }
+    @PostMapping("/patent/selectAllPatentByCondition")
+    public Result selectAllPatentByCondition(Patent patent, String application_time_start, String application_time_end, String public_time_start, String public_time_end, String authorization_time_start, String authorization_time_end, Integer pageSize, Integer pageNum) throws ParseException {
+        System.out.println(patent);
+        rs = patentService.selectAllPatentByCondition(patent, application_time_start, application_time_end, public_time_start, public_time_end, authorization_time_start, authorization_time_end, pageSize, pageNum);
+        return rs;
+    }
 }
