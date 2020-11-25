@@ -17,7 +17,11 @@ public class RoleAuthController {
     @GetMapping("/roleAuth/updateAuth")
 
     public Result updateAuth(@RequestParam(value = "role_id") Integer role_id, @RequestParam(value = "authList") Integer[] authList) {
-        rs = roleAuthService.updateAuth(role_id, authList);
+        try {
+            rs = roleAuthService.updateAuth(role_id, authList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 }

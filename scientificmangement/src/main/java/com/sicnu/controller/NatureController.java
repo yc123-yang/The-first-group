@@ -20,19 +20,31 @@ public class NatureController {
 
     @PostMapping("/nature/addNature")
     public Result addNature(String nature_name) {
-        rs = natureService.addNature(nature_name);
+        try {
+            rs = natureService.addNature(nature_name);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 
     @PostMapping("/nature/delNature")
     public Result delNature(Integer nature_id) {
-        rs = natureService.delNature(nature_id);
+        try {
+            rs = natureService.delNature(nature_id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 
     @PostMapping("/nature/findAllNature")
     public Result findAllNature() {
-        rs = natureService.findAllNature();
+        try {
+            rs = natureService.findAllNature();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 }

@@ -47,7 +47,11 @@ public class ProjectController {
     @PostMapping(value = "/project/addProject")
 
     public Result addProject(@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Project project, String checkMessage, String message) throws MessagingException {
-        rs = projectService.addProject(project, checkMessage, message);
+        try {
+            rs = projectService.addProject(project, checkMessage, message);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 
@@ -59,7 +63,11 @@ public class ProjectController {
      */
     @RequestMapping(value = "/project/selectProjectByCondition", method = RequestMethod.POST)
     public Result selectProject(Project project, String start_time_start, String start_time_end, String complete_time_start, String complete_time_end, String plan_time_start, String plan_time_end, Integer pageNum, Integer pageSize) throws Exception {
-        rs = projectService.selectProjectByCondition(project, start_time_start, start_time_end, complete_time_start, complete_time_end, plan_time_start, plan_time_end, pageNum, pageSize);
+        try {
+            rs = projectService.selectProjectByCondition(project, start_time_start, start_time_end, complete_time_start, complete_time_end, plan_time_start, plan_time_end, pageNum, pageSize);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 
@@ -72,7 +80,11 @@ public class ProjectController {
 
     @RequestMapping(value = "/project/updateProject", method = RequestMethod.POST)
     public Result updateProject(Project project) {
-        rs = projectService.updateProject(project);
+        try {
+            rs = projectService.updateProject(project);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 
@@ -84,13 +96,21 @@ public class ProjectController {
      */
     @RequestMapping(value = "/project/delProject", method = RequestMethod.POST)
     public Result delProject(Integer project_id) {
-        rs = projectService.delProject(project_id);
+        try {
+            rs = projectService.delProject(project_id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 
     @RequestMapping(value = "/project/selectTeamByPid", method = RequestMethod.POST)
     public Result selectTeamByPid(Integer project_Id) {
-        rs = projectService.selectTeamByPid(project_Id);
+        try {
+            rs = projectService.selectTeamByPid(project_Id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
 
     }
@@ -115,7 +135,11 @@ public class ProjectController {
     public Result selectAllProjectByCondition(Project project, String start_time_start, String start_time_end, String complete_time_start, String complete_time_end, String plan_time_start, String plan_time_end, Integer pageNum, Integer pageSize) throws Exception {
         System.out.println("pageSize=" + pageSize);
         System.out.println(start_time_start);
-        rs = projectService.selectAllProjectByCondition(project, start_time_start, start_time_end, complete_time_start, complete_time_end, plan_time_start, plan_time_end, pageNum, pageSize);
+        try {
+            rs = projectService.selectAllProjectByCondition(project, start_time_start, start_time_end, complete_time_start, complete_time_end, plan_time_start, plan_time_end, pageNum, pageSize);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 
@@ -127,7 +151,11 @@ public class ProjectController {
      */
     @PostMapping("/project/findProjectById")
     public Result findProjectById(Integer project_id) {
-        rs = projectService.findProjectById(project_id);
+        try {
+            rs = projectService.findProjectById(project_id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 }

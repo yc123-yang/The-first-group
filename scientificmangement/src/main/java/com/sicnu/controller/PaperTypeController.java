@@ -19,7 +19,11 @@ public class PaperTypeController {
 
     @PostMapping("/paperType/addPaperType")
     public Result addPaperType(String pt_name) {
-        rs = paperTypeService.addPaperType(pt_name);
+        try {
+            rs = paperTypeService.addPaperType(pt_name);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return rs;
     }
@@ -27,14 +31,22 @@ public class PaperTypeController {
     @PostMapping("/paperType/delPaperType")
 
     public Result delPaperType(Integer pt_id) {
-        rs=paperTypeService.delPaperType(pt_id);
+        try {
+            rs=paperTypeService.delPaperType(pt_id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return rs;
     }
     @PostMapping("/paperType/findAllPaperType")
 
     public Result findAllPaperType() {
-        rs = paperTypeService.findAllPaperType();
+        try {
+            rs = paperTypeService.findAllPaperType();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 }

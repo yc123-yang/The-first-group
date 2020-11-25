@@ -19,19 +19,31 @@ public class SubjectController {
 
     @PostMapping("/subject/addSubject")
     public Result addSubject(String subject_id, String subject_name, String sc_id) {
-        rs = subjectService.addSubject(subject_id, subject_name, sc_id);
+        try {
+            rs = subjectService.addSubject(subject_id, subject_name, sc_id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 
     @PostMapping("/subject/delSubject")
     public Result delSubject(String subject_id) {
-        rs = subjectService.delSubject(subject_id);
+        try {
+            rs = subjectService.delSubject(subject_id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 
     @PostMapping("/subject/findAllSubject")
     public Result findAllSubject() {
-        rs = subjectService.findAllSubject();
+        try {
+            rs = subjectService.findAllSubject();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 

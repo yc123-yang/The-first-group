@@ -39,22 +39,27 @@ public class MenuController {
     @PostMapping("/user/getUserMenu")
     @ResponseBody
     public Result getUserMenu() {
-        User user = (User) session.getAttribute("user");
-        System.out.println(user.getUser_id());
-        Set<Permission> userPermissions = userService.queryPermissionByUserId(user.getUser_id());
+        List<PermissionTreeNode> permissionTree = null;
+        try {
+            User user = (User) session.getAttribute("user");
+            System.out.println(user.getUser_id());
+            Set<Permission> userPermissions = userService.queryPermissionByUserId(user.getUser_id());
 //        System.out.println("permissionNodes:"+userPermissions);
 
-        Set<Permission> userPermissionSet = new HashSet<>(userPermissions);
+            Set<Permission> userPermissionSet = new HashSet<>(userPermissions);
 
-        System.out.println("userPermissionSet:" + userPermissionSet);
+            System.out.println("userPermissionSet:" + userPermissionSet);
 
-        List<PermissionTreeNode> permissionNodes = new ArrayList<>();
+            List<PermissionTreeNode> permissionNodes = new ArrayList<>();
 
-        for (Permission permission : userPermissionSet) {
-            permissionNodes.add(new PermissionTreeNode(permission, new ArrayList<>()));
+            for (Permission permission : userPermissionSet) {
+                permissionNodes.add(new PermissionTreeNode(permission, new ArrayList<>()));
+            }
+            System.out.println("permissionNodes" + permissionNodes);
+            permissionTree = PermissionTreeBuilder.build(permissionNodes, Permission.ROOTID);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        System.out.println("permissionNodes" + permissionNodes);
-        List<PermissionTreeNode> permissionTree = PermissionTreeBuilder.build(permissionNodes, Permission.ROOTID);
 
         return new Result("200", "成功查询到权限数据", permissionTree);
     }
@@ -62,20 +67,25 @@ public class MenuController {
     @PostMapping("/user/queryPermissionByRoleId")
     @ResponseBody
     public Result queryPermissionByRoleId(Integer role_id) {
-        Set<Permission> userPermissions = userService.queryPermissionByRoleId(role_id);
-        System.out.println("permissionNodes:" + userPermissions);
+        List<PermissionTreeNode> permissionTree = null;
+        try {
+            Set<Permission> userPermissions = userService.queryPermissionByRoleId(role_id);
+            System.out.println("permissionNodes:" + userPermissions);
 
-        Set<Permission> userPermissionSet = new HashSet<>(userPermissions);
+            Set<Permission> userPermissionSet = new HashSet<>(userPermissions);
 
-        System.out.println("userPermissionSet:" + userPermissionSet);
+            System.out.println("userPermissionSet:" + userPermissionSet);
 
-        List<PermissionTreeNode> permissionNodes = new ArrayList<>();
+            List<PermissionTreeNode> permissionNodes = new ArrayList<>();
 
-        for (Permission permission : userPermissionSet) {
-            permissionNodes.add(new PermissionTreeNode(permission, new ArrayList<>()));
+            for (Permission permission : userPermissionSet) {
+                permissionNodes.add(new PermissionTreeNode(permission, new ArrayList<>()));
+            }
+            System.out.println("permissionNodes" + permissionNodes);
+            permissionTree = PermissionTreeBuilder.build(permissionNodes, Permission.ROOTID);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        System.out.println("permissionNodes" + permissionNodes);
-        List<PermissionTreeNode> permissionTree = PermissionTreeBuilder.build(permissionNodes, Permission.ROOTID);
 
         return new Result("200", "成功查询到权限数据", permissionTree);
     }
@@ -83,20 +93,25 @@ public class MenuController {
     @PostMapping("/user/queryAllPermission")
     @ResponseBody
     public Result queryAllPermission() {
-        Set<Permission> userPermissions = userService.queryAllPermission();
-        System.out.println("permissionNodes:" + userPermissions);
+        List<PermissionTreeNode> permissionTree = null;
+        try {
+            Set<Permission> userPermissions = userService.queryAllPermission();
+            System.out.println("permissionNodes:" + userPermissions);
 
-        Set<Permission> userPermissionSet = new HashSet<>(userPermissions);
+            Set<Permission> userPermissionSet = new HashSet<>(userPermissions);
 
-        System.out.println("userPermissionSet:" + userPermissionSet);
+            System.out.println("userPermissionSet:" + userPermissionSet);
 
-        List<PermissionTreeNode> permissionNodes = new ArrayList<>();
+            List<PermissionTreeNode> permissionNodes = new ArrayList<>();
 
-        for (Permission permission : userPermissionSet) {
-            permissionNodes.add(new PermissionTreeNode(permission, new ArrayList<>()));
+            for (Permission permission : userPermissionSet) {
+                permissionNodes.add(new PermissionTreeNode(permission, new ArrayList<>()));
+            }
+            System.out.println("permissionNodes" + permissionNodes);
+            permissionTree = PermissionTreeBuilder.build(permissionNodes, Permission.ROOTID);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        System.out.println("permissionNodes" + permissionNodes);
-        List<PermissionTreeNode> permissionTree = PermissionTreeBuilder.build(permissionNodes, Permission.ROOTID);
 
         return new Result("200", "成功查询到权限数据", permissionTree);
     }

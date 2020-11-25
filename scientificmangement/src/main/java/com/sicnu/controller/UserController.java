@@ -33,7 +33,11 @@ public class UserController {
      */
     @RequestMapping("/user/login")
     public Result login(@RequestParam("user_act") String user_act, @RequestParam("user_pwd") String user_pwd, HttpSession session) {
-        rs = userService.findByUserAct(user_act, user_pwd, session);
+        try {
+            rs = userService.findByUserAct(user_act, user_pwd, session);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 
@@ -54,7 +58,11 @@ public class UserController {
      */
     @RequestMapping("/user/register")
     public Result addUser(String user_act, String user_pwd, String user_name, String user_email, String user_number, String user_id_number, Integer user_state, Integer department_id, Integer role_id) throws MessagingException {
-        rs = userService.addUser(user_act, user_pwd, user_name, user_email, user_number, user_id_number, user_state, department_id, role_id);
+        try {
+            rs = userService.addUser(user_act, user_pwd, user_name, user_email, user_number, user_id_number, user_state, department_id, role_id);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 
@@ -70,7 +78,11 @@ public class UserController {
      */
     @RequestMapping("/user/updatePwd")
     public Result updatePwd(String user_act, String user_pwd, String user_email, String user_number, String user_id_number) {
-        rs = userService.updatePwd(user_act, user_pwd, user_email, user_number, user_id_number);
+        try {
+            rs = userService.updatePwd(user_act, user_pwd, user_email, user_number, user_id_number);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 
@@ -83,7 +95,11 @@ public class UserController {
      */
     @RequestMapping("/user/changeStatus")
     public Result changeStatus(Integer user_id, Integer user_state) {
-        rs = userService.changeStatus(user_id, user_state);
+        try {
+            rs = userService.changeStatus(user_id, user_state);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 
@@ -95,7 +111,11 @@ public class UserController {
      */
     @RequestMapping("/user/loginOut")
     public Result loginOut(HttpSession session) {
-        rs = userService.loginOut(session);
+        try {
+            rs = userService.loginOut(session);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 
@@ -106,26 +126,42 @@ public class UserController {
      */
     @RequestMapping("/user/un_auth")
     public Result unAuth() {
-        rs = new Result("404", "用户未登录！", null);
+        try {
+            rs = new Result("404", "用户未登录！", null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 
     @RequestMapping("/user/findAllUser")
     public Result findAllUser() {
-        rs = userService.findAllUser();
+        try {
+            rs = userService.findAllUser();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 
     @RequestMapping("/user/updateUserRole")
 
     public Result updateUserRole(Integer role_id, Integer user_id) {
-        rs = userService.updateUserRole(role_id, user_id);
+        try {
+            rs = userService.updateUserRole(role_id, user_id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 
     @RequestMapping("/user/findUserById")
     public Result findUserById(Integer user_id) {
-        rs = userService.findUserById(user_id);
+        try {
+            rs = userService.findUserById(user_id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 }

@@ -22,19 +22,31 @@ public class StatusController {
     public Result addStatus(String status_name) {
 
 
-        rs = statusService.addStatus(status_name);
+        try {
+            rs = statusService.addStatus(status_name);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 
     @PostMapping("/status/delStatus")
     public Result delStatus(Integer status_id) {
-        rs = statusService.delStatus(status_id);
+        try {
+            rs = statusService.delStatus(status_id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 
     @PostMapping("/status/findAllStatus")
     public Result findAllStatus() {
-        rs = statusService.findAllStatus();
+        try {
+            rs = statusService.findAllStatus();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 }

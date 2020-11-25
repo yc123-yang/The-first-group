@@ -22,28 +22,44 @@ public class SubjectCategoryController {
     @PostMapping("/category/addSubjectCategory")
     public Result addSubjectCategory(String sc_id, String sc_name) {
 
-        rs = categoryService.addSubjectCategory(sc_id, sc_name);
+        try {
+            rs = categoryService.addSubjectCategory(sc_id, sc_name);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 
     @PostMapping("/category/delSubjectCategory")
     public Result delSubjectCategory(String sc_id) {
 
-        rs = categoryService.delSubjectCategory(sc_id);
-        ;
+        try {
+            rs = categoryService.delSubjectCategory(sc_id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return rs;
     }
 
     @PostMapping("/category/findAllSubjectCategory")
     public Result findAllSubjectCategory() {
-        rs = categoryService.findAllSubjectCategory();
+        try {
+            rs = categoryService.findAllSubjectCategory();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 
     @PostMapping("/category/selectSubjectCategory")
 
     public Result selectSubjectCategory(String sc_id) {
-        rs = categoryService.selectSubjectCategory(sc_id);
+        try {
+            rs = categoryService.selectSubjectCategory(sc_id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 }

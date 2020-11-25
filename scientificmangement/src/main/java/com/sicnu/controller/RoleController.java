@@ -20,19 +20,31 @@ public class RoleController {
 
     @PostMapping("/role/addRole")
     public Result addRole(String role_name) {
-        rs = roleService.addRole(role_name);
+        try {
+            rs = roleService.addRole(role_name);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 
     @PostMapping("/role/delRole")
     public Result delRole(Integer role_id) {
-        rs = roleService.delRole(role_id);
+        try {
+            rs = roleService.delRole(role_id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 
     @PostMapping("/role/findAllRole")
     public Result findAllRole() {
-        rs = roleService.findAllRole();
+        try {
+            rs = roleService.findAllRole();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 }

@@ -22,31 +22,51 @@ public class PaperController {
 
     @PostMapping("/paper/addPaper")
     public Result addPaper(Paper paper) {
-        rs = paperService.addPaper(paper);
+        try {
+            rs = paperService.addPaper(paper);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 
     @PostMapping("/paper/selectPaperByCondition")
     public Result selectPaperByCondition(Paper paper, String publish_time_start, String publish_time_end, Integer pageNum, Integer pageSize) throws ParseException {
-        rs = paperService.selectPaperByCondition(paper, publish_time_start, publish_time_end, pageNum, pageSize);
+        try {
+            rs = paperService.selectPaperByCondition(paper, publish_time_start, publish_time_end, pageNum, pageSize);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 
     @PostMapping("/paper/updatePaper")
     public Result updatePaper(Paper paper) {
-        rs = paperService.updatePaper(paper);
+        try {
+            rs = paperService.updatePaper(paper);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 
     @PostMapping("/paper/delPaper")
     public Result delPaperById(Integer paper_id) {
-        rs = paperService.delPaperById(paper_id);
+        try {
+            rs = paperService.delPaperById(paper_id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 
     @PostMapping("/paper/selectAllPaperByCondition")
     public Result selectAllPaperByCondition(Paper paper, String publish_time_start, String publish_time_end, Integer pageNum, Integer pageSize) throws ParseException {
-        rs = paperService.selectAllPaperByCondition(paper, publish_time_start, publish_time_end, pageNum, pageSize);
+        try {
+            rs = paperService.selectAllPaperByCondition(paper, publish_time_start, publish_time_end, pageNum, pageSize);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 

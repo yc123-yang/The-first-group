@@ -21,19 +21,31 @@ public class DepartmentController {
     @PostMapping("/department/addDepartmentType")
     public Result addDepartmentType(String department_name) {
 
-        rs = departmentService.addDepartmentType(department_name);
+        try {
+            rs = departmentService.addDepartmentType(department_name);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 
     @PostMapping("/department/delDepartmentType")
     public Result delDepartmentType(Integer department_id) {
-        rs = departmentService.delDepartmentType(department_id);
+        try {
+            rs = departmentService.delDepartmentType(department_id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 
     @PostMapping("/department/findAllDepartmentType")
     public Result findAllDepartmentType() {
-        rs = departmentService.findAllDepartmentType();
+        try {
+            rs = departmentService.findAllDepartmentType();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 }
