@@ -3,6 +3,9 @@ package com.sicnu.pojo;
 
 import java.util.Date;
 
+/**
+ * 论文
+ */
 public class Paper {
 
     private Integer paper_id;

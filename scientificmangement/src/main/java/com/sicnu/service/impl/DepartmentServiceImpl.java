@@ -23,29 +23,41 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public Result addDepartmentType(String department_name) {
 
-        Department department = departmentMapper.selectDepartmentTypeByName(department_name);
-        if (department == null) {
-            departmentMapper.addDepartmentType(department_name);
-            rs = new Result("0", "部门添加成功", null);
-        } else {
-            rs = new Result("1", "该部门已存在", null);
+        try {
+            Department department = departmentMapper.selectDepartmentTypeByName(department_name);
+            if (department == null) {
+                departmentMapper.addDepartmentType(department_name);
+                rs = new Result("0", "部门添加成功", null);
+            } else {
+                rs = new Result("1", "该部门已存在", null);
 
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return rs;
     }
 
     @Override
     public Result delDepartmentType(Integer department_id) {
-        departmentMapper.delDepartmentType(department_id);
-        rs = new Result("0", "删除成功", null);
+        try {
+            departmentMapper.delDepartmentType(department_id);
+            rs = new Result("0", "删除成功", null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return rs;
     }
 
     @Override
     public Result findAllDepartmentType() {
-        List<Department> departments = departmentMapper.findAllDepartmentType();
-        rs = new Result("0", null, departments);
+        try {
+            List<Department> departments = departmentMapper.findAllDepartmentType();
+            rs = new Result("0", null, departments);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return rs;
     }

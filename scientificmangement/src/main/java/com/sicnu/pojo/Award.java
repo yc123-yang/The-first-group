@@ -3,6 +3,9 @@ package com.sicnu.pojo;
 
 import java.util.Date;
 
+/**
+ * 获奖
+ */
 public class Award {
 
     private Integer award_id;

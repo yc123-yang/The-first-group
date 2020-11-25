@@ -21,14 +21,17 @@ public class AchievementTypeServiceImpl implements AchievementTypeService {
 
     @Override
     public Result addAchievementType(String at_name) {
-        AchievementType achievementType = achievementTypeMapper.selectAchievementTypeByName(at_name);
-        if (achievementType == null) {
-            achievementTypeMapper.addAchievementType(at_name);
-            rs = new Result("0", "插入成功", null);
-        }
-        {
-            rs = new Result("1", "已经存在", null);
-
+        try {
+            AchievementType achievementType = achievementTypeMapper.selectAchievementTypeByName(at_name);
+            if (achievementType == null) {
+                achievementTypeMapper.addAchievementType(at_name);
+                rs = new Result("0", "插入成功", null);
+            }
+            {
+                rs = new Result("1", "已经存在", null);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return rs;
     }
@@ -36,16 +39,24 @@ public class AchievementTypeServiceImpl implements AchievementTypeService {
     @Override
     public Result delAchievementType(Integer at_id) {
 
-        achievementTypeMapper.delAchievementType(at_id);
-        rs = new Result("0", "删除成功", null);
+        try {
+            achievementTypeMapper.delAchievementType(at_id);
+            rs = new Result("0", "删除成功", null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return rs;
     }
 
     @Override
     public Result findAllAchievementType() {
-        List<AchievementType> achievementTypes = achievementTypeMapper.findAllAchievementType();
-        rs = new Result("0", null, achievementTypes);
+        try {
+            List<AchievementType> achievementTypes = achievementTypeMapper.findAllAchievementType();
+            rs = new Result("0", null, achievementTypes);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 }

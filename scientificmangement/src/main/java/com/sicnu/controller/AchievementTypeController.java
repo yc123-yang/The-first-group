@@ -22,7 +22,11 @@ public class AchievementTypeController {
     @PostMapping("/achievementType/addAchievementType")
     public Result addAchievementType(String at_name) {
 
-        rs = AchievementType.addAchievementType(at_name);
+        try {
+            rs = AchievementType.addAchievementType(at_name);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 
@@ -30,7 +34,11 @@ public class AchievementTypeController {
 
     public Result delAchievementType(Integer at_id) {
 
-        AchievementType.delAchievementType(at_id);
+        try {
+            AchievementType.delAchievementType(at_id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         rs = new Result("0", "删除成功", null);
 
         return rs;
@@ -38,7 +46,11 @@ public class AchievementTypeController {
 
     @PostMapping("/achievementType/findAllAchievementType")
     public Result findAllAchievementType() {
-        rs = AchievementType.findAllAchievementType();
+        try {
+            rs = AchievementType.findAllAchievementType();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 }

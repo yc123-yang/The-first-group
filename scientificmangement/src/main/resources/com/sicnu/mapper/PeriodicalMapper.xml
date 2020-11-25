@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sicnu.mapper.PeriodicalMapper">
+    <insert id="addPeriodical" parameterType="Periodical">
+        insert into periodical(periodical_name) values (#{periodical_name})
+    </insert>
+    <delete id="delPeriodical" parameterType="Periodical">
+        delete from periodical where periodical_id = #{periodical_id}
+    </delete>
+    <select id="findAllPeriodical" resultType="Periodical">
+        select * from periodical
+    </select>
+    <select id="selectPeriodicalByName" resultType="Periodical">
+        select * from periodical where
+        periodical_name = #{periodical_name}
+    </select>
+</mapper>

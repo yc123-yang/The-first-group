@@ -3,6 +3,9 @@ package com.sicnu.pojo;
 
 import java.util.Date;
 
+/**
+ * 著作
+ */
 public class Book {
 
   private Integer book_id;

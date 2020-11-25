@@ -22,31 +22,51 @@ public class AwardController {
 
     @PostMapping("/award/addAward")
     public Result addAward(Award award) {
-        rs = awardService.addAward(award);
+        try {
+            rs = awardService.addAward(award);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 
     @PostMapping("/award/selectAwardByCondition")
     public Result selectAwardByCondition(Award award, String award_time_start, String award_time_end, Integer pageSize, Integer pageNum) throws ParseException {
-        rs = awardService.selectAwardByCondition(award, award_time_start, award_time_end, pageSize, pageNum);
+        try {
+            rs = awardService.selectAwardByCondition(award, award_time_start, award_time_end, pageSize, pageNum);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 
     @PostMapping("/award/updateAward")
     public Result updateAward(Award award) {
-        rs = awardService.updateAward(award);
+        try {
+            rs = awardService.updateAward(award);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 
     @PostMapping("/award/delAward")
     public Result delAward(Integer award_id) {
-        rs = awardService.delAward(award_id);
+        try {
+            rs = awardService.delAward(award_id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 
     @PostMapping("/award/selectAllAwardByCondition")
     public Result selectAllAwardByCondition(Award award, String award_time_start, String award_time_end, Integer pageSize, Integer pageNum) throws ParseException {
-        rs = awardService.selectAllAwardByCondition(award, award_time_start, award_time_end, pageSize, pageNum);
+        try {
+            rs = awardService.selectAllAwardByCondition(award, award_time_start, award_time_end, pageSize, pageNum);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 }

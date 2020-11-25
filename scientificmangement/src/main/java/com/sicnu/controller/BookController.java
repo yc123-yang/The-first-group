@@ -28,26 +28,42 @@ public class BookController {
 
     @PostMapping("/book/selectBookByCondition")
     public Result selectBookByCondition(Book book, String publish_time_start, String publish_time_end, Integer pageSize, Integer pageNum) throws ParseException {
-        rs = bookService.selectBookByCondition(book, publish_time_start, publish_time_end, pageSize, pageNum);
+        try {
+            rs = bookService.selectBookByCondition(book, publish_time_start, publish_time_end, pageSize, pageNum);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 
     @PostMapping("/book/delBook")
     public Result delBook(Integer book_id) {
-        rs = bookService.delBook(book_id);
+        try {
+            rs = bookService.delBook(book_id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 
     @PostMapping("/book/updateBook")
 
     public Result updateBook(Integer book_id) {
-        rs = bookService.updateBook(book_id);
+        try {
+            rs = bookService.updateBook(book_id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 
     @PostMapping("/book/selectAllBookByCondition")
     public Result selectAllBookByCondition(Book book, String publish_time_start, String publish_time_end, Integer pageSize, Integer pageNum) throws ParseException {
-        rs = bookService.selectAllBookByCondition(book, publish_time_start, publish_time_end, pageSize, pageNum);
+        try {
+            rs = bookService.selectAllBookByCondition(book, publish_time_start, publish_time_end, pageSize, pageNum);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 

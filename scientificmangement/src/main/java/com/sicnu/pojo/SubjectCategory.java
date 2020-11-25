@@ -3,6 +3,9 @@ package com.sicnu.pojo;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * 学科门类
+ */
 public class SubjectCategory implements Serializable {
     private String sc_id;
     private String sc_name;

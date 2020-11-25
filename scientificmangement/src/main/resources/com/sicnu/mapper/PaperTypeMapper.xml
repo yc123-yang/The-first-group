@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sicnu.mapper.PaperTypeMapper">
+    <insert id="addPaperType" parameterType="PaperType">
+        insert into paper_type(pt_name) values (#{pt_name})
+    </insert>
+    <delete id="delPaperType" parameterType="PaperType">
+        delete from paper_type where pt_id = #{pt_id}
+    </delete>
+    <select id="findAllPaperType" resultType="PaperType">
+        select * from paper_type
+    </select>
+    <select id="selectPaperTypeByName" resultType="PaperType">
+        select * from paper_type where
+        pt_name = #{pt_name}
+    </select>
+</mapper>

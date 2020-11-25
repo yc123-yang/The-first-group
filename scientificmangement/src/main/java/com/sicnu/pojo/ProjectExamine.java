@@ -4,6 +4,9 @@ package com.sicnu.pojo;
 import java.sql.Timestamp;
 import java.util.Date;
 
+/**
+ * 项目审核表
+ */
 public class ProjectExamine {
 
     private Integer pe_id;

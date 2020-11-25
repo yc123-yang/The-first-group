@@ -3,6 +3,9 @@ package com.sicnu.pojo;
 
 import java.io.Serializable;
 
+/**
+ * 专利团队审核表
+ */
 public class PatentTeamExamine implements Serializable {
 
     private Integer pe_id;

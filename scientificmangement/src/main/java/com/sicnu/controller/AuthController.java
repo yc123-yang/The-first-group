@@ -26,34 +26,55 @@ public class AuthController {
     @PostMapping("/auth/addAuth")
     public Result addAuth(String auth_name) {
 
-        rs = authService.addAuth(auth_name);
+        try {
+            rs = authService.addAuth(auth_name);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 
     @PostMapping("/auth/delAuth")
     public Result delAuth(Integer auth_id) {
-        rs = authService.delAuth(auth_id);
+        try {
+            rs = authService.delAuth(auth_id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 
     @PostMapping("/auth/findAllAuth")
     public Result findAllAuth() {
-        rs = authService.findAllAuth();
+        try {
+            rs = authService.findAllAuth();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 
     @PostMapping("/auth/getAuth")
     public List<Object> getAuth(Integer role_id) {
-        List<Object> authList = new ArrayList<>();
-        authList = authService.getAuth(role_id);
+        List<Object> authList = null;
+        try {
+            authList = new ArrayList<>();
+            authList = authService.getAuth(role_id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return authList;
     }
 
     @PostMapping("/auth/findAuthByPid")
     public Result findAuthByPid(HttpSession session, Integer auth_pid) {
-        User user = (User) session.getAttribute("user");
-        Integer user_id = user.getUser_id();
-        rs = authService.findAuthByPid(user_id, auth_pid);
+        try {
+            User user = (User) session.getAttribute("user");
+            Integer user_id = user.getUser_id();
+            rs = authService.findAuthByPid(user_id, auth_pid);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 }
