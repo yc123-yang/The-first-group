@@ -29,10 +29,10 @@ public class ProjectTeamServiceImpl implements ProjectTeamService {
             int user_id = userMapper.findByUserName(user_name);
             User user = userMapper.findUserById(user_id);
             if (!user.getRole_id().equals(role_id) && !user.getDepartment_id().equals(department_id)) {
-                rs = new Result("1", "成员信息有误，无法添加", null);
+                rs = new Result("400", "成员信息有误，无法添加", null);
             } else {
                 projectTeamMapper.addTeamUser(project_id, user_id, role_id);
-                rs = new Result("1", "成员添加成功", null);
+                rs = new Result("200", "成员添加成功", null);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -45,7 +45,7 @@ public class ProjectTeamServiceImpl implements ProjectTeamService {
         Result rs = null;
         try {
             projectTeamMapper.delTeamUser(user_id);
-            rs = new Result("0", "删除成功", null);
+            rs = new Result("200", "删除成功", null);
         } catch (Exception e) {
             e.printStackTrace();
         }

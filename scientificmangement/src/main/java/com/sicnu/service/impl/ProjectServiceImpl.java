@@ -32,8 +32,6 @@ import java.util.Map;
 public class ProjectServiceImpl implements ProjectService {
 
     @Resource
-    ReviewProjectServiceImpl reviewProjectService;
-    @Resource
     ProjectMapper projectDao;
 
     @Resource
@@ -81,7 +79,7 @@ public class ProjectServiceImpl implements ProjectService {
                 helper.setFrom("1776557392@qq.com");
                 mailSender.send(mailMessage);
                 //从待审核里面删除
-                reviewProjectService.delReviewProject(projectId);
+//                reviewProjectService.delReviewProject(projectId);
                 rs = new Result("400", "审核结果已反馈", null);
             } else {
                 project.setStatus_id(2);
@@ -92,7 +90,7 @@ public class ProjectServiceImpl implements ProjectService {
                 helper.setFrom("1776557392@qq.com");
                 mailSender.send(mailMessage);
                 //从待审核删除
-                reviewProjectService.delReviewProject(projectId);
+//                reviewProjectService.delReviewProject(projectId);
                 rs = new Result("200", "审核结果已反馈", null);
             }
         } catch (MessagingException e) {

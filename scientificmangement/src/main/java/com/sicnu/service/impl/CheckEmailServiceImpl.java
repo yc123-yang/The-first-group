@@ -45,7 +45,7 @@ public class CheckEmailServiceImpl implements CheckEmailService {
                 }
             }
             check_emailDao.addCheckCode(email, check_code, overTime);
-            rs = new Result("0", "验证码发送成功", null);
+            rs = new Result("200", "验证码发送成功", null);
 
 
             MimeMessage mailMessage = mailSender.createMimeMessage();
@@ -73,10 +73,10 @@ public class CheckEmailServiceImpl implements CheckEmailService {
             Date startTime = new Date(date.getTime());
 
             if (startTime.after(endTime)) {
-                rs = new Result("1", "验证码已经失效,请重新获取验证码", null);
+                rs = new Result("400", "验证码已经失效,请重新获取验证码", null);
                 check_emailDao.delCode(check_code);
             } else {
-                rs = new Result("0", "验证成功", null);
+                rs = new Result("200", "验证成功", null);
             }
         } catch (Exception e) {
             e.printStackTrace();

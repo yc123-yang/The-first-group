@@ -24,9 +24,9 @@ public class NatureServiceImpl implements NatureService {
             Nature nature = natureMapper.selectNatureByName(nature_name);
             if (nature == null) {
                 natureMapper.addNature(nature_name);
-                rs = new Result("0", "添加项目性质成功", null);
+                rs = new Result("200", "添加项目性质成功", null);
             } else {
-                rs = new Result("1", "项目性质已经存在", null);
+                rs = new Result("400", "项目性质已经存在", null);
 
             }
         } catch (Exception e) {
@@ -39,7 +39,7 @@ public class NatureServiceImpl implements NatureService {
     public Result delNature(Integer nature_id) {
         try {
             natureMapper.delNature(nature_id);
-            rs = new Result("0", "删除成功", null);
+            rs = new Result("200", "删除成功", null);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -50,7 +50,7 @@ public class NatureServiceImpl implements NatureService {
     public Result findAllNature() {
         try {
             List<Nature> natures = natureMapper.findAllNature();
-            rs = new Result("0", null, natures);
+            rs = new Result("200", null, natures);
         } catch (Exception e) {
             e.printStackTrace();
         }

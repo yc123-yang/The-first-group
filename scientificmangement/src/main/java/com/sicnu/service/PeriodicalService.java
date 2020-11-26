@@ -6,7 +6,7 @@ import com.sicnu.util.Result;
 import java.util.List;
 
 public interface PeriodicalService {
-    Result addPeriodical();
-    Result delPeriodical();
+    Result addPeriodical(String pt_name);
+    Result delPeriodical(Integer pt_d);
     Result findAllPeriodical();
 }

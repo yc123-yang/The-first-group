@@ -28,10 +28,10 @@ public class SubjectCategoryServiceImpl implements SubjectCategoryService {
             SubjectCategory subjectCategory = subjectCategoryMapper.selectSubjectCategoryByName(sc_name);
             if (subjectCategory == null) {
                 subjectCategoryMapper.addSubjectCategory(sc_id, sc_name);
-                rs = new Result("0", "添加学科门类成功", null);
+                rs = new Result("200", "添加学科门类成功", null);
 
             } else {
-                rs = new Result("1", "学科门类已经存在", null);
+                rs = new Result("400", "学科门类已经存在", null);
 
             }
         } catch (Exception e) {
@@ -44,7 +44,7 @@ public class SubjectCategoryServiceImpl implements SubjectCategoryService {
     public Result delSubjectCategory(String sc_id) {
         try {
             subjectCategoryMapper.delSubjectCategory(sc_id);
-            rs = new Result("0", "删除学科门类成功", null);
+            rs = new Result("200", "删除学科门类成功", null);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -55,7 +55,7 @@ public class SubjectCategoryServiceImpl implements SubjectCategoryService {
     public Result findAllSubjectCategory() {
         try {
             List<SubjectCategory> subjectCategories = subjectCategoryMapper.findAllSubjectCategory();
-            rs = new Result("0", null, subjectCategories);
+            rs = new Result("200", null, subjectCategories);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -74,7 +74,7 @@ public class SubjectCategoryServiceImpl implements SubjectCategoryService {
                 list.add(map);
             }
             System.out.println(subjects.get(0).getSc_id());
-            rs = new Result("0", null, list);
+            rs = new Result("200", null, list);
         } catch (Exception e) {
             e.printStackTrace();
         }

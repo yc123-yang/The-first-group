@@ -24,10 +24,10 @@ public class ConclusionTypeServiceImpl implements ConclusionTypeService {
         try {
             ConclusionType conclusionType = conclusionTypeMapper.selectConclusionTypeByName(ct_name);
             if (conclusionType == null) {
-                rs = new Result("0", "添加成功", null);
+                rs = new Result("200", "添加成功", null);
                 conclusionTypeMapper.addConclusionType(ct_name);
             } else {
-                rs = new Result("0", "已存在", null);
+                rs = new Result("400", "该字典已存在", null);
 
             }
         } catch (Exception e) {
@@ -40,7 +40,7 @@ public class ConclusionTypeServiceImpl implements ConclusionTypeService {
     public Result delConclusionType(Integer ct_id) {
         try {
             conclusionTypeMapper.delConclusionType(ct_id);
-            rs = new Result("0", "删除成功", null);
+            rs = new Result("200", "删除成功", null);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -51,7 +51,7 @@ public class ConclusionTypeServiceImpl implements ConclusionTypeService {
     public Result findAllConclusionType() {
         try {
             List<ConclusionType> conclusionTypes = conclusionTypeMapper.findAllConclusionType();
-            rs = new Result("0", null, conclusionTypes);
+            rs = new Result("20", null, conclusionTypes);
         } catch (Exception e) {
             e.printStackTrace();
         }

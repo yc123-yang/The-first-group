@@ -27,9 +27,9 @@ public class DepartmentServiceImpl implements DepartmentService {
             Department department = departmentMapper.selectDepartmentTypeByName(department_name);
             if (department == null) {
                 departmentMapper.addDepartmentType(department_name);
-                rs = new Result("0", "部门添加成功", null);
+                rs = new Result("200", "部门添加成功", null);
             } else {
-                rs = new Result("1", "该部门已存在", null);
+                rs = new Result("400", "该部门已存在", null);
 
             }
         } catch (Exception e) {
@@ -42,7 +42,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     public Result delDepartmentType(Integer department_id) {
         try {
             departmentMapper.delDepartmentType(department_id);
-            rs = new Result("0", "删除成功", null);
+            rs = new Result("200", "删除成功", null);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -54,7 +54,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     public Result findAllDepartmentType() {
         try {
             List<Department> departments = departmentMapper.findAllDepartmentType();
-            rs = new Result("0", null, departments);
+            rs = new Result("200", null, departments);
         } catch (Exception e) {
             e.printStackTrace();
         }

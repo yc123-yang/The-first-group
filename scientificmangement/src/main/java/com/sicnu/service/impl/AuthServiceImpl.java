@@ -27,9 +27,9 @@ public class AuthServiceImpl implements AuthService {
             Auth auth = authMapper.selectAuthByName(auth_name);
             if (auth == null) {
                 authMapper.addAuth(auth_name);
-                rs = new Result("0", "添加权限成功", null);
+                rs = new Result("200", "添加权限成功", null);
             } else {
-                rs = new Result("1", "该权限已存在", null);
+                rs = new Result("401", "该权限已存在", null);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -44,14 +44,14 @@ public class AuthServiceImpl implements AuthService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return rs = new Result("0", "删除成功", null);
+        return rs = new Result("200", "删除成功", null);
     }
 
     @Override
     public Result findAllAuth() {
         try {
             List<Auth> auths = authMapper.findAllAuth();
-            rs = new Result("0", null, auths);
+            rs = new Result("200", null, auths);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -24,10 +24,10 @@ public class SubjectServiceImpl implements SubjectService {
             Subject subject = subjectMapper.selectSubjectByName(subject_name);
             if (subject == null) {
                 subjectMapper.addSubject(subject_id, subject_name, sc_id);
-                rs = new Result("0", "添加一级学科成功", null);
+                rs = new Result("200", "添加一级学科成功", null);
 
             } else {
-                rs = new Result("1", "C", null);
+                rs = new Result("400", "C", null);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -39,7 +39,7 @@ public class SubjectServiceImpl implements SubjectService {
     public Result delSubject(String subject_id) {
         try {
             subjectMapper.delSubject(subject_id);
-            rs = new Result("0", "删除成功", null);
+            rs = new Result("200", "删除成功", null);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -51,7 +51,7 @@ public class SubjectServiceImpl implements SubjectService {
     public Result findAllSubject() {
         try {
             List<Subject> subjects = subjectMapper.findAllSubject();
-            rs = new Result("0", null, subjects);
+            rs = new Result("200", null, subjects);
         } catch (Exception e) {
             e.printStackTrace();
         }

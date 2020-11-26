@@ -25,9 +25,9 @@ public class RoleServiceImpl implements RoleService {
             Role role = roleMapper.selectRoleByName(role_name);
             if (role == null) {
                 roleMapper.addRole(role_name);
-                rs = new Result("0", "添加成功", null);
+                rs = new Result("200", "添加成功", null);
             } else {
-                rs = new Result("1", "该角色已存在", null);
+                rs = new Result("400", "该角色已存在", null);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -40,7 +40,7 @@ public class RoleServiceImpl implements RoleService {
 
         try {
             roleMapper.delRole(role_id);
-            rs = new Result("0", "删除成功", null);
+            rs = new Result("200", "删除成功", null);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -51,7 +51,7 @@ public class RoleServiceImpl implements RoleService {
     public Result findAllRole() {
         try {
             List<Role> roles = roleMapper.findAllRole();
-            rs = new Result("0", null, roles);
+            rs = new Result("200", null, roles);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -63,7 +63,7 @@ public class RoleServiceImpl implements RoleService {
         List<Role> roles = null;
         try {
             roles = roleMapper.getRole(role_id);
-            rs = new Result("0", null, roles);
+            rs = new Result("400", null, roles);
         } catch (Exception e) {
             e.printStackTrace();
         }

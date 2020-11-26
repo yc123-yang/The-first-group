@@ -24,9 +24,9 @@ public class LevelServiceImpl implements LevelService {
             Level level = levelMapper.selectLevelByName(level_name);
             if (level == null) {
                 levelMapper.addLevel(level_name);
-                rs = new Result("0", "添加等级成功", null);
+                rs = new Result("200", "添加等级成功", null);
             } else {
-                rs = new Result("1", "该等级已存在", null);
+                rs = new Result("400", "该等级已存在", null);
 
             }
         } catch (Exception e) {
@@ -39,7 +39,7 @@ public class LevelServiceImpl implements LevelService {
     public Result delLevel(Integer level_id) {
         try {
             levelMapper.delLevel(level_id);
-            rs = new Result("0", "删除等级成功", null);
+            rs = new Result("200", "删除等级成功", null);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -50,7 +50,7 @@ public class LevelServiceImpl implements LevelService {
     public Result findAllLevel() {
         try {
             List<Level> levels = levelMapper.findAllLevel();
-            rs = new Result("0", null, levels);
+            rs = new Result("200", null, levels);
         } catch (Exception e) {
             e.printStackTrace();
         }

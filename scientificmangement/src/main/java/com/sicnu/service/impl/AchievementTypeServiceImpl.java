@@ -25,10 +25,10 @@ public class AchievementTypeServiceImpl implements AchievementTypeService {
             AchievementType achievementType = achievementTypeMapper.selectAchievementTypeByName(at_name);
             if (achievementType == null) {
                 achievementTypeMapper.addAchievementType(at_name);
-                rs = new Result("0", "插入成功", null);
+                rs = new Result("200", "插入成功", null);
             }
             {
-                rs = new Result("1", "已经存在", null);
+                rs = new Result("400", "已经存在", null);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -41,7 +41,7 @@ public class AchievementTypeServiceImpl implements AchievementTypeService {
 
         try {
             achievementTypeMapper.delAchievementType(at_id);
-            rs = new Result("0", "删除成功", null);
+            rs = new Result("200", "删除成功", null);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -53,7 +53,7 @@ public class AchievementTypeServiceImpl implements AchievementTypeService {
     public Result findAllAchievementType() {
         try {
             List<AchievementType> achievementTypes = achievementTypeMapper.findAllAchievementType();
-            rs = new Result("0", null, achievementTypes);
+            rs = new Result("200", null, achievementTypes);
         } catch (Exception e) {
             e.printStackTrace();
         }

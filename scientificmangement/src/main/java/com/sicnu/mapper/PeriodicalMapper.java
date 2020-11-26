@@ -12,8 +12,8 @@ import java.util.List;
 @Mapper
 @Repository
 public interface PeriodicalMapper {
-    void addPeriodical();
-    void delPeriodical();
+    void addPeriodical(String pt_name);
+    void delPeriodical(Integer pt_id);
     List<Periodical> findAllPeriodical();
-    Periodical selectPeriodicalByName();
+    Periodical selectPeriodicalByName(String pt_name);
 }

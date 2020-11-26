@@ -25,9 +25,9 @@ public class StatusServiceImpl implements StatusService {
             Status status = statusMapper.selectStatusByName(status_name);
             if (status == null) {
                 statusMapper.addStatus(status_name);
-                rs = new Result("0", "添加项目状态字典成功", null);
+                rs = new Result("200", "添加项目状态字典成功", null);
             } else {
-                rs = new Result("1", "该项目状态字典已经存在", null);
+                rs = new Result("401", "该项目状态字典已经存在", null);
 
             }
         } catch (Exception e) {
@@ -40,7 +40,7 @@ public class StatusServiceImpl implements StatusService {
     public Result delStatus(Integer status_id) {
         try {
             statusMapper.delStatus(status_id);
-            rs = new Result("0", "删除项目状态成功", null);
+            rs = new Result("200", "删除项目状态成功", null);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -51,7 +51,7 @@ public class StatusServiceImpl implements StatusService {
     public Result findAllStatus() {
         try {
             List<Status> statuses = statusMapper.findAllStatus();
-            rs = new Result("0", null, statuses);
+            rs = new Result("400", null, statuses);
         } catch (Exception e) {
             e.printStackTrace();
         }
