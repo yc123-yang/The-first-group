@@ -59,7 +59,8 @@ export default {
         5: 'el-icon-s-comment',
         35: 'el-icon-user-solid',
         36: 'el-icon-circle-check',
-        37: 'el-icon-document'
+        37: 'el-icon-document',
+        46: 'el-icon-warning'
       },
       // 是否折叠菜单
       isCollapse: false,

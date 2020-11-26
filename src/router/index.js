@@ -23,6 +23,7 @@ import AwardsManage from '../components/achievement/awards/AwardsManage.vue'
 import Patents from '../components/achievement/patents/Patents.vue'
 import PatentsManage from '../components/achievement/patents/PatentsManage.vue'
 import PatentsQuery from '../components/achievement/patents/PatentsQuery.vue'
+import Logs from '../components/Logs.vue'
 
 Vue.use(VueRouter)
 axios.defaults.baseURL = 'http://localhost:8080/'
@@ -85,7 +86,8 @@ const routes = [
         ]
       },
       { path: '/roleEdit', component: RoleEdit },
-      { path: '/assignRole', component: AssignRole }
+      { path: '/assignRole', component: AssignRole },
+      { path: '/logs', component: Logs }
     ]
   }
 ]

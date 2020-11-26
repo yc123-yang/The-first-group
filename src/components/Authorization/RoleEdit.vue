@@ -8,34 +8,34 @@
     </el-breadcrumb>
 
     <el-card>
-      <el-button type="primary">添加角色</el-button>
+      <el-button type="primary" @click="addRoleDialogVisible = true">添加角色</el-button>
       <el-table :data="roleList" style="width: 100%; margin-top: 15px" :header-cell-style="{background: '#f5f7fa'}" border>
         <el-table-column type="index" label="#"></el-table-column>
         <el-table-column prop="role_id" label="角色编号"></el-table-column>
         <el-table-column prop="role_name" label="角色名称"></el-table-column>
         <el-table-column prop="role_discribe" label="角色描述"></el-table-column>
-        <el-table-column label="操作">
+        <el-table-column label="操作" width="300px">
           <template slot-scope="scope">
             <el-button type="primary" icon="el-icon-edit" size="mini">编辑</el-button>
             <el-button type="warning" icon="el-icon-setting" size="mini" @click="showAuthorEditDialog(scope.row)">修改权限</el-button>
-            <el-button type="danger" icon="el-icon-delete" size="mini">删除</el-button>
+            <el-button type="danger" icon="el-icon-delete" size="mini" @click="deleteRoleById(scope.row.role_id)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
     </el-card>
 
     <!-- 编辑权限对话框 -->
-    <el-dialog title="修改角色权限" :visible.sync="AuthorEditDialogVisible" width="70%" @closed="resetAuthTree">
+    <el-dialog title="修改角色权限" :visible.sync="AuthorEditDialogVisible" width="70%" @closed="resetAuthTree" class="authEditDialog">
         <el-row :gutter="10">
           <el-col :span="8">
-            <el-card style="max-height: 105vh; overflow: auto;">
+            <el-card style="max-height: 107vh; overflow: auto;">
               <el-tree :data="allAuthList" show-checkbox :props="authTreeProps" default-expand-all ref="authTree"
                 node-key="id" :default-checked-keys="checkedKeys" @check="selectionChange">
               </el-tree>
             </el-card>
           </el-col>
           <el-col :span="16">
-            <el-card  style="height: 105vh;">
+            <el-card  style="height: 107vh;">
               <el-row v-for="item in allAuthList" :key="item.id" :class="['vcenter', showTag(item.id)?'borderBottom':'']">
                 <el-col :span="5">
                   <el-tag type="warning" v-if="showTag(item.id)">{{item.title}}</el-tag>
@@ -60,14 +60,22 @@
             </el-card>
           </el-col>
         </el-row>
-        
-        
-        
-
         <span slot="footer" class="dialog-footer">
           <el-button @click="AuthorEditDialogVisible = false">取 消</el-button>
           <el-button type="primary" @click="editAuthor(roleInfo.role_id)">确 定</el-button>
         </span>
+    </el-dialog>
+    <!-- 添加角色对话框 -->
+    <el-dialog title="添加角色" :visible.sync="addRoleDialogVisible" width="50%" @close="addRoleDialogClosed">
+      <el-form :model="addRoleForm" :rules="addRoleFormRules" ref="addRoleFormRef" label-width="100px">
+        <el-form-item label="角色名称：" prop="role_name">
+          <el-input v-model="addRoleForm.role_name"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="addRoleDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="addRole">确 定</el-button>
+      </span>
     </el-dialog>
   </div>
 </template>
@@ -222,6 +230,16 @@ export default {
           resourcePath: 'data',
           childrenPermissions: [{ id: 45, title: '管理字典数据', resourcePath: 0 }]
         }]
+      }, {
+        id: 46,
+        title: '安全日志',
+        resourcePath: '',
+        childrenPermissions: [{
+          id: 47,
+          title: '查看安全日志',
+          resourcePath: '/logs',
+          childrenPermissions: [{ id: 48, title: '查看安全日志', resourcePath: '' }]
+        }]
       }],
       // 权限编辑树形控件属性对象
       authTreeProps: {
@@ -229,7 +247,19 @@ export default {
         label: 'title'
       },
       // 权限树中默认勾选的项
-      checkedKeys: []
+      checkedKeys: [],
+      // 添加角色对话框的显示与隐藏控制变量
+      addRoleDialogVisible: false,
+      // 添加角色表单
+      addRoleForm: {
+        role_name: ''
+      },
+      // 添加角色表单验证对象
+      addRoleFormRules: {
+        role_name: [
+          { required: true, message: '请输入角色名称', trigger: 'blur' }
+        ]
+      }
     }
   },
   created() {
@@ -296,6 +326,35 @@ export default {
     selectionChange() {
       this.authArr = this.$refs.authTree.getHalfCheckedKeys()
       this.$refs.authTree.getCheckedKeys().forEach(item => this.authArr.push(item))
+    },
+    // 点击确定，添加角色
+    addRole() {
+      this.$refs.addRoleFormRef.validate(async valid => {
+        if(valid === 'false') return
+        const { data: res } = await this.$http.post('role/addRole', this.$qs.stringify(this.addRoleForm))
+        if(res.status !== '0') return this.$message.error('添加角色失败')
+        this.$message.success('添加角色成功')
+        this.getRoleList()
+        this.addRoleDialogVisible = false
+      })
+    },
+    // 关闭添加角色对话框，清空添加角色表单
+    addRoleDialogClosed() {
+      this.$refs.addRoleFormRef.resetFields();
+    },
+    // 点击删除按钮，删除角色
+    async deleteRoleById(val) {
+      console.log(val)
+      const res = await this.$confirm('此操作将永久删除该角色，是否继续？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).catch(err => err)
+      if(res === 'cancle') return this.$message.info('取消了本次删除操作')
+      const { data: res2 } = await this.$http.post('/role/delRole', this.$qs.stringify({ role_id: val }))
+      if(res2.status !== '0') return this.$message.error('删除角色失败')
+      this.$message.success('删除角色成功')
+      this.getRoleList()
     }
   }  
 }
