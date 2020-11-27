@@ -17,4 +17,5 @@ public interface NatureMapper {
     Nature selectNatureByName(String nature_name);
 
     List<Nature> findAllNature();
+    void updateNature(Nature nature);
 }

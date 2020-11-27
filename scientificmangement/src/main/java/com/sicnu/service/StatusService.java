@@ -11,4 +11,6 @@ public interface StatusService {
     Result delStatus(Integer status_id);
 
     Result findAllStatus();
+    Result updateStatus(Status status);
+
 }

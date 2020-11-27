@@ -9,4 +9,6 @@ public interface PeriodicalService {
     Result addPeriodical(String pt_name);
     Result delPeriodical(Integer pt_d);
     Result findAllPeriodical();
+    Result updatePeriodical(Periodical periodical);
+
 }

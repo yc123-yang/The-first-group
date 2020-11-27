@@ -57,4 +57,15 @@ public class ConclusionTypeServiceImpl implements ConclusionTypeService {
         }
         return rs;
     }
+
+    @Override
+    public Result updateConclusionType(ConclusionType conclusionType) {
+        try {
+            conclusionTypeMapper.updateConclusionType(conclusionType);
+            rs = new Result("20","更改成功", null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
 }

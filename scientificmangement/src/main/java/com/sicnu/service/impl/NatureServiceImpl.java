@@ -56,4 +56,15 @@ public class NatureServiceImpl implements NatureService {
         }
         return rs;
     }
+
+    @Override
+    public Result updateNature(Nature nature) {
+        try {
+            natureMapper.updateNature(nature);
+            rs = new Result("200", "更改成功", null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
 }

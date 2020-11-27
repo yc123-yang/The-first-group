@@ -6,9 +6,11 @@ import com.sicnu.util.Result;
 import java.util.List;
 
 public interface DepartmentService {
-    Result addDepartmentType(String department_name);
+    Result addDepartment(String department_name);
 
-    Result delDepartmentType(Integer department_id);
+    Result delDepartment(Integer department_id);
 
-    Result findAllDepartmentType();
+    Result findAllDepartment();
+    Result updateDepartment(Department department);
+
 }

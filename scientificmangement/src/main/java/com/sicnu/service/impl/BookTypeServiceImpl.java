@@ -57,5 +57,16 @@ public class BookTypeServiceImpl implements BookTypeService {
         return rs;
     }
 
+    @Override
+    public Result updateBookType(BookType bookType) {
+        try {
+           bookTypeMapper.updateBookType(bookType);
+           rs = new Result("200","更改成功",null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
 
 }

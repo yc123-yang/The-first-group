@@ -16,4 +16,5 @@ public interface ConclusionTypeMapper {
     List<ConclusionType> findAllConclusionType();
 
     ConclusionType selectConclusionTypeByName(String ct_name);
+    void updateConclusionType(ConclusionType conclusionType);
 }

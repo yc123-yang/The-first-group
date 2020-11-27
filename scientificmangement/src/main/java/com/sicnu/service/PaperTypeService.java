@@ -9,4 +9,5 @@ public interface PaperTypeService {
     Result addPaperType(String pt_name);
     Result delPaperType(Integer pt_id);
     Result findAllPaperType();
+    Result updatePaperType(PaperType paperType);
 }

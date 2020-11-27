@@ -54,5 +54,16 @@ public class PressLevelServiceImpl implements PressLevelService {
         return rs;
     }
 
+    @Override
+    public Result updatePressLevel(PressLevel pressLevel) {
+        try {
+            pressLevelMapper.updatePressLevel(pressLevel);
+            rs = new Result("200","更改成功",null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
 
 }

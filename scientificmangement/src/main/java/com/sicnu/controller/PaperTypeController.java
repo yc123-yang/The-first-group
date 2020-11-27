@@ -1,7 +1,9 @@
 package com.sicnu.controller;
 
+import com.sicnu.pojo.PaperType;
 import com.sicnu.service.impl.PaperTypeServiceImpl;
 import com.sicnu.util.Result;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +20,7 @@ public class PaperTypeController {
     PaperTypeServiceImpl paperTypeService;
 
     @PostMapping("/paperType/addPaperType")
+    @RequiresPermissions("/data")
     public Result addPaperType(String pt_name) {
         try {
             rs = paperTypeService.addPaperType(pt_name);
@@ -29,7 +32,7 @@ public class PaperTypeController {
     }
 
     @PostMapping("/paperType/delPaperType")
-
+    @RequiresPermissions("/data")
     public Result delPaperType(Integer pt_id) {
         try {
             rs=paperTypeService.delPaperType(pt_id);
@@ -40,13 +43,24 @@ public class PaperTypeController {
         return rs;
     }
     @PostMapping("/paperType/findAllPaperType")
-
+    @RequiresPermissions("/data")
     public Result findAllPaperType() {
         try {
             rs = paperTypeService.findAllPaperType();
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return rs;
+    }
+    @PostMapping("/paperType/updatePaperType")
+    @RequiresPermissions("/data")
+    public Result updatePaperType(PaperType paperType) {
+        try {
+            rs=paperTypeService.updatePaperType(paperType);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return rs;
     }
 }

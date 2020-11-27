@@ -1,7 +1,9 @@
 package com.sicnu.controller;
 
+import com.sicnu.pojo.Level;
 import com.sicnu.service.impl.LevelServiceImpl;
 import com.sicnu.util.Result;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +20,7 @@ public class LevelController {
     LevelServiceImpl levelService;
 
     @PostMapping("/level/addLevel")
+    @RequiresPermissions("/data")
     public Result addLevel(String level_name) {
         try {
             rs = levelService.addLevel(level_name);
@@ -28,6 +31,7 @@ public class LevelController {
     }
 
     @PostMapping("/level/delLevel")
+    @RequiresPermissions("/data")
     public Result delLevel(Integer level_id) {
 
         try {
@@ -40,10 +44,21 @@ public class LevelController {
     }
 
     @PostMapping("/level/findAllLevel")
+    @RequiresPermissions("/data")
     public Result findAllLevel() {
 
         try {
             rs = levelService.findAllLevel();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+    @PostMapping("/level/findAllLevel")
+    @RequiresPermissions("/data")
+    public Result updateLevel(Level level) {
+        try {
+            rs=levelService.findAllLevel();
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -16,4 +16,5 @@ public interface StatusMapper {
     List<Status> findAllStatus();
 
     Status selectStatusByName(String status_name);
+    void updateStatus(Status status);
 }

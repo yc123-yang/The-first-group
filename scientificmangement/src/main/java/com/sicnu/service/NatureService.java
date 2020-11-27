@@ -11,4 +11,6 @@ public interface NatureService {
     Result delNature(Integer nature_id);
 
     Result findAllNature();
+    Result updateNature(Nature nature);
+
 }

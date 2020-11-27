@@ -56,4 +56,15 @@ public class LevelServiceImpl implements LevelService {
         }
         return rs;
     }
+
+    @Override
+    public Result updateLevel(Level level) {
+        try {
+           levelMapper.findAllLevel();
+            rs = new Result("200", "更改成功",null );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
 }

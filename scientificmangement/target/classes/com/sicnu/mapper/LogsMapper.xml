@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sicnu.mapper.LogsMapper">
+    <select id="findAllLogs" parameterType="java.util.HashMap" resultType="Slog">
+        <bind name="key_offset" value="(pageNum-1)*pageSize"/>
+        select * from logs order by log_id desc limit #{key_offset},#{pageSize}
+    </select>
+
+    <select id="countAllLogs" parameterType="string" resultType="Integer">
+        select count(*) from logs
+    </select>
+
+    <delete id="deleteAllLogs" parameterType="string">
+        delete from logs where 1 = 1
+    </delete>
+</mapper>

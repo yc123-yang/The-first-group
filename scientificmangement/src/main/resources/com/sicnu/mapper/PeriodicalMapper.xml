@@ -16,4 +16,11 @@
         select * from periodical where
         periodical_name = #{periodical_name}
     </select>
+    <update id="updatePeriodical" parameterType="Periodical">
+        update periodical
+        set
+        periodical_name = #{periodical_name}
+        where
+        periodical_id =#{periodical_id}
+    </update>
 </mapper>

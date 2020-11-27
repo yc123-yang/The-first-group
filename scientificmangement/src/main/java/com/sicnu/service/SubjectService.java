@@ -11,5 +11,6 @@ public interface SubjectService {
     Result delSubject(String subject_id);
 
     Result findAllSubject();
+    Result updateSubject(Subject subject);
 
 }

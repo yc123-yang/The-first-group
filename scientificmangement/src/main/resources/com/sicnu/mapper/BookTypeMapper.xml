@@ -16,4 +16,11 @@
         select * from book_type where
         bt_name = #{bt_name}
     </select>
+    <update id="updateBookType" parameterType="BookType">
+        update book_type
+        set
+        bt_name = #{bt_name}
+        where
+        bt_id = #{bt_id}
+    </update>
 </mapper>

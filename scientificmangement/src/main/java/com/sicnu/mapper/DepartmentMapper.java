@@ -9,11 +9,12 @@ import java.util.List;
 @Repository
 @Mapper
 public interface DepartmentMapper {
-    void addDepartmentType(String department_name);
+    void addDepartment(String department_name);
 
-    void delDepartmentType(Integer department_id);
+    void delDepartment(Integer department_id);
 
-    List<Department> findAllDepartmentType();
+    List<Department> findAllDepartment();
 
-    Department selectDepartmentTypeByName(String department_name);
+    Department selectDepartmentByName(String department_name);
+    void updateDepartment(Department department);
 }

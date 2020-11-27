@@ -57,4 +57,16 @@ public class PaperTypeServiceImpl implements PaperTypeService {
         return rs;
     }
 
+    @Override
+    public Result updatePaperType(PaperType paperType) {
+        try {
+             paperTypeMapper.updatePaperType(paperType);
+            rs = new Result("200", "更改成功", null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return rs;
+    }
+
 }

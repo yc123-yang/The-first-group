@@ -17,5 +17,11 @@
         select * from subject where
         subject_name = #{subject_name}
     </select>
-
+    <update id="updateSubject" parameterType="Subject">
+        update subject
+        set
+        subject_name = #{subject_name}
+        where
+        subject_id = #{subject_id}
+    </update>
 </mapper>

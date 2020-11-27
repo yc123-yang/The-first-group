@@ -14,4 +14,5 @@ public interface PaperTypeMapper {
     void delPaperType(Integer pt_id);
     List<PaperType> findAllPaperType();
     PaperType selectPaperTypeByName(String pt_name);
+    void updatePaperType(PaperType paperType);
 }

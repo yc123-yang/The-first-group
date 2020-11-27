@@ -13,4 +13,5 @@ public interface BookTypeMapper {
     void delBookType(Integer bt_id);
     List<BookType> findAllBookType();
     BookType selectBookTypeByName(String bt_name);
+    void updateBookType(BookType bookType);
 }

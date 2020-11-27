@@ -53,4 +53,15 @@ public class PeriodicalServiceImpl implements PeriodicalService {
         }
         return rs;
     }
+
+    @Override
+    public Result updatePeriodical(Periodical periodical) {
+        try {
+            periodicalMapper.updatePeriodical(periodical);
+            rs = new Result("200","更改成功",null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
 }

@@ -11,4 +11,6 @@ public interface ConclusionTypeService {
     Result delConclusionType(Integer ct_id);
 
     Result findAllConclusionType();
+    Result updateConclusionType(ConclusionType conclusionType);
+
 }

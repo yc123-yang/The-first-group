@@ -16,4 +16,11 @@
         select * from level where
         level_name = #{level_name}
     </select>
+    <update id="updateLevel" parameterType="Level">
+        update level
+        set
+        level_name = #{level_name}
+        where
+        level_id = #{level_id}
+    </update>
 </mapper>

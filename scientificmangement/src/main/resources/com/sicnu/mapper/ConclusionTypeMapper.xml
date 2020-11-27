@@ -16,4 +16,11 @@
         select * from conclusion_type where
         ct_name = #{ct_name}
     </select>
+    <update id="updateConclusionType" parameterType="ConclusionType">
+        update conclusion_type
+        set
+        ct_name = #{ct_name}
+        where
+        cd_id =#{ct_id}
+    </update>
 </mapper>

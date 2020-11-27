@@ -1,5 +1,6 @@
 package com.sicnu.controller;
 
+import com.sicnu.pojo.Department;
 import com.sicnu.service.impl.DepartmentServiceImpl;
 import com.sicnu.util.Result;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -19,37 +20,49 @@ public class DepartmentController {
     DepartmentServiceImpl departmentService;
     private Result rs;
 
-    @PostMapping("/department/addDepartmentType")
+    @PostMapping("/department/addDepartment")
     @RequiresPermissions("/data")
     public Result addDepartmentType(String department_name) {
 
         try {
-            rs = departmentService.addDepartmentType(department_name);
+            rs = departmentService.addDepartment(department_name);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return rs;
     }
 
-    @PostMapping("/department/delDepartmentType")
+    @PostMapping("/department/delDepartment")
     @RequiresPermissions("/data")
     public Result delDepartmentType(Integer department_id) {
         try {
-            rs = departmentService.delDepartmentType(department_id);
+            rs = departmentService.delDepartment(department_id);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return rs;
     }
 
-    @PostMapping("/department/findAllDepartmentType")
+    @PostMapping("/department/findAllDepartment")
     @RequiresPermissions("/data")
-    public Result findAllDepartmentType() {
+    public Result findAllDepartment() {
         try {
-            rs = departmentService.findAllDepartmentType();
+            rs = departmentService.findAllDepartment();
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return rs;
+    }
+
+    @PostMapping("/department/updateDepartment")
+    @RequiresPermissions("/data")
+    public Result updateDepartment(Department department) {
+        try {
+           rs= departmentService.updateDepartment(department);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return rs;
     }
 }

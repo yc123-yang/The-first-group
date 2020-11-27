@@ -11,4 +11,6 @@ public interface LevelService {
     Result delLevel(Integer level_id);
 
     Result findAllLevel();
+    Result updateLevel(Level level);
+
 }

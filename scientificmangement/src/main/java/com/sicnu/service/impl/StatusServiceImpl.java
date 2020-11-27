@@ -57,4 +57,15 @@ public class StatusServiceImpl implements StatusService {
         }
         return rs;
     }
+
+    @Override
+    public Result updateStatus(Status status) {
+        try {
+            statusMapper.updateStatus(status);
+            rs = new Result("200", "更改项目状态字典成功", null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
 }

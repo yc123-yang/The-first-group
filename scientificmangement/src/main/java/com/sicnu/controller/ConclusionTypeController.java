@@ -1,5 +1,6 @@
 package com.sicnu.controller;
 
+import com.sicnu.pojo.ConclusionType;
 import com.sicnu.service.impl.ConclusionTypeServiceImpl;
 import com.sicnu.util.Result;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -49,6 +50,16 @@ public class ConclusionTypeController {
     public Result findAllConclusionType() {
         try {
             rs = conclusionTypeService.findAllConclusionType();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+    @PostMapping("/conclusionType/updateConclusionType")
+    @RequiresPermissions("/data")
+    public Result updateConclusionType(ConclusionType conclusionType) {
+        try {
+            rs = conclusionTypeService.updateConclusionType(conclusionType);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -56,4 +56,14 @@ public class BookTypeController {
         }
         return rs;
     }
+    @PostMapping("/bookType/updateBookType")
+    @RequiresPermissions("/data")
+    public Result updateBookType(BookType bookType) {
+        try {
+           rs= bookTypeService.updateBookType(bookType);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
 }

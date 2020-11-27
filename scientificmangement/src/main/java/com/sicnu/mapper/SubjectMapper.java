@@ -16,4 +16,5 @@ public interface SubjectMapper {
     List<Subject> findAllSubject();
 
     Subject selectSubjectByName(String subject_name);
+    void updateSubject(Subject subject);
 }

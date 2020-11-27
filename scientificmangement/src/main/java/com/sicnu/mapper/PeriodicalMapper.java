@@ -16,4 +16,5 @@ public interface PeriodicalMapper {
     void delPeriodical(Integer pt_id);
     List<Periodical> findAllPeriodical();
     Periodical selectPeriodicalByName(String pt_name);
+    void updatePeriodical(Periodical periodical);
 }

@@ -9,4 +9,6 @@ public interface PressLevelService {
     Result addPressLevel(String pl_name);
     Result delPressLevel(Integer pl_id);
     Result findAllPressLevel();
+    Result updatePressLevel(PressLevel pressLevel);
+
 }

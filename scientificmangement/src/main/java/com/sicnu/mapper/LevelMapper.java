@@ -16,4 +16,5 @@ public interface LevelMapper {
     List<Level> findAllLevel();
 
     Level selectLevelByName(String level_name);
+    void updateLevel(Level level);
 }

@@ -58,5 +58,17 @@ public class SubjectServiceImpl implements SubjectService {
         return rs;
     }
 
+    @Override
+    public Result updateSubject(Subject subject) {
+        try {
+            subjectMapper.updateSubject(subject);
+            rs = new Result("200", "更改成功", null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return rs;
+    }
+
 
 }
