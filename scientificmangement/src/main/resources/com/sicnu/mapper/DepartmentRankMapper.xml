@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sicnu.mapper.DepartmentRankMapper">
+    <insert id="addDepartmentRank" parameterType="DepartmentRank">
+        insert into department_rank(dr_name) values(#{dr_name})
+    </insert>
+    <delete id="delDepartmentRank" parameterType="DepartmentRank">
+        delete from department_rank where dr_id = #{dr_id}
+    </delete>
+    <select id="findAllDepartmentRank" resultType="DepartmentRank">
+        select * from department_rank
+    </select>
+    <select id="selectDepartmentRankByName" resultType="DepartmentRank">
+        select * from department_rank where
+        dr_name = #{dr_name}
+    </select>
+    <update id="updateDepartmentRank" parameterType="DepartmentRank">
+        update department_rank set
+        dr_name = #{dr_name}
+        where
+        dr_id =#{dr_id}
+    </update>
+</mapper>

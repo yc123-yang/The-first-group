@@ -14,6 +14,6 @@
     </select>
     <select id="selectStatusByName" resultType="Status">
         select * from status where
-        auth_name = #{status_name}
+        status_name = #{status_name}
     </select>
 </mapper>

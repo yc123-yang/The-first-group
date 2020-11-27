@@ -4,14 +4,17 @@ import com.sicnu.mapper.PressLevelMapper;
 import com.sicnu.pojo.PressLevel;
 import com.sicnu.service.PressLevelService;
 import com.sicnu.util.Result;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
 
+@Service
 public class PressLevelServiceImpl implements PressLevelService {
 
     @Resource
     PressLevelMapper pressLevelMapper;
+
     private Result rs;
     @Override
     public Result addPressLevel(String pl_name) {

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sicnu.mapper.PublicationPlaceMapper">
+    <insert id="addPublicationPlace" parameterType="PublicationPlace">
+        insert into publication_place(pp_name) values(#{pp_name})
+    </insert>
+    <delete id="delPublicationPlace" parameterType="PublicationPlace">
+        delete from publication_place where pp_id = #{pp_id}
+    </delete>
+    <select id="findAllPublicationPlace" resultType="PublicationPlace">
+        select * from publication_place
+    </select>
+    <select id="findPublicationPlaceByName" resultType="PublicationPlace">
+        select * from publication_place where
+        pp_name = #{pp_name}
+    </select>
+    <update id="updatePublicationPlace" parameterType="PublicationPlace">
+        update publication_place set
+        pp_name = #{pp_name}
+        where
+        pp_id = #{pp_id}
+    </update>
+</mapper>

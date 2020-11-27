@@ -40,7 +40,7 @@ public class CheckEmailServiceImpl implements CheckEmailService {
             check_code = new Code().smsCode();
             List<CheckEmail> check_emails = check_emailDao.findAllCode();
             for (int i = 0; i < check_emails.size(); i++) {
-                if (check_emails.get(i).getCheck_code() == check_code) {
+                if (check_emails.get(i).getCheck_code().equals(check_code) ) {
                     check_code = new Code().smsCode();
                 }
             }

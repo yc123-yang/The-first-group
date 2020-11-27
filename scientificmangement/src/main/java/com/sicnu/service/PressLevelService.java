@@ -2,7 +2,6 @@ package com.sicnu.service;
 
 import com.sicnu.pojo.PressLevel;
 import com.sicnu.util.Result;
-import jdk.internal.loader.Resource;
 
 import java.util.List;
 

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sicnu.mapper.PatentTypeMapper">
+    <insert id="addPatentType" parameterType="PatentType">
+        insert into patent_type(pt_name) values(#{pt_name})
+    </insert>
+    <delete id="delPatentType" parameterType="PatentType">
+        delete from patent_type where pt_id = #{pt_id}
+    </delete>
+    <select id="findAllPatentType" resultType="PatentType">
+        select * from patent_type
+    </select>
+    <select id="selectPatentTypeByName" resultType="PatentType">
+        select * from patent_type where
+        pt_name = #{pt_name}
+    </select>
+    <update id="updatePatentType" parameterType="PatentType">
+        update patent_type
+        set
+        pt_name =#{pt_name}
+        where
+        pt_id = #{pt_id}
+    </update>
+</mapper>
