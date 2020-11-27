@@ -4,6 +4,7 @@ import com.sicnu.mapper.AwardRankMapper;
 import com.sicnu.pojo.AwardRank;
 import com.sicnu.service.impl.AwardRankServiceImpl;
 import com.sicnu.util.Result;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,6 +23,7 @@ public class AwardRankController {
     private Result rs;
 
     @PostMapping("/awardRank/addAwardRank")
+    @RequiresPermissions("/data")
     public Result addAwardRank(String ar_name) {
         try {
             rs = awardRankService.addAwardRank(ar_name);
@@ -32,7 +34,7 @@ public class AwardRankController {
     }
 
     @PostMapping("/awardRank/delAwardRank")
-
+    @RequiresPermissions("/data")
     public Result delAwardRank(Integer ar_id) {
         try {
             rs =awardRankService.delAwardRank(ar_id);
@@ -42,7 +44,7 @@ public class AwardRankController {
         return rs;
     }
     @PostMapping("/awardRank/findAllAwardRank")
-
+    @RequiresPermissions("/data")
     public Result findAllAwardRank() {
         try {
             rs = awardRankService.findAllAwardRank();
@@ -53,6 +55,7 @@ public class AwardRankController {
     }
 
     @PostMapping("/awardRank/updateAwardRank")
+    @RequiresPermissions("/data")
     public Result updateAwardRank(AwardRank awardRank) {
 
         try {

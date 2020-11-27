@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sicnu.mapper.AwardRankMapper">
+    <insert id="addAwardRank" parameterType="AwardRank">
+        insert into award_rank(ar_name) values(#{ar_name})
+    </insert>
+    <delete id="delAwardRank" parameterType="AwardRank">
+        delete from award_rank where ar_id = #{ar_id}
+    </delete>
+    <select id="findAllAwardRank" resultType="AwardRank">
+        select * from award_rank
+    </select>
+    <select id="selectAwardRankByName" resultType="AwardRank">
+        select * from award_rank where
+        ar_name = #{ar_name}
+    </select>
+    <update id="updateAwardRank" parameterType="AwardRank">
+        update award_rank
+        set
+        ar_name = #{ar_name}
+        where
+        ar_id =#{ar_id}
+    </update>
+</mapper>

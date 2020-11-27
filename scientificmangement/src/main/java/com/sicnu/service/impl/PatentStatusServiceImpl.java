@@ -4,10 +4,11 @@ import com.sicnu.mapper.PatentStatusMapper;
 import com.sicnu.pojo.PatentStatus;
 import com.sicnu.service.PatentStatusService;
 import com.sicnu.util.Result;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
-
+@Service
 public class PatentStatusServiceImpl implements PatentStatusService {
 
     @Resource

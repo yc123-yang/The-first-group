@@ -16,4 +16,11 @@
         select * from achievemen_type where
         at_name = #{at_name}
     </select>
+    <update id="updateAchievementType" parameterType="AchievementType">
+        update achievemen_type
+        set
+        at_name = #{at_name}
+        where
+        at_id = #{at_id}
+    </update>
 </mapper>

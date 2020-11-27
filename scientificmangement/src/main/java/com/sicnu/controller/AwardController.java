@@ -21,6 +21,7 @@ public class AwardController {
     private Result rs;
 
     @PostMapping("/award/addAward")
+
     public Result addAward(Award award) {
         try {
             rs = awardService.addAward(award);

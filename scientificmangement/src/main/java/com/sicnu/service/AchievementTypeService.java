@@ -11,4 +11,6 @@ public interface AchievementTypeService {
     Result delAchievementType(Integer at_id);
 
     Result findAllAchievementType();
+    Result updateAchievementType(AchievementType achievementType);
+
 }

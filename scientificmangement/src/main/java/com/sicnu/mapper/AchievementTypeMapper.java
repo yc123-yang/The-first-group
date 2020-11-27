@@ -16,4 +16,5 @@ public interface AchievementTypeMapper {
     List<AchievementType> findAllAchievementType();
 
     AchievementType selectAchievementTypeByName(String at_name);
+    void updateAchievementType(AchievementType achievementType);
 }

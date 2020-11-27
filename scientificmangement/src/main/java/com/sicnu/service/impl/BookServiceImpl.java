@@ -95,21 +95,23 @@ public class BookServiceImpl implements BookService{
     @Override
     public Result delBook(Integer book_id) {
         try {
-            bookMapper.updateBook(book_id);
+            bookMapper.delBook(book_id);
+            rs = new Result("200","删除成功",null);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return rs;
     }
 
     @Override
-    public Result updateBook(Integer book_id) {
+    public Result updateBook(Book book) {
         try {
-            bookMapper.updateBook(book_id);
+            bookMapper.updateBook(book);
+            rs = new Result("200","更新成功",null);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return rs;
     }
 
     @Override

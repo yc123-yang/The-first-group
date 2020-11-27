@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sicnu.mapper.PatentStatusMapper">
+    <insert id="addPatentStatus" parameterType="PatentStatus">
+        insert into patent_status(ps_name) values(#{ps_name})
+    </insert>
+    <delete id="delPatentStatus" parameterType="PatentStatus">
+        delete from patent_status where ps_id = #{ps_id}
+    </delete>
+    <select id="findAllPatentStatus" resultType="PatentStatus">
+        select * from patent_status
+    </select>
+    <select id="selectPatentStatusByName" resultType="PatentStatus">
+        select * from patent_status where
+        ps_name = #{ps_name}
+    </select>
+    <update id="updatePatentRange" parameterType="PatentStatus">
+        update patent_status
+        set
+        ps_name=#{ps_name}
+        where
+        ps_id =#{ps_id}
+    </update>
+</mapper>

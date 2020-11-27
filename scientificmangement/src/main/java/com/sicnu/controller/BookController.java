@@ -48,9 +48,9 @@ public class BookController {
 
     @PostMapping("/book/updateBook")
 
-    public Result updateBook(Integer book_id) {
+    public Result updateBook(Book book) {
         try {
-            rs = bookService.updateBook(book_id);
+            rs = bookService.updateBook(book);
         } catch (Exception e) {
             e.printStackTrace();
         }

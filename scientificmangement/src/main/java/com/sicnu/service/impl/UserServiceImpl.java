@@ -273,7 +273,7 @@ public class UserServiceImpl implements UserService {
             Subject subject = SecurityUtils.getSubject();
             //shiro清空用户登录信息
             subject.logout();
-            //清苦缓存
+            //清空
             cacheUserMapper.delCacheUser();
         } catch (Exception e) {
             e.printStackTrace();

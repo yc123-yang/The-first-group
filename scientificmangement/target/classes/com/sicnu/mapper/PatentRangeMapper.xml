@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sicnu.mapper.PatentRangeMapper">
+    <insert id="addPatentRange" parameterType="PatentRange">
+        insert into patent_range(pr_name) values(#{pr_name})
+    </insert>
+    <delete id="delPatentRange" parameterType="PatentRange">
+        delete from patent_range where pr_id = #{pr_id}
+    </delete>
+    <select id="findAllPatentRange" resultType="PatentRange">
+        select * from patent_range
+    </select>
+    <select id="selectPatentRangeByName" resultType="PatentRange">
+        select * from patent_range where
+        pr_name = #{pr_name}
+    </select>
+    <update id="updatePatentRange" parameterType="PatentRange">
+        update patent_range
+        set
+        pr_name=#{pr_name}
+        where
+        pr_id =#{pr_id}
+    </update>
+</mapper>

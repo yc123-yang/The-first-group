@@ -4,6 +4,7 @@ import com.sicnu.pojo.BookType;
 import com.sicnu.service.BookTypeService;
 import com.sicnu.service.impl.BookTypeServiceImpl;
 import com.sicnu.util.Result;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +22,7 @@ public class BookTypeController {
     BookTypeServiceImpl bookTypeService;
     private Result rs = null;
     @PostMapping("/bookType/addBookType")
+    @RequiresPermissions("/data")
     public Result addBookType(String bt_name) {
 
         try {
@@ -32,7 +34,7 @@ public class BookTypeController {
 
     }
     @PostMapping("/bookType/delBookType")
-
+    @RequiresPermissions("/data")
     public Result delBookType(Integer bt_id) {
 
         try {
@@ -44,7 +46,7 @@ public class BookTypeController {
     }
 
     @PostMapping("/bookType/findAllBookType")
-
+    @RequiresPermissions("/data")
     public Result findAllBookType() {
         try {
             rs = bookTypeService.findAllBookType();

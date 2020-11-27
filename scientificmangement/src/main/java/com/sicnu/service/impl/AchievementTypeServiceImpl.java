@@ -59,4 +59,15 @@ public class AchievementTypeServiceImpl implements AchievementTypeService {
         }
         return rs;
     }
+
+    @Override
+    public Result updateAchievementType(AchievementType achievementType) {
+        try {
+            achievementTypeMapper.updateAchievementType(achievementType);
+            rs =  new Result("200","更改字典数据成功",null);
+          } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
 }

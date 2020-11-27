@@ -2,6 +2,7 @@ package com.sicnu.controller;
 
 import com.sicnu.service.impl.ConclusionTypeServiceImpl;
 import com.sicnu.util.Result;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +20,7 @@ public class ConclusionTypeController {
     private Result rs;
 
     @PostMapping("/conclusionType/addConclusionType")
+    @RequiresPermissions("/data")
     public Result addConclusionType(String ct_name) {
 
         try {
@@ -31,6 +33,7 @@ public class ConclusionTypeController {
     }
 
     @PostMapping("/conclusionType/delConclusionType")
+    @RequiresPermissions("/data")
     public Result delConclusionType(Integer ct_id) {
 
         try {
@@ -42,6 +45,7 @@ public class ConclusionTypeController {
     }
 
     @PostMapping("/conclusionType/findAllConclusionType")
+    @RequiresPermissions("/data")
     public Result findAllConclusionType() {
         try {
             rs = conclusionTypeService.findAllConclusionType();

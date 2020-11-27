@@ -13,7 +13,7 @@ public interface BookService {
 
     Result delBook(Integer book_id);
 
-    Result updateBook(Integer book_id);
+    Result updateBook(Book book);
     Result selectAllBookByCondition(Book book, String publish_time_start, String publish_time_end, Integer pageSize, Integer pageNum) throws ParseException;
 
 }

@@ -6,6 +6,8 @@ import com.sicnu.mapper.UserMapper;
 import com.sicnu.pojo.Auth;
 import com.sicnu.pojo.Role;
 import com.sicnu.pojo.User;
+import com.sicnu.service.AuthService;
+import com.sicnu.service.impl.AuthServiceImpl;
 import com.sicnu.service.impl.RoleServiceImpl;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +40,7 @@ public class MyShiroRealm extends AuthorizingRealm {
     private RoleServiceImpl roleService;
 
     @Resource
-    private AuthMapper authMapper;
+    private AuthServiceImpl authService;
 
 
     /**
@@ -56,16 +58,18 @@ public class MyShiroRealm extends AuthorizingRealm {
         //如果身份认证的时候没有传入User对象，这里只能取到userName
         //也就是SimpleAuthenticationInfo构造的时候第一个参数传递需要User对象
         User user = (User) principals.getPrimaryPrincipal();
-
+        System.out.println("user:"+user);
         // 查询用户角色，一个用户可能有多个角色
         List<Role> roles = roleService.getRole(user.getRole_id());
-
+        System.out.println("roles:"+roles);
         for (Role role : roles) {
             authorizationInfo.addRole(role.getRole_name());
             // 根据角色查询权限
-            List<Auth> permissions = authMapper.getAuth(role.getRole_id());
-            for (Auth p : permissions) {
-                authorizationInfo.addStringPermission(p.getAuth_name());
+            List<Object> permissions = authService.getAuth(role.getRole_id());
+            System.out.println(role.getRole_id());
+            System.out.println(permissions);
+            for (Object p : permissions) {
+                authorizationInfo.addStringPermission((String) p);
             }
         }
         return authorizationInfo;

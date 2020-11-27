@@ -4,6 +4,7 @@ import com.sicnu.mapper.AwardLevelMapper;
 import com.sicnu.pojo.AwardLevel;
 import com.sicnu.service.impl.AwardLevelServiceImpl;
 import com.sicnu.util.Result;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +22,8 @@ public class AwardLevelController {
 
     private Result rs;
     @PostMapping("/awardLevel/addAwardLevel")
+    @RequiresPermissions("/data")
+
     public Result addAwardLevel(String al_name) {
         try {
             rs   = awardLevelService.addAwardLevel(al_name);
@@ -30,6 +33,7 @@ public class AwardLevelController {
         return rs;
     }
     @PostMapping("/awardLevel/delAwardLevel")
+    @RequiresPermissions("/data")
     public Result delAwardLevel(Integer al_id) {
         try {
             rs=awardLevelService.delAwardLevel(al_id);
@@ -39,6 +43,7 @@ public class AwardLevelController {
         return rs;
     }
     @PostMapping("/awardLevel/findAllAwardLevel")
+    @RequiresPermissions("/data")
     public Result findAllAwardLevel() {
         try {
             rs = awardLevelService.findAllAwardLevel();
@@ -48,6 +53,7 @@ public class AwardLevelController {
         return rs;
     }
     @PostMapping("/awardLevel/updateAwardLevel")
+    @RequiresPermissions("/data")
     public Result updateAwardLevel(AwardLevel awardLevel) {
         try {
                 rs = awardLevelService.updateAwardLevel(awardLevel);
