@@ -1,5 +1,5 @@
 import Mock from 'mockjs'
-var flag = false
+var flag = true
 
 // 菜单列表+权限列表
 const menulist = [{
@@ -9,10 +9,10 @@ const menulist = [{
   childrenPermissions: [{
     id: 6,
     title: '科研项目',
-    resourcePath: 'projects',
+    resourcePath: '/projects',
     childrenPermissions: [
-        { id: 18, title: '查看科研项目', resourcePath: 'projects/query' },
-        { id: 19, title: '管理科研项目', resourcePath: 'projects/manage' }
+        { id: 18, title: '查看科研项目', resourcePath: '/projects/query' },
+        { id: 19, title: '管理科研项目', resourcePath: '/projects/manage' }
       ]
     }]
   }, {
@@ -22,34 +22,34 @@ const menulist = [{
     childrenPermissions: [{
       id: 7,
       title: '论文成果',
-      resourcePath: 'papers',
+      resourcePath: '/papers',
       childrenPermissions: [
-        { id: 20, title: '查看论文成果', resourcePath: 'papers/query' },
-        { id: 21, title: '管理论文成果', resourcePath: 'papers/manage' }
+        { id: 20, title: '查看论文成果', resourcePath: '/papers/query' },
+        { id: 21, title: '管理论文成果', resourcePath: '/papers/manage' }
       ]
     }, {
     id: 8,
     title: '著作成果',
-    resourcePath: 'books',
+    resourcePath: '/books',
     childrenPermissions: [
-      { id: 22, title: '查看著作成果', resourcePath: 'books/query' },
-      { id: 23, title: '管理著作成果', resourcePath: 'books/manage' }
+      { id: 22, title: '查看著作成果', resourcePath: '/books/query' },
+      { id: 23, title: '管理著作成果', resourcePath: '/books/manage' }
     ]
   }, {
     id: 9,
     title: '科研成果获奖',
-    resourcePath: 'awards',
+    resourcePath: '/awards',
     childrenPermissions: [
-      { id: 24, title: '查看成果获奖', resourcePath: 'awards/query' },
-      { id: 25, title: '管理成果获奖', resourcePath: 'awards/manage' }
+      { id: 24, title: '查看成果获奖', resourcePath: '/awards/query' },
+      { id: 25, title: '管理成果获奖', resourcePath: '/awards/manage' }
     ]
   }, {
     id: 10,
     title: '专利与产品',
-    resourcePath: 'patents',
+    resourcePath: '/patents',
     childrenPermissions: [
-      { id: 26, title: '查看专利产品', resourcePath: 'patents/query' },
-      { id: 27, title: '管理专利产品', resourcePath: 'patents/manage' }
+      { id: 26, title: '查看专利产品', resourcePath: '/patents/query' },
+      { id: 27, title: '管理专利产品', resourcePath: '/patents/manage' }
     ]
   }]
 }, {
@@ -59,7 +59,7 @@ const menulist = [{
   childrenPermissions: [{
     id: 11,
     title: '管理项目经费',
-    resourcePath: 'funding',
+    resourcePath: '/funding',
     childrenPermissions: [{ id: 28, title: '管理项目经费', resourcePath: 0 }]
   }]
 }, {
@@ -69,7 +69,7 @@ const menulist = [{
   childrenPermissions: [{
     id: 12,
     title: '考核结果',
-    resourcePath: 'assess',
+    resourcePath: '/assess',
     childrenPermissions: [{ id: 29, title: '查看考核结果', resourcePath: 0 }]
   }]
 }, {
@@ -79,12 +79,12 @@ const menulist = [{
   childrenPermissions: [{
     id: 13,
     title: '审核项目申请',
-    resourcePath: 'checkproject',
+    resourcePath: '/checkproject',
     childrenPermissions: [{ id: 30, title: '审核项目申请', resourcePath: 0 }]
   }, {
     id: 14,
     title: '审核论文成果申请',
-    resourcePath: 'checkpapers',
+    resourcePath: '/checkpapers',
     childrenPermissions: [{ id: 31, title: '审核论文成果申请', resourcePath: 0 }]
   }, {
     id: 15,
@@ -94,12 +94,12 @@ const menulist = [{
   }, {
     id: 16,
     title: '审核科研获奖申请',
-    resourcePath: 'checkawards',
+    resourcePath: '/checkawards',
     childrenPermissions: [{ id: 33, title: '审核科研获奖申请', resourcePath: 0 }]
   }, {
     id: 17,
     title: '审核专利产品申请',
-    resourcePath: 'checkproducts',
+    resourcePath: '/checkproducts',
     childrenPermissions: [{ id: 34, title: '审核专利产品申请', resourcePath: 0 }]
   }]
 }, {
@@ -109,7 +109,7 @@ const menulist = [{
   childrenPermissions: [{
     id: 38,
     title: '编辑用户信息',
-    resourcePath: 'userEdit',
+    resourcePath: '/userEdit',
     childrenPermissions: [{ id: 42, title: '编辑用户信息', resourcePath: 0 }]
   }]
 }, {
@@ -119,12 +119,12 @@ const menulist = [{
   childrenPermissions: [{
     id: 39,
     title: '管理角色',
-    resourcePath: 'roleEdit',
+    resourcePath: '/roleEdit',
     childrenPermissions: [{ id: 43, title: '管理角色', resourcePath: 0 }]
   }, {
     id: 40,
     title: '分配角色',
-    resourcePath: 'assignRole',
+    resourcePath: '/assignRole',
     childrenPermissions: [{ id: 44, title: '分配角色', resourcePath: 0 }]
   }]
 }, {
@@ -134,8 +134,18 @@ const menulist = [{
   childrenPermissions: [{
     id: 41,
     title: '管理字典数据',
-    resourcePath: 'data',
+    resourcePath: '/data',
     childrenPermissions: [{ id: 45, title: '管理字典数据', resourcePath: 0 }]
+  }]
+}, {
+  id: 46,
+  title: '安全日志',
+  resourcePath: 0,
+  childrenPermissions: [{
+    id: 47,
+    title: '查看安全日志',
+    resourcePath: '/logs',
+    childrenPermissions: [{ id: 48, title: '查看安全日志', resourcePath: 0 }]
   }]
 }]
 // 部分权限（测试用）
@@ -204,7 +214,7 @@ const papersList = Mock.mock({
 })
 // 项目列表
 const projectList = Mock.mock({
-  'list|5': [{
+  'list|10': [{
     project_name: '@cname',
     'project_id|+1': 1,
     'department_id|0-4': 1,
@@ -219,7 +229,8 @@ const projectList = Mock.mock({
     plan_time: '@date',
     complete_time: '@date',
     'outlay|1-10000': 1,
-    'ct_id|0-4': 1
+    'ct_id|0-4': 1,
+    'leader_id|0-4': 1
   }]
 })
 // 著作列表
@@ -447,7 +458,7 @@ const psList = Mock.mock({
 if( flag ){
   // 登录接口
   Mock.mock('http://localhost:8080/user/login', 'post', {
-    status: '0',
+    status: '200',
     msg: '登录成功',
     data: [
       {
@@ -457,7 +468,7 @@ if( flag ){
   })
 
   // 获取菜单数据接口
-  Mock.mock('http://localhost:8080/getmenulist', 'post', {
+  Mock.mock('http://localhost:8080/user/getUserMenu', 'post', {
     status: '0',
     msg: '获取菜单数据成功',
     data: menulist
@@ -740,5 +751,58 @@ if( flag ){
     data: psList.list
   })
 
+  // 获取待审核项目列表
+  Mock.mock('http://localhost:8080/check/project/findAllProjectByCondition', 'post', {
+    status: '200',
+    msg: '查询项目信息成功',
+    data: [
+      { total: projectList.list.length },
+      projectList.list
+    ]
+  }) 
+  // 根据待审核项目id获取待审核项目详细信息
+  Mock.mock('http://localhost:8080/check/project/findProjectById', 'post', {
+    status: '200',
+    msg: '获取待审核项目详细信息成功',
+    data: {
+      project_name: '@cname',
+      'project_id|+1': 1,
+      'department_id|0-4': 1,
+      'sc_id|0-4': 1,
+      'subject_id|0-4': 1,
+      'nature_id|0-4': 1,
+      'level_id|0-4': 1,
+      'status_id|0-1': 1,
+      'sd_id|0-4': 1,
+      'approval_number|3': /[a-z][A-Z][0-9]/,
+      start_time: '@date',
+      plan_time: '@date',
+      complete_time: '@date',
+      'outlay|1-10000': 1,
+      'ct_id|0-4': 1,
+      'leader_id|0-4': 1
+    }
+  })
+  // 根据用户id获取用户信息
+  Mock.mock('http://localhost:8080/user/findUserById','post', {
+    status: '200',
+    msg: '获取用户信息成功',
+    data: {
+      user_name: '测试用户',
+      user_email: '123@456.789'
+    }
+  })
+  // 批准项目申请
+  Mock.mock('http://localhost:8080/check/project/approve', 'post', {
+    status: '200',
+    msg: '成功通过了项目审核',
+    data: null
+  })
+  // 驳回项目申请
+  Mock.mock('http://localhost:8080/check/project/deny', 'post', {
+    status: '200',
+    msg: '驳回项目申请成功',
+    data: null
+  })
 }
   

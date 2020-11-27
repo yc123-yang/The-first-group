@@ -81,9 +81,7 @@ export default {
     async getMenuList() {
       const { data: res } = await this.$http.post('/user/getUserMenu')
       console.log(res)
-      res.data.sort((a,b) => ((a.id < b.id) ? -1 : (a.id > b.id) ? 1 : 0))
       this.menulist = res.data
-      this.menulist.sort((a, b) => ((a.id < b.id) ? -1 : (a.id > b.id) ? 1 : 0))
     },
     saveNavState (activeNav) {
       window.sessionStorage.setItem('activeNav', activeNav)
