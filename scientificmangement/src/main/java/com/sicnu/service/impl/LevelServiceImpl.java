@@ -60,7 +60,7 @@ public class LevelServiceImpl implements LevelService {
     @Override
     public Result updateLevel(Level level) {
         try {
-           levelMapper.findAllLevel();
+           levelMapper.updateLevel(level);
             rs = new Result("200", "更改成功",null );
         } catch (Exception e) {
             e.printStackTrace();

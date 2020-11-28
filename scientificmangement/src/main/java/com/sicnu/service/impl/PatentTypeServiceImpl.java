@@ -21,7 +21,7 @@ public class PatentTypeServiceImpl implements PatentTypeService {
     public Result addPatentType(String pt_name) {
         try {
             PatentType patentType = patentTypeMapper.selectPatentTypeByName(pt_name);
-            if (patentType.equals("")){
+            if (patentType==null){
                 patentTypeMapper.addPatentType(pt_name);
                 rs = new Result("200","插入成功",null);
             }else{
@@ -61,6 +61,7 @@ public class PatentTypeServiceImpl implements PatentTypeService {
             rs = new Result("400","更改数据不能为空",null);
         }else{
             patentTypeMapper.updatePatentType(patentType);
+            rs = new Result("400","更改成功",null);
         }
         return rs;
     }

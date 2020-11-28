@@ -16,6 +16,9 @@ import java.util.List;
 @CrossOrigin
 @Controller
 @ResponseBody
+/**
+ * 著作类型
+ */
 public class BookTypeController {
 
     @Resource

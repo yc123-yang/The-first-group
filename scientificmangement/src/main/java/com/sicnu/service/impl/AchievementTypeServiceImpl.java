@@ -23,12 +23,12 @@ public class AchievementTypeServiceImpl implements AchievementTypeService {
     public Result addAchievementType(String at_name) {
         try {
             AchievementType achievementType = achievementTypeMapper.selectAchievementTypeByName(at_name);
-            if (achievementType == null) {
+            if (achievementType==null) {
                 achievementTypeMapper.addAchievementType(at_name);
                 rs = new Result("200", "插入成功", null);
-            }
+            }else
             {
-                rs = new Result("400", "已经存在", null);
+                rs = new Result("400", "字典数据已存在，切勿重复插入", null);
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -20,7 +20,7 @@ public class PatentRangeServiceImpl implements PatentRangeService {
     public Result addPatentRange(String pr_name) {
         try {
             PatentRange patentRange = patentRangeMapper.selectPatentRangeByName(pr_name);
-            if (patentRange.equals("")){
+            if (patentRange==null){
                 patentRangeMapper.addPatentRange(pr_name);
                 rs= new Result("200","插入字典数据成功",null);
             }else{

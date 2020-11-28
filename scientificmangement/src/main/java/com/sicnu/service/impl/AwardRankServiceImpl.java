@@ -23,7 +23,7 @@ public class AwardRankServiceImpl implements AwardRankService {
     public Result addAwardRank(String ar_name) {
         try {
             AwardRank awardRank = awardRankMapper.selectAwardRankByName(ar_name);
-            if (awardRank.equals("")){
+            if (awardRank == null){
                 awardRankMapper.addAwardRank(ar_name);
                 rs = new Result("200","插入字典数据成功",null);
             }else{

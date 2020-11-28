@@ -13,7 +13,7 @@
         select * from research_type
     </select>
     <select id="selectResearchTypeByName" resultType="ResearchType">
-        select * from sresearch_typeatus where
+        select * from research_type where
         rt_name = #{rt_name}
     </select>
     <update id="updateResearchType" parameterType="ResearchType">

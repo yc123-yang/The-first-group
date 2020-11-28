@@ -16,7 +16,7 @@
         select * from department where
         department_name = #{department_name}
     </select>
-    <update id="updateDepartment" parameterType="DepartmentType">
+    <update id="updateDepartment" parameterType="Department">
         update department
         set
         department_name = #{department_name}

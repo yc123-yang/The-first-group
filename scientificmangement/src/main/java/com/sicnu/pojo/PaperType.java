@@ -5,14 +5,14 @@ package com.sicnu.pojo;
  */
 public class PaperType {
 
-  private long pt_id;
+  private Integer pt_id;
   private String pt_name;
 
-  public long getPt_id() {
+  public Integer getPt_id() {
     return pt_id;
   }
 
-  public void setPt_id(long pt_id) {
+  public void setPt_id(Integer pt_id) {
     this.pt_id = pt_id;
   }
 

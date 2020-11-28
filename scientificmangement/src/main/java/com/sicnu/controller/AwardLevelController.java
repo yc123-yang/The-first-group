@@ -16,6 +16,9 @@ import java.util.List;
 @CrossOrigin
 @Controller
 @ResponseBody
+/**
+ * 获奖等级
+ */
 public class AwardLevelController {
     @Resource
     AwardLevelServiceImpl awardLevelService;

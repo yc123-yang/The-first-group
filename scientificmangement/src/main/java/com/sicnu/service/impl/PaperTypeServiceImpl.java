@@ -26,7 +26,7 @@ public class PaperTypeServiceImpl implements PaperTypeService {
                 rs = new Result("401", "该字典已经存在", null);
             } else {
                 paperTypeMapper.addPaperType(pt_name);
-                rs = new Result("200", "字典擦汗如成功", null);
+                rs = new Result("200", "字典插入成功", null);
             }
         } catch (Exception e) {
             e.printStackTrace();

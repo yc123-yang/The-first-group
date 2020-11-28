@@ -54,11 +54,11 @@ public class LevelController {
         }
         return rs;
     }
-    @PostMapping("/level/findAllLevel")
+    @PostMapping("/level/updateLevel")
     @RequiresPermissions("/data")
     public Result updateLevel(Level level) {
         try {
-            rs=levelService.findAllLevel();
+            rs=levelService.updateLevel(level);
         } catch (Exception e) {
             e.printStackTrace();
         }

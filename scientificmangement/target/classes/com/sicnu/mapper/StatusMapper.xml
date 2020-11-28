@@ -16,4 +16,11 @@
         select * from status where
         status_name = #{status_name}
     </select>
+    <update id="updateStatus" parameterType="Status">
+        update status
+        set
+        status_name =#{status_name}
+        where
+        status_id =#{status_id}
+    </update>
 </mapper>

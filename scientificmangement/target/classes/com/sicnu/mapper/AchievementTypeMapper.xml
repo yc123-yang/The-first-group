@@ -4,20 +4,20 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sicnu.mapper.AchievementTypeMapper">
     <insert id="addAchievementType" parameterType="AchievementType">
-        insert into achievemen_type(at_name) values(#{at_name})
+        insert into achievement_type(at_name) values(#{at_name})
     </insert>
     <delete id="delAchievementType" parameterType="AchievementType">
-        delete from achievemen_type where at_id = #{at_id}
+        delete from achievement_type where at_id = #{at_id}
     </delete>
     <select id="findAllAchievementType" resultType="AchievementType">
-        select * from achievemen_type
+        select * from achievement_type
     </select>
     <select id="selectAchievementTypeByName" resultType="AchievementType">
-        select * from achievemen_type where
+        select * from achievement_type where
         at_name = #{at_name}
     </select>
     <update id="updateAchievementType" parameterType="AchievementType">
-        update achievemen_type
+        update achievement_type
         set
         at_name = #{at_name}
         where

@@ -16,4 +16,11 @@
         select * from nature where
         nature_name = #{nature_name}
     </select>
+    <update id="updateNature" parameterType="Nature">
+        update nature
+        set
+        nature_name = #{nature_name}
+        where
+        nature_id =#{nature_id}
+    </update>
 </mapper>

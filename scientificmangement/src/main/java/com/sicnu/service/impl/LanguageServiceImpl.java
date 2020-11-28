@@ -20,7 +20,7 @@ public class LanguageServiceImpl implements LanguageService {
     public Result addLanguage(String language_name) {
         try {
             Language language = languageMapper.selectLanguageByName(language_name);
-            if (language.equals("")){
+            if (language==null){
                 languageMapper.addLanguage(language_name);
                 rs = new Result("200","插入字典数据成功",null);
             }{

@@ -21,7 +21,7 @@ public class DepartmentRankServiceImpl implements DepartmentRankService {
 
         try {
             DepartmentRank departmentRank = departmentRankMapper.selectDepartmentRankByName(dr_name);
-            if (departmentRank.equals("")){
+            if (departmentRank==null){
                 departmentRankMapper.addDepartmentRank(dr_name);
                 rs = new Result("200","字典数据插入成功",null);
             }else{

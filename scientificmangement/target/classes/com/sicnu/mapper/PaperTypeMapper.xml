@@ -7,7 +7,7 @@
         insert into paper_type(pt_name) values (#{pt_name})
     </insert>
     <delete id="delPaperType" parameterType="PaperType">
-        delete from paper_type where pt_id = #{pt_id}
+        delete from paper_type where pt_id =#{pt_id}
     </delete>
     <select id="findAllPaperType" resultType="PaperType">
         select * from paper_type
@@ -16,4 +16,11 @@
         select * from paper_type where
         pt_name = #{pt_name}
     </select>
+    <update id="updatePaperType" parameterType="PaperType">
+        update paper_type
+        set
+        pt_name = #{pt_name}
+        where
+        pt_id =#{pt_id}
+    </update>
 </mapper>

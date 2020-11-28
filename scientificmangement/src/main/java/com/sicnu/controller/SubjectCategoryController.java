@@ -1,7 +1,9 @@
 package com.sicnu.controller;
 
+import com.sicnu.pojo.SubjectCategory;
 import com.sicnu.service.impl.SubjectCategoryServiceImpl;
 import com.sicnu.util.Result;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -57,6 +59,17 @@ public class SubjectCategoryController {
     public Result selectSubjectCategory(String sc_id) {
         try {
             rs = categoryService.selectSubjectCategory(sc_id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
+    @PostMapping("/category/updateSubjectCategory")
+    @RequiresPermissions("/data")
+    public Result updateSubjectCategory(SubjectCategory subjectCategory) {
+        try {
+            rs=categoryService.updateSubjectCategory(subjectCategory);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -29,7 +29,7 @@ public class BookTypeServiceImpl implements BookTypeService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return rs;
 
     }
 

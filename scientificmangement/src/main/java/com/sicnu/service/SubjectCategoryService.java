@@ -14,5 +14,5 @@ public interface SubjectCategoryService {
     Result findAllSubjectCategory();
 
     Result selectSubjectCategory(String sc_id);
-
+    Result updateSubjectCategory(SubjectCategory subjectCategory);
 }

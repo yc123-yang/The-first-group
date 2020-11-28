@@ -20,7 +20,7 @@ public class PatentStatusServiceImpl implements PatentStatusService {
 
         try {
             PatentStatus patentStatus = patentStatusMapper.selectPatentStatusByName(ps_name);
-            if (patentStatus.equals("")){
+            if (patentStatus==null){
                 patentStatusMapper.addPatentStatus(ps_name);
                 rs = new Result("200","插入字典数据",null);
             }else{

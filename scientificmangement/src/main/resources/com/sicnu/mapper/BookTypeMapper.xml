@@ -6,7 +6,7 @@
     <insert id="addBookType" parameterType="BookType">
         insert into book_type(bt_name) values(#{bt_name})
     </insert>
-    <delete id="BookType" parameterType="BookType">
+    <delete id="delBookType" parameterType="BookType">
         delete from book_type where bt_id = #{bt_id}
     </delete>
     <select id="findAllBookType" resultType="BookType">

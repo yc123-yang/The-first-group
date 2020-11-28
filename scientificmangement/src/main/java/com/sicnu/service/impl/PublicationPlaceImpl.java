@@ -22,7 +22,7 @@ public class PublicationPlaceImpl implements PublicationPlaceService {
     public Result addPublicationPlace(String pp_name) {
         try {
             PublicationPlace publicationPlace = publicationPlaceMapper.findPublicationPlaceByName(pp_name);
-            if (publicationPlace.equals("")){
+            if (publicationPlace==null){
                 publicationPlaceMapper.addPublicationPlace(pp_name);
                 rs = new Result("200","插入成功",null);
             }else{
@@ -60,8 +60,7 @@ public class PublicationPlaceImpl implements PublicationPlaceService {
     @Override
     public Result updatePublicationPlace(PublicationPlace publicationPlace) {
         try {
-            PublicationPlace publicationPlace1 = publicationPlaceMapper.findPublicationPlaceByName(publicationPlace.getPp_name());
-            if (publicationPlace1.equals("")){
+            if (publicationPlace.getPp_name()==null){
                 rs = new Result("400","该字典数据不存在，无法更改",null);
             }else{
                 publicationPlaceMapper.updatePublicationPlace(publicationPlace);

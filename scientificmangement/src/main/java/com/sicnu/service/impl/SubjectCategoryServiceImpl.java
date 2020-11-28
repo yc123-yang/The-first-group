@@ -81,4 +81,15 @@ public class SubjectCategoryServiceImpl implements SubjectCategoryService {
         return rs;
     }
 
+    @Override
+    public Result updateSubjectCategory(SubjectCategory subjectCategory) {
+        try {
+            subjectCategoryMapper.updateSubjectCategory(subjectCategory);
+            rs = new Result("200","更改成功",null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
 }

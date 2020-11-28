@@ -1,8 +1,6 @@
 package com.sicnu.controller;
 
-import com.sicnu.mapper.PeriodicalMapper;
 import com.sicnu.pojo.Periodical;
-import com.sicnu.service.PeriodicalService;
 import com.sicnu.service.impl.PeriodicalServiceImpl;
 import com.sicnu.util.Result;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -12,7 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 @CrossOrigin
 @Controller
@@ -25,9 +22,9 @@ public class PeriodicalController {
 
     @PostMapping("/periodical/addPeriodical")
     @RequiresPermissions("/data")
-    public Result addPeriodical(String pt_name) {
+    public Result addPeriodical(String periodical_name) {
         try {
-            rs = periodicalService.addPeriodical(pt_name);
+            rs = periodicalService.addPeriodical(periodical_name);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -36,10 +33,10 @@ public class PeriodicalController {
 
     @PostMapping("/periodical/delPeriodical")
     @RequiresPermissions("/data")
-    public Result delPeriodical(Integer pt_id) {
+    public Result delPeriodical(Integer periodical_id) {
 
         try {
-            rs = periodicalService.delPeriodical(pt_id);
+            rs = periodicalService.delPeriodical(periodical_id);
         } catch (Exception e) {
             e.printStackTrace();
         }

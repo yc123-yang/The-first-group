@@ -35,4 +35,11 @@
         and
         sc.sc_id =#{sc_id}
     </select>
+    <update id="updateSubjectCategory" parameterType="SubjectCategory">
+        update subject_category
+        set
+        sc_name = #{sc_name}
+        where
+        sc_id =#{sc_id}
+    </update>
 </mapper>

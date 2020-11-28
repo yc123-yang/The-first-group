@@ -19,7 +19,7 @@ public class AwardLevelServiceImpl implements AwardLevelService {
     public Result addAwardLevel(String al_name) {
         try {
             AwardLevel awardLevel = awardLevelMapper.selectAwardLevelByName(al_name);
-            if (awardLevel.equals("")){
+            if (awardLevel==null){
                 awardLevelMapper.addAwardLevel(al_name);
                 rs = new Result("200","插入成功",null);
             }else{

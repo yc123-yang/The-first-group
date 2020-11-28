@@ -22,7 +22,7 @@ public class ResearchTypeServiceImpl implements ResearchTypeService {
     public Result addResearchType(String rt_name) {
         try {
             ResearchType researchType = researchTypeMapper.selectResearchTypeByName(rt_name);
-            if (researchType.equals("")){
+            if (researchType==null){
                 researchTypeMapper.addResearchType(rt_name);
                 rs = new Result("200","字典数据插入成功",null);
             }else{

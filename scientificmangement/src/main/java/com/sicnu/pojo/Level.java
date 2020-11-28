@@ -7,12 +7,12 @@ import java.io.Serializable;
  */
 public class Level implements Serializable {
     private Integer level_id;
-    private String nature_name;
+    private String level_name;
 
-    public Level(Integer level_id, String nature_name) {
+    public Level(Integer level_id, String level_name) {
 
         this.level_id = level_id;
-        this.nature_name = nature_name;
+        this.level_name = level_name;
     }
 
     public Integer getLevel_id() {
@@ -23,19 +23,19 @@ public class Level implements Serializable {
         this.level_id = level_id;
     }
 
-    public String getNature_name() {
-        return nature_name;
+    public String getLevel_name() {
+        return level_name;
     }
 
-    public void setNature_name(String nature_name) {
-        this.nature_name = nature_name;
+    public void setLevel_name(String level_name) {
+        this.level_name = level_name;
     }
 
     @Override
     public String toString() {
         return "Level{" +
                 "level_id=" + level_id +
-                ", nature_name='" + nature_name + '\'' +
+                ", nature_name='" + level_name + '\'' +
                 '}';
     }
 }

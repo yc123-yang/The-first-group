@@ -1,6 +1,7 @@
 package com.sicnu.mapper;
 
 import com.sicnu.pojo.Subject;
+import com.sicnu.pojo.SubjectCategory;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 

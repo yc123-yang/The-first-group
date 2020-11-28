@@ -19,4 +19,5 @@ public interface SubjectCategoryMapper {
     SubjectCategory selectSubjectCategoryByName(String sc_name);
 
     List<SubjectCategory> selectSubjectCategory(String sc_id);
+    void updateSubjectCategory(SubjectCategory subjectCategory);
 }

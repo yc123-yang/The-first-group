@@ -16,4 +16,11 @@
         select * from press_level where
         pl_name = #{pl_name}
     </select>
+    <update id="updatePressLevel" parameterType="PressLevel">
+        update press_level
+        set
+        pl_name = #{pl_name}
+        where
+        pl_id =#{pl_id}
+    </update>
 </mapper>

@@ -43,8 +43,6 @@ public class AchievementTypeController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        rs = new Result("0", "删除成功", null);
-
         return rs;
     }
 
@@ -59,6 +57,7 @@ public class AchievementTypeController {
         }
         return rs;
     }
+
 
     @PostMapping("/achievementType/updateAchievementType")
     @RequiresPermissions("/data")
