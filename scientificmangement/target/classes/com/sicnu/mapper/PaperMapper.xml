@@ -160,4 +160,12 @@
             </if>
         </where>
     </select>
+
+    <select id="selectCountPaper" resultType="int" parameterType="int">
+        select count(*) cnt
+        from
+        paper
+        where
+        leader_id = #{leader_id}
+    </select>
 </mapper>

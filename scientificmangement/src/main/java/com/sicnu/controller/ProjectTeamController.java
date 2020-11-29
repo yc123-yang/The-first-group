@@ -14,11 +14,12 @@ public class ProjectTeamController {
     @Resource
     ProjectTeamServiceImpl projectTeamService;
 
+    private Result rs = null;
+
     @RequestMapping(value = "/team/addTeamUser", method = RequestMethod.POST)
     public Result addTeamUser(Integer project_id, String user_name, String user_role, Integer role_id, Integer department_id) {
-        Result rs = null;
         try {
-            rs = projectTeamService.addTeamUser(project_id, user_name, user_role, role_id, department_id);
+            rs = projectTeamService.addProjectTeamUser(project_id, user_name, user_role, role_id, department_id);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -27,12 +28,16 @@ public class ProjectTeamController {
 
     @PostMapping(value = "/team/delTeamUser")
     public Result delTeamUser(Integer user_id) {
-        Result rs = null;
         try {
-            rs = projectTeamService.delTeamUser(user_id);
+            rs = projectTeamService.delProjectTeamUser(user_id);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return rs;
+    }
+    @PostMapping(value = "/team/selectProjectTeam")
+    public Result selectProjectTeam(Integer project_id) {
+        rs = projectTeamService.selectProjectTeam(project_id);
         return rs;
     }
 }

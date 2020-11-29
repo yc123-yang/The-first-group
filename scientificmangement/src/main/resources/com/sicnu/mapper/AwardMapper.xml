@@ -201,4 +201,12 @@
             </if>
         </where>
     </select>
+
+    <select id="selectCountAward" resultType="int" parameterType="int">
+        select count(*) cnt
+        from
+        award
+        where
+        leader_id = #{leader_id}
+    </select>
 </mapper>

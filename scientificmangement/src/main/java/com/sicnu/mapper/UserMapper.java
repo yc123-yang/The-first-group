@@ -35,4 +35,5 @@ public interface UserMapper {
     Set<Permission> queryAllPermission();
 
     void updateUserRole(Integer role_id, Integer user_id);
+    List<Integer> selectAllUserId();
 }

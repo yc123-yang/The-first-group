@@ -20,4 +20,5 @@ public interface AwardMapper {
 
     void delAward(Integer award_id);
     Integer selectTotalAward(Map<String, Object> map);
+    Integer selectCountAward(Integer leader_id);
 }

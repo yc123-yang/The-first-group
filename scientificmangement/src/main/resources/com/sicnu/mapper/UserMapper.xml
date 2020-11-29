@@ -6,11 +6,13 @@
 <mapper namespace="com.sicnu.mapper.UserMapper">
 
     <select id="findByUserAct" parameterType="string" resultType="User">
-        select * from user where
+        select * from user
+        where
         user_act = #{user_act}
     </select>
     <select id="findByUserName" parameterType="string" resultType="User">
-        select * from user where
+        select * from user
+        where
         user_name = #{user_name}
     </select>
     <select id="findAllUser" parameterType="string" resultType="User">
@@ -18,7 +20,8 @@
     </select>
 
     <select id="findUserById" parameterType="int" resultType="User">
-        select * from user where
+        select * from user
+        where
         user_id=#{user_id}
     </select>
     <insert id="addUser" parameterType="User">
@@ -48,20 +51,28 @@
         )
     </insert>
     <update id="updatePwd" parameterType="User">
-        update user set
+        update user
+        set
         user_pwd=#{user_pwd}
         where
-        user_act=#{user_act} and
-        user_email=#{user_email} and
-        user_number=#{user_number} and
+        user_act=#{user_act}
+        and
+        user_email=#{user_email}
+        and
+        user_number=#{user_number}
+        and
         user_id_number=#{user_id_number}
     </update>
     <update id="changeStatus" parameterType="User">
-        update user set user_state=#{user_state}
+        update user
+        set
+        user_state=#{user_state}
         where user_id=#{user_id}
     </update>
     <select id="selectUserId" parameterType="string" resultType="int">
-        select user_id from user where user_email = #{user_email}
+        select user_id from user
+        where
+        user_email = #{user_email}
     </select>
     <select id="queryPermissionByUserId" parameterType="int" resultType="Permission">
         select auth.auth_id id, auth_pid pid, auth_name title, auth_resource resourcePath, open isOpen
@@ -89,4 +100,10 @@
         where
         user_id = #{user_id}
     </update>
+
+    <select resultType="int" id="selectAllUserId">
+        select user_id from user
+    </select>
+
+
 </mapper>

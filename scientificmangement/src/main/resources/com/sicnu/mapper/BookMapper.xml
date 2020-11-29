@@ -222,4 +222,13 @@
             limit #{key_offset},#{pageSize}
         </if>
     </select>
+
+
+    <select id="selectCountBook" resultType="int" parameterType="int">
+        select count(*) cnt
+        from
+        Book
+        where
+        leader_id = #{leader_id}
+    </select>
 </mapper>

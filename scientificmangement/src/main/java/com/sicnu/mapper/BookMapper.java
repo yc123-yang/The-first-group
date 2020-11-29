@@ -21,4 +21,6 @@ public interface BookMapper {
 
     void updateBook(Book book);
     int selectTotalBook(Map<String, Object> map);
+    Integer selectCountBook(Integer leader_id);
+
 }

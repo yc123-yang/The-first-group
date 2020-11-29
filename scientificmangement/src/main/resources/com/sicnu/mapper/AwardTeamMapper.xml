@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sicnu.mapper.AwardTeamMapper">
+
+    <insert id="addAwardTeamUser" parameterType="AwardTeam">
+        insert into award_team
+        (
+        award_id,
+        user_id,
+        user_role,
+        contribution
+        )
+        values
+        (
+        #{award_id},
+        #{user_id},
+        #{user_role},
+        #{contribution}
+        )
+    </insert>
+
+    <delete id="delAwardTeamUser" parameterType="ProjectTeam">
+        delete from award_team
+        where
+        user_id = #{user_id}
+    </delete>
+
+
+    <select id="selectAwardTeam" parameterType="int" resultType="com.sicnu.pojo.teamMap.AwardTeamMap">
+        SELECT
+        u.user_name name,u.department_id department_id,
+        t.user_role user_role,
+        t.contribution contribution
+        FROM
+        user u,
+        award a,
+        award_team t
+        WHERE
+        a.award_id = #{award_id}
+        and
+        a.award_id = t.award_id
+        and
+        t.user_id = u.user_id
+    </select>
+</mapper>

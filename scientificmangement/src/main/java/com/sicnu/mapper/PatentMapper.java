@@ -24,4 +24,6 @@ public interface PatentMapper {
 
     void updatePatent(Patent patent);
     Integer selectTotalPatent(Map<String, Object> map);
+    Integer selectCountPatent(Integer leader_id);
+
 }
