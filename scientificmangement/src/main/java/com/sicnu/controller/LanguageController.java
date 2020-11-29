@@ -3,6 +3,7 @@ package com.sicnu.controller;
 import com.sicnu.pojo.Language;
 import com.sicnu.service.impl.LanguageServiceImpl;
 import com.sicnu.util.Result;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +21,7 @@ public class LanguageController {
     private Result rs;
 
     @PostMapping("/language/addLanguage")
+    @RequiresPermissions("/data")
     public Result addLanguage(String language_name) {
         try {
             rs =languageService.addLanguage(language_name);
@@ -30,6 +32,7 @@ public class LanguageController {
     }
 
     @PostMapping("/language/delLanguage")
+    @RequiresPermissions("/data")
     public Result delLanguage(Integer language_id) {
         try {
             rs =languageService.delLanguage(language_id);
@@ -50,6 +53,7 @@ public class LanguageController {
     }
 
     @PostMapping("/language/updateLanguage")
+    @RequiresPermissions("/data")
     public Result updateLanguage(Language language) {
         try {
             rs=languageService.updateLanguage(language);

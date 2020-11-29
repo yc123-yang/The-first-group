@@ -44,7 +44,6 @@ public class LevelController {
     }
 
     @PostMapping("/level/findAllLevel")
-    @RequiresPermissions("/data")
     public Result findAllLevel() {
 
         try {

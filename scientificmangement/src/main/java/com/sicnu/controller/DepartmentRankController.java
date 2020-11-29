@@ -4,6 +4,7 @@ import com.sicnu.mapper.DepartmentRankMapper;
 import com.sicnu.pojo.DepartmentRank;
 import com.sicnu.service.impl.DepartmentRankServiceImpl;
 import com.sicnu.util.Result;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +24,7 @@ public class DepartmentRankController {
     private Result rs;
 
     @PostMapping("/departmentRank/addDepartmentRank")
+    @RequiresPermissions("/data")
     public Result addDepartmentRank(String dr_name) {
 
         try {
@@ -34,7 +36,7 @@ public class DepartmentRankController {
     }
 
     @PostMapping("/departmentRank/delDepartmentRank")
-
+    @RequiresPermissions("/data")
     public Result delDepartmentRank(Integer dr_id) {
         try {
             rs = departmentRankService.delDepartmentRank(dr_id);
@@ -44,7 +46,6 @@ public class DepartmentRankController {
         return rs;
     }
     @PostMapping("/departmentRank/findAllDepartmentRank")
-
     public Result findAllDepartmentRank() {
         try {
             rs = departmentRankService.findAllDepartmentRank();
@@ -54,7 +55,7 @@ public class DepartmentRankController {
         return rs;
     }
     @PostMapping("/departmentRank/updateDepartmentRank")
-
+    @RequiresPermissions("/data")
     public Result updateDepartmentRank(DepartmentRank departmentRank) {
         try {
             if (departmentRank.getDr_name().equals("")){

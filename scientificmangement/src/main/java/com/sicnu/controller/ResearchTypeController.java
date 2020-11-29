@@ -4,6 +4,7 @@ import com.sicnu.pojo.ResearchType;
 import com.sicnu.service.ResearchTypeService;
 import com.sicnu.service.impl.ResearchTypeServiceImpl;
 import com.sicnu.util.Result;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +22,7 @@ public class ResearchTypeController {
     private Result rs;
 
     @PostMapping("/researchType/addResearchType")
+    @RequiresPermissions("/data")
    public Result addResearchType(String rt_name) {
         try {
             rs = researchTypeService.addResearchType(rt_name);
@@ -31,7 +33,7 @@ public class ResearchTypeController {
     }
 
     @PostMapping("/researchType/delResearchType")
-
+    @RequiresPermissions("/data")
     public Result delResearchType(Integer rt_id) {
 
         try {
@@ -43,7 +45,6 @@ public class ResearchTypeController {
     }
 
     @PostMapping("/researchType/findAllResearchType")
-
     public Result findAllResearchType() {
         try {
             rs = researchTypeService.findAllResearchType();
@@ -54,7 +55,7 @@ public class ResearchTypeController {
     }
 
     @PostMapping("/researchType/updateResearchType")
-
+    @RequiresPermissions("/data")
     public Result updateResearchType(ResearchType researchType) {
 
         try {

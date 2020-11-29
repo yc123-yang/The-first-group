@@ -21,7 +21,6 @@ public class SubjectController {
 
     @PostMapping("/subject/addSubject")
     @RequiresPermissions("/data")
-
     public Result addSubject(String subject_id, String subject_name, String sc_id) {
         try {
             rs = subjectService.addSubject(subject_id, subject_name, sc_id);
@@ -33,7 +32,6 @@ public class SubjectController {
 
     @PostMapping("/subject/delSubject")
     @RequiresPermissions("/data")
-
     public Result delSubject(String subject_id) {
         try {
             rs = subjectService.delSubject(subject_id);
@@ -44,8 +42,6 @@ public class SubjectController {
     }
 
     @PostMapping("/subject/findAllSubject")
-    @RequiresPermissions("/data")
-
     public Result findAllSubject() {
         try {
             rs = subjectService.findAllSubject();

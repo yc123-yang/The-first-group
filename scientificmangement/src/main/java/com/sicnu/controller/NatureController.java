@@ -43,7 +43,6 @@ public class NatureController {
     }
 
     @PostMapping("/nature/findAllNature")
-    @RequiresPermissions("/data")
     public Result findAllNature() {
         try {
             rs = natureService.findAllNature();

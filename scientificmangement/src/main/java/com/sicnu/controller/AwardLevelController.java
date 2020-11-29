@@ -46,7 +46,6 @@ public class AwardLevelController {
         return rs;
     }
     @PostMapping("/awardLevel/findAllAwardLevel")
-    @RequiresPermissions("/data")
     public Result findAllAwardLevel() {
         try {
             rs = awardLevelService.findAllAwardLevel();

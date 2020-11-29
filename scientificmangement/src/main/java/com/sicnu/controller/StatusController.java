@@ -45,7 +45,6 @@ public class StatusController {
     }
 
     @PostMapping("/status/findAllStatus")
-    @RequiresPermissions("/data")
     public Result findAllStatus() {
         try {
             rs = statusService.findAllStatus();

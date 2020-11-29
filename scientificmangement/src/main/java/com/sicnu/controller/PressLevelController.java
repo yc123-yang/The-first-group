@@ -46,7 +46,6 @@ public class PressLevelController {
     }
 
     @PostMapping("/pressLevel/findAllPressLevel")
-    @RequiresPermissions("/data")
     public Result findAllPressLevel() {
         try {
             rs = pressLevelService.findAllPressLevel();

@@ -1,6 +1,5 @@
 package com.sicnu.service.impl;
 
-import com.sicnu.mapper.ProjectTeamMapper;
 import com.sicnu.pojo.CacheUser;
 import com.sicnu.mapper.CacheUserMapper;
 import com.sicnu.mapper.ProjectMapper;
@@ -43,8 +42,6 @@ public class ProjectServiceImpl implements ProjectService {
     @Resource
     CacheUserMapper cacheUserMapper;
 
-    @Resource
-    ProjectTeamMapper teamMapper;
 
     private Result rs = null;
 

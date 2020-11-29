@@ -22,6 +22,7 @@ public class SubjectCategoryController {
     private Result rs;
 
     @PostMapping("/category/addSubjectCategory")
+    @RequiresPermissions("/data")
     public Result addSubjectCategory(String sc_id, String sc_name) {
 
         try {
@@ -33,6 +34,7 @@ public class SubjectCategoryController {
     }
 
     @PostMapping("/category/delSubjectCategory")
+    @RequiresPermissions("/data")
     public Result delSubjectCategory(String sc_id) {
 
         try {
@@ -55,7 +57,7 @@ public class SubjectCategoryController {
     }
 
     @PostMapping("/category/selectSubjectCategory")
-
+    @RequiresPermissions("/data")
     public Result selectSubjectCategory(String sc_id) {
         try {
             rs = categoryService.selectSubjectCategory(sc_id);

@@ -4,6 +4,7 @@ import com.sicnu.mapper.PatentRangeMapper;
 import com.sicnu.pojo.PatentRange;
 import com.sicnu.service.impl.PatentRangeServiceImpl;
 import com.sicnu.util.Result;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +21,7 @@ public class PatentRangeController {
     private Result rs;
 
     @PostMapping("/patentRange/addPatentRange")
+    @RequiresPermissions("/data")
     public Result addPatentRange(String pr_name) {
         try {
             rs =patentRangeService.addPatentRange(pr_name);
@@ -29,6 +31,7 @@ public class PatentRangeController {
         return rs;
     }
     @PostMapping("/patentRange/delPatentRange")
+    @RequiresPermissions("/data")
     public Result delPatentRange(Integer pr_id) {
         try {
             rs = patentRangeService.delPatentRange(pr_id);
@@ -38,6 +41,7 @@ public class PatentRangeController {
         return rs;
     }
     @PostMapping("/patentRange/findAllPatentRange")
+    @RequiresPermissions("/data")
     public Result findAllPatentRange() {
         try {
             rs = patentRangeService.findAllPatentRange();
@@ -47,6 +51,7 @@ public class PatentRangeController {
         return rs;
     }
     @PostMapping("/patentRange/updatePatentRange")
+    @RequiresPermissions("/data")
     public Result updatePatentRange(PatentRange patentRange) {
         try {
             rs =patentRangeService.updatePatentRange(patentRange);

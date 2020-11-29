@@ -46,7 +46,6 @@ public class ConclusionTypeController {
     }
 
     @PostMapping("/conclusionType/findAllConclusionType")
-    @RequiresPermissions("/data")
     public Result findAllConclusionType() {
         try {
             rs = conclusionTypeService.findAllConclusionType();

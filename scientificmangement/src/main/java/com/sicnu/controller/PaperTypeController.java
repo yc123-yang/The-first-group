@@ -43,7 +43,6 @@ public class PaperTypeController {
         return rs;
     }
     @PostMapping("/paperType/findAllPaperType")
-    @RequiresPermissions("/data")
     public Result findAllPaperType() {
         try {
             rs = paperTypeService.findAllPaperType();

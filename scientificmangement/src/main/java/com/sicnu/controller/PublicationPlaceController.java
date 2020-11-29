@@ -3,6 +3,7 @@ package com.sicnu.controller;
 import com.sicnu.pojo.PublicationPlace;
 import com.sicnu.service.impl.PublicationPlaceImpl;
 import com.sicnu.util.Result;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +21,7 @@ public class PublicationPlaceController {
     private Result rs;
 
     @PostMapping("/publicationPlace/addPublicationPlace")
+    @RequiresPermissions("/data")
     public Result addPublicationPlace(String pp_name) {
         try {
             rs = publicationPlaceService.addPublicationPlace(pp_name);
@@ -31,7 +33,7 @@ public class PublicationPlaceController {
     }
 
     @PostMapping("/publicationPlace/delPublicationPlace")
-
+    @RequiresPermissions("/data")
     public Result delPublicationPlace(Integer pp_id) {
 
         try {
@@ -56,7 +58,7 @@ public class PublicationPlaceController {
     }
 
     @PostMapping("/publicationPlace/updatePublicationPlace")
-
+    @RequiresPermissions("/data")
     public Result updatePublicationPlace(PublicationPlace publicationPlace) {
         try {
             rs = publicationPlaceService.updatePublicationPlace(publicationPlace);

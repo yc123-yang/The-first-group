@@ -44,7 +44,6 @@ public class DepartmentController {
     }
 
     @PostMapping("/department/findAllDepartment")
-    @RequiresPermissions("/data")
     public Result findAllDepartment() {
         try {
             rs = departmentService.findAllDepartment();

@@ -47,8 +47,6 @@ public class AchievementTypeController {
     }
 
     @PostMapping("/achievementType/findAllAchievementType")
-    @RequiresPermissions("/data")
-
     public Result findAllAchievementType() {
         try {
             rs = AchievementType.findAllAchievementType();

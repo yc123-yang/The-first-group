@@ -252,7 +252,7 @@
                 and project_id = #{project_id}
             </if>
             <if test="project_name!=null and project_name!=''">
-                and X = #{project_name}
+                and project_name = #{project_name}
             </if>
             <if test="department_id!=null and department_id!=''">
                 and department_id = #{department_id}

@@ -49,7 +49,6 @@ public class BookTypeController {
     }
 
     @PostMapping("/bookType/findAllBookType")
-    @RequiresPermissions("/data")
     public Result findAllBookType() {
         try {
             rs = bookTypeService.findAllBookType();
