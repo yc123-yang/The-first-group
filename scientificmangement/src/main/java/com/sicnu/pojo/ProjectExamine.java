@@ -194,31 +194,4 @@ public class ProjectExamine {
   public void setReviewer_id(Integer reviewer_id) {
     this.reviewer_id = reviewer_id;
   }
-
-  @Override
-  public String toString() {
-    return "ProjectExamine{" +
-            "pe_id=" + pe_id +
-            ", project_name='" + project_name + '\'' +
-            ", leader_id=" + leader_id +
-            ", department_id=" + department_id +
-            ", aod_id=" + aod_id +
-            ", sc_id='" + sc_id + '\'' +
-            ", subject_id='" + subject_id + '\'' +
-            ", nature_id=" + nature_id +
-            ", level_id=" + level_id +
-            ", status_id=" + status_id +
-            ", sd_id=" + sd_id +
-            ", at_id=" + at_id +
-            ", approval_number='" + approval_number + '\'' +
-            ", start_time=" + start_time +
-            ", plan_time=" + plan_time +
-            ", complete_time=" + complete_time +
-            ", outlay=" + outlay +
-            ", ct_id=" + ct_id +
-            ", examine_status='" + examine_status + '\'' +
-            ", apply_time=" + apply_time +
-            ", reviewer_id=" + reviewer_id +
-            '}';
-  }
 }

@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sicnu.mapper.PatentExamineMapper">
+
+    <insert id="addPatentExamine" parameterType="PatentExamine">
+        insert into patent_examine(
+        patent_name,
+        leader_id,
+        pt_id,
+        pr_id,
+        ps_id,
+        aod_id,
+        application_number,
+        application_time,
+        public_number,
+        public_time,
+        authorization_number,
+        authorization_time,
+        examine_status,
+        apply_time,
+        reviewer_id
+        ) values(
+        #{patent_name},
+        #{leader_id},
+        #{pt_id},
+        #{pr_id},
+        #{ps_id},
+        #{aod_id},
+        #{application_number},
+        #{application_time},
+        #{public_number},
+        #{public_time},
+        #{authorization_number},
+        #{authorization_time},
+        #{examine_status},
+        #{apply_time},
+        #{reviewer_id}
+        )
+    </insert>
+<!--    <select id="selectPatentExamineExamineByNumber" parameterType="PatentExamine" resultType="PatentExamine">-->
+<!--        select * from patent_examine-->
+<!--        where-->
+<!--        application_number = #{application_number}-->
+<!--        and-->
+<!--        public_number = #{public_number}-->
+<!--        and-->
+<!--        authorization_number = #{authorization_number}-->
+<!--    </select>-->
+    <select id="selectPatentExamineByCondition" parameterType="java.util.HashMap" resultType="PatentExamine">
+        select * from patent_examine
+        <where>
+            <if test="patent_name!=null and patent_name!=''">
+                and patent_name = #{patent_name}
+            </if>
+            <if test="leader_id !=null and leader_id!=''">
+                and leader_id = #{leader_id}
+            </if>
+            <if test="pt_id!=null and pt_id!=''">
+                and pt_id = #{pt_id}
+            </if>
+            <if test="pr_id!=null and pr_id!=''">
+                and pr_id = #{pr_id}
+            </if>
+            <if test="ps_id!=null and ps_id!=''">
+                and ps_id = #{ps_id}
+            </if>
+            <if test="aod_id!=null and aod_id!=''">
+                and aod_id = #{aod_id}
+            </if>
+            <if test="application_number!=null and application_number!=''">
+                and application_number = #{application_number}
+            </if>
+            <if test="application_time_start!=null  and application_time_end!=null ">
+                <![CDATA[
+                and patent.application_time >= #{application_time_start}
+                and patent.application_time <= #{application_time_end}
+                ]]>
+            </if>
+            <if test="public_number!=null and public_number!=''">
+                and public_number =#{public_number}
+            </if>
+            <if test="public_time_start!=null  and public_time_end!=null ">
+                <![CDATA[
+                and patent.public_time >= #{public_time_start}
+                and patent.public_time <= #{public_time_end}
+                ]]>
+            </if>
+            <if test="authorization_number!=null and authorization_number!=''">
+                and authorization_number =#{authorization_number}
+            </if>
+            <if test="authorization_time_start!=null  and authorization_time_end!=null ">
+                <![CDATA[
+                and patent.authorization_time >= #{authorization_time_start}
+                and patent.authorization_time <= #{authorization_time_end}
+                ]]>
+            </if>
+            <if test="examine_status!=null and examine_status!=''">
+                and examine_status =#{examine_status}
+            </if>
+            <if test="apply_time_start!=null and apply_time_end!=null">
+                <![CDATA[
+                and award.apply_time >= #{apply_time_start}
+                and award.apply_time <= #{apply_time_end}
+                ]]>
+            </if>
+            <if test="reviewer_id!=null and reviewer_id!=''">
+                and reviewer_id =#{reviewer_id}
+            </if>
+        </where>
+        <if test="pageNum != null and pageSize != null">
+            <bind name="key_offset" value="(pageNum-1)*pageSize"></bind>
+            limit #{key_offset},#{pageSize}
+        </if>
+    </select>
+<!--    <update id="updatePatent" parameterType="Patent">-->
+<!--        update patent-->
+<!--        <trim prefix="set" suffixOverrides=",">-->
+<!--            <if test="patent_name!=null and patent_name!=''">-->
+<!--                patent_name = #{patent_name},-->
+<!--            </if>-->
+<!--            <if test="leader_id!=null and leader_id!=''">-->
+<!--                leader_id = #{leader_id},-->
+<!--            </if>-->
+<!--            <if test="pt_id!=null and pt_id!=''">-->
+<!--                pt_id = #{pt_id},-->
+<!--            </if>-->
+<!--            <if test="pr_id!=null and pr_id!=''">-->
+<!--                pr_id = #{pr_id},-->
+<!--            </if>-->
+<!--            <if test="ps_id!=null and ps_id!=''">-->
+<!--                ps_id = #{ps_id},-->
+<!--            </if>-->
+<!--            <if test="aod_id!=null and aod_id!=''">-->
+<!--                aod_id = #{aod_id},-->
+<!--            </if>-->
+<!--            <if test="application_number!=null and application_number!=''">-->
+<!--                application_number = #{application_number},-->
+<!--            </if>-->
+<!--            <if test="application_time!=null  ">-->
+<!--                <![CDATA[-->
+<!--                 application_time = #{application_time},-->
+<!--                ]]>-->
+<!--            </if>-->
+<!--            <if test="public_number!=null and public_number!=''">-->
+<!--                public_number =#{public_number},-->
+<!--            </if>-->
+<!--            <if test="public_time!=null ">-->
+<!--                <![CDATA[-->
+<!--                 public_time = #{public_time},-->
+<!--                ]]>-->
+<!--            </if>-->
+<!--            <if test="authorization_number!=null and authorization_number!=''">-->
+<!--                authorization_number =#{authorization_number},-->
+<!--            </if>-->
+<!--            <if test="authorization_time!=null ">-->
+<!--                <![CDATA[-->
+<!--                authorization_time = #{authorization_time},-->
+<!--                ]]>-->
+<!--            </if>-->
+<!--        </trim>-->
+<!--        where patent_id = #{patent_id}-->
+<!--    </update>-->
+    <delete id="delPatentExamineById" parameterType="int">
+        delete from patent_examine
+        where
+        pe_id = #{pe_id}
+    </delete>
+
+    <select id="selectTotalPatentExamine" parameterType="java.util.HashMap" resultType="int">
+        select count(*) total from patent_examine
+        <where>
+            <if test="patent_name!=null and patent_name!=''">
+                and patent_name = #{patent_name}
+            </if>
+            <if test="leader_id!=null and leader_id!=''">
+                and leader_id = #{leader_id}
+            </if>
+            <if test="pt_id!=null and pt_id!=''">
+                and pt_id = #{pt_id}
+            </if>
+            <if test="pr_id!=null and pr_id!=''">
+                and pr_id = #{pr_id}
+            </if>
+            <if test="ps_id!=null and ps_id!=''">
+                and ps_id = #{ps_id}
+            </if>
+            <if test="aod_id!=null and aod_id!=''">
+                and aod_id = #{aod_id}
+            </if>
+            <if test="application_number!=null and application_number!=''">
+                and application_number = #{application_number}
+            </if>
+            <if test="application_time_start!=null  and application_time_end!=null ">
+                <![CDATA[
+                    and patent.application_time >= #{application_time_start}
+                    and patent.application_time <= #{application_time_end}
+                    ]]>
+            </if>
+            <if test="public_number!=null and public_number!=''">
+                and public_number =#{public_number}
+            </if>
+            <if test="public_time_start!=null  and public_time_end!=null ">
+                <![CDATA[
+                    and patent.public_time >= #{public_time_start}
+                    and patent.public_time <= #{public_time_end}
+                    ]]>
+            </if>
+            <if test="authorization_number!=null and authorization_number!=''">
+                and authorization_number =#{authorization_number}
+            </if>
+            <if test="authorization_time_start!=null  and authorization_time_end!=null ">
+                <![CDATA[
+                    and patent.authorization_time >= #{authorization_time_start}
+                    and patent.authorization_time <= #{authorization_time_end}
+                    ]]>
+            </if>
+            <if test="examine_status!=null and examine_status!=''">
+                and examine_status =#{examine_status}
+            </if>
+            <if test="apply_time_start!=null and apply_time_end!=null">
+                <![CDATA[
+                and award.apply_time >= #{apply_time_start}
+                and award.apply_time <= #{apply_time_end}
+                ]]>
+            </if>
+            <if test="reviewer_id!=null and reviewer_id!=''">
+                and reviewer_id =#{reviewer_id}
+            </if>
+        </where>
+    </select>
+</mapper>
