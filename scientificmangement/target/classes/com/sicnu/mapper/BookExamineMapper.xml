@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sicnu.mapper.BookExamineMapper">
+
+    <insert id="addBookExamine" parameterType="BookExamine">
+        insert into book_examine(
+        book_name,
+        leader_id,
+        press,
+        pl_id,
+        bt_id,
+        pp_id,
+        isbn,
+        word_number,
+        trans,
+        language_id,
+        sc_id,
+        subject_id,
+        publish_time,
+        aod_id,
+        sd_id,
+        rt_id,
+        examine_status,
+        apply_time,
+        reviewer_id
+        ) values(
+        #{book_name},
+        #{leader_id},
+        #{press},
+        #{pl_id},
+        #{bt_id},
+        #{pp_id},
+        #{isbn},
+        #{word_number},
+        #{trans},
+        #{language_id},
+        #{sc_id},
+        #{subject_id},
+        #{publish_time},
+        #{aod_id},
+        #{sd_id},
+        #{rt_id},
+        #{examine_status},
+        #{apply_time},
+        #{reviewer_id}
+        )
+    </insert>
+    <select id="selectBookExamineByCondition" parameterType="java.util.HashMap" resultType="BookExamine">
+        select * from book_examine
+        <where>
+            <if test="book_name!=null and book_name!=''">
+                and book_name = #{book_name}
+            </if>
+            <if test="leader_id!=null and leader_id!=''">
+                and leader_id = #{leader_id}
+            </if>
+            <if test="press!=null and press!=''">
+                and press = #{press}
+            </if>
+            <if test="bt_id!=null and bt_id!=''">
+                and bt_id = #{bt_id}
+            </if>
+            <if test="pp_id!=null and pp_id!=''">
+                and pp_id = #{pp_id}
+            </if>
+            <if test="isbn!=null and isbn!=''">
+                and isbn = #{isbn}
+            </if>
+            <if test="word_number!=null and word_number!=''">
+                and word_number = #{word_number}
+            </if>
+
+            <if test="public_number!=null and public_number!=''">
+                and public_number =#{public_number}
+            </if>
+            <if test="trans!=null and trans!=''">
+                and trans =#{trans}
+            </if>
+            <if test="sc_id!=null and sc_id!=''">
+                and sc_id =#{sc_id}
+            </if>
+            <if test="subject_id!=null and subject_id!=''">
+                and subject_id =#{subject_id}
+            </if>
+            <if test="publish_time_start!=null  and publish_time_end!=null ">
+                <![CDATA[
+                and book.publish_time >= #{publish_time_start}
+                and book.publish_time <= #{publish_time_end}
+                ]]>
+            </if>
+            <if test="aod_id!=null and aod_id!=''">
+                and aod_id =#{aod_id}
+            </if>
+            <if test="sd_id!=null and sd_id!=''">
+                and sd_id =#{sd_id}
+            </if>
+            <if test="rt_id!=null and rt_id!=''">
+                and rt_id =#{rt_id}
+            </if>
+            <if test="examine_status!=null and examine_status!=''">
+                and examine_status =#{examine_status}
+            </if>
+            <if test="apply_time_start!=null and apply_time_end!=null">
+                <![CDATA[
+                and award.apply_time >= #{apply_time_start}
+                and award.apply_time <= #{apply_time_end}
+                ]]>
+            </if>
+            <if test="reviewer_id!=null and reviewer_id!=''">
+                and reviewer_id =#{reviewer_id}
+            </if>
+        </where>
+        <if test="pageNum != null and pageSize != null">
+            <bind name="key_offset" value="(pageNum-1)*pageSize"></bind>
+            limit #{key_offset},#{pageSize}
+        </if>
+    </select>
+<!--    <update id="updateBook" parameterType="BookExamine">-->
+<!--        update Book-->
+<!--        <trim prefix="set" suffixOverrides=",">-->
+<!--            <if test="book_name!=null and book_name!=''">-->
+<!--                book_name = #{book_name},-->
+<!--            </if>-->
+<!--            <if test="leader_id!=null and leader_id!=''">-->
+<!--                leader_id = #{leader_id},-->
+<!--            </if>-->
+<!--            <if test="press!=null and press!=''">-->
+<!--                press = #{press},-->
+<!--            </if>-->
+<!--            <if test="bt_id!=null and bt_id!=''">-->
+<!--                bt_id = #{bt_id},-->
+<!--            </if>-->
+<!--            <if test="pp_id!=null and pp_id!=''">-->
+<!--                pp_id = #{pp_id},-->
+<!--            </if>-->
+<!--            <if test="isbn!=null and isbn!=''">-->
+<!--                isbn = #{isbn},-->
+<!--            </if>-->
+<!--            <if test="word_number!=null and word_number!=''">-->
+<!--                word_number = #{word_number},-->
+<!--            </if>-->
+
+<!--            <if test="public_number!=null and public_number!=''">-->
+<!--                public_number =#{public_number},-->
+<!--            </if>-->
+<!--            <if test="trans!=null and trans!=''">-->
+<!--                trans =#{trans},-->
+<!--            </if>-->
+<!--            <if test="sc_id!=null and sc_id!=''">-->
+<!--                sc_id =#{sc_id},-->
+<!--            </if>-->
+<!--            <if test="subject_id!=null and subject_id!=''">-->
+<!--                subject_id =#{subject_id},-->
+<!--            </if>-->
+<!--            <if test="publish_time!=null  ">-->
+<!--                <![CDATA[-->
+<!--                 publish_time = #{publish_time},-->
+<!--                ]]>-->
+<!--            </if>-->
+<!--            <if test="aod_id!=null and aod_id!=''">-->
+<!--                aod_id =#{aod_id},-->
+<!--            </if>-->
+<!--            <if test="sd_id!=null and sd_id!=''">-->
+<!--                sd_id =#{sd_id},-->
+<!--            </if>-->
+<!--            <if test="rt_id!=null and rt_id!=''">-->
+<!--                rt_id =#{rt_id}-->
+<!--            </if>-->
+<!--        </trim>-->
+<!--        where book_id = #{book_id}-->
+<!--    </update>-->
+    <delete id="delBookExamineById" parameterType="int">
+        delete from book_examine
+        where
+        be_id = #{be_id}
+    </delete>
+
+    <select id="selectTotalBookExamine" parameterType="java.util.HashMap" resultType="int">
+        select count(*) total from book_examine
+        <where>
+            <if test="book_name!=null and book_name!=''">
+                and book_name = #{book_name}
+            </if>
+            <if test="leader_id!=null and leader_id!=''">
+                and leader_id = #{leader_id}
+            </if>
+            <if test="press!=null and press!=''">
+                and press = #{press}
+            </if>
+            <if test="bt_id!=null and bt_id!=''">
+                and bt_id = #{bt_id}
+            </if>
+            <if test="pp_id!=null and pp_id!=''">
+                and pp_id = #{pp_id}
+            </if>
+            <if test="isbn!=null and isbn!=''">
+                and isbn = #{isbn}
+            </if>
+            <if test="word_number!=null and word_number!=''">
+                and word_number = #{word_number}
+            </if>
+
+            <if test="public_number!=null and public_number!=''">
+                and public_number =#{public_number}
+            </if>
+            <if test="trans!=null and trans!=''">
+                and trans =#{trans}
+            </if>
+            <if test="sc_id!=null and sc_id!=''">
+                and sc_id =#{sc_id}
+            </if>
+            <if test="subject_id!=null and subject_id!=''">
+                and subject_id =#{subject_id}
+            </if>
+            <if test="publish_time_start!=null  and publish_time_end!=null ">
+                <![CDATA[
+                and book.publish_time >= #{publish_time_start}
+                and book.publish_time <= #{publish_time_end}
+                ]]>
+            </if>
+            <if test="aod_id!=null and aod_id!=''">
+                and aod_id =#{aod_id}
+            </if>
+            <if test="sd_id!=null and sd_id!=''">
+                and sd_id =#{sd_id}
+            </if>
+            <if test="rt_id!=null and rt_id!=''">
+                and rt_id =#{rt_id}
+            </if>
+            <if test="examine_status!=null and examine_status!=''">
+                and examine_status =#{examine_status}
+            </if>
+            <if test="apply_time_start!=null and apply_time_end!=null">
+                <![CDATA[
+                and award.apply_time >= #{apply_time_start}
+                and award.apply_time <= #{apply_time_end}
+                ]]>
+            </if>
+            <if test="reviewer_id!=null and reviewer_id!=''">
+                and reviewer_id =#{reviewer_id}
+            </if>
+        </where>
+        <if test="pageNum != null and pageSize != null">
+            <bind name="key_offset" value="(pageNum-1)*pageSize"></bind>
+            limit #{key_offset},#{pageSize}
+        </if>
+    </select>
+</mapper>

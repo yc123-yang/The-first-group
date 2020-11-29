@@ -2,10 +2,51 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.sicnu.mapper.ReviewProjectMapper">
+<mapper namespace="com.sicnu.mapper.ProjectExamineMapper">
+<!--    <resultMap id="projectMap" type="com.sicnu.pojo.Project">-->
+<!--        <id property="project_id" column="project_id"/>-->
+<!--        <result property="project_name" column="project_name"/>-->
+<!--        <result property="leader_id" column="leader_id"/>-->
+<!--        <result property="department_id" column="department_id"/>-->
+<!--        <result property="aod_id" column="aod_id"/>-->
+<!--        <result property="sc_id" column="sc_id"/>-->
+<!--        <result property="subject_id" column="subject_id"/>-->
+<!--        <result property="nature_id" column="nature_id"/>-->
+<!--        <result property="level_id" column="level_id"/>-->
+<!--        <result property="status_id" column="status_id"/>-->
+<!--        <result property="sd_id" column="sd_id"/>-->
+<!--        <result property="at_id" column="at_id"/>-->
+<!--        <result property="approval_number" column="approval_number"/>-->
+<!--        <result property="start_time" column="start_time"/>-->
+<!--        <result property="plan_time" column="plan_time"/>-->
+<!--        <result property="complete_time" column="complete_time"/>-->
+<!--        <result property="outlay" column="outlay"/>-->
+<!--        <result property="ct_id" column="ct_id"/>-->
+<!--    </resultMap>-->
 
-    <insert id="addReviewProject" parameterType="ReviewProject">
-        insert into review_project(
+<!--    <resultMap id="projectTeamMap" type="project" extends="projectMap">-->
+
+<!--        <collection property="projectTeams" ofType="com.sicnu.pojo.ProjectTeam">-->
+<!--            <result property="project_id" column="project_id"/>-->
+<!--            <result property="user_id" column="user_id"/>-->
+<!--            <result property="user_role" column="user_role"/>-->
+<!--            <collection property="users" ofType="com.sicnu.pojo.User">-->
+<!--                <id property="user_id" column="user_id"/>-->
+<!--                <result property="user_act" column="user_act"/>-->
+<!--                <result property="user_pwd" column="user_pwd"/>-->
+<!--                <result property="user_name" column="user_name"/>-->
+<!--                <result property="user_email" column="user_email"/>-->
+<!--                <result property="user_number" column="user_number"/>-->
+<!--                <result property="user_id_number" column="user_id_number"/>-->
+<!--                <result property="user_state" column="user_state"/>-->
+<!--                <result property="department_id" column="department_id"/>-->
+<!--                <result property="role_id" column="role_id"/>-->
+<!--            </collection>-->
+<!--        </collection>-->
+<!--    </resultMap>-->
+
+    <insert id="addProjectExamine" parameterType="ProjectExamine">
+        insert into project_examine(
         project_name,
         leader_id,
         department_id,
@@ -22,7 +63,11 @@
         plan_time,
         complete_time,
         outlay,
-        ct_id)
+        ct_id,
+        examine_status,
+        apply_time,
+        reviewer_id
+        )
         values(
         #{project_name},
         #{leader_id},
@@ -40,21 +85,17 @@
         #{plan_time},
         #{complete_time},
         #{outlay},
-        #{ct_id}
+        #{ct_id},
+        #{examine_status},
+        #{apply_time},
+        #{reviewer_id}
         )
     </insert>
-    <select id="selectAllReviewProject" parameterType="ReviewProject" resultType="Project">
-        select * from review_project
-    </select>
-    <delete id="delReviewProject" parameterType="ReviewProject">
-        delete from review_project where
-        project_id = #{project_id}
-    </delete>
-    <select id="selectReviewProjectByCondition" parameterType="java.util.HashMap" resultType="ReviewProject">
-        select * from review_project
+    <select id="selectProjectExamineByCondition" parameterType="java.util.HashMap" resultType="ProjectExamine">
+        select * from project_examine
         <where>
-            <if test="project_id!=null and project_id!=''">
-                and project_id = #{project_id}
+            <if test="pe_id!=null and pe_id!=''">
+                and pe_id = #{pe_id}
             </if>
             <if test="project_name!=null and project_name!=''">
                 and project_name = #{project_name}
@@ -68,7 +109,7 @@
             <if test="sc_id!=null and sc_id!=''">
                 and sc_id = #{sc_id}
             </if>
-            <if test="subject_id and subject_id!=''">
+            <if test="subject_id!=null and subject_id!=''">
                 and subject_id = #{subject_id}
             </if>
             <if test="nature_id!=null and nature_id!=''">
@@ -112,6 +153,18 @@
             </if>
             <if test="ct_id!=null and ct_id!=''">
                 and ct_id =#{ct_id}
+            </if>
+            <if test="examine_status!=null and examine_status!=''">
+                and examine_status =#{examine_status}
+            </if>
+            <if test="apply_time_start!=null and apply_time_end!=null">
+                <![CDATA[
+                and project.apply_time >= #{apply_time_start}
+                and project.apply_time <= #{apply_time_end}
+                ]]>
+            </if>
+            <if test="reviewer_id!=null and reviewer_id!=''">
+                and reviewer_id =#{reviewer_id}
             </if>
         </where>
         <if test="pageNum != null and pageSize != null">
@@ -119,12 +172,45 @@
             limit #{key_offset},#{pageSize}
         </if>
     </select>
-    <select id="selectTotalReviewProject" parameterType="java.util.HashMap" resultType="int">
-        select count(*) total from review_project
-        <where>
+    <delete id="delProjectExamine" parameterType="ProjectExamine">
+        delete from project_examine
+        where
+        pe_id = #{pe_id}
+    </delete>
 
-            <if test="project_id!=null and project_id!=''">
-                and project_id = #{project_id}
+    <select id="selectProjectExamineId" parameterType="ProjectExamine" resultType="int">
+        select pe_id from project_examine
+        where
+        leader_id = #{leader_id}
+        and
+        project_name = #{project_name}
+    </select>
+
+<!--    <select id="selectTeamByPid" parameterType="int" resultMap="projectTeamMap">-->
+<!--        SELECT-->
+<!--        u.user_name,u.department_id,u.role_id,-->
+<!--        t.user_role-->
+<!--        FROM-->
+<!--        user u,-->
+<!--        project p,-->
+<!--        project_team t-->
+<!--        WHERE-->
+<!--        p.project_id = #{project_id}-->
+<!--        and-->
+<!--        p.project_id = t.project_id-->
+<!--        and-->
+<!--        t.user_id = u.user_id-->
+<!--    </select>-->
+
+    <select id="findProjectExamineById" parameterType="ProjectExamine" resultType="ProjectExamine">
+        select * from project_examine where
+        pe_id = #{pe_id}
+    </select>
+    <select id="selectTotalProjectExamine" parameterType="java.util.HashMap" resultType="int">
+        select count(*) total from project_examine
+        <where>
+            <if test="pe_id!=null and pe_id!=''">
+                and pe_id = #{pe_id}
             </if>
             <if test="project_name!=null and project_name!=''">
                 and project_name = #{project_name}
@@ -138,7 +224,7 @@
             <if test="sc_id!=null and sc_id!=''">
                 and sc_id = #{sc_id}
             </if>
-            <if test="subject_id and subject_id!=''">
+            <if test="subject_id!=null and subject_id!=''">
                 and subject_id = #{subject_id}
             </if>
             <if test="nature_id!=null and nature_id!=''">
@@ -182,6 +268,18 @@
             </if>
             <if test="ct_id!=null and ct_id!=''">
                 and ct_id =#{ct_id}
+            </if>
+            <if test="examine_status!=null and examine_status!=''">
+                and examine_status =#{examine_status}
+            </if>
+            <if test="apply_time_start!=null and apply_time_end!=null">
+                <![CDATA[
+                and project.apply_time >= #{apply_time_start}
+                and project.apply_time <= #{apply_time_end}
+                ]]>
+            </if>
+            <if test="reviewer_id!=null and reviewer_id!=''">
+                and reviewer_id =#{reviewer_id}
             </if>
         </where>
     </select>

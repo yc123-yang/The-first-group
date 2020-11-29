@@ -22,8 +22,7 @@ import java.util.*;
 @SpringBootTest
 public class ScientificmangementApplicationTests {
 
-    @Resource
-    ReviewProjectMapper reviewProjectMapper;
+
     @Resource
     ProjectMapper projectDao;
     @Resource

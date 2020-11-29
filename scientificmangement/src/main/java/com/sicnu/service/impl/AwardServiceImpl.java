@@ -26,12 +26,13 @@ public class AwardServiceImpl implements AwardService {
 
     @Resource
     CacheUserMapper cacheUserMapper;
+
     @Override
     public Result addAward(Award award) {
         try {
             Award award1 = awardMapper.selectAwardByNumber(award.getApproval_number());
             if (award1 != null) {
-
+                rs = new Result("400","该奖励已经存在，不能再次录入系统",null);
             } else {
                 awardMapper.addAward(award);
                 rs = new Result("200", "添加成功", null);

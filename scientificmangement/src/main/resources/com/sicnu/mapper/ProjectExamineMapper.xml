@@ -109,7 +109,7 @@
             <if test="sc_id!=null and sc_id!=''">
                 and sc_id = #{sc_id}
             </if>
-            <if test="subject_id and subject_id!=''">
+            <if test="subject_id!=null and subject_id!=''">
                 and subject_id = #{subject_id}
             </if>
             <if test="nature_id!=null and nature_id!=''">
@@ -224,7 +224,7 @@
             <if test="sc_id!=null and sc_id!=''">
                 and sc_id = #{sc_id}
             </if>
-            <if test="subject_id and subject_id!=''">
+            <if test="subject_id!=null and subject_id!=''">
                 and subject_id = #{subject_id}
             </if>
             <if test="nature_id!=null and nature_id!=''">

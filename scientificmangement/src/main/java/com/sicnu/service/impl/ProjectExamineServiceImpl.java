@@ -42,7 +42,7 @@ public class ProjectExamineServiceImpl implements ProjectExamineService {
     }
 
     @Override
-    public Result selectProjectExamineByCondition(ProjectExamine projectExamine, String start_time_start, String start_time_end, String complete_time_start, String complete_time_end, String plan_time_start, String plan_time_end, Integer pageNum, Integer pageSize) {
+    public Result selectProjectExamineByCondition(ProjectExamine projectExamine, String start_time_start, String start_time_end, String complete_time_start, String complete_time_end, String plan_time_start, String plan_time_end, Integer pageNum, Integer pageSize,String apply_time_start,String apply_time_end) {
         List<Object> list = null;
         try {
             Map<String, Object> map = new HashMap<String, Object>();
@@ -67,6 +67,8 @@ public class ProjectExamineServiceImpl implements ProjectExamineService {
             map.put("outlay", projectExamine.getOutlay());
             map.put("approval_number", projectExamine.getApproval_number());
             map.put("ct_id", projectExamine.getCt_id());
+            map.put("examine_status",projectExamine.getExamine_status());
+            map.put("reviewer_id",projectExamine.getReviewer_id());
             map.put("pageNum", pageNum);
             map.put("pageSize", pageSize);
             if (!start_time_start.equals("")) {
@@ -86,6 +88,12 @@ public class ProjectExamineServiceImpl implements ProjectExamineService {
             }
             if (!plan_time_end.equals("")) {
                 map.put("plan_time_end", sdf.parse(plan_time_end));
+            }
+            if (!apply_time_start.equals("")) {
+                map.put("apply_time_start", sdf.parse(apply_time_start));
+            }
+            if (!apply_time_end.equals("")) {
+                map.put("apply_time_end", sdf.parse(apply_time_end));
             }
             System.out.println(map);
             //根据传来的条件筛选用户
@@ -115,7 +123,7 @@ public class ProjectExamineServiceImpl implements ProjectExamineService {
         return rs;
     }
 
-    public Result selectAllProjectExamineByCondition(ProjectExamine projectExamine, String start_time_start, String start_time_end, String complete_time_start, String complete_time_end, String plan_time_start, String plan_time_end, Integer pageNum, Integer pageSize) {
+    public Result selectAllProjectExamineByCondition(ProjectExamine projectExamine, String start_time_start, String start_time_end, String complete_time_start, String complete_time_end, String plan_time_start, String plan_time_end, Integer pageNum, Integer pageSize,String apply_time_start,String apply_time_end) {
         List<Object> list = null;
         try {
             Map<String, Object> map = new HashMap<String, Object>();
