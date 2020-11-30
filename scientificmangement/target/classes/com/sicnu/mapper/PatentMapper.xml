@@ -209,4 +209,9 @@
         where
         leader_id = #{leader_id}
     </select>
+
+    <select id="findPatentByLeaderId" parameterType="Patent" resultType="Patent">
+        select * from patent where
+        leader_id = #{leader_id}
+    </select>
 </mapper>

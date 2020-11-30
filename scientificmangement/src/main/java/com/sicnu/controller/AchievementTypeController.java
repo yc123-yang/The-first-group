@@ -35,7 +35,6 @@ public class AchievementTypeController {
 
     @PostMapping("/achievementType/delAchievementType")
     @RequiresPermissions("/data")
-
     public Result delAchievementType(Integer at_id) {
 
         try {

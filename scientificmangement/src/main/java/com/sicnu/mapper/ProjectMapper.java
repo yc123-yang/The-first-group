@@ -27,5 +27,5 @@ public interface ProjectMapper {
 
     Project findProjectById(Integer project_id);
     Integer selectCountProject(Integer leader_id);
-
+    List<Project> findProjectByLeaderId(Integer leader_id);
 }

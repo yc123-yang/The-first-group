@@ -229,6 +229,12 @@
         select * from project where
         project_id = #{project_id}
     </select>
+
+    <select id="findProjectByLeaderId" parameterType="Project" resultType="Project">
+        select * from project where
+        leader_id = #{leader_id}
+    </select>
+
     <select id="selectTotalProject" parameterType="java.util.HashMap" resultType="int">
         select count(*) total from project
         <where>

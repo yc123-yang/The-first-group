@@ -1,5 +1,6 @@
 package com.sicnu.mapper;
 
+import com.sicnu.pojo.Award;
 import com.sicnu.pojo.Book;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
@@ -20,7 +21,10 @@ public interface BookMapper {
     void delBook(Integer book_id);
 
     void updateBook(Book book);
+
     int selectTotalBook(Map<String, Object> map);
+
     Integer selectCountBook(Integer leader_id);
 
+    List<Book> findBookByLeaderId(Integer leader_id);
 }

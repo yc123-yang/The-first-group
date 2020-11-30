@@ -20,6 +20,7 @@ public class ProjectTeamServiceImpl implements ProjectTeamService {
 
     @Resource
     ProjectTeamMapper projectTeamMapper;
+
     @Resource
     UserMapper userMapper;
 
@@ -30,7 +31,9 @@ public class ProjectTeamServiceImpl implements ProjectTeamService {
 
             int user_id = userMapper.findByUserName(user_name);
             User user = userMapper.findUserById(user_id);
-            if (!user.getRole_id().equals(role_id) && !user.getDepartment_id().equals(department_id)) {
+            if (user==null){
+                rs = new Result("401", "该用户尚未注册信息或名字与注册名字不同", null);
+            }else if (!user.getRole_id().equals(role_id) && !user.getDepartment_id().equals(department_id)) {
                 rs = new Result("400", "成员信息有误，无法添加", null);
             } else {
                 projectTeamMapper.addProjectTeamUser(project_id, user_id, role_id);
@@ -55,8 +58,12 @@ public class ProjectTeamServiceImpl implements ProjectTeamService {
 
     @Override
     public Result selectProjectTeam(Integer project_id) {
-        List<ProjectTeamMap> projectTeamMaps = projectTeamMapper.selectProjectTeam(project_id);
-        rs = new Result("200",null,projectTeamMaps);
+        try {
+            List<ProjectTeamMap> projectTeamMaps = projectTeamMapper.selectProjectTeam(project_id);
+            rs = new Result("200",null,projectTeamMaps);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 }

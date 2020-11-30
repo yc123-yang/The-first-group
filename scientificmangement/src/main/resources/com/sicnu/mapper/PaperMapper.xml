@@ -168,4 +168,10 @@
         where
         leader_id = #{leader_id}
     </select>
+
+
+    <select id="findPaperByLeaderId" parameterType="Paper" resultType="Paper">
+        select * from Paper where
+        leader_id = #{leader_id}
+    </select>
 </mapper>

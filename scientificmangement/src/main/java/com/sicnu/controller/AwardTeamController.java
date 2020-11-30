@@ -19,15 +19,23 @@ public class AwardTeamController {
     private Result rs;
 
     @PostMapping("/team/addAwardTeamUser")
-    public Result addAwardTeamUser(Integer award_id, Integer user_id, String user_role, Double contribution) {
-        rs=awardTeamService.addAwardTeamUser(award_id, user_id, user_role, contribution);
+    public Result addAwardTeamUser(Integer award_id,String user_name, String user_role, Double contribution, Integer department_id) {
+        try {
+            rs=awardTeamService.addAwardTeamUser(award_id, user_name, user_role, contribution, department_id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 
     @PostMapping("/team/delAwardTeamUser")
 
     public Result delAwardTeamUser(Integer user_id) {
-        rs=awardTeamService.delAwardTeamUser(user_id);
+        try {
+            rs=awardTeamService.delAwardTeamUser(user_id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
 
     }
@@ -35,7 +43,11 @@ public class AwardTeamController {
     @PostMapping("/team/selectAwardTeam")
 
     public Result selectAwardTeam(Integer award_id) {
-        rs = awardTeamService.selectAwardTeam(award_id);
+        try {
+            rs = awardTeamService.selectAwardTeam(award_id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 }

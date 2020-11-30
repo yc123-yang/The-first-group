@@ -1,6 +1,5 @@
 package com.sicnu.controller;
 
-import com.sicnu.mapper.AwardRankMapper;
 import com.sicnu.pojo.AwardRank;
 import com.sicnu.service.impl.AwardRankServiceImpl;
 import com.sicnu.util.Result;
@@ -9,9 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import javax.annotation.Resource;
-import java.util.List;
 
 @Controller
 @CrossOrigin

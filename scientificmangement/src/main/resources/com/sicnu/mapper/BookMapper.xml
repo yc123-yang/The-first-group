@@ -231,4 +231,9 @@
         where
         leader_id = #{leader_id}
     </select>
+
+    <select id="findBookByLeaderId" parameterType="Book" resultType="Book">
+        select * from book where
+        leader_id = #{leader_id}
+    </select>
 </mapper>

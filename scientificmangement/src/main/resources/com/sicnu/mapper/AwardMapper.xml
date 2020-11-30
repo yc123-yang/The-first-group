@@ -209,4 +209,8 @@
         where
         leader_id = #{leader_id}
     </select>
+    <select id="findAwardByLeaderId" parameterType="Award" resultType="Award">
+        select * from award where
+        leader_id = #{leader_id}
+    </select>
 </mapper>
