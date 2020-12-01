@@ -22,7 +22,7 @@ public interface AwardMapper {
 
     Integer selectTotalAward(Map<String, Object> map);
 
-    Integer selectCountAward(Integer leader_id);
+    Integer selectCountAward(Map<String, Object> map);
 
     List<Award> findAwardByLeaderId(Integer leader_id);
 

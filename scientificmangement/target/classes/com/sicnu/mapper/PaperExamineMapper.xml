@@ -188,7 +188,7 @@
     <delete id="delPaperExamineById" parameterType="int">
         delete from paper_examine
         where
-        book_id = #{book_id}
+        pe_id = #{pe_id}
     </delete>
     <delete id="delPaperExamine" parameterType="int">
         delete from paper_examine

@@ -25,8 +25,8 @@ public class CheckController {
     private Result rs;
 
     @PostMapping("/check")
-    public Result finalCheck() {
-        rs = checkService.finalCheck();
+    public Result finalCheck(String checkTime) {
+        rs = checkService.finalCheck(checkTime);
         return rs;
     }
 }

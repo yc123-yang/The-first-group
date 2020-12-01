@@ -172,12 +172,18 @@
             limit #{key_offset},#{pageSize}
         </if>
     </select>
-    <delete id="delProjectExamine" parameterType="ProjectExamine">
+    <delete id="delProjectExamineById" parameterType="ProjectExamine">
         delete from project_examine
         where
         pe_id = #{pe_id}
     </delete>
-
+    <delete id="delProjectExamine" parameterType="ProjectExamine">
+        delete from project_examine
+        where
+        leader_id = #{leader_id}
+        and
+        project_name = #{project_name}
+    </delete>
     <select id="selectProjectExamineId" parameterType="ProjectExamine" resultType="int">
         select pe_id from project_examine
         where

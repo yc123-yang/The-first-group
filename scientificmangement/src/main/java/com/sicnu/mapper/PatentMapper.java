@@ -25,7 +25,7 @@ public interface PatentMapper {
 
     Integer selectTotalPatent(Map<String, Object> map);
 
-    Integer selectCountPatent(Integer leader_id);
+    Integer selectCountPatent(Map<String,Object> map);
 
     List<Patent> findPatentByLeaderId(Integer leader_id);
 

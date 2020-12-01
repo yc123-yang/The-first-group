@@ -22,7 +22,7 @@ public interface PaperMapper {
     void delPaperById(Integer paper_id);
 
     Integer selectTotalPaper(Map<String, Object> map);
-    Integer selectCountPaper(Integer leader_id);
+    Integer selectCountPaper(Map<String, Object> map);
     List<Paper> findPaperByLeaderId(Integer leader_id);
     Integer selectPaperId(Integer leader_id,String paper_name);
 }

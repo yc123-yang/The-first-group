@@ -301,12 +301,21 @@
         </where>
     </select>
 
-    <select id="selectCountProject" resultType="int" parameterType="int">
+    <select id="selectCountProject" resultType="int" parameterType="java.util.HashMap">
         select count(*) cnt
         from
         project
-        where
-        leader_id = #{leader_id}
+        <where>
+            <if test="leader_id!=null and leader_id!=''">
+                and leader_id = #{leader_id}
+            </if>
+            <if test="time_start!=null  and time_end!=null ">
+                <![CDATA[
+                and project.complete_time >= #{time_start}
+                and project.complete_time <= #{time_end}
+                ]]>
+            </if>
+        </where>
     </select>
 
 </mapper>

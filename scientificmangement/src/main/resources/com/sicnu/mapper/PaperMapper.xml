@@ -170,9 +170,19 @@
     </select>
 
 
-    <select id="findPaperByLeaderId" parameterType="Paper" resultType="Paper">
-        select * from Paper where
-        leader_id = #{leader_id}
+    <select id="findPaperByLeaderId" parameterType="java.util.HashMap" resultType="Paper">
+        select * from Paper
+        <where>
+            <if test="leader_id!=null and leader_id!=''">
+                and leader_id = #{leader_id}
+            </if>
+            <if test="time_start!=null  and time_end!=null ">
+                <![CDATA[
+                and paper.publish_time >= #{time_start}
+                and paper.publish_time <= #{time_end}
+                ]]>
+            </if>
+        </where>
     </select>
 
     <select id="selectPaperId" parameterType="Paper" resultType="int">

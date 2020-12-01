@@ -165,7 +165,7 @@
     <delete id="delPatentExamineById" parameterType="int">
         delete from patent_examine
         where
-        patent_id = #{patent_id}
+        pe_id = #{pe_id}
     </delete>
     <delete id="delPatentExamine" parameterType="int">
         delete from patent_examine

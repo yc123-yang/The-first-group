@@ -149,7 +149,7 @@
     <delete id="delAwardById" parameterType="int">
         delete from award
         where
-        award_id = #{award_id}
+        ae_id = #{ae_id}
     </delete>
     <select id="selectTotalAward" parameterType="java.util.HashMap" resultType="int">
         select * from award
@@ -202,12 +202,21 @@
         </where>
     </select>
 
-    <select id="selectCountAward" resultType="int" parameterType="int">
+    <select id="selectCountAward" resultType="int" parameterType="java.util.HashMap">
         select count(*) cnt
         from
         award
-        where
-        leader_id = #{leader_id}
+        <where>
+            <if test="leader_id!=null and leader_id!=''">
+                and leader_id = #{leader_id}
+            </if>
+            <if test="time_start!=null  and time_end!=null ">
+                <![CDATA[
+                and award.award_time >= #{time_start}
+                and award.award_time <= #{time_end}
+                ]]>
+            </if>
+        </where>
     </select>
     <select id="findAwardByLeaderId" parameterType="Award" resultType="Award">
         select * from award where
