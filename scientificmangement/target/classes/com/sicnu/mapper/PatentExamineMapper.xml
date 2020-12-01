@@ -52,9 +52,9 @@
         select * from patent_examine
         <where>
             <if test="patent_name!=null and patent_name!=''">
-                and patent_name = #{patent_name}
+                and patent_name like '%${patent_name}%'
             </if>
-            <if test="leader_id !=null and leader_id!=''">
+            <if test="leader_id!=null and leader_id!=''">
                 and leader_id = #{leader_id}
             </if>
             <if test="pt_id!=null and pt_id!=''">
@@ -70,25 +70,25 @@
                 and aod_id = #{aod_id}
             </if>
             <if test="application_number!=null and application_number!=''">
-                and application_number = #{application_number}
+                and application_number like '%${application_number}%'
             </if>
             <if test="application_time_start!=null  and application_time_end!=null ">
                 <![CDATA[
-                and patent.application_time >= #{application_time_start}
-                and patent.application_time <= #{application_time_end}
-                ]]>
+                    and patent.application_time >= #{application_time_start}
+                    and patent.application_time <= #{application_time_end}
+                    ]]>
             </if>
             <if test="public_number!=null and public_number!=''">
-                and public_number =#{public_number}
+                and public_number like '%${public_number}%'
             </if>
             <if test="public_time_start!=null  and public_time_end!=null ">
                 <![CDATA[
-                and patent.public_time >= #{public_time_start}
-                and patent.public_time <= #{public_time_end}
-                ]]>
+                    and patent.public_time >= #{public_time_start}
+                    and patent.public_time <= #{public_time_end}
+                    ]]>
             </if>
             <if test="authorization_number!=null and authorization_number!=''">
-                and authorization_number =#{authorization_number}
+                and authorization_number like '%${authorization_number}%'
             </if>
             <if test="authorization_time_start!=null  and authorization_time_end!=null ">
                 <![CDATA[
@@ -178,7 +178,7 @@
         select count(*) total from patent_examine
         <where>
             <if test="patent_name!=null and patent_name!=''">
-                and patent_name = #{patent_name}
+                and patent_name like '%${patent_name}%'
             </if>
             <if test="leader_id!=null and leader_id!=''">
                 and leader_id = #{leader_id}
@@ -196,7 +196,7 @@
                 and aod_id = #{aod_id}
             </if>
             <if test="application_number!=null and application_number!=''">
-                and application_number = #{application_number}
+                and application_number like '%${application_number}%'
             </if>
             <if test="application_time_start!=null  and application_time_end!=null ">
                 <![CDATA[
@@ -205,7 +205,7 @@
                     ]]>
             </if>
             <if test="public_number!=null and public_number!=''">
-                and public_number =#{public_number}
+                and public_number like '%${public_number}%'
             </if>
             <if test="public_time_start!=null  and public_time_end!=null ">
                 <![CDATA[
@@ -214,7 +214,7 @@
                     ]]>
             </if>
             <if test="authorization_number!=null and authorization_number!=''">
-                and authorization_number =#{authorization_number}
+                and authorization_number like '%${authorization_number}%'
             </if>
             <if test="authorization_time_start!=null  and authorization_time_end!=null ">
                 <![CDATA[

@@ -47,8 +47,7 @@ public class AwardServiceImpl implements AwardService {
 
             Integer awardExamineId = awardExamineMapper.selectAwardExamineId(award.getLeader_id(),award.getAward_name());
             List<AwardTeamExamine> awardTeamExamines = awardTeamExamineMapper.selectAwardTeamExamineById(awardExamineId);
-            //获取项目id 返给用户
-            Integer awardId = awardMapper.selectAwardId(award.getLeader_id(), award.getAward_name());
+
             //获取项目负责人信息
             User user = userDao.findUserById(award.getLeader_id());
             //创建邮件环境，反馈信息
@@ -64,11 +63,13 @@ public class AwardServiceImpl implements AwardService {
                 helper.setFrom("1776557392@qq.com");
                 mailSender.send(mailMessage);
                 //从待审核里面删除
-                awardExamineMapper.delAwardExamineById(awardExamineId);
+                awardTeamExamineMapper.delAwardTeamExamineTeam(awardExamineId);
                 awardExamineMapper.delAwardExamine(award.getLeader_id(),award.getAward_name());
                 rs = new Result("400", "审核结果已反馈", null);
             } else {
                 awardMapper.addAward(award);
+                //获取项目id 返给用户
+                Integer awardId = awardMapper.selectAwardId(award.getLeader_id(), award.getAward_name());
                 helper.setSubject("高校科研管理系统注册验证码");
                 helper.setText("<p>您的项目申报审核成功，项目编号为：<span style='color:blue;text-decoration:underline'>" + awardId + "</span>,请勿遗忘。</p>", true);
                 helper.setTo(user.getUser_email());
@@ -80,7 +81,7 @@ public class AwardServiceImpl implements AwardService {
                 for (AwardTeamExamine awardTeamExamine : awardTeamExamines) {
                     awardTeamMapper.addAwardTeamUser(awardId, (int) awardTeamExamine.getUser_id(),awardTeamExamine.getUser_role(),awardTeamExamine.getContribution());
                 }
-                awardExamineMapper.delAwardExamineById(awardExamineId);
+                awardTeamExamineMapper.delAwardTeamExamineTeam(awardExamineId);
                 rs = new Result("200", "审核结果已反馈", null);
             }
 

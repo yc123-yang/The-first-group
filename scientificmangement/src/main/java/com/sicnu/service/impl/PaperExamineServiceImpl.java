@@ -2,8 +2,10 @@ package com.sicnu.service.impl;
 
 import com.sicnu.mapper.CacheUserMapper;
 import com.sicnu.mapper.PaperExamineMapper;
+import com.sicnu.mapper.PaperTeamExamineMapper;
 import com.sicnu.pojo.CacheUser;
 import com.sicnu.pojo.PaperExamine;
+import com.sicnu.pojo.PaperTeam;
 import com.sicnu.service.PaperExamineService;
 import com.sicnu.util.Result;
 import org.springframework.stereotype.Service;
@@ -27,12 +29,18 @@ public class PaperExamineServiceImpl implements PaperExamineService {
     @Resource
     CacheUserMapper cacheUserMapper;
 
+    @Resource
+    PaperTeamExamineMapper paperTeamExamineMapper;
 
 
     @Override
-    public Result addPaperExamine(PaperExamine paperExamine) {
+    public Result addPaperExamine(PaperExamine paperExamine,Integer[] user_id,String[] user_role,Double[] contribution) {
         try {
             paperExamineMapper.addPaperExamine(paperExamine);
+            Integer paper_id = paperExamineMapper.selectBookExamineId(paperExamine.getLeader_id(),paperExamine.getPaper_name());
+            for (int i = 0; i < user_id.length; i++) {
+                paperTeamExamineMapper.addPaperTeamExamineUser(paper_id,user_id[i],user_role[i],contribution[i]);
+            }
             rs = new Result("200","您的论文已经上传审核，请您等待审核结果",null);
         } catch (Exception e) {
             e.printStackTrace();

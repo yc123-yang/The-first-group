@@ -28,9 +28,9 @@ public class AwardExamineController {
     private Result rs;
 
     @PostMapping("/awardExamine/addAwardExamine")
-    public Result addAwardExamine(AwardExamine awardExamine) {
+    public Result addAwardExamine(AwardExamine awardExamine,Integer[] user_id,String[] user_role,Double[] contribution) {
         try {
-            rs=awardExamineService.addAwardExamine(awardExamine);
+            rs=awardExamineService.addAwardExamine(awardExamine,user_id,user_role,contribution);
         } catch (Exception e) {
             e.printStackTrace();
         }

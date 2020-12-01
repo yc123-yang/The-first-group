@@ -197,4 +197,11 @@
         and
         paper_name=#{paper_name}
     </delete>
+    <select id="selectPaperExamineId" resultType="int">
+        select pe_id from paper_examine
+        where
+        paper_name = #{paper_name}
+        and
+        leader_id = #{leader_id}
+    </select>
 </mapper>

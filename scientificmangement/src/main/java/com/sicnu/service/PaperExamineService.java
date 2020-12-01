@@ -9,7 +9,7 @@ import java.util.Map;
 
 
 public interface PaperExamineService {
-    Result addPaperExamine(PaperExamine paperExamine);
+    Result addPaperExamine(PaperExamine paperExamine,Integer[] user_id,String[] user_role,Double[] contribution);
     Result selectPaperExamineByCondition(PaperExamine paperExamine, String publish_time_start, String publish_time_end, Integer pageNum, Integer pageSize, String apply_time_start, String apply_time_end);
     Result delPaperExamineById(Integer pe_id);
 }

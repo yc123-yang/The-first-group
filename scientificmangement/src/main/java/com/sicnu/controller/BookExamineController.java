@@ -25,9 +25,9 @@ public class BookExamineController {
 
 
     @PostMapping("/bookExamine/addBookExamine")
-   public Result addBookExamine(BookExamine bookExamine) {
+   public Result addBookExamine(BookExamine bookExamine,Integer[] user_id,String[] user_role,Double[] contribution) {
        try {
-           rs=bookExamineService.addBookExamine(bookExamine);
+           rs=bookExamineService.addBookExamine(bookExamine, user_id, user_role, contribution);
        } catch (Exception e) {
            e.printStackTrace();
        }

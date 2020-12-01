@@ -51,13 +51,13 @@
         select * from book_examine
         <where>
             <if test="book_name!=null and book_name!=''">
-                and book_name = #{book_name}
+                and book_name like '%${book_name}%'
             </if>
             <if test="leader_id!=null and leader_id!=''">
                 and leader_id = #{leader_id}
             </if>
             <if test="press!=null and press!=''">
-                and press = #{press}
+                and press like '%${press}%'
             </if>
             <if test="bt_id!=null and bt_id!=''">
                 and bt_id = #{bt_id}
@@ -69,11 +69,11 @@
                 and isbn = #{isbn}
             </if>
             <if test="word_number!=null and word_number!=''">
-                and word_number = #{word_number}
+                and word_number like '%${word_number}%'
             </if>
 
             <if test="public_number!=null and public_number!=''">
-                and public_number =#{public_number}
+                and public_number like '%${public_number}%'
             </if>
             <if test="trans!=null and trans!=''">
                 and trans =#{trans}
@@ -187,13 +187,13 @@
         select count(*) total from book_examine
         <where>
             <if test="book_name!=null and book_name!=''">
-                and book_name = #{book_name}
+                and book_name like '%${book_name}%'
             </if>
             <if test="leader_id!=null and leader_id!=''">
                 and leader_id = #{leader_id}
             </if>
             <if test="press!=null and press!=''">
-                and press = #{press}
+                and press like '%${press}%'
             </if>
             <if test="bt_id!=null and bt_id!=''">
                 and bt_id = #{bt_id}
@@ -205,11 +205,11 @@
                 and isbn = #{isbn}
             </if>
             <if test="word_number!=null and word_number!=''">
-                and word_number = #{word_number}
+                and word_number like '%${word_number}%'
             </if>
 
             <if test="public_number!=null and public_number!=''">
-                and public_number =#{public_number}
+                and public_number like '%${public_number}%'
             </if>
             <if test="trans!=null and trans!=''">
                 and trans =#{trans}
@@ -252,5 +252,13 @@
             <bind name="key_offset" value="(pageNum-1)*pageSize"></bind>
             limit #{key_offset},#{pageSize}
         </if>
+    </select>
+
+    <select id="selectAwardExamineId" resultType="int">
+        select be_id from book_examine
+        where
+        book_name = #{book_name}
+        and
+        leader_id = #{leader_id}
     </select>
 </mapper>

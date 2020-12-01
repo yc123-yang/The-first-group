@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sicnu.mapper.BookTeamExamineMapper">
+
+    <insert id="addBookTeamExamineUser" parameterType="BookTeamExamine">
+        insert into book_team_examine
+        (
+        book_id,
+        user_id,
+        user_role,
+        contribution
+        )
+        values
+        (
+        #{book_id},
+        #{user_id},
+        #{user_role},
+        #{contribution}
+        )
+    </insert>
+
+    <delete id="delBookTeamExamineTeam" parameterType="int">
+        delete from book_team_examine
+        where
+        book_id = #{book_id}
+    </delete>
+
+    <select id="selectBookTeamExamineById" parameterType="int">
+        select * from book_team_examine
+        where
+        book_id = #{book_id}
+    </select>
+
+
+</mapper>

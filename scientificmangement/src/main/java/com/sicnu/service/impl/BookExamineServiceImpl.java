@@ -1,9 +1,10 @@
 package com.sicnu.service.impl;
 
 import com.sicnu.mapper.BookExamineMapper;
+import com.sicnu.mapper.BookTeamExamineMapper;
 import com.sicnu.mapper.CacheUserMapper;
-import com.sicnu.pojo.Book;
 import com.sicnu.pojo.BookExamine;
+import com.sicnu.pojo.BookTeam;
 import com.sicnu.pojo.CacheUser;
 import com.sicnu.service.BookExamineService;
 import com.sicnu.util.Result;
@@ -26,12 +27,18 @@ public class BookExamineServiceImpl implements BookExamineService {
     private Result rs;
 
     @Resource
+    BookTeamExamineMapper bookTeamExamineMapper;
+    @Resource
     CacheUserMapper cacheUserMapper;
 
     @Override
-    public Result addBookExamine(BookExamine bookExamine) {
+    public Result addBookExamine(BookExamine bookExamine,Integer[] user_id,String[] user_role,Double[] contribution) {
         try {
             bookExamineMapper.addBookExamine(bookExamine);
+            Integer book_id = bookExamineMapper.selectBookExamineId(bookExamine.getLeader_id(),bookExamine.getBook_name());
+            for (int i = 0; i < user_id.length; i++) {
+                bookTeamExamineMapper.addBookTeamExamineUser(book_id,user_id[i],user_role[i],contribution[i]);
+            }
             rs = new Result("200","您的著作成果已经上传审核，请您耐心等待审核结果",null);
         } catch (Exception e) {
             e.printStackTrace();

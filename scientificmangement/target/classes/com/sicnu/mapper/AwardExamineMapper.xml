@@ -48,7 +48,7 @@
         select * from award_examine
         <where>
             <if test="achievement_name!=null and achievement_name!=''">
-                and achievement_name = #{achievement_name}
+                and achievement_name like '%${achievement_name}%'
             </if>
             <if test="leader_id!=null and leader_id!=''">
                 and leader_id = #{leader_id}
@@ -63,10 +63,10 @@
                 ]]>
             </if>
             <if test="issuing_authority!=null and issuing_authority!=''">
-                and issuing_authority = #{issuing_authority}
+                and issuing_authority like '%${issuing_authority}%'
             </if>
             <if test="approval_number!=null and approval_number!=''">
-                and approval_number = #{approval_number}
+                and approval_number like '%${approval_number}%'
             </if>
             <if test="aod_id!=null and aod_id!=''">
                 and aod_id = #{aod_id}
@@ -176,7 +176,7 @@
         select * from award_examine
         <where>
             <if test="achievement_name!=null and achievement_name!=''">
-                and achievement_name = #{achievement_name}
+                and achievement_name like '%${achievement_name}%'
             </if>
             <if test="leader_id!=null and leader_id!=''">
                 and leader_id = #{leader_id}
@@ -191,10 +191,10 @@
                 ]]>
             </if>
             <if test="issuing_authority!=null and issuing_authority!=''">
-                and issuing_authority = #{issuing_authority}
+                and issuing_authority like '%${issuing_authority}%'
             </if>
             <if test="approval_number!=null and approval_number!=''">
-                and approval_number = #{approval_number}
+                and approval_number like '%${approval_number}%'
             </if>
             <if test="aod_id!=null and aod_id!=''">
                 and aod_id = #{aod_id}
@@ -233,5 +233,13 @@
                 and reviewer_id =#{reviewer_id}
             </if>
         </where>
+    </select>
+
+    <select id="selectAwardExamineId" resultType="int">
+        select ae_id from award_examine
+        where
+        award_name = #{award_name}
+        and
+        leader_id = #{leader_id}
     </select>
 </mapper>

@@ -37,10 +37,6 @@ public class AwardExamineServiceImpl implements AwardExamineService {
             awardExamineMapper.addAwardExamine(awardExamine);
             Integer award_id = awardExamineMapper.selectAwardExamineId(awardExamine.getLeader_id(),awardExamine.getAward_name());
             for (int i = 0; i < user_id.length; i++) {
-                AwardTeam awardTeam = new AwardTeam();
-                awardTeam.setUser_id(user_id[i]);
-                awardTeam.setUser_role(user_role[i]);
-                awardTeam.setContribution(contribution[i]);
                 awardTeamMapper.addAwardTeamUser(award_id,user_id[i],user_role[i],contribution[i]);
             }
             rs = new Result("200","奖励已经录入系统审核,请您耐心等待",null);

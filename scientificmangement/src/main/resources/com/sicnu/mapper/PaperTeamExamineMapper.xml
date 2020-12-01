@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sicnu.mapper.PaperTeamExamineMapper">
+
+    <insert id="addPaperTeamExamineUser" parameterType="PaperTeamExamine">
+        insert into paper_team_examine
+        (
+        paper_id,
+        user_id,
+        user_role,
+        contribution
+        )
+        values
+        (
+        #{paper_id},
+        #{user_id},
+        #{user_role},
+        #{contribution}
+        )
+    </insert>
+
+    <delete id="delPaperTeamExamineTeam" parameterType="int">
+        delete from paper_team_examine
+        where
+        paper_id = #{paper_id}
+    </delete>
+
+    <select id="selectPaperTeamExamineById" parameterType="int">
+        select * from paper_team_examine
+        where
+        paper_id = #{paper_id}
+    </select>
+
+
+</mapper>
