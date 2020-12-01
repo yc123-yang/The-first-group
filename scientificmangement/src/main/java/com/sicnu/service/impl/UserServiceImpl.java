@@ -347,4 +347,15 @@ public class UserServiceImpl implements UserService {
         return rs = new Result("200", "查询成功", user);
     }
 
+    @Override
+    public Result findNameId(String user_name) {
+        try {
+            List<User> users = userDao.findNameId(user_name);
+            rs =  new Result("200",null,users);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
 }

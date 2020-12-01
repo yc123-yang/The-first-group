@@ -36,4 +36,5 @@ public interface UserMapper {
 
     void updateUserRole(Integer role_id, Integer user_id);
     List<Integer> selectAllUserId();
+    List<User> findNameId(String user_name);
 }

@@ -40,7 +40,7 @@
         select * from paper
         <where>
             <if test="paper_name!=null and paper_name!=''">
-                and paper_name = #{paper_name}
+                and paper_name like '%${paper_name}%'
             </if>
             <if test="leader_id!=null and leader_id!=''">
                 and leader_id = #{leader_id}
@@ -55,7 +55,7 @@
                 ]]>
             </if>
             <if test="include_number!=null and include_number!=''">
-                and include_number = #{include_number}
+                and include_number like '%${include_number}%'
             </if>
             <if test="sc_id!=null and sc_id!=''">
                 and sc_id = #{sc_id}
@@ -70,7 +70,7 @@
                 and sd_id =#{sd_id}
             </if>
             <if test="remark!=null  and remark!='' ">
-                and remark =#{remark}
+                and remark like '%${remark}%'
             </if>
         </where>
         <if test="pageNum != null and pageSize != null">
@@ -126,7 +126,7 @@
         select count(*) count from paper
         <where>
             <if test="paper_name!=null and paper_name!=''">
-                and paper_name = #{paper_name}
+                and paper_name like '%${paper_name}%'
             </if>
             <if test="leader_id!=null and leader_id!=''">
                 and leader_id = #{leader_id}
@@ -141,7 +141,7 @@
                 ]]>
             </if>
             <if test="include_number!=null and include_number!=''">
-                and include_number = #{include_number}
+                and include_number like '%${include_number}%'
             </if>
             <if test="sc_id!=null and sc_id!=''">
                 and sc_id = #{sc_id}
@@ -156,7 +156,7 @@
                 and sd_id =#{sd_id}
             </if>
             <if test="remark!=null  and remark!='' ">
-                and remark =#{remark}
+                and remark like '%${remark}%'
             </if>
         </where>
     </select>

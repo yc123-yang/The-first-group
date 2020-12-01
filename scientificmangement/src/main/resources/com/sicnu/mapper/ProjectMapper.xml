@@ -91,7 +91,7 @@
                 and project_id = #{project_id}
             </if>
             <if test="project_name!=null and project_name!=''">
-                and project_name = #{project_name}
+                and project_name like '%${project_name}%'
             </if>
             <if test="department_id!=null and department_id!=''">
                 and department_id = #{department_id}
@@ -121,7 +121,7 @@
                 and at_id =#{at_id}
             </if>
             <if test="approval_number!=null and approval_number!=''">
-                and approval_number =#{approval_number}
+                and approval_number like'%${approval_number}%'
             </if>
             <if test="start_time_start!=null  and start_time_end!=null ">
                 <![CDATA[
@@ -242,7 +242,7 @@
                 and project_id = #{project_id}
             </if>
             <if test="project_name!=null and project_name!=''">
-                and project_name = #{project_name}
+                and project_name like '%${project_name}%'
             </if>
             <if test="department_id!=null and department_id!=''">
                 and department_id = #{department_id}
@@ -272,7 +272,7 @@
                 and at_id =#{at_id}
             </if>
             <if test="approval_number!=null and approval_number!=''">
-                and approval_number =#{approval_number}
+                and approval_number like'%${approval_number}%'
             </if>
             <if test="start_time_start!=null  and start_time_end!=null ">
                 <![CDATA[

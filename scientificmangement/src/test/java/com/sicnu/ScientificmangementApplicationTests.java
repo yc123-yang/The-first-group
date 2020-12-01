@@ -4,6 +4,7 @@ package com.sicnu;
 import com.sicnu.mapper.*;
 import com.sicnu.pojo.Project;
 import com.sicnu.pojo.ReviewProject;
+import com.sicnu.pojo.User;
 import com.sicnu.service.impl.AuthServiceImpl;
 import com.sicnu.service.impl.CheckEmailServiceImpl;
 import com.sicnu.service.impl.UserServiceImpl;
@@ -131,8 +132,10 @@ public class ScientificmangementApplicationTests {
 //        System.out.println(list);
 //        List<Object> auths = authService.getAuth(1);
 //        System.out.println(auths);
-        List<Integer> projectIds = teamMapper.selectProject_id(0);
-        System.out.println(projectIds);
+//        List<Integer> projectIds = teamMapper.selectProject_id(0);
+//        System.out.println(projectIds);
+        List<User> users = userDao.findNameId("y");
+        System.out.println(users);
     }
 
 }

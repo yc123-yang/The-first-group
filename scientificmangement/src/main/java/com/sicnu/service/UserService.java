@@ -1,6 +1,7 @@
 package com.sicnu.service;
 
 import com.sicnu.pojo.Permission;
+import com.sicnu.pojo.User;
 import com.sicnu.util.Result;
 
 import javax.mail.MessagingException;
@@ -32,4 +33,6 @@ public interface UserService {
     Result updateUserRole(Integer role_id, Integer user_id);
 
     Result findUserById(Integer user_id);
+
+    Result findNameId(String user_name);
 }

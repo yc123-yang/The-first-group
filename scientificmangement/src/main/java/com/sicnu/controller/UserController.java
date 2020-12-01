@@ -164,4 +164,14 @@ public class UserController {
         }
         return rs;
     }
+
+    @RequestMapping("/user/findNameId")
+    public Result findNameId(String user_name) {
+        try {
+            rs  = userService.findNameId(user_name);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
 }
