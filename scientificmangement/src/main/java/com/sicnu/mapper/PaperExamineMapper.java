@@ -12,7 +12,7 @@ import java.util.Map;
 public interface PaperExamineMapper {
     void addPaperExamine(PaperExamine paperExamine);
     List<PaperExamine> selectPaperExamineByCondition(Map<String,Object> map);
-    void delPaperExamineById(Integer pe_id);
+    void delPaperExamine(Integer leader_id,String paper_name);
     Integer selectTotalPaperExamine(Map<String,Object> map);
-
+    void delPaperExamineById(Integer pe_id);
 }

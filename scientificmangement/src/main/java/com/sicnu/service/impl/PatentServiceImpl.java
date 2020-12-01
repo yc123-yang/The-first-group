@@ -1,14 +1,17 @@
 package com.sicnu.service.impl;
 
-import com.sicnu.mapper.CacheUserMapper;
-import com.sicnu.mapper.PatentMapper;
+import com.sicnu.mapper.*;
 import com.sicnu.pojo.CacheUser;
 import com.sicnu.pojo.Patent;
+import com.sicnu.pojo.User;
 import com.sicnu.service.PatentService;
 import com.sicnu.util.Result;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.mail.internet.MimeMessage;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,7 +30,15 @@ public class PatentServiceImpl implements PatentService {
     private Result rs = null;
 
     @Resource
+    UserMapper userDao;
+
+    @Resource
+    PatentExamineMapper patentExamineMapper;
+    @Resource
+    JavaMailSenderImpl mailSender;
+    @Resource
     CacheUserMapper cacheUserMapper;
+
     /**
      * 添加专利
      *
@@ -35,15 +46,45 @@ public class PatentServiceImpl implements PatentService {
      * @return
      */
     @Override
-    public Result addPatent(Patent patent) {
+    public Result addPatent(Patent patent,String checkMessage,String message) {
         try {
-            Patent patent1 = patentMapper.selectPatentByNumber(patent.getApplication_number(), patent.getPublic_number(), patent.getAuthorization_number());
-            if (patent1 != null) {
-                rs = new Result("401", "该专利编号已经存在", null);
+            //获取项目id 返给用户
+            Integer awardId = patentMapper.selectPatentId(patent.getLeader_id(), patent.getPatent_name());
+            //获取项目负责人信息
+            User user = userDao.findUserById(patent.getLeader_id());
+            //创建邮件环境，反馈信息
+            MimeMessage mailMessage = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mailMessage);
+
+            //如果不通过审核反馈
+            if (checkMessage.equals("fail")) {
+                helper.setSubject("高校科研管理系统注册验证码");
+                helper.setText("<p>您的项目申报审核未通过，因为<span style='color:blue;text-decoration:underline'>" + message + "</span>,请您解决之后重新申请。</p>", true);
+                //负责人邮箱
+                helper.setTo(user.getUser_email());
+                helper.setFrom("1776557392@qq.com");
+                mailSender.send(mailMessage);
+                //从待审核里面删除
+                patentExamineMapper.delPatentExamine(patent.getLeader_id(),patent.getPatent_name());
+                rs = new Result("400", "审核结果已反馈", null);
             } else {
                 patentMapper.addPatent(patent);
-                rs = new Result("200", "专利注册成功", null);
+                helper.setSubject("高校科研管理系统注册验证码");
+                helper.setText("<p>您的项目申报审核成功，项目编号为：<span style='color:blue;text-decoration:underline'>" + awardId + "</span>,请勿遗忘。</p>", true);
+                helper.setTo(user.getUser_email());
+                helper.setFrom("1776557392@qq.com");
+                mailSender.send(mailMessage);
+                //从待审核删除
+                patentExamineMapper.delPatentExamine(patent.getLeader_id(),patent.getPatent_name());
+                rs = new Result("200", "审核结果已反馈", null);
             }
+//            Patent patent1 = patentMapper.selectPatentByNumber(patent.getApplication_number(), patent.getPublic_number(), patent.getAuthorization_number());
+//            if (patent1 != null) {
+//                rs = new Result("401", "该专利编号已经存在", null);
+//            } else {
+//                patentMapper.addPatent(patent);
+//                rs = new Result("200", "专利注册成功", null);
+//            }
         } catch (Exception e) {
             e.printStackTrace();
         }

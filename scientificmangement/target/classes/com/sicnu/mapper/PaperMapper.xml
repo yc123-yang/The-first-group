@@ -119,7 +119,7 @@
     <delete id="delPaperById" parameterType="int">
         delete from paper
         where
-        paper_id = #{ppaper_id}
+        paper_id =#{paper_id}
     </delete>
 
     <select id="selectTotalPaper" parameterType="java.util.HashMap" resultType="int">
@@ -173,5 +173,13 @@
     <select id="findPaperByLeaderId" parameterType="Paper" resultType="Paper">
         select * from Paper where
         leader_id = #{leader_id}
+    </select>
+
+    <select id="selectPaperId" parameterType="Paper" resultType="int">
+        select paper_id from paper
+        where
+        leader_id = #{leader_id}
+        and
+        paper_name = #{paper_name}
     </select>
 </mapper>

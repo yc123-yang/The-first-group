@@ -9,7 +9,7 @@ import java.util.Map;
 
 public interface PatentService {
 
-    Result addPatent(Patent patent);
+    Result addPatent(Patent patent,String checkMessage,String message);
 
     Result selectPatentByCondition(Patent patent, String application_time_start, String application_time_end, String public_time_start, String public_time_end, String authorization_time_start, String authorization_time_end, Integer pageSize, Integer pageNum) throws ParseException;
 

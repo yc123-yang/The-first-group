@@ -147,7 +147,7 @@
     <delete id="delPatentById" parameterType="int">
         delete from patent
         where
-        patent_id = #{patent_id}
+        {patent_id} = #{patent_id}
     </delete>
 
     <select id="selectTotalPatent" parameterType="java.util.HashMap" resultType="int">
@@ -213,5 +213,13 @@
     <select id="findPatentByLeaderId" parameterType="Patent" resultType="Patent">
         select * from patent where
         leader_id = #{leader_id}
+    </select>
+
+    <select id="selectPatentId" parameterType="Patent" resultType="int">
+        select patent_id from patent
+        where
+        leader_id = #{leader_id}
+        and
+        patent_name = #{patent_name}
     </select>
 </mapper>

@@ -22,9 +22,9 @@ public class AwardController {
 
     @PostMapping("/award/addAward")
 
-    public Result addAward(Award award) {
+    public Result addAward(Award award,String checkMessage,String message) {
         try {
-            rs = awardService.addAward(award);
+            rs = awardService.addAward(award, checkMessage, message);
         } catch (Exception e) {
             e.printStackTrace();
         }

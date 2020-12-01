@@ -174,9 +174,15 @@
     <delete id="delBookExamineById" parameterType="int">
         delete from book_examine
         where
-        be_id = #{be_id}
+        book_id = #{book_id}
     </delete>
-
+    <delete id="delBookExamine" parameterType="int">
+        delete from book_examine
+        where
+        leader_id = #{leader_id}
+        and
+        book_name =#{book_name}
+    </delete>
     <select id="selectTotalBookExamine" parameterType="java.util.HashMap" resultType="int">
         select count(*) total from book_examine
         <where>

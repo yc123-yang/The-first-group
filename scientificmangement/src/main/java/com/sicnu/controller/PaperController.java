@@ -21,9 +21,9 @@ public class PaperController {
     private Result rs;
 
     @PostMapping("/paper/addPaper")
-    public Result addPaper(Paper paper) {
+    public Result addPaper(Paper paper,String checkMessage,String message) {
         try {
-            rs = paperService.addPaper(paper);
+            rs = paperService.addPaper(paper, checkMessage, message);
         } catch (Exception e) {
             e.printStackTrace();
         }

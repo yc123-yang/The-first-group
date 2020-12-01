@@ -23,20 +23,10 @@ public class PatentController {
     private Result rs;
 
     @PostMapping("/patent/addPatent")
-    public Result addPatent(Patent patent, String application_time1, String public_time1, String authorization_time1) throws ParseException {
+    public Result addPatent(Patent patent,String checkMessage,String message) throws ParseException {
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            if (!application_time1.equals("")) {
-                patent.setApplication_time((Date) sdf.parse(application_time1));
-            }
-            if (!public_time1.equals("")) {
-                patent.setPublic_time((Date) sdf.parse(public_time1));
-            }
-            if (!authorization_time1.equals("")) {
-                patent.setAuthorization_time((Date) sdf.parse(authorization_time1));
-            }
-            rs = patentService.addPatent(patent);
-        } catch (ParseException e) {
+            rs = patentService.addPatent(patent, checkMessage, message);
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return rs;

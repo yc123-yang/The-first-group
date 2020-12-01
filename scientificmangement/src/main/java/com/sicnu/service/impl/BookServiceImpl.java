@@ -1,14 +1,18 @@
 package com.sicnu.service.impl;
 
-import com.sicnu.mapper.BookMapper;
-import com.sicnu.mapper.CacheUserMapper;
+import com.sicnu.mapper.*;
+import com.sicnu.pojo.Award;
 import com.sicnu.pojo.CacheUser;
+import com.sicnu.pojo.User;
 import com.sicnu.service.BookService;
 import com.sicnu.util.Result;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import com.sicnu.pojo.Book;
 
 import javax.annotation.Resource;
+import javax.mail.internet.MimeMessage;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -23,20 +27,58 @@ public class BookServiceImpl implements BookService{
     @Resource
     BookMapper bookMapper;
 
+    @Resource
+    UserMapper userDao;
+
+    @Resource
+    BookExamineMapper bookExamineMapper;
+    @Resource
+    JavaMailSenderImpl mailSender;
     private Result rs;
 
     @Resource
     CacheUserMapper cacheUserMapper;
     @Override
-    public Result addBook(Book book) {
+    public Result addBook(Book book,String checkMessage,String message) {
         try {
-            Book book1 = bookMapper.selectBookByNumber(book.getPublish_time());
-            if (book1 != null) {
+            //获取项目id 返给用户
+            Integer awardId = bookMapper.selectBookId(book.getLeader_id(), book.getBook_name());
+            //获取项目负责人信息
+            User user = userDao.findUserById(book.getLeader_id());
+            //创建邮件环境，反馈信息
+            MimeMessage mailMessage = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mailMessage);
+//            Award award1 = bookMapper.selectBookByNumber(book.getApproval_number());
 
+            //如果不通过审核反馈
+            if (checkMessage.equals("fail")) {
+                helper.setSubject("高校科研管理系统注册验证码");
+                helper.setText("<p>您的项目申报审核未通过，因为<span style='color:blue;text-decoration:underline'>" + message + "</span>,请您解决之后重新申请。</p>", true);
+                //负责人邮箱
+                helper.setTo(user.getUser_email());
+                helper.setFrom("1776557392@qq.com");
+                mailSender.send(mailMessage);
+                //从待审核里面删除
+                bookExamineMapper.delBookExamine(book.getLeader_id(),book.getBook_name());
+                rs = new Result("400", "审核结果已反馈", null);
             } else {
                 bookMapper.addBook(book);
-                rs = new Result("200", "插入成功", null);
+                helper.setSubject("高校科研管理系统注册验证码");
+                helper.setText("<p>您的项目申报审核成功，项目编号为：<span style='color:blue;text-decoration:underline'>" + awardId + "</span>,请勿遗忘。</p>", true);
+                helper.setTo(user.getUser_email());
+                helper.setFrom("1776557392@qq.com");
+                mailSender.send(mailMessage);
+                //从待审核删除
+                bookExamineMapper.delBookExamine(book.getLeader_id(),book.getBook_name());
+                rs = new Result("200", "审核结果已反馈", null);
             }
+//            Book book1 = bookMapper.selectBookByNumber(book.getPublish_time());
+//            if (book1 != null) {
+//
+//            } else {
+//                bookMapper.addBook(book);
+//                rs = new Result("200", "插入成功", null);
+//            }
         } catch (Exception e) {
             e.printStackTrace();
         }

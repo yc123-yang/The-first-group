@@ -18,7 +18,6 @@ public interface PatentMapper {
 
     Patent selectPatentByNumber(String application_number, String public_number, String authorization_number);
 
-    void delPatentById(Integer patent_id);
 
     List<Patent> selectPatentByCondition(Map<String, Object> map);
 
@@ -29,4 +28,8 @@ public interface PatentMapper {
     Integer selectCountPatent(Integer leader_id);
 
     List<Patent> findPatentByLeaderId(Integer leader_id);
+
+    Integer selectPatentId(Integer leader_id,String petent_name);
+
+    void delPatentById(Integer patent_id);
 }

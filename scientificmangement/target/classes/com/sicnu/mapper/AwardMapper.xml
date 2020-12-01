@@ -213,4 +213,11 @@
         select * from award where
         leader_id = #{leader_id}
     </select>
+    <select id="selectAwardId" parameterType="Award" resultType="int">
+        select award_id from award
+        where
+        leader_id = #{leader_id}
+        and
+        award_name = #{award_name}
+    </select>
 </mapper>

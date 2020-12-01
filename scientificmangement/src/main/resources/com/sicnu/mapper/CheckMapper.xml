@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sicnu.mapper.CheckMapper">
+   <insert id="addCheck" parameterType="Check">
+       insert into `check`
+       (
+            `name`,
+            department_id,
+            award_count,
+            book_count,
+            paper_count,
+            patent_count,
+            project_count,
+            total_grade,
+            check_time
+       )
+        values
+        (
+            #{name},
+            #{department_id},
+            #{award_count},
+            #{book_count},
+            #{paper_count},
+            #{patent_count},
+            #{total_grade},
+            #{project_count},
+            #{check_time}
+        )
+   </insert>
+    <select id="selectCheckByCondition" resultType="Check">
+        select * from check
+        <where>
+            <if test="user_id!=null amd user_id!=''">
+                user_id = #{user_id}
+            </if>
+            <if test="department_id!=null and department_id!=''">
+                department_id = #{department_id}
+            </if>
+            <if test="check_ime!=null and check_time!=''">
+                 check_time = #{check_time}
+            </if>
+        </where>
+        order by total_grade desc
+    </select>
+    <delete id="delCheck">
+        delete from check
+    </delete>
+</mapper>

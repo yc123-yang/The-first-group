@@ -163,7 +163,14 @@
     <delete id="delAwardExamineById" parameterType="int">
         delete from award_examine
         where
-        ae_id = #{ae_id}
+        award_id = #{award_id}
+    </delete>
+    <delete id="delAwardExamine" parameterType="int">
+        delete from award_examine
+        where
+        leader_id = #{leader_id}
+        and
+        award_name = #{award_name}
     </delete>
     <select id="selectTotalAwardExamine" parameterType="java.util.HashMap" resultType="int">
         select * from award_examine

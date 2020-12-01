@@ -21,8 +21,12 @@ public class BookController {
     private Result rs;
 
     @PostMapping("/book/addBook")
-    public Result addBook(Book book) {
-        rs = bookService.addBook(book);
+    public Result addBook(Book book,String checkMessage,String message) {
+        try {
+            rs = bookService.addBook(book, checkMessage, message);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 

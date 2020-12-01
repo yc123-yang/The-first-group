@@ -7,7 +7,7 @@ import com.sicnu.util.Result;
 import java.text.ParseException;
 
 public interface BookService {
-    Result addBook(Book book);
+    Result addBook(Book book,String checkMessage,String message);
 
     Result selectBookByCondition(Book book, String publish_time_start, String publish_time_end, Integer pageSize, Integer pageNum) throws ParseException;
 

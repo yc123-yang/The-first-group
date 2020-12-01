@@ -236,4 +236,12 @@
         select * from book where
         leader_id = #{leader_id}
     </select>
+
+    <select id="selectBookId" parameterType="Book" resultType="int">
+        select book_id from book
+        where
+        leader_id = #{leader_id}
+        and
+        book_name = #{book_name}
+    </select>
 </mapper>

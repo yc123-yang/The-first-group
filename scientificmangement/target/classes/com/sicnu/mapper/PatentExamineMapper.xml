@@ -165,9 +165,15 @@
     <delete id="delPatentExamineById" parameterType="int">
         delete from patent_examine
         where
-        pe_id = #{pe_id}
+        patent_id = #{patent_id}
     </delete>
-
+    <delete id="delPatentExamine" parameterType="int">
+        delete from patent_examine
+        where
+        leader_id = #{leader_id}
+        and
+        patent_name =#{patent_name}
+    </delete>
     <select id="selectTotalPatentExamine" parameterType="java.util.HashMap" resultType="int">
         select count(*) total from patent_examine
         <where>

@@ -51,7 +51,7 @@ public class StatusServiceImpl implements StatusService {
     public Result findAllStatus() {
         try {
             List<Status> statuses = statusMapper.findAllStatus();
-            rs = new Result("400", null, statuses);
+            rs = new Result("200", null, statuses);
         } catch (Exception e) {
             e.printStackTrace();
         }

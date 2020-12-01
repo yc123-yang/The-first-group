@@ -29,8 +29,12 @@ public class AwardExamineServiceImpl implements AwardExamineService {
 
     @Override
     public Result addAwardExamine(AwardExamine awardExamine) {
-        awardExamineMapper.addAwardExamine(awardExamine);
-        rs = new Result("200","奖励已经录入系统审核,请您耐心等待",null);
+        try {
+            awardExamineMapper.addAwardExamine(awardExamine);
+            rs = new Result("200","奖励已经录入系统审核,请您耐心等待",null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 

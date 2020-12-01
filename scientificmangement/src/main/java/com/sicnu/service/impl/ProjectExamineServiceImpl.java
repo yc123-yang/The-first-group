@@ -115,7 +115,7 @@ public class ProjectExamineServiceImpl implements ProjectExamineService {
     @Override
     public Result delProjectExamine(Integer pe_id) {
         try {
-            projectExamineMapper.delProjectExamine(pe_id);
+            projectExamineMapper.delProjectExamineById(pe_id);
             rs = new Result("200", "删除成功",null);
         } catch (Exception e) {
             e.printStackTrace();

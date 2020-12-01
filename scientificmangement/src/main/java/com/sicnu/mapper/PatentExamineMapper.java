@@ -13,6 +13,7 @@ public interface PatentExamineMapper {
 
     void addPatentExamine(PatentExamine patentExamine);
     List<PatentExamine> selectPatentExamineByCondition(Map<String,Object> map);
-    void delPatentExamineById(Integer pe_id);
+    void delPatentExamine(Integer leader_id,String patent_name);
     Integer selectTotalPatentExamine(Map<String,Object> map);
+    void delPatentExamineById(Integer pe_id);
 }

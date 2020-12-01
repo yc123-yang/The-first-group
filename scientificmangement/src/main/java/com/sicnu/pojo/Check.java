@@ -1,28 +1,26 @@
-package com.sample;
+package com.sicnu.pojo;
 
 
-public class Check {
+public class Check{
 
-  private long checkId;
+  private Integer check_id;
   private String name;
-  private long departmentId;
-  private long awardCount;
-  private long bookCount;
-  private long paperCount;
-  private long patentCount;
-  private long projectCount;
-  private long totalGrade;
-  private String checkTime;
+  private Integer department_id;
+  private Integer award_count;
+  private Integer book_count;
+  private Integer paper_count;
+  private Integer patent_count;
+  private Integer project_count;
+  private Integer total_grade;
+  private String check_time;
 
-
-  public long getCheckId() {
-    return checkId;
+  public Integer getCheck_id() {
+    return check_id;
   }
 
-  public void setCheckId(long checkId) {
-    this.checkId = checkId;
+  public void setCheck_id(Integer check_id) {
+    this.check_id = check_id;
   }
-
 
   public String getName() {
     return name;
@@ -32,76 +30,67 @@ public class Check {
     this.name = name;
   }
 
-
-  public long getDepartmentId() {
-    return departmentId;
+  public Integer getDepartment_id() {
+    return department_id;
   }
 
-  public void setDepartmentId(long departmentId) {
-    this.departmentId = departmentId;
+  public void setDepartment_id(Integer department_id) {
+    this.department_id = department_id;
   }
 
-
-  public long getAwardCount() {
-    return awardCount;
+  public Integer getAward_count() {
+    return award_count;
   }
 
-  public void setAwardCount(long awardCount) {
-    this.awardCount = awardCount;
+  public void setAward_count(Integer award_count) {
+    this.award_count = award_count;
   }
 
-
-  public long getBookCount() {
-    return bookCount;
+  public Integer getBook_count() {
+    return book_count;
   }
 
-  public void setBookCount(long bookCount) {
-    this.bookCount = bookCount;
+  public void setBook_count(Integer book_count) {
+    this.book_count = book_count;
   }
 
-
-  public long getPaperCount() {
-    return paperCount;
+  public Integer getPaper_count() {
+    return paper_count;
   }
 
-  public void setPaperCount(long paperCount) {
-    this.paperCount = paperCount;
+  public void setPaper_count(Integer paper_count) {
+    this.paper_count = paper_count;
   }
 
-
-  public long getPatentCount() {
-    return patentCount;
+  public Integer getPatent_count() {
+    return patent_count;
   }
 
-  public void setPatentCount(long patentCount) {
-    this.patentCount = patentCount;
+  public void setPatent_count(Integer patent_count) {
+    this.patent_count = patent_count;
   }
 
-
-  public long getProjectCount() {
-    return projectCount;
+  public Integer getProject_count() {
+    return project_count;
   }
 
-  public void setProjectCount(long projectCount) {
-    this.projectCount = projectCount;
+  public void setProject_count(Integer project_count) {
+    this.project_count = project_count;
   }
 
-
-  public long getTotalGrade() {
-    return totalGrade;
+  public Integer getTotal_grade() {
+    return total_grade;
   }
 
-  public void setTotalGrade(long totalGrade) {
-    this.totalGrade = totalGrade;
+  public void setTotal_grade(Integer total_grade) {
+    this.total_grade = total_grade;
   }
 
-
-  public String getCheckTime() {
-    return checkTime;
+  public String getCheck_time() {
+    return check_time;
   }
 
-  public void setCheckTime(String checkTime) {
-    this.checkTime = checkTime;
+  public void setCheck_time(String check_time) {
+    this.check_time = check_time;
   }
-
 }

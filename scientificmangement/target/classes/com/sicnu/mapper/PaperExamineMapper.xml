@@ -134,11 +134,6 @@
 <!--        </trim>-->
 <!--        where paper_id = #{paper_id}-->
 <!--    </update>-->
-    <delete id="delPaperExamineById" parameterType="int">
-        delete from paper_examine
-        where
-        pe_id = #{pe_id}
-    </delete>
 
     <select id="selectTotalPaperExamine" parameterType="java.util.HashMap" resultType="int">
         select count(*) count from paper_examine
@@ -190,4 +185,16 @@
             </if>
         </where>
     </select>
+    <delete id="delPaperExamineById" parameterType="int">
+        delete from paper_examine
+        where
+        book_id = #{book_id}
+    </delete>
+    <delete id="delPaperExamine" parameterType="int">
+        delete from paper_examine
+        where
+        leader_id =#{leader_id}
+        and
+        paper_name=#{paper_name}
+    </delete>
 </mapper>

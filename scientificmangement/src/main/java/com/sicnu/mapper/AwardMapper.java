@@ -25,4 +25,6 @@ public interface AwardMapper {
     Integer selectCountAward(Integer leader_id);
 
     List<Award> findAwardByLeaderId(Integer leader_id);
+
+    Integer selectAwardId(Integer leader_id,String award_name);
 }

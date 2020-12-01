@@ -1,5 +1,6 @@
 package com.sicnu.service.impl;
 
+import com.sicnu.mapper.ProjectExamineMapper;
 import com.sicnu.pojo.CacheUser;
 import com.sicnu.mapper.CacheUserMapper;
 import com.sicnu.mapper.ProjectMapper;
@@ -42,6 +43,8 @@ public class ProjectServiceImpl implements ProjectService {
     @Resource
     CacheUserMapper cacheUserMapper;
 
+    @Resource
+    ProjectExamineMapper projectExamineMapper;
 
     private Result rs = null;
 
@@ -76,7 +79,7 @@ public class ProjectServiceImpl implements ProjectService {
                 helper.setFrom("1776557392@qq.com");
                 mailSender.send(mailMessage);
                 //从待审核里面删除
-//                reviewProjectService.delReviewProject(projectId);
+                projectExamineMapper.delProjectExamine(project.getLeader_id(),project.getProject_name());
                 rs = new Result("400", "审核结果已反馈", null);
             } else {
                 project.setStatus_id(2);
@@ -87,7 +90,7 @@ public class ProjectServiceImpl implements ProjectService {
                 helper.setFrom("1776557392@qq.com");
                 mailSender.send(mailMessage);
                 //从待审核删除
-//                reviewProjectService.delReviewProject(projectId);
+                projectExamineMapper.delProjectExamine(project.getLeader_id(),project.getProject_name());
                 rs = new Result("200", "审核结果已反馈", null);
             }
         } catch (MessagingException e) {
