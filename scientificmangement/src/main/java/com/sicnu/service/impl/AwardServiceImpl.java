@@ -1,12 +1,10 @@
 package com.sicnu.service.impl;
 
-import com.sicnu.mapper.AwardExamineMapper;
-import com.sicnu.mapper.AwardMapper;
-import com.sicnu.mapper.CacheUserMapper;
-import com.sicnu.mapper.UserMapper;
+import com.sicnu.mapper.*;
 import com.sicnu.pojo.Award;
 import com.sicnu.pojo.CacheUser;
 import com.sicnu.pojo.User;
+import com.sicnu.pojo.teamExamine.AwardTeamExamine;
 import com.sicnu.service.AwardService;
 import com.sicnu.util.Result;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -35,6 +33,10 @@ public class AwardServiceImpl implements AwardService {
     @Resource
     AwardExamineMapper awardExamineMapper;
     @Resource
+    AwardTeamMapper awardTeamMapper;
+    @Resource
+    AwardTeamExamineMapper awardTeamExamineMapper;
+    @Resource
     JavaMailSenderImpl mailSender;
     @Resource
     CacheUserMapper cacheUserMapper;
@@ -42,6 +44,9 @@ public class AwardServiceImpl implements AwardService {
     @Override
     public Result addAward(Award award,String checkMessage,String message) {
         try {
+
+            Integer awardExamineId = awardExamineMapper.selectAwardExamineId(award.getLeader_id(),award.getAward_name());
+            List<AwardTeamExamine> awardTeamExamines = awardTeamExamineMapper.selectAwardTeamExamineById(awardExamineId);
             //获取项目id 返给用户
             Integer awardId = awardMapper.selectAwardId(award.getLeader_id(), award.getAward_name());
             //获取项目负责人信息
@@ -49,7 +54,6 @@ public class AwardServiceImpl implements AwardService {
             //创建邮件环境，反馈信息
             MimeMessage mailMessage = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mailMessage);
-//            Award award1 = awardMapper.selectAwardByNumber(award.getApproval_number());
 
             //如果不通过审核反馈
             if (checkMessage.equals("fail")) {
@@ -60,6 +64,7 @@ public class AwardServiceImpl implements AwardService {
                 helper.setFrom("1776557392@qq.com");
                 mailSender.send(mailMessage);
                 //从待审核里面删除
+                awardExamineMapper.delAwardExamineById(awardExamineId);
                 awardExamineMapper.delAwardExamine(award.getLeader_id(),award.getAward_name());
                 rs = new Result("400", "审核结果已反馈", null);
             } else {
@@ -71,14 +76,13 @@ public class AwardServiceImpl implements AwardService {
                 mailSender.send(mailMessage);
                 //从待审核删除
                 awardExamineMapper.delAwardExamine(award.getLeader_id(),award.getAward_name());
+                //确定项目组
+                for (AwardTeamExamine awardTeamExamine : awardTeamExamines) {
+                    awardTeamMapper.addAwardTeamUser(awardId, (int) awardTeamExamine.getUser_id(),awardTeamExamine.getUser_role(),awardTeamExamine.getContribution());
+                }
+                awardExamineMapper.delAwardExamineById(awardExamineId);
                 rs = new Result("200", "审核结果已反馈", null);
             }
-            //            if (award1 != null) {
-//                rs = new Result("400","该奖励已经存在，不能再次录入系统",null);
-//            } else {
-//                awardMapper.addAward(award);
-//                rs = new Result("200", "添加成功", null);
-//            }
 
         } catch (Exception e) {
             e.printStackTrace();

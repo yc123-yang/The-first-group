@@ -1,9 +1,11 @@
 package com.sicnu.service.impl;
 
 import com.sicnu.mapper.AwardExamineMapper;
+import com.sicnu.mapper.AwardTeamMapper;
 import com.sicnu.mapper.CacheUserMapper;
 import com.sicnu.pojo.Award;
 import com.sicnu.pojo.AwardExamine;
+import com.sicnu.pojo.AwardTeam;
 import com.sicnu.pojo.CacheUser;
 import com.sicnu.service.AwardExamineService;
 import com.sicnu.util.Result;
@@ -22,15 +24,25 @@ public class AwardExamineServiceImpl implements AwardExamineService {
     @Resource
     AwardExamineMapper awardExamineMapper;
 
+    @Resource
+    AwardTeamMapper awardTeamMapper;
     private Result rs;
 
     @Resource
     CacheUserMapper cacheUserMapper;
 
     @Override
-    public Result addAwardExamine(AwardExamine awardExamine) {
+    public Result addAwardExamine(AwardExamine awardExamine, Integer[] user_id,String[] user_role,Double[] contribution) {
         try {
             awardExamineMapper.addAwardExamine(awardExamine);
+            Integer award_id = awardExamineMapper.selectAwardExamineId(awardExamine.getLeader_id(),awardExamine.getAward_name());
+            for (int i = 0; i < user_id.length; i++) {
+                AwardTeam awardTeam = new AwardTeam();
+                awardTeam.setUser_id(user_id[i]);
+                awardTeam.setUser_role(user_role[i]);
+                awardTeam.setContribution(contribution[i]);
+                awardTeamMapper.addAwardTeamUser(award_id,user_id[i],user_role[i],contribution[i]);
+            }
             rs = new Result("200","奖励已经录入系统审核,请您耐心等待",null);
         } catch (Exception e) {
             e.printStackTrace();

@@ -21,7 +21,7 @@
         )
     </insert>
 
-    <delete id="delAwardTeamUser" parameterType="ProjectTeam">
+    <delete id="delAwardTeamUser" parameterType="AwardTeam">
         delete from award_team
         where
         user_id = #{user_id}

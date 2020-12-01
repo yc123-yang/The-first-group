@@ -234,4 +234,12 @@
             </if>
         </where>
     </select>
+
+    <select id="selectAwardExamineId" resultType="int">
+        select ae_id from award_examine
+        where
+        award_name = #{award_name}
+        and
+        leader_id = #{leader_id}
+    </select>
 </mapper>
