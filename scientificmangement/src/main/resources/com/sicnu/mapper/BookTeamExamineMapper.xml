@@ -7,14 +7,14 @@
     <insert id="addBookTeamExamineUser" parameterType="com.sicnu.pojo.teamExamine.BookTeamExamine">
         insert into book_team_examine
         (
-        book_id,
+        be_id,
         user_id,
         user_role,
         contribution
         )
         values
         (
-        #{book_id},
+        #{be_id},
         #{user_id},
         #{user_role},
         #{contribution}
@@ -24,13 +24,13 @@
     <delete id="delBookTeamExamineTeam" parameterType="int">
         delete from book_team_examine
         where
-        book_id = #{book_id}
+        be_id = #{be_id}
     </delete>
 
     <select id="selectBookTeamExamineById" parameterType="int">
         select * from book_team_examine
         where
-        book_id = #{book_id}
+        be_id = #{be_id}
     </select>
 
 

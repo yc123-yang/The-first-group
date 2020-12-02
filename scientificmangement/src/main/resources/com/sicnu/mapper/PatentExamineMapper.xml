@@ -236,4 +236,11 @@
             </if>
         </where>
     </select>
+    <select id="selectPatentExamineId" resultType="int">
+        select pe_id from patent_examine
+        where
+        leader_id = #{leader_id}
+        and
+        patent_name = #{patent_name}
+    </select>
 </mapper>

@@ -15,5 +15,5 @@ public interface RoleService {
     Result findAllRole();
 
     List<Role> getRole(Integer role_id);
-
+    Result selectRoleName(Integer role_id);
 }

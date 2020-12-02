@@ -70,5 +70,12 @@ public class RoleServiceImpl implements RoleService {
         return roles;
     }
 
+    @Override
+    public Result selectRoleName(Integer role_id) {
+        String role_name = roleMapper.selectRoleName(role_id);
+        rs = new Result("200", null, role_name);
+        return rs;
+    }
+
 
 }

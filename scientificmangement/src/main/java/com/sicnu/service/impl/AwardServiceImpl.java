@@ -45,7 +45,7 @@ public class AwardServiceImpl implements AwardService {
     public Result addAward(Award award,String checkMessage,String message) {
         try {
 
-            Integer awardExamineId = awardExamineMapper.selectAwardExamineId(award.getLeader_id(),award.getAward_name());
+            Integer awardExamineId = awardExamineMapper.selectAwardExamineId(award.getAward_name(),award.getLeader_id());
             List<AwardTeamExamine> awardTeamExamines = awardTeamExamineMapper.selectAwardTeamExamineById(awardExamineId);
 
             //获取项目负责人信息

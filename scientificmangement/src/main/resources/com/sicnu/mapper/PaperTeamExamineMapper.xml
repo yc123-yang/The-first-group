@@ -7,14 +7,14 @@
     <insert id="addPaperTeamExamineUser" parameterType="com.sicnu.pojo.teamExamine.PaperTeamExamine">
         insert into paper_team_examine
         (
-        paper_id,
+        pe_id,
         user_id,
         user_role,
         contribution
         )
         values
         (
-        #{paper_id},
+        #{pe_id},
         #{user_id},
         #{user_role},
         #{contribution}
@@ -24,13 +24,13 @@
     <delete id="delPaperTeamExamineTeam" parameterType="int">
         delete from paper_team_examine
         where
-        paper_id = #{paper_id}
+        pe_id = #{pe_id}
     </delete>
 
     <select id="selectPaperTeamExamineById" parameterType="int">
         select * from paper_team_examine
         where
-        paper_id = #{paper_id}
+        pe_id = #{pe_id}
     </select>
 
 

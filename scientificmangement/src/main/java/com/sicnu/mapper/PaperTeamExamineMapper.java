@@ -10,7 +10,7 @@ import java.util.List;
 @Mapper
 @Repository
 public interface PaperTeamExamineMapper {
-    void addPaperTeamExamineUser(Integer paper_id, Integer user_id, String user_role,Double contribution);
-    void delPaperTeamExamineTeam(Integer paper_id);
-    List<PaperTeamExamine> selectPaperTeamExamineById(Integer paper_id);
+    void addPaperTeamExamineUser(Integer pe_id, Integer user_id, String user_role,Double contribution);
+    void delPaperTeamExamineTeam(Integer pe_id);
+    List<PaperTeamExamine> selectPaperTeamExamineById(Integer pe_id);
 }

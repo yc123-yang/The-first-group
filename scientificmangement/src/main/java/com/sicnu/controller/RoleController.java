@@ -47,4 +47,9 @@ public class RoleController {
         }
         return rs;
     }
+    @PostMapping("/role/selectRoleName")
+    public Result selectRoleName(Integer role_id) {
+        rs = roleService.selectRoleName(role_id);
+        return rs;
+    }
 }

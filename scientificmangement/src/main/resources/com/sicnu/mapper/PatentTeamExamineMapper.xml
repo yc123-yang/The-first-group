@@ -4,17 +4,17 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sicnu.mapper.PatentTeamExamineMapper">
 
-    <insert id="addPatentTeamExamineUser" parameterType="PatentTeamExamine">
+    <insert id="addPatentTeamExamineUser" parameterType="com.sicnu.pojo.teamExamine.PatentTeamExamine">
         insert into patent_team_examine
         (
-        patent_id,
+        pe_id,
         user_id,
         user_role,
         contribution
         )
         values
         (
-        #{patent_id},
+        #{pe_id},
         #{user_id},
         #{user_role},
         #{contribution}
@@ -24,13 +24,13 @@
     <delete id="delPatentTeamExamineTeam" parameterType="int">
         delete from patent_team_examine
         where
-        patent_id = #{patent_id}
+        pe_id = #{pe_id}
     </delete>
 
     <select id="selectPatentTeamExamineById" parameterType="int">
         select * from patent_team_examine
         where
-        patent_id = #{patent_id}
+        pe_id = #{pe_id}
     </select>
 
 

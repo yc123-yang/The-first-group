@@ -7,6 +7,7 @@ import com.sicnu.util.Result;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
@@ -28,7 +29,7 @@ public class AwardExamineController {
     private Result rs;
 
     @PostMapping("/awardExamine/addAwardExamine")
-    public Result addAwardExamine(AwardExamine awardExamine,Integer[] user_id,String[] user_role,Double[] contribution) {
+    public Result addAwardExamine(@RequestParam(value = "awardExamine")AwardExamine awardExamine,@RequestParam(value = "user_id")Integer[] user_id,@RequestParam(value = "user_role")String[] user_role,@RequestParam(value = "contribution")Double[] contribution) {
         try {
             rs=awardExamineService.addAwardExamine(awardExamine,user_id,user_role,contribution);
         } catch (Exception e) {

@@ -51,7 +51,7 @@ public class ConclusionTypeServiceImpl implements ConclusionTypeService {
     public Result findAllConclusionType() {
         try {
             List<ConclusionType> conclusionTypes = conclusionTypeMapper.findAllConclusionType();
-            rs = new Result("20", null, conclusionTypes);
+            rs = new Result("200", null, conclusionTypes);
         } catch (Exception e) {
             e.printStackTrace();
         }

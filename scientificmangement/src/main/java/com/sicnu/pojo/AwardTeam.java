@@ -1,7 +1,6 @@
 package com.sicnu.pojo;
 
 
-import com.sun.mail.imap.protocol.INTERNALDATE;
 
 public class AwardTeam {
 

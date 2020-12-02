@@ -16,6 +16,11 @@
         select * from role where
         role_name = #{role_name}
     </select>
+    <select id="selectRoleName" parameterType="int" resultType="String">
+        select role_name form role
+        where
+        role_id = #{role_id}
+    </select>
     <select id="getRole" resultType="Role">
         select * from role where
         role_id = #{role_id

@@ -4,17 +4,17 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sicnu.mapper.AwardTeamExamineMapper">
 
-    <insert id="addAwardExamineTeamUser" parameterType="AwardTeamExamine">
+    <insert id="addAwardExamineTeamUser" parameterType="com.sicnu.pojo.teamExamine.AwardTeamExamine">
         insert into award_team_examine
         (
-        award_id,
+        ae_id,
         user_id,
         user_role,
         contribution
         )
         values
         (
-        #{award_id},
+        #{ae_id},
         #{user_id},
         #{user_role},
         #{contribution}
@@ -24,13 +24,13 @@
     <delete id="delAwardTeamExamineTeam" parameterType="int">
         delete from award_team_examine
         where
-        award_id = #{award_id}
+        ae_id = #{ae_id}
     </delete>
 
     <select id="selectAwardTeamExamineById" parameterType="int">
         select * from award_team_examine
         where
-        award_id = #{award_id}
+        ae_id = #{ae_id}
     </select>
 
 

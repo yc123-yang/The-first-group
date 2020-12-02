@@ -13,7 +13,8 @@ import java.util.Map;
 public interface ProjectExamineMapper {
     void addProjectExamine(ProjectExamine projectExamine);
     List<ProjectExamine> selectProjectExamineByCondition(Map<String, Object> map);
-    void delProjectExamine(Integer leader_id,String award_name);
+    void delProjectExamine(Integer leader_id,String project_name);
     Integer selectTotalProjectExamine(Map<String,Object> map);
     void delProjectExamineById(Integer pe_id);
+    Integer selectProjectExamineId(Integer leader_id,String project_name);
 }

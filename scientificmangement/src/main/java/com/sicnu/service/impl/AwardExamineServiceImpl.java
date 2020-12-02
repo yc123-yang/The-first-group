@@ -1,6 +1,7 @@
 package com.sicnu.service.impl;
 
 import com.sicnu.mapper.AwardExamineMapper;
+import com.sicnu.mapper.AwardTeamExamineMapper;
 import com.sicnu.mapper.AwardTeamMapper;
 import com.sicnu.mapper.CacheUserMapper;
 import com.sicnu.pojo.Award;
@@ -14,10 +15,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class AwardExamineServiceImpl implements AwardExamineService {
@@ -25,7 +23,7 @@ public class AwardExamineServiceImpl implements AwardExamineService {
     AwardExamineMapper awardExamineMapper;
 
     @Resource
-    AwardTeamMapper awardTeamMapper;
+    AwardTeamExamineMapper awardTeamExamineMapper;
     private Result rs;
 
     @Resource
@@ -34,10 +32,19 @@ public class AwardExamineServiceImpl implements AwardExamineService {
     @Override
     public Result addAwardExamine(AwardExamine awardExamine, Integer[] user_id,String[] user_role,Double[] contribution) {
         try {
+            Integer award_id1 = awardExamineMapper.selectAwardExamineId(awardExamine.getAward_name(),awardExamine.getLeader_id());
+            if(award_id1 !=null){
+                rs = new Result("401","切勿重复提交审核",null);
+                return rs;
+            }
             awardExamineMapper.addAwardExamine(awardExamine);
-            Integer award_id = awardExamineMapper.selectAwardExamineId(awardExamine.getLeader_id(),awardExamine.getAward_name());
+            System.out.println("aaa:"+awardExamine.getLeader_id()+awardExamine.getAward_name());
+            Integer award_id = awardExamineMapper.selectAwardExamineId(awardExamine.getAward_name(),awardExamine.getLeader_id());
+            System.out.println(award_id);
+            System.out.println(Arrays.toString(user_id));
             for (int i = 0; i < user_id.length; i++) {
-                awardTeamMapper.addAwardTeamUser(award_id,user_id[i],user_role[i],contribution[i]);
+                System.out.println(i+" "+user_id[i]);
+                awardTeamExamineMapper.addAwardExamineTeamUser(award_id,user_id[i],user_role[i],contribution[i]);
             }
             rs = new Result("200","奖励已经录入系统审核,请您耐心等待",null);
         } catch (Exception e) {

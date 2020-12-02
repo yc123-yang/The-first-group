@@ -1,12 +1,11 @@
 package com.sicnu.service.impl;
 
-import com.sicnu.mapper.ProjectExamineMapper;
+import com.sicnu.mapper.*;
 import com.sicnu.pojo.CacheUser;
-import com.sicnu.mapper.CacheUserMapper;
-import com.sicnu.mapper.ProjectMapper;
-import com.sicnu.mapper.UserMapper;
 import com.sicnu.pojo.Project;
 import com.sicnu.pojo.User;
+import com.sicnu.pojo.teamExamine.PatentTeamExamine;
+import com.sicnu.pojo.teamExamine.ProjectTeamExamine;
 import com.sicnu.service.ProjectService;
 import com.sicnu.util.Result;
 import org.springframework.mail.MailException;
@@ -41,6 +40,11 @@ public class ProjectServiceImpl implements ProjectService {
     JavaMailSenderImpl mailSender;
 
     @Resource
+    ProjectTeamMapper projectTeamMapper;
+    @Resource
+    ProjectTeamExamineMapper projectTeamExamineMapper;
+
+    @Resource
     CacheUserMapper cacheUserMapper;
 
     @Resource
@@ -62,8 +66,11 @@ public class ProjectServiceImpl implements ProjectService {
 
         System.out.println("调用");
         try {
-            //获取项目id 返给用户
-            Integer projectId = projectDao.selectProjectId(project.getLeader_id(), project.getProject_name());
+            Integer projectExamineId = projectExamineMapper.selectProjectExamineId(project.getLeader_id(), project.getProject_name());
+            List<ProjectTeamExamine> projectTeamExamines = projectTeamExamineMapper.selectProjectTeamExamineById(projectExamineId);
+
+
+
             //获取项目负责人信息
             User user = userDao.findUserById(project.getLeader_id());
             //创建邮件环境，反馈信息
@@ -79,17 +86,23 @@ public class ProjectServiceImpl implements ProjectService {
                 helper.setFrom("1776557392@qq.com");
                 mailSender.send(mailMessage);
                 //从待审核里面删除
+                projectTeamExamineMapper.delProjectTeamExamineTeam(projectExamineId);
                 projectExamineMapper.delProjectExamine(project.getLeader_id(),project.getProject_name());
                 rs = new Result("400", "审核结果已反馈", null);
             } else {
-                project.setStatus_id(2);
                 projectDao.addProject(project);
+                //获取项目id 返给用户
+                Integer projectId = projectDao.selectProjectId(project.getLeader_id(), project.getProject_name());
                 helper.setSubject("高校科研管理系统注册验证码");
                 helper.setText("<p>您的项目申报审核成功，项目编号为：<span style='color:blue;text-decoration:underline'>" + projectId + "</span>,请勿遗忘。</p>", true);
                 helper.setTo(user.getUser_email());
                 helper.setFrom("1776557392@qq.com");
                 mailSender.send(mailMessage);
+                for (ProjectTeamExamine projectTeamExamine : projectTeamExamines) {
+                    projectTeamMapper.addProjectTeamUser(projectId,projectTeamExamine.getUser_id(),projectTeamExamine.getTeam_role(),projectTeamExamine.getUser_role());
+                }
                 //从待审核删除
+                projectTeamExamineMapper.delProjectTeamExamineTeam(projectExamineId);
                 projectExamineMapper.delProjectExamine(project.getLeader_id(),project.getProject_name());
                 rs = new Result("200", "审核结果已反馈", null);
             }

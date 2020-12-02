@@ -254,7 +254,7 @@
         </if>
     </select>
 
-    <select id="selectAwardExamineId" resultType="int">
+    <select id="selectBookExamineId" resultType="int">
         select be_id from book_examine
         where
         book_name = #{book_name}

@@ -18,4 +18,5 @@ public interface RoleMapper {
     Role selectRoleByName(String role_name);
 
     List<Role> getRole(Integer role_id);
+    String selectRoleName(Integer role_id);
 }
