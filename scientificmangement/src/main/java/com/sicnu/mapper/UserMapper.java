@@ -25,7 +25,7 @@ public interface UserMapper {
 
     int selectUserId(String user_email);
 
-    int findByUserName(String user_name);
+    User findByUserName(String user_name);
 
     // 根据用户名查询其所有权限
     Set<Permission> queryPermissionByUserId(Integer user_id);

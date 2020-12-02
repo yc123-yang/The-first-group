@@ -66,11 +66,9 @@ public class ProjectServiceImpl implements ProjectService {
 
         System.out.println("调用");
         try {
+
             Integer projectExamineId = projectExamineMapper.selectProjectExamineId(project.getLeader_id(), project.getProject_name());
             List<ProjectTeamExamine> projectTeamExamines = projectTeamExamineMapper.selectProjectTeamExamineById(projectExamineId);
-
-
-
             //获取项目负责人信息
             User user = userDao.findUserById(project.getLeader_id());
             //创建邮件环境，反馈信息
@@ -99,7 +97,7 @@ public class ProjectServiceImpl implements ProjectService {
                 helper.setFrom("1776557392@qq.com");
                 mailSender.send(mailMessage);
                 for (ProjectTeamExamine projectTeamExamine : projectTeamExamines) {
-                    projectTeamMapper.addProjectTeamUser(projectId,projectTeamExamine.getUser_id(),projectTeamExamine.getTeam_role(),projectTeamExamine.getUser_role());
+                    projectTeamMapper.addProjectTeamUser(projectId,projectTeamExamine.getUser_id(),projectTeamExamine.getTeam_role());
                 }
                 //从待审核删除
                 projectTeamExamineMapper.delProjectTeamExamineTeam(projectExamineId);
@@ -231,7 +229,6 @@ public class ProjectServiceImpl implements ProjectService {
                 Map<String, Object> map = new HashMap<String, Object>();
                 map.put("name", project1.getProjectTeams().get(0).getUsers().get(0).getUser_name());
                 map.put("role_id", project1.getProjectTeams().get(0).getUsers().get(0).getRole_id());
-                map.put("user_status", project1.getProjectTeams().get(0).getUser_role());
                 map.put("depart_id", project1.getProjectTeams().get(0).getUsers().get(0).getDepartment_id());
                 list.add(map);
 

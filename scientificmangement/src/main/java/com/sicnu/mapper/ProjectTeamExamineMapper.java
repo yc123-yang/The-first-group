@@ -9,7 +9,7 @@ import java.util.List;
 @Mapper
 @Repository
 public interface ProjectTeamExamineMapper {
-    void addProjectTeamExamineUser(Integer pe_id,Integer user_id,String user_role,String team_role);
+    void addProjectTeamExamineUser(Integer pe_id,Integer user_id,String team_role);
     void delProjectTeamExamineTeam(Integer pe_id);
     List<ProjectTeamExamine> selectProjectTeamExamineById(Integer pe_id);
 }

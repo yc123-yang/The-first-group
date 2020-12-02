@@ -21,9 +21,9 @@ public class ProjectExamineController {
     private Result rs;
 
     @PostMapping("/projectExamine/addProjectExamine")
-    public Result addProjectExamine(ProjectExamine projectExamine) {
+    public Result addProjectExamine(ProjectExamine projectExamine,Integer[] user_id,String[] team_user) {
         try {
-            rs = projectExamineService.addProjectExamine(projectExamine);
+            rs = projectExamineService.addProjectExamine(projectExamine, user_id, team_user);
         } catch (Exception e) {
             e.printStackTrace();
         }

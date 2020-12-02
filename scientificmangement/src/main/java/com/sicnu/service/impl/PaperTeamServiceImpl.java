@@ -20,18 +20,12 @@ public class PaperTeamServiceImpl implements PaperTeamService {
     private Result rs;
 
     @Override
-    public Result addPaperTeamUser(Integer paper_id,String user_name,String user_role,Double contribution,Integer department_id) {
+    public Result addPaperTeamUser(Integer paper_id,Integer user_id,String user_role,Double contribution,Integer department_id) {
         try {
-            int user_id = userMapper.findByUserName(user_name);
-            User user = userMapper.findUserById(user_id);
-            if (user==null){
-                rs = new Result("401", "该用户尚未注册信息或名字与注册名字不同", null);
-            }else if (!user.getDepartment_id().equals(department_id)) {
-                rs = new Result("400", "成员信息有误，无法添加", null);
-            } else {
+
+
             paperTeamMapper.addPaperTeamUser(paper_id, user_id, user_role, contribution);
             rs = new Result("200","添加作者成功",null);
-            }
         } catch (Exception e) {
             e.printStackTrace();
         }

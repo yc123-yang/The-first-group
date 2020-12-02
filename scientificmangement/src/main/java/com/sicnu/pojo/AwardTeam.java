@@ -9,7 +9,7 @@ public class AwardTeam {
   private String user_role;
   private Double contribution;
 
-  public long getAward_id(Integer user_id) {
+  public Integer getAward_id(Integer user_id) {
     return award_id;
   }
 
@@ -17,7 +17,7 @@ public class AwardTeam {
     this.award_id = award_id;
   }
 
-  public long getUser_id() {
+  public Integer getUser_id() {
     return user_id;
   }
 

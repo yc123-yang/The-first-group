@@ -9,14 +9,12 @@
         (
         project_id,
         user_id,
-        user_role,
         team_role
         )
         values
         (
         #{project_id},
         #{user_id},
-        #{user_role},
         #{team_role}
         )
     </insert>
@@ -35,7 +33,7 @@
     <select id="selectProjectTeam" parameterType="int" resultType="com.sicnu.pojo.teamMap.ProjectTeamMap">
         SELECT
         u.user_name name,u.department_id department_id,
-        t.user_role user_role,t.team_role team_role
+        u.role_id role_id,t.team_role team_role
         FROM
         user u,
         project p,

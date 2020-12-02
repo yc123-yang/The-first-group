@@ -19,9 +19,9 @@ public class AwardTeamController {
     private Result rs;
 
     @PostMapping("/team/addAwardTeamUser")
-    public Result addAwardTeamUser(Integer award_id,String user_name, String user_role, Double contribution, Integer department_id) {
+    public Result addAwardTeamUser(Integer award_id,Integer user_id, String user_role, Double contribution, Integer department_id) {
         try {
-            rs=awardTeamService.addAwardTeamUser(award_id, user_name, user_role, contribution, department_id);
+            rs=awardTeamService.addAwardTeamUser(award_id, user_id, user_role, contribution, department_id);
         } catch (Exception e) {
             e.printStackTrace();
         }

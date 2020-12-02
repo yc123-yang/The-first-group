@@ -5,7 +5,6 @@ public class ProjectTeamExamine {
 
   private Integer pe_id;
   private Integer user_id;
-  private String user_role;
   private String team_role;
 
   public Integer getPe_id() {
@@ -22,14 +21,6 @@ public class ProjectTeamExamine {
 
   public void setUser_id(Integer user_id) {
     this.user_id = user_id;
-  }
-
-  public String getUser_role() {
-    return user_role;
-  }
-
-  public void setUser_role(String user_role) {
-    this.user_role = user_role;
   }
 
   public String getTeam_role() {

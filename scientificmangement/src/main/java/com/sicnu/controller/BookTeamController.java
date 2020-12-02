@@ -21,9 +21,9 @@ public class BookTeamController {
 
     private Result rs ;
     @PostMapping("/team/addBookTeamUser")
-    public Result addBookTeamUser(Integer book_id, String user_name, String user_role, Double contribution, Integer department_id) {
+    public Result addBookTeamUser(Integer book_id, Integer user_id, String user_role, Double contribution, Integer department_id) {
         try {
-            rs= bookTeamService.addBookTeamUser(book_id, user_name, user_role, contribution, department_id);
+            rs= bookTeamService.addBookTeamUser(book_id, user_id, user_role, contribution, department_id);
         } catch (Exception e) {
             e.printStackTrace();
         }

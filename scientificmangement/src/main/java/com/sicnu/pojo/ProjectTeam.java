@@ -8,8 +8,7 @@ import java.util.List;
  */
 public class ProjectTeam {
     private Integer project_id;
-    private long user_id;
-    private String user_role;
+    private Integer user_id;
     private String team_role;
 
     private List<User> users;
@@ -25,20 +24,12 @@ public class ProjectTeam {
         this.project_id = project_id;
     }
 
-    public long getUser_id() {
+    public Integer getUser_id() {
         return user_id;
     }
 
-    public void setUser_id(long user_id) {
+    public void setUser_id(Integer user_id) {
         this.user_id = user_id;
-    }
-
-    public String getUser_role() {
-        return user_role;
-    }
-
-    public void setUser_role(String user_role) {
-        this.user_role = user_role;
     }
 
     public String getTeam_role() {

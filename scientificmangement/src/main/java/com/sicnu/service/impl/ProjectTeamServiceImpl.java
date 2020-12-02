@@ -26,19 +26,11 @@ public class ProjectTeamServiceImpl implements ProjectTeamService {
 
     private Result rs = null;
     @Override
-    public Result addProjectTeamUser(Integer project_id, String user_name, String user_role,String team_role, Integer role_id, Integer department_id) {
+    public Result addProjectTeamUser(Integer project_id, Integer user_id, String team_role, Integer role_id, Integer department_id) {
         try {
-
-            int user_id = userMapper.findByUserName(user_name);
-            User user = userMapper.findUserById(user_id);
-            if (user==null){
-                rs = new Result("401", "该用户尚未注册信息或名字与注册名字不同", null);
-            }else if (!user.getRole_id().equals(role_id) && !user.getDepartment_id().equals(department_id)) {
-                rs = new Result("400", "成员信息有误，无法添加", null);
-            } else {
-                projectTeamMapper.addProjectTeamUser(project_id, user_id,team_role,user_role);
+                projectTeamMapper.addProjectTeamUser(project_id, user_id,team_role);
                 rs = new Result("200", "成员添加成功", null);
-            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -5,7 +5,7 @@
 <mapper namespace="com.sicnu.mapper.BookTeamMapper">
 
     <insert id="addBookTeamUser" parameterType="BookTeam">
-        insert into award_team
+        insert into book_team
         (
         book_id,
         user_id,

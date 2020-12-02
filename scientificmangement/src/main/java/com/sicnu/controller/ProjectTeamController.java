@@ -17,9 +17,9 @@ public class ProjectTeamController {
     private Result rs = null;
 
     @RequestMapping(value = "/team/addTeamUser", method = RequestMethod.POST)
-    public Result addTeamUser(Integer project_id, String user_name, String user_role, String team_role,Integer role_id, Integer department_id) {
+    public Result addTeamUser(Integer project_id, Integer user_id,  String team_role,Integer role_id, Integer department_id) {
         try {
-            rs = projectTeamService.addProjectTeamUser(project_id, user_name, user_role, team_role, role_id, department_id);
+            rs = projectTeamService.addProjectTeamUser(project_id, user_id, team_role, role_id, department_id);
         } catch (Exception e) {
             e.printStackTrace();
         }

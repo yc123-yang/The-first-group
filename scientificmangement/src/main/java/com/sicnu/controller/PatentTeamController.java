@@ -20,9 +20,9 @@ public class PatentTeamController {
     private Result rs;
 
     @PostMapping("/team/addPatentTeamUser")
-    public Result addPatentTeamUser(Integer patent_id, String user_name, String user_role, Double contribution,Integer department_id) {
+    public Result addPatentTeamUser(Integer patent_id, Integer user_id, String user_role, Double contribution,Integer department_id) {
         try {
-            rs=patentTeamService.addPatentTeamUser(patent_id, user_name, user_role, contribution, department_id);
+            rs=patentTeamService.addPatentTeamUser(patent_id, user_id, user_role, contribution, department_id);
         } catch (Exception e) {
             e.printStackTrace();
         }

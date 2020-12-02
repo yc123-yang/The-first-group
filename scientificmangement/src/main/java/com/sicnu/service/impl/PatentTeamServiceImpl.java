@@ -21,16 +21,9 @@ public class PatentTeamServiceImpl implements PatentTeamService {
     UserMapper userMapper;
     private Result rs;
     @Override
-    public Result addPatentTeamUser(Integer patent_id,String user_name, String user_role, Double contribution,Integer department_id) {
-        int user_id = userMapper.findByUserName(user_name);
-        User user = userMapper.findUserById(user_id);
-        if (user==null){
-            rs = new Result("401", "该用户尚未注册信息或名字与注册名字不同", null);
-        }else if (!user.getDepartment_id().equals(department_id)) {
-            rs = new Result("400", "成员信息有误，无法添加", null);
-        } else {
-            patentTeamMapper.addPatentTeamUser(patent_id, user_id, user_role, contribution);
-            rs = new Result("200","添加成功",null);}
+    public Result addPatentTeamUser(Integer patent_id,Integer user_id, String user_role, Double contribution,Integer department_id) {
+        patentTeamMapper.addPatentTeamUser(patent_id, user_id, user_role, contribution);
+        rs = new Result("200","添加成功",null);
         return rs;
     }
 

@@ -2,6 +2,7 @@ package com.sicnu.service.impl;
 
 import com.sicnu.mapper.CacheUserMapper;
 import com.sicnu.mapper.ProjectExamineMapper;
+import com.sicnu.mapper.ProjectTeamExamineMapper;
 import com.sicnu.mapper.UserMapper;
 import com.sicnu.pojo.CacheUser;
 import com.sicnu.pojo.Project;
@@ -25,16 +26,20 @@ public class ProjectExamineServiceImpl implements ProjectExamineService {
     ProjectExamineMapper projectExamineMapper;
 
     private Result rs;
-
+    @Resource
+    ProjectTeamExamineMapper projectTeamExamineMapper;
     @Resource
     CacheUserMapper cacheUserMapper;
 
     @Override
-    public Result addProjectExamine(ProjectExamine projectExamine) {
-
+    public Result addProjectExamine(ProjectExamine projectExamine,Integer[] user_id,String []team_role) {
         try {
             projectExamineMapper.addProjectExamine(projectExamine);
-            rs = new Result("200","项目已经上传审核，请您耐心等待",null);
+            Integer project_id = projectExamineMapper.selectProjectExamineId(projectExamine.getLeader_id(),projectExamine.getProject_name());
+            for (int i = 0; i < user_id.length; i++) {
+                projectTeamExamineMapper.addProjectTeamExamineUser(project_id,user_id[i],team_role[i]);
+            }
+            rs = new Result("200","您的项目已经上传审核，请您耐心等待",null);
         } catch (Exception e) {
             e.printStackTrace();
         }
