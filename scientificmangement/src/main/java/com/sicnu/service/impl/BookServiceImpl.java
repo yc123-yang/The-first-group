@@ -79,7 +79,7 @@ public class BookServiceImpl implements BookService{
                 helper.setFrom("1776557392@qq.com");
                 mailSender.send(mailMessage);
                 for (BookTeamExamine bookTeamExamine : bookTeamExamines) {
-                    bookTeamExamineMapper.addBookTeamExamineUser(bookId,bookTeamExamine.getUser_id(),bookTeamExamine.getUser_role(),bookTeamExamine.getContribution());
+                    bookTeamMapper.addBookTeamUser(bookId,bookTeamExamine.getUser_id(),bookTeamExamine.getUser_role(),bookTeamExamine.getContribution());
                 }
                 //从待审核删除
                 bookTeamExamineMapper.delBookTeamExamineTeam(bookExamineId);

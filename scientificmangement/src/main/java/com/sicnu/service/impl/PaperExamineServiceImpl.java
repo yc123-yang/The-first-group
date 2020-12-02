@@ -37,7 +37,7 @@ public class PaperExamineServiceImpl implements PaperExamineService {
     public Result addPaperExamine(PaperExamine paperExamine,Integer[] user_id,String[] user_role,Double[] contribution) {
         try {
             paperExamineMapper.addPaperExamine(paperExamine);
-            Integer paper_id = paperExamineMapper.selectBookExamineId(paperExamine.getLeader_id(),paperExamine.getPaper_name());
+            Integer paper_id = paperExamineMapper.selectPaperExamineId(paperExamine.getLeader_id(),paperExamine.getPaper_name());
             for (int i = 0; i < user_id.length; i++) {
                 paperTeamExamineMapper.addPaperTeamExamineUser(paper_id,user_id[i],user_role[i],contribution[i]);
             }

@@ -1,13 +1,11 @@
 package com.sicnu.service.impl;
 
-import com.sicnu.mapper.CacheUserMapper;
-import com.sicnu.mapper.PaperExamineMapper;
-import com.sicnu.mapper.PaperMapper;
-import com.sicnu.mapper.UserMapper;
+import com.sicnu.mapper.*;
 import com.sicnu.pojo.CacheUser;
 import com.sicnu.pojo.Paper;
-import com.sicnu.pojo.Patent;
 import com.sicnu.pojo.User;
+import com.sicnu.pojo.teamExamine.BookTeamExamine;
+import com.sicnu.pojo.teamExamine.PaperTeamExamine;
 import com.sicnu.service.PaperService;
 import com.sicnu.util.Result;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -35,7 +33,10 @@ public class PaperServiceImpl implements PaperService {
 
     @Resource
     JavaMailSenderImpl mailSender;
-
+    @Resource
+    PaperTeamExamineMapper paperTeamExamineMapper;
+    @Resource
+    PaperTeamMapper paperTeamMapper;
     @Resource
     PaperExamineMapper paperExamineMapper;
     @Resource
@@ -49,8 +50,9 @@ public class PaperServiceImpl implements PaperService {
     @Override
     public Result addPaper(Paper paper,String checkMessage,String message) {
         try {
-            //获取项目id 返给用户
-            Integer paperId = paperMapper.selectPaperId(paper.getLeader_id(), paper.getPaper_name());
+            Integer paperExamineId = paperExamineMapper.selectPaperExamineId(paper.getLeader_id(), paper.getPaper_name());
+            List<PaperTeamExamine> paperTeamExamines = paperTeamExamineMapper.selectPaperTeamExamineById(paperExamineId);
+
             //获取项目负责人信息
             User user = userDao.findUserById(paper.getLeader_id());
             //创建邮件环境，反馈信息
@@ -66,16 +68,23 @@ public class PaperServiceImpl implements PaperService {
                 helper.setFrom("1776557392@qq.com");
                 mailSender.send(mailMessage);
                 //从待审核里面删除
+                paperTeamExamineMapper.delPaperTeamExamineTeam(paperExamineId);
                 paperExamineMapper.delPaperExamine(paper.getLeader_id(),paper.getPaper_name());
                 rs = new Result("400", "审核结果已反馈", null);
             } else {
                 paperMapper.addPaper(paper);
+                //获取项目id 返给用户
+                Integer paperId = paperMapper.selectPaperId(paper.getLeader_id(), paper.getPaper_name());
                 helper.setSubject("高校科研管理系统注册验证码");
                 helper.setText("<p>您的项目申报审核成功，项目编号为：<span style='color:blue;text-decoration:underline'>" + paperId + "</span>,请勿遗忘。</p>", true);
                 helper.setTo(user.getUser_email());
                 helper.setFrom("1776557392@qq.com");
                 mailSender.send(mailMessage);
+                for (PaperTeamExamine paperTeamExamine : paperTeamExamines) {
+                    paperTeamMapper.addPaperTeamUser(paperId,paperTeamExamine.getUser_id(),paperTeamExamine.getUser_role(),paperTeamExamine.getContribution());
+                }
                 //从待审核删除
+                paperTeamExamineMapper.delPaperTeamExamineTeam(paperExamineId);
                 paperExamineMapper.delPaperExamine(paper.getLeader_id(),paper.getPaper_name());
                 rs = new Result("200", "审核结果已反馈", null);
             }

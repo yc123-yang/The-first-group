@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sicnu.mapper.AwardTeamExamineMapper">
 
-    <insert id="addAwardExamineTeamUser" parameterType="AwardTeamExamine">
+    <insert id="addAwardExamineTeamUser" parameterType="com.sicnu.pojo.teamExamine.AwardTeamExamine">
         insert into award_team_examine
         (
         award_id,

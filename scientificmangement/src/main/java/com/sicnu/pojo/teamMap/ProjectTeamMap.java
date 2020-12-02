@@ -3,8 +3,8 @@ package com.sicnu.pojo.teamMap;
 public class ProjectTeamMap {
     private String name;
     private Integer department_id;
-    private Integer role_id;
     private String user_role;
+    private String team_role;
 
     public String getName() {
         return name;
@@ -22,19 +22,19 @@ public class ProjectTeamMap {
         this.department_id = department_id;
     }
 
-    public Integer getRole_id() {
-        return role_id;
-    }
-
-    public void setRole_id(Integer role_id) {
-        this.role_id = role_id;
-    }
-
     public String getUser_role() {
         return user_role;
     }
 
     public void setUser_role(String user_role) {
         this.user_role = user_role;
+    }
+
+    public String getTeam_role() {
+        return team_role;
+    }
+
+    public void setTeam_role(String team_role) {
+        this.team_role = team_role;
     }
 }

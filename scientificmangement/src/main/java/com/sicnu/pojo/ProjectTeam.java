@@ -8,20 +8,13 @@ import java.util.List;
  */
 public class ProjectTeam {
     private Integer project_id;
-    private Integer user_id;
+    private long user_id;
     private String user_role;
+    private String team_role;
 
     private List<User> users;
 
     public ProjectTeam() {
-    }
-
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
     }
 
     public Integer getProject_id() {
@@ -32,11 +25,11 @@ public class ProjectTeam {
         this.project_id = project_id;
     }
 
-    public Integer getUser_id() {
+    public long getUser_id() {
         return user_id;
     }
 
-    public void setUser_id(Integer user_id) {
+    public void setUser_id(long user_id) {
         this.user_id = user_id;
     }
 
@@ -48,13 +41,19 @@ public class ProjectTeam {
         this.user_role = user_role;
     }
 
-    @Override
-    public String toString() {
-        return "ProjectTeam{" +
-                "project_id=" + project_id +
-                ", user_id=" + user_id +
-                ", user_role='" + user_role + '\'' +
-                ", users=" + users +
-                '}';
+    public String getTeam_role() {
+        return team_role;
+    }
+
+    public void setTeam_role(String team_role) {
+        this.team_role = team_role;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 }

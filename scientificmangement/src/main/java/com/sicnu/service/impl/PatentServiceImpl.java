@@ -4,6 +4,7 @@ import com.sicnu.mapper.*;
 import com.sicnu.pojo.CacheUser;
 import com.sicnu.pojo.Patent;
 import com.sicnu.pojo.User;
+import com.sicnu.pojo.teamExamine.PatentTeamExamine;
 import com.sicnu.service.PatentService;
 import com.sicnu.util.Result;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -33,9 +34,13 @@ public class PatentServiceImpl implements PatentService {
     UserMapper userDao;
 
     @Resource
+    PatentTeamExamineMapper patentTeamExamineMapper;
+    @Resource
     PatentExamineMapper patentExamineMapper;
     @Resource
     JavaMailSenderImpl mailSender;
+    @Resource
+    PatentTeamMapper patentTeamMapper;
     @Resource
     CacheUserMapper cacheUserMapper;
 
@@ -48,8 +53,9 @@ public class PatentServiceImpl implements PatentService {
     @Override
     public Result addPatent(Patent patent,String checkMessage,String message) {
         try {
-            //获取项目id 返给用户
-            Integer awardId = patentMapper.selectPatentId(patent.getLeader_id(), patent.getPatent_name());
+            Integer patentExamineId = patentExamineMapper.selectPatentExamineId(patent.getLeader_id(), patent.getPatent_name());
+            List<PatentTeamExamine> patentTeamExamines = patentTeamExamineMapper.selectPatentTeamExamineById(patentExamineId);
+
             //获取项目负责人信息
             User user = userDao.findUserById(patent.getLeader_id());
             //创建邮件环境，反馈信息
@@ -64,17 +70,25 @@ public class PatentServiceImpl implements PatentService {
                 helper.setTo(user.getUser_email());
                 helper.setFrom("1776557392@qq.com");
                 mailSender.send(mailMessage);
+
                 //从待审核里面删除
+                patentTeamExamineMapper.delPatentTeamExamineTeam(patentExamineId);
                 patentExamineMapper.delPatentExamine(patent.getLeader_id(),patent.getPatent_name());
                 rs = new Result("400", "审核结果已反馈", null);
             } else {
                 patentMapper.addPatent(patent);
+                //获取项目id 返给用户
+                Integer patentId = patentMapper.selectPatentId(patent.getLeader_id(), patent.getPatent_name());
                 helper.setSubject("高校科研管理系统注册验证码");
-                helper.setText("<p>您的项目申报审核成功，项目编号为：<span style='color:blue;text-decoration:underline'>" + awardId + "</span>,请勿遗忘。</p>", true);
+                helper.setText("<p>您的项目申报审核成功，项目编号为：<span style='color:blue;text-decoration:underline'>" + patent + "</span>,请勿遗忘。</p>", true);
                 helper.setTo(user.getUser_email());
                 helper.setFrom("1776557392@qq.com");
                 mailSender.send(mailMessage);
+                for (PatentTeamExamine patentTeamExamine : patentTeamExamines) {
+                    patentTeamMapper.addPatentTeamUser(patentId,patentTeamExamine.getUser_id(),patentTeamExamine.getUser_role(),patentTeamExamine.getContribution());
+                }
                 //从待审核删除
+                patentTeamExamineMapper.delPatentTeamExamineTeam(patentExamineId);
                 patentExamineMapper.delPatentExamine(patent.getLeader_id(),patent.getPatent_name());
                 rs = new Result("200", "审核结果已反馈", null);
             }

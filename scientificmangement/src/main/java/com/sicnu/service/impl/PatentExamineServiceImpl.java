@@ -2,6 +2,7 @@ package com.sicnu.service.impl;
 
 import com.sicnu.mapper.CacheUserMapper;
 import com.sicnu.mapper.PatentExamineMapper;
+import com.sicnu.mapper.PatentTeamExamineMapper;
 import com.sicnu.pojo.CacheUser;
 import com.sicnu.pojo.Patent;
 import com.sicnu.pojo.PatentExamine;
@@ -24,13 +25,18 @@ public class PatentExamineServiceImpl implements PatentExamineService {
     PatentExamineMapper patentExamineMapper;
 
     private Result rs;
-
+    @Resource
+    PatentTeamExamineMapper patentTeamExamineMapper;
     @Resource
     CacheUserMapper cacheUserMapper;
     @Override
-    public Result addPatentExamine(PatentExamine patentExamine) {
+    public Result addPatentExamine(PatentExamine patentExamine,Integer[] user_id,String[] user_role,Double[] contribution) {
         try {
             patentExamineMapper.addPatentExamine(patentExamine);
+            Integer patent_id = patentExamineMapper.selectPatentExamineId(patentExamine.getLeader_id(),patentExamine.getPatent_name());
+            for (int i = 0; i < user_id.length; i++) {
+                patentTeamExamineMapper.addPatentTeamExamineUser(patent_id,user_id[i],user_role[i],contribution[i]);
+            }
             rs =new Result("200","您的专利已经上传审核，请您耐心等待审核结果",null);
         } catch (Exception e) {
             e.printStackTrace();
