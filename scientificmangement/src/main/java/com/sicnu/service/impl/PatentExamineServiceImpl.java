@@ -30,12 +30,12 @@ public class PatentExamineServiceImpl implements PatentExamineService {
     @Resource
     CacheUserMapper cacheUserMapper;
     @Override
-    public Result addPatentExamine(PatentExamine patentExamine,Integer[] user_id,String[] user_role,Double[] contribution) {
+    public Result addPatentExamine(PatentExamine patentExamine,Integer[] user_id,Double[] contribution) {
         try {
             patentExamineMapper.addPatentExamine(patentExamine);
             Integer patent_id = patentExamineMapper.selectPatentExamineId(patentExamine.getLeader_id(),patentExamine.getPatent_name());
             for (int i = 0; i < user_id.length; i++) {
-                patentTeamExamineMapper.addPatentTeamExamineUser(patent_id,user_id[i],user_role[i],contribution[i]);
+                patentTeamExamineMapper.addPatentTeamExamineUser(patent_id,user_id[i],contribution[i]);
             }
             rs =new Result("200","您的专利已经上传审核，请您耐心等待审核结果",null);
         } catch (Exception e) {

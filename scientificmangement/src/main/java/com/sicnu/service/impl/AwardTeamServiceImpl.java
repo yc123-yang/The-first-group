@@ -21,9 +21,9 @@ public class AwardTeamServiceImpl implements AwardTeamService {
 
     private Result rs;
     @Override
-    public Result addAwardTeamUser(Integer award_id, Integer user_id, String user_role, Double contribution,Integer department_id) {
+    public Result addAwardTeamUser(Integer award_id, Integer user_id,  Double contribution) {
         try {
-                awardTeamMapper.addAwardTeamUser(award_id, user_id, user_role, contribution);
+                awardTeamMapper.addAwardTeamUser(award_id, user_id, contribution);
                 rs = new Result("200","添加成功",null);
         } catch (Exception e) {
             e.printStackTrace();

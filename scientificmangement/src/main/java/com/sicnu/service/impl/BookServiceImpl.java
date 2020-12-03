@@ -3,7 +3,6 @@ package com.sicnu.service.impl;
 import com.sicnu.mapper.*;
 import com.sicnu.pojo.CacheUser;
 import com.sicnu.pojo.User;
-import com.sicnu.pojo.teamExamine.AwardTeamExamine;
 import com.sicnu.pojo.teamExamine.BookTeamExamine;
 import com.sicnu.service.BookService;
 import com.sicnu.util.Result;
@@ -49,8 +48,6 @@ public class BookServiceImpl implements BookService{
         try {
             Integer bookExamineId = bookExamineMapper.selectBookExamineId(book.getLeader_id(),book.getBook_name());
             List<BookTeamExamine> bookTeamExamines = bookTeamExamineMapper.selectAwardTeamExamineById(bookExamineId);
-
-
             //获取项目负责人信息
             User user = userDao.findUserById(book.getLeader_id());
             //创建邮件环境，反馈信息
@@ -79,20 +76,13 @@ public class BookServiceImpl implements BookService{
                 helper.setFrom("1776557392@qq.com");
                 mailSender.send(mailMessage);
                 for (BookTeamExamine bookTeamExamine : bookTeamExamines) {
-                    bookTeamMapper.addBookTeamUser(bookId,bookTeamExamine.getUser_id(),bookTeamExamine.getUser_role(),bookTeamExamine.getContribution());
+                    bookTeamMapper.addBookTeamUser(bookId,bookTeamExamine.getUser_id(),bookTeamExamine.getContribution());
                 }
                 //从待审核删除
                 bookTeamExamineMapper.delBookTeamExamineTeam(bookExamineId);
                 bookExamineMapper.delBookExamine(book.getLeader_id(),book.getBook_name());
                 rs = new Result("200", "审核结果已反馈", null);
             }
-//            Book book1 = bookMapper.selectBookByNumber(book.getPublish_time());
-//            if (book1 != null) {
-//
-//            } else {
-//                bookMapper.addBook(book);
-//                rs = new Result("200", "插入成功", null);
-//            }
         } catch (Exception e) {
             e.printStackTrace();
         }

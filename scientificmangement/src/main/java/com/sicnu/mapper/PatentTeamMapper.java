@@ -11,7 +11,7 @@ import java.util.List;
 @Mapper
 public interface PatentTeamMapper {
 
-    void addPatentTeamUser(Integer patent_id, Integer user_id, String user_role, Double contribution);
+    void addPatentTeamUser(Integer patent_id, Integer user_id, Double contribution);
     void delPatentTeamUser(Integer user_id);
     List<PatentTeamMap> selectPatentTeam(Integer patent_id);
 }

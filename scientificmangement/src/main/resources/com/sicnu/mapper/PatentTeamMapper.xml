@@ -31,7 +31,7 @@
     <select id="selectPatentTeam" parameterType="int" resultType="com.sicnu.pojo.teamMap.PatentTeamMap">
         SELECT
         u.user_name name,u.department_id department_id,
-        t.user_role user_role,
+        t.role_id role_id,
         t.contribution contribution
         FROM
         user u,

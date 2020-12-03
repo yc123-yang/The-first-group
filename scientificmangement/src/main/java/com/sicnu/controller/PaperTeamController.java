@@ -22,9 +22,9 @@ public class PaperTeamController {
 
     private Result rs;
     @PostMapping("/team/addPaperTeamUser")
-    public Result addPaperTeamUser(Integer paper_id, Integer user_id, String user_role, Double contribution, Integer department_id) {
+    public Result addPaperTeamUser(Integer paper_id, Integer user_id, Double contribution) {
         try {
-            rs=paperTeamService.addPaperTeamUser(paper_id, user_id, user_role, contribution, department_id);
+            rs=paperTeamService.addPaperTeamUser(paper_id, user_id, contribution);
         } catch (Exception e) {
             e.printStackTrace();
         }

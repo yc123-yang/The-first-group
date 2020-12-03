@@ -81,7 +81,7 @@ public class PaperServiceImpl implements PaperService {
                 helper.setFrom("1776557392@qq.com");
                 mailSender.send(mailMessage);
                 for (PaperTeamExamine paperTeamExamine : paperTeamExamines) {
-                    paperTeamMapper.addPaperTeamUser(paperId,paperTeamExamine.getUser_id(),paperTeamExamine.getUser_role(),paperTeamExamine.getContribution());
+                    paperTeamMapper.addPaperTeamUser(paperId,paperTeamExamine.getUser_id(),paperTeamExamine.getContribution());
                 }
                 //从待审核删除
                 paperTeamExamineMapper.delPaperTeamExamineTeam(paperExamineId);

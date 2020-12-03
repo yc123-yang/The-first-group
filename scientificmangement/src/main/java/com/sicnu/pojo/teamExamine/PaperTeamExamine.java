@@ -5,8 +5,8 @@ public class PaperTeamExamine {
 
   private Integer paper_id;
   private Integer user_id;
-  private String user_role;
-  private double contribution;
+  private Integer role_id;
+  private Double contribution;
 
 
   public Integer getPaper_id() {
@@ -25,20 +25,19 @@ public class PaperTeamExamine {
     this.user_id = user_id;
   }
 
-  public String getUser_role() {
-    return user_role;
+  public Integer getRole_id() {
+    return role_id;
   }
 
-  public void setUser_role(String user_role) {
-    this.user_role = user_role;
+  public void setRole_id(Integer role_id) {
+    this.role_id = role_id;
   }
 
-
-  public double getContribution() {
+  public Double getContribution() {
     return contribution;
   }
 
-  public void setContribution(double contribution) {
+  public void setContribution(Double contribution) {
     this.contribution = contribution;
   }
 }

@@ -23,9 +23,9 @@ public class PatentExamineController {
 
 
     @PostMapping("/patentExamine/addPatentExamine")
-    public Result addPatentExamine(PatentExamine patentExamine,Integer[] user_id,String[] user_role,Double[] contribution) {
+    public Result addPatentExamine(PatentExamine patentExamine,Integer[] user_id,Double[] contribution) {
         try {
-            rs=patentExamineService.addPatentExamine(patentExamine, user_id, user_role, contribution);
+            rs=patentExamineService.addPatentExamine(patentExamine, user_id, contribution);
           } catch (Exception e) {
             e.printStackTrace();
         }

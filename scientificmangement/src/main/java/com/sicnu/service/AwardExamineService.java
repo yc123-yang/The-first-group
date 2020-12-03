@@ -10,7 +10,7 @@ import java.util.Map;
 
 public interface AwardExamineService {
 
-    Result addAwardExamine(AwardExamine awardExamine, Integer[] user_id,String[] user_role,Double[] contribution);
+    Result addAwardExamine(AwardExamine awardExamine, Integer[] user_id,Double[] contribution);
     Result selectAwardExamineByCondition(AwardExamine awardExamine, String award_time_start, String award_time_end, Integer pageSize, Integer pageNum,String apply_time_start,String apply_time_end);
     Result delAwardExamineById(Integer ae_id);
 }

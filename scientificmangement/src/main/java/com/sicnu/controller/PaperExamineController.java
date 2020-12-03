@@ -26,9 +26,9 @@ public class PaperExamineController {
 
 
     @PostMapping("/paperExamine/addPaperExamine")
-    public Result addPaperExamine(PaperExamine paperExamine,Integer[] user_id,String[] user_role,Double[] contribution) {
+    public Result addPaperExamine(PaperExamine paperExamine,Integer[] user_id,Double[] contribution) {
         try {
-            rs=paperExamineService.addPaperExamine(paperExamine, user_id, user_role, contribution);
+            rs=paperExamineService.addPaperExamine(paperExamine, user_id, contribution);
         } catch (Exception e) {
             e.printStackTrace();
         }

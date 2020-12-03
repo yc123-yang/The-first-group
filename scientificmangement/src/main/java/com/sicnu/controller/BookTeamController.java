@@ -1,7 +1,6 @@
 package com.sicnu.controller;
 
-import com.sicnu.mapper.BookTeamMapper;
-import com.sicnu.pojo.teamMap.BookTeamMap;
+
 import com.sicnu.service.impl.BookTeamServiceImpl;
 import com.sicnu.util.Result;
 import org.springframework.stereotype.Controller;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 @CrossOrigin
 @Controller
@@ -21,9 +19,9 @@ public class BookTeamController {
 
     private Result rs ;
     @PostMapping("/team/addBookTeamUser")
-    public Result addBookTeamUser(Integer book_id, Integer user_id, String user_role, Double contribution, Integer department_id) {
+    public Result addBookTeamUser(Integer book_id, Integer user_id, Double contribution) {
         try {
-            rs= bookTeamService.addBookTeamUser(book_id, user_id, user_role, contribution, department_id);
+            rs= bookTeamService.addBookTeamUser(book_id, user_id, contribution);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface PatentTeamExamineMapper {
 
-    void addPatentTeamExamineUser(Integer pe_id, Integer user_id, String user_role,Double contribution);
+    void addPatentTeamExamineUser(Integer pe_id, Integer user_id, Double contribution);
     void delPatentTeamExamineTeam(Integer pe_id);
     List<PatentTeamExamine> selectPatentTeamExamineById(Integer pe_id);
 }

@@ -29,9 +29,9 @@ public class AwardExamineController {
     private Result rs;
 
     @PostMapping("/awardExamine/addAwardExamine")
-    public Result addAwardExamine(@RequestParam(value = "awardExamine")AwardExamine awardExamine,@RequestParam(value = "user_id")Integer[] user_id,@RequestParam(value = "user_role")String[] user_role,@RequestParam(value = "contribution")Double[] contribution) {
+    public Result addAwardExamine(@RequestParam(value = "awardExamine")AwardExamine awardExamine,Integer[] user_id,Double[] contribution) {
         try {
-            rs=awardExamineService.addAwardExamine(awardExamine,user_id,user_role,contribution);
+            rs=awardExamineService.addAwardExamine(awardExamine,user_id,contribution);
         } catch (Exception e) {
             e.printStackTrace();
         }

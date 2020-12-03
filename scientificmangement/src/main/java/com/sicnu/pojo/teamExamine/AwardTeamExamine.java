@@ -3,10 +3,10 @@ package com.sicnu.pojo.teamExamine;
 public class AwardTeamExamine {
     private Integer award_id;
     private Integer user_id;
-    private String user_role;
+    private Integer role_id;
     private Double contribution;
 
-    public Integer getAward_id(Integer user_id) {
+    public Integer getAward_id() {
         return award_id;
     }
 
@@ -22,20 +22,19 @@ public class AwardTeamExamine {
         this.user_id = user_id;
     }
 
-    public String getUser_role() {
-        return user_role;
+    public Integer getRole_id() {
+        return role_id;
     }
 
-    public void setUser_role(String user_role) {
-        this.user_role = user_role;
+    public void setRole_id(Integer role_id) {
+        this.role_id = role_id;
     }
 
-
-    public double getContribution() {
+    public Double getContribution() {
         return contribution;
     }
 
-    public void setContribution(double contribution) {
+    public void setContribution(Double contribution) {
         this.contribution = contribution;
     }
 }

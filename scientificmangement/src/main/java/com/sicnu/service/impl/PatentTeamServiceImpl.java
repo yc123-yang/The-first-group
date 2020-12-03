@@ -21,8 +21,8 @@ public class PatentTeamServiceImpl implements PatentTeamService {
     UserMapper userMapper;
     private Result rs;
     @Override
-    public Result addPatentTeamUser(Integer patent_id,Integer user_id, String user_role, Double contribution,Integer department_id) {
-        patentTeamMapper.addPatentTeamUser(patent_id, user_id, user_role, contribution);
+    public Result addPatentTeamUser(Integer patent_id,Integer user_id,  Double contribution) {
+        patentTeamMapper.addPatentTeamUser(patent_id, user_id, contribution);
         rs = new Result("200","添加成功",null);
         return rs;
     }

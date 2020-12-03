@@ -85,7 +85,7 @@ public class PatentServiceImpl implements PatentService {
                 helper.setFrom("1776557392@qq.com");
                 mailSender.send(mailMessage);
                 for (PatentTeamExamine patentTeamExamine : patentTeamExamines) {
-                    patentTeamMapper.addPatentTeamUser(patentId,patentTeamExamine.getUser_id(),patentTeamExamine.getUser_role(),patentTeamExamine.getContribution());
+                    patentTeamMapper.addPatentTeamUser(patentId,patentTeamExamine.getUser_id(),patentTeamExamine.getContribution());
                 }
                 //从待审核删除
                 patentTeamExamineMapper.delPatentTeamExamineTeam(patentExamineId);

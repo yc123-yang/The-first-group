@@ -30,7 +30,7 @@ public class AwardExamineServiceImpl implements AwardExamineService {
     CacheUserMapper cacheUserMapper;
 
     @Override
-    public Result addAwardExamine(AwardExamine awardExamine, Integer[] user_id,String[] user_role,Double[] contribution) {
+    public Result addAwardExamine(AwardExamine awardExamine, Integer[] user_id,Double[] contribution) {
         try {
             Integer award_id1 = awardExamineMapper.selectAwardExamineId(awardExamine.getAward_name(),awardExamine.getLeader_id());
             if(award_id1 !=null){
@@ -44,7 +44,7 @@ public class AwardExamineServiceImpl implements AwardExamineService {
             System.out.println(Arrays.toString(user_id));
             for (int i = 0; i < user_id.length; i++) {
                 System.out.println(i+" "+user_id[i]);
-                awardTeamExamineMapper.addAwardExamineTeamUser(award_id,user_id[i],user_role[i],contribution[i]);
+                awardTeamExamineMapper.addAwardExamineTeamUser(award_id,user_id[i],contribution[i]);
             }
             rs = new Result("200","奖励已经录入系统审核,请您耐心等待",null);
         } catch (Exception e) {

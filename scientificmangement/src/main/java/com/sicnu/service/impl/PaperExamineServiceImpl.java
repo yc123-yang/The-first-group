@@ -34,12 +34,12 @@ public class PaperExamineServiceImpl implements PaperExamineService {
 
 
     @Override
-    public Result addPaperExamine(PaperExamine paperExamine,Integer[] user_id,String[] user_role,Double[] contribution) {
+    public Result addPaperExamine(PaperExamine paperExamine,Integer[] user_id,Double[] contribution) {
         try {
             paperExamineMapper.addPaperExamine(paperExamine);
             Integer paper_id = paperExamineMapper.selectPaperExamineId(paperExamine.getLeader_id(),paperExamine.getPaper_name());
             for (int i = 0; i < user_id.length; i++) {
-                paperTeamExamineMapper.addPaperTeamExamineUser(paper_id,user_id[i],user_role[i],contribution[i]);
+                paperTeamExamineMapper.addPaperTeamExamineUser(paper_id,user_id[i],contribution[i]);
             }
             rs = new Result("200","您的论文已经上传审核，请您等待审核结果",null);
         } catch (Exception e) {

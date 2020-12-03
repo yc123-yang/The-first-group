@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface BookExamineService {
-    Result addBookExamine(BookExamine bookExamine,Integer[] user_id,String[] user_role,Double[] contribution);
+    Result addBookExamine(BookExamine bookExamine,Integer[] user_id,Double[] contribution);
     Result selectBookExamineByCondition(BookExamine bookExamine, String publish_time_start, String publish_time_end, Integer pageSize, Integer pageNum,String apply_time_start,String apply_time_end);
     Result delBookExamineById(Integer be_id);
 }

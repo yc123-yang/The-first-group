@@ -20,11 +20,11 @@ public class PaperTeamServiceImpl implements PaperTeamService {
     private Result rs;
 
     @Override
-    public Result addPaperTeamUser(Integer paper_id,Integer user_id,String user_role,Double contribution,Integer department_id) {
+    public Result addPaperTeamUser(Integer paper_id,Integer user_id,Double contribution) {
         try {
 
 
-            paperTeamMapper.addPaperTeamUser(paper_id, user_id, user_role, contribution);
+            paperTeamMapper.addPaperTeamUser(paper_id, user_id, contribution);
             rs = new Result("200","添加作者成功",null);
         } catch (Exception e) {
             e.printStackTrace();

@@ -26,7 +26,7 @@ public class ProjectTeamServiceImpl implements ProjectTeamService {
 
     private Result rs = null;
     @Override
-    public Result addProjectTeamUser(Integer project_id, Integer user_id, String team_role, Integer role_id, Integer department_id) {
+    public Result addProjectTeamUser(Integer project_id, Integer user_id, String team_role) {
         try {
                 projectTeamMapper.addProjectTeamUser(project_id, user_id,team_role);
                 rs = new Result("200", "成员添加成功", null);

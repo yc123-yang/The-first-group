@@ -79,7 +79,7 @@ public class AwardServiceImpl implements AwardService {
                 awardExamineMapper.delAwardExamine(award.getLeader_id(),award.getAward_name());
                 //确定项目组
                 for (AwardTeamExamine awardTeamExamine : awardTeamExamines) {
-                    awardTeamMapper.addAwardTeamUser(awardId, (int) awardTeamExamine.getUser_id(),awardTeamExamine.getUser_role(),awardTeamExamine.getContribution());
+                    awardTeamMapper.addAwardTeamUser(awardId, awardTeamExamine.getUser_id(),awardTeamExamine.getContribution());
                 }
                 awardTeamExamineMapper.delAwardTeamExamineTeam(awardExamineId);
                 rs = new Result("200", "审核结果已反馈", null);

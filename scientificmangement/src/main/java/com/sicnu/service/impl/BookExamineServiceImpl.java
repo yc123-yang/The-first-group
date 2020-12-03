@@ -32,12 +32,12 @@ public class BookExamineServiceImpl implements BookExamineService {
     CacheUserMapper cacheUserMapper;
 
     @Override
-    public Result addBookExamine(BookExamine bookExamine,Integer[] user_id,String[] user_role,Double[] contribution) {
+    public Result addBookExamine(BookExamine bookExamine,Integer[] user_id,Double[] contribution) {
         try {
             bookExamineMapper.addBookExamine(bookExamine);
             Integer book_id = bookExamineMapper.selectBookExamineId(bookExamine.getLeader_id(),bookExamine.getBook_name());
             for (int i = 0; i < user_id.length; i++) {
-                bookTeamExamineMapper.addBookTeamExamineUser(book_id,user_id[i],user_role[i],contribution[i]);
+                bookTeamExamineMapper.addBookTeamExamineUser(book_id,user_id[i],contribution[i]);
             }
             rs = new Result("200","您的著作成果已经上传审核，请您耐心等待审核结果",null);
         } catch (Exception e) {

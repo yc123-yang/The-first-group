@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface BookTeamService {
 
-    Result addBookTeamUser(Integer book_id,Integer user_id, String user_role, Double contribution,Integer department_id );
+    Result addBookTeamUser(Integer book_id,Integer user_id, Double contribution);
     Result delBookTeamUser(Integer user_id);
     Result selectBookTeam(Integer book_id);
 }

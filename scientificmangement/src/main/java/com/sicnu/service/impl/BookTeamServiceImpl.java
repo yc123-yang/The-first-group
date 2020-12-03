@@ -22,9 +22,9 @@ public class BookTeamServiceImpl implements BookTeamService {
 
     private Result rs ;
     @Override
-    public Result addBookTeamUser(Integer book_id, Integer user_id, String user_role, Double contribution,Integer department_id) {
+    public Result addBookTeamUser(Integer book_id, Integer user_id,  Double contribution) {
         try {
-            bookTeamMapper.addBookTeamUser(book_id, user_id, user_role, contribution);
+            bookTeamMapper.addBookTeamUser(book_id, user_id,contribution);
             rs = new Result("200","添加成功",null);
         } catch (Exception e) {
             e.printStackTrace();
