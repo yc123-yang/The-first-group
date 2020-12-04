@@ -17,4 +17,14 @@
         role_id = #{role_id}
     </delete>
 
+    <select id="findUserAuth" parameterType="com.sicnu.pojo.teamMap.UserAuth">
+        select auth_resource from
+        auth a,role r,role_auth ra
+        where
+        r.role_id = #{role_id}
+        and
+        r.role_id = ra.role_id
+        and
+        ra.auth_id = a.auth_id
+    </select>
 </mapper>

@@ -9,14 +9,12 @@
         (
         be_id,
         user_id,
-        user_role,
         contribution
         )
         values
         (
         #{be_id},
         #{user_id},
-        #{user_role},
         #{contribution}
         )
     </insert>
@@ -32,10 +30,10 @@
         where
         be_id = #{be_id}
     </select>
-    <select id="selectBookTeamExamine" parameterType="int" resultType="com.sicnu.pojo.teamMap.BookTeamMap">
+    <select id="selectBookTeamExamineUser" parameterType="int" resultType="com.sicnu.pojo.teamMap.BookTeamMap">
         SELECT
         u.user_name name,u.department_id department_id,
-        t.role_id role_id,
+        u.role_id role_id,
         t.contribution contribution
         FROM
         user u,

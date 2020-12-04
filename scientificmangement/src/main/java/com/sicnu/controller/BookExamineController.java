@@ -59,4 +59,14 @@ public class BookExamineController {
         }
         return rs;
     }
+
+    @PostMapping("/bookExamine/findBookExamineById")
+    public Result findBookExamineById(Integer be_id) {
+        try {
+            rs =bookExamineService.findBookExamineById(be_id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
 }

@@ -1,27 +1,25 @@
-package com.sample;
+package com.sicnu.pojo;
 
 
 public class PeriodicalPaper {
 
-  private long paperId;
-  private long periodicalId;
+  private Integer paper_id;
+  private Integer periodical_id;
 
 
-  public long getPaperId() {
-    return paperId;
+  public Integer getPaper_id() {
+    return paper_id;
   }
 
-  public void setPaperId(long paperId) {
-    this.paperId = paperId;
+  public void setPaper_id(Integer paper_id) {
+    this.paper_id = paper_id;
   }
 
-
-  public long getPeriodicalId() {
-    return periodicalId;
+  public Integer getPeriodical_id() {
+    return periodical_id;
   }
 
-  public void setPeriodicalId(long periodicalId) {
-    this.periodicalId = periodicalId;
+  public void setPeriodical_id(Integer periodical_id) {
+    this.periodical_id = periodical_id;
   }
-
 }

@@ -9,14 +9,12 @@
         (
         ae_id,
         user_id,
-        user_role,
         contribution
         )
         values
         (
         #{ae_id},
         #{user_id},
-        #{user_role},
         #{contribution}
         )
     </insert>
@@ -32,7 +30,7 @@
         where
         ae_id = #{ae_id}
     </select>
-    <select id="selectAwardTeamExamine" parameterType="int" resultType="com.sicnu.pojo.teamMap.AwardTeamMap">
+    <select id="selectAwardTeamExamineUser" parameterType="int" resultType="com.sicnu.pojo.teamMap.AwardTeamMap">
         SELECT
         u.user_name name,u.department_id department_id,
         u.role_id role_id,

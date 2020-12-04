@@ -70,7 +70,7 @@ public class ScientificmangementApplicationTests {
         String[] team_role = {"1","2","3"};
 //        Double[] contribution = {1.00,2.00,3.00};
 //        projectExamineService.addProjectExamine(projectExamine,user_id,team_role);
-       List<AwardTeamMap> awardTeamMaps =awardTeamExamineMapper.selectAwardTeamExamine(28);
+       List<AwardTeamMap> awardTeamMaps =awardTeamExamineMapper.selectAwardTeamExamineUser(28);
         System.out.println(awardTeamMaps.get(0).getName());
     }
 

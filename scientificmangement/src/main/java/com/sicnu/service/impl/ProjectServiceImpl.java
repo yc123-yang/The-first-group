@@ -6,6 +6,7 @@ import com.sicnu.pojo.Project;
 import com.sicnu.pojo.User;
 import com.sicnu.pojo.teamExamine.PatentTeamExamine;
 import com.sicnu.pojo.teamExamine.ProjectTeamExamine;
+import com.sicnu.pojo.teamMap.UserAuth;
 import com.sicnu.service.ProjectService;
 import com.sicnu.util.Result;
 import org.springframework.mail.MailException;
@@ -50,6 +51,8 @@ public class ProjectServiceImpl implements ProjectService {
     @Resource
     ProjectExamineMapper projectExamineMapper;
 
+    @Resource
+    RoleAuthMapper roleAuthMapper;
     private Result rs = null;
 
     /**
@@ -143,7 +146,6 @@ public class ProjectServiceImpl implements ProjectService {
             System.out.println(uid);
             System.out.println(project.getProject_name());
             map.put("project_name", project.getProject_name());
-            map.put("leader_id", uid);
             map.put("department_id", project.getDepartment_id());
             map.put("project_id", project.getProject_id());
             map.put("sc_id", project.getSc_id());
@@ -175,16 +177,37 @@ public class ProjectServiceImpl implements ProjectService {
             if (!plan_time_end.equals("")) {
                 map.put("plan_time_end", sdf.parse(plan_time_end));
             }
-            System.out.println(map);
-            //根据传来的条件筛选用户
-            List<Project> projects = projectDao.selectProjectByCondition(map);
-            //根据条件获取的项目条数
-            Integer total = projectDao.selectTotalProject(map);
-            Map<String, Object> map1 = new HashMap<>();
-            map1.put("total", total);
-            list = new ArrayList<>();
-            list.add(map1);
-            list.add(projects);
+
+            User user = userDao.findUserById(uid);
+            List<UserAuth> userAuths = roleAuthMapper.findUserAuth(user.getRole_id());
+            int cnt =0;
+            for (UserAuth userAuth : userAuths) {
+                if (userAuth.getAuth_resource().equals("/allAward")){
+                    cnt=1;
+                }
+            }
+            if (cnt==1){
+                List<Project> projects = projectDao.selectProjectByCondition(map);
+                //根据条件获取的项目条数
+                Integer total = projectDao.selectTotalProject(map);
+                Map<String, Object> map1 = new HashMap<>();
+                map1.put("total", total);
+                list = new ArrayList<>();
+                list.add(map1);
+                list.add(projects);
+            }else{
+                map.put("leader_id", uid);
+                //根据传来的条件筛选用户
+                List<Project> projects = projectDao.selectProjectByCondition(map);
+                //根据条件获取的项目条数
+                Integer total = projectDao.selectTotalProject(map);
+                Map<String, Object> map1 = new HashMap<>();
+                map1.put("total", total);
+                list = new ArrayList<>();
+                list.add(map1);
+                list.add(projects);
+            }
+
         } catch (ParseException e) {
             e.printStackTrace();
         }

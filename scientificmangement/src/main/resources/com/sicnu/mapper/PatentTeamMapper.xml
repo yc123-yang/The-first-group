@@ -9,14 +9,12 @@
         (
         patent_id,
         user_id,
-        user_role,
         contribution
         )
         values
         (
         #{patent_id},
         #{user_id},
-        #{user_role},
         #{contribution}
         )
     </insert>
@@ -31,7 +29,7 @@
     <select id="selectPatentTeam" parameterType="int" resultType="com.sicnu.pojo.teamMap.PatentTeamMap">
         SELECT
         u.user_name name,u.department_id department_id,
-        t.role_id role_id,
+        u.role_id role_id,
         t.contribution contribution
         FROM
         user u,

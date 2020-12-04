@@ -1,15 +1,15 @@
 package com.sicnu.service.impl;
 
 import com.sicnu.mapper.PaperTeamExamineMapper;
-import com.sicnu.pojo.teamExamine.PaperTeamExamine;
 import com.sicnu.pojo.teamMap.PaperTeamMap;
 import com.sicnu.service.PaperTeamExamineService;
-import com.sicnu.service.PaperTeamService;
 import com.sicnu.util.Result;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
 
+@Service
 public class PaperTeamExamineServiceImpl implements PaperTeamExamineService {
     @Resource
     PaperTeamExamineMapper paperTeamExamineMapper;

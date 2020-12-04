@@ -4,10 +4,12 @@ import com.sicnu.mapper.ProjectTeamExamineMapper;
 import com.sicnu.pojo.teamMap.ProjectTeamMap;
 import com.sicnu.service.ProjectTeamExamineService;
 import com.sicnu.util.Result;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
 
+@Service
 public class ProjectTeamExamineServiceImpl implements ProjectTeamExamineService {
     @Resource
     ProjectTeamExamineMapper projectTeamExamineMapper;

@@ -3,6 +3,7 @@ package com.sicnu.service.impl;
 import com.sicnu.mapper.CacheUserMapper;
 import com.sicnu.mapper.PaperExamineMapper;
 import com.sicnu.mapper.PaperTeamExamineMapper;
+import com.sicnu.mapper.PeriodicalPaperExamineMapper;
 import com.sicnu.pojo.CacheUser;
 import com.sicnu.pojo.PaperExamine;
 import com.sicnu.pojo.PaperTeam;
@@ -32,14 +33,19 @@ public class PaperExamineServiceImpl implements PaperExamineService {
     @Resource
     PaperTeamExamineMapper paperTeamExamineMapper;
 
+    @Resource
+    PeriodicalPaperExamineMapper periodicalPaperExamineMapper;
 
     @Override
-    public Result addPaperExamine(PaperExamine paperExamine,Integer[] user_id,Double[] contribution) {
+    public Result addPaperExamine(PaperExamine paperExamine,Integer[] user_id,Double[] contribution,Integer[] periodicalIds) {
         try {
             paperExamineMapper.addPaperExamine(paperExamine);
             Integer paper_id = paperExamineMapper.selectPaperExamineId(paperExamine.getLeader_id(),paperExamine.getPaper_name());
             for (int i = 0; i < user_id.length; i++) {
                 paperTeamExamineMapper.addPaperTeamExamineUser(paper_id,user_id[i],contribution[i]);
+            }
+            for (int i = 0; i < periodicalIds.length; i++) {
+                periodicalPaperExamineMapper.addPeriodicalPaperExamine(paper_id,periodicalIds[i]);
             }
             rs = new Result("200","您的论文已经上传审核，请您等待审核结果",null);
         } catch (Exception e) {

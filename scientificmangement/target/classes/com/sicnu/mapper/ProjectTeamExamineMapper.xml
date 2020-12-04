@@ -30,7 +30,7 @@
         where
         pe_id = #{pe_id}
     </select>
-    <select id="selectProjectTeamExamine" parameterType="int" resultType="com.sicnu.pojo.teamMap.ProjectTeamMap">
+    <select id="selectProjectTeamExamineUser" parameterType="int" resultType="com.sicnu.pojo.teamMap.ProjectTeamMap">
         SELECT
         u.user_name name,u.department_id department_id,
         u.role_id role_id,t.team_role team_role

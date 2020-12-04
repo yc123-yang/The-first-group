@@ -27,9 +27,9 @@ public class PaperExamineController {
 
 
     @GetMapping("/paperExamine/addPaperExamine")
-    public Result addPaperExamine(PaperExamine paperExamine,Integer[] user_id,Double[] contribution) {
+    public Result addPaperExamine(PaperExamine paperExamine,Integer[] user_id,Double[] contribution,Integer[] periodicalIds) {
         try {
-            rs=paperExamineService.addPaperExamine(paperExamine, user_id, contribution);
+            rs=paperExamineService.addPaperExamine(paperExamine, user_id, contribution,periodicalIds);
         } catch (Exception e) {
             e.printStackTrace();
         }

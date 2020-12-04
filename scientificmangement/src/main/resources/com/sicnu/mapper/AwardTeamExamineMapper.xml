@@ -9,14 +9,12 @@
         (
         ae_id,
         user_id,
-        user_role,
         contribution
         )
         values
         (
         #{ae_id},
         #{user_id},
-        #{user_role},
         #{contribution}
         )
     </insert>

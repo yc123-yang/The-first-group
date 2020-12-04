@@ -5,6 +5,7 @@ import com.sicnu.pojo.CacheUser;
 import com.sicnu.pojo.Patent;
 import com.sicnu.pojo.User;
 import com.sicnu.pojo.teamExamine.PatentTeamExamine;
+import com.sicnu.pojo.teamMap.UserAuth;
 import com.sicnu.service.PatentService;
 import com.sicnu.util.Result;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -43,6 +44,8 @@ public class PatentServiceImpl implements PatentService {
     PatentTeamMapper patentTeamMapper;
     @Resource
     CacheUserMapper cacheUserMapper;
+    @Resource
+    RoleAuthMapper roleAuthMapper;
 
     /**
      * 添加专利
@@ -132,7 +135,6 @@ public class PatentServiceImpl implements PatentService {
             Integer uid = cacheUsers.get(0).getUser_id();
 
             map.put("patent_name", patent.getPatent_name());
-            map.put("leader_id", uid);
             map.put("pt_id", patent.getPt_id());
             map.put("pr_id", patent.getPr_id());
             map.put("ps_id", patent.getPs_id());
@@ -161,14 +163,34 @@ public class PatentServiceImpl implements PatentService {
             if (!authorization_time_end.equals("")) {
                 map.put("authorization_time_end", sdf.parse(authorization_time_end));
             }
-            System.out.println(map);
-            Integer total = patentMapper.selectTotalPatent(map);
-            List<Patent> patents = patentMapper.selectPatentByCondition(map);
-            Map<String, Object> map1 = new HashMap<>();
-            map1.put("total", total);
-            list = new ArrayList<>();
-            list.add(map1);
-            list.add(patents);
+            User user = userDao.findUserById(uid);
+            List<UserAuth> userAuths = roleAuthMapper.findUserAuth(user.getRole_id());
+            int cnt =0;
+            for (UserAuth userAuth : userAuths) {
+                if (userAuth.getAuth_resource().equals("/allAward")){
+                    cnt=1;
+                }
+            }
+            if (cnt==1){
+                Integer total = patentMapper.selectTotalPatent(map);
+                List<Patent> patents = patentMapper.selectPatentByCondition(map);
+                Map<String, Object> map1 = new HashMap<>();
+                map1.put("total", total);
+                list = new ArrayList<>();
+                list.add(map1);
+                list.add(patents);
+            }else {
+                map.put("leader_id", uid);
+
+                Integer total = patentMapper.selectTotalPatent(map);
+                List<Patent> patents = patentMapper.selectPatentByCondition(map);
+                Map<String, Object> map1 = new HashMap<>();
+                map1.put("total", total);
+                list = new ArrayList<>();
+                list.add(map1);
+                list.add(patents);
+            }
+
         } catch (ParseException e) {
             e.printStackTrace();
         }

@@ -4,6 +4,7 @@ import com.sicnu.mapper.*;
 import com.sicnu.pojo.CacheUser;
 import com.sicnu.pojo.User;
 import com.sicnu.pojo.teamExamine.BookTeamExamine;
+import com.sicnu.pojo.teamMap.UserAuth;
 import com.sicnu.service.BookService;
 import com.sicnu.util.Result;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -40,7 +41,8 @@ public class BookServiceImpl implements BookService{
     @Resource
     JavaMailSenderImpl mailSender;
     private Result rs;
-
+    @Resource
+    RoleAuthMapper roleAuthMapper;
     @Resource
     CacheUserMapper cacheUserMapper;
     @Override
@@ -102,7 +104,6 @@ public class BookServiceImpl implements BookService{
 
             Map<String, Object> map = new HashMap<>();
             map.put("book_name", book.getBook_name());
-            map.put("leader_id", uid);
             map.put("press", book.getPress());
             map.put("pl_id", book.getPl_id());
             map.put("bt_id", book.getBt_id());
@@ -125,13 +126,32 @@ public class BookServiceImpl implements BookService{
             if (!publish_time_end.equals("")) {
                 map.put("publish_time_end", sdf.parse(publish_time_end));
             }
-            List<Book> books = bookMapper.selectBookByCondition(map);
-            Integer total = bookMapper.selectTotalBook(map);
-            Map<String, Object> map1 = new HashMap<>();
-            map1.put("total", total);
-            list = new ArrayList<>();
-            list.add(map1);
-            list.add(books);
+            User user = userDao.findUserById(uid);
+            List<UserAuth> userAuths = roleAuthMapper.findUserAuth(user.getRole_id());
+            int cnt =0;
+            for (UserAuth userAuth : userAuths) {
+                if (userAuth.getAuth_resource().equals("/allAward")){
+                    cnt=1;
+                }
+            }
+            if (cnt==1){
+                List<Book> books = bookMapper.selectBookByCondition(map);
+                Integer total = bookMapper.selectTotalBook(map);
+                Map<String, Object> map1 = new HashMap<>();
+                map1.put("total", total);
+                list = new ArrayList<>();
+                list.add(map1);
+                list.add(books);
+            }else{
+                map.put("leader_id", uid);
+                List<Book> books = bookMapper.selectBookByCondition(map);
+                Integer total = bookMapper.selectTotalBook(map);
+                Map<String, Object> map1 = new HashMap<>();
+                map1.put("total", total);
+                list = new ArrayList<>();
+                list.add(map1);
+                list.add(books);
+            }
         } catch (ParseException e) {
             e.printStackTrace();
         }

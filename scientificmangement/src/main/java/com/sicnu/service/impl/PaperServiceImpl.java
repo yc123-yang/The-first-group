@@ -6,6 +6,7 @@ import com.sicnu.pojo.Paper;
 import com.sicnu.pojo.User;
 import com.sicnu.pojo.teamExamine.BookTeamExamine;
 import com.sicnu.pojo.teamExamine.PaperTeamExamine;
+import com.sicnu.pojo.teamMap.UserAuth;
 import com.sicnu.service.PaperService;
 import com.sicnu.util.Result;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -41,6 +42,12 @@ public class PaperServiceImpl implements PaperService {
     PaperExamineMapper paperExamineMapper;
     @Resource
     CacheUserMapper cacheUserMapper;
+    @Resource
+    PeriodicalPaperExamineMapper periodicalPaperExamineMapper;
+    @Resource
+    PeriodicalPaperMapper periodicalPaperMapper;
+    @Resource
+    private RoleAuthMapper roleAuthMapper;
     /**
      * 添加论文
      *
@@ -48,13 +55,14 @@ public class PaperServiceImpl implements PaperService {
      * @return
      */
     @Override
-    public Result addPaper(Paper paper,String checkMessage,String message) {
+    public Result addPaper(Paper paper,String checkMessage,String message,Integer[] periodicalIds) {
         try {
             Integer paperExamineId = paperExamineMapper.selectPaperExamineId(paper.getLeader_id(), paper.getPaper_name());
             List<PaperTeamExamine> paperTeamExamines = paperTeamExamineMapper.selectPaperTeamExamineById(paperExamineId);
-
+            List<Integer> periodicalIdList = periodicalPaperExamineMapper.findPeriodicalExamineByPaperId(paperExamineId);
             //获取项目负责人信息
             User user = userDao.findUserById(paper.getLeader_id());
+
             //创建邮件环境，反馈信息
             MimeMessage mailMessage = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mailMessage);
@@ -68,6 +76,7 @@ public class PaperServiceImpl implements PaperService {
                 helper.setFrom("1776557392@qq.com");
                 mailSender.send(mailMessage);
                 //从待审核里面删除
+                periodicalPaperExamineMapper.delPeriodicalExamineByPaperId(paperExamineId);
                 paperTeamExamineMapper.delPaperTeamExamineTeam(paperExamineId);
                 paperExamineMapper.delPaperExamine(paper.getLeader_id(),paper.getPaper_name());
                 rs = new Result("400", "审核结果已反馈", null);
@@ -83,18 +92,16 @@ public class PaperServiceImpl implements PaperService {
                 for (PaperTeamExamine paperTeamExamine : paperTeamExamines) {
                     paperTeamMapper.addPaperTeamUser(paperId,paperTeamExamine.getUser_id(),paperTeamExamine.getContribution());
                 }
+                for (int i = 0; i < periodicalIdList.size(); i++) {
+                    periodicalPaperMapper.addPeriodicalPaper(paperId, periodicalIdList.get(i));
+                }
                 //从待审核删除
+                periodicalPaperExamineMapper.delPeriodicalExamineByPaperId(paperExamineId);
                 paperTeamExamineMapper.delPaperTeamExamineTeam(paperExamineId);
                 paperExamineMapper.delPaperExamine(paper.getLeader_id(),paper.getPaper_name());
                 rs = new Result("200", "审核结果已反馈", null);
             }
-//            Paper paper1 = paperMapper.selectPaperByNumber(paper.getInclude_number());
-//            if (paper1 != null) {
-//                rs = new Result("400", "该专利已经存在", null);
-//            } else {
-//                paperMapper.addPaper(paper);
-//                rs = new Result("200", "注册成功", null);
-//            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -126,7 +133,6 @@ public class PaperServiceImpl implements PaperService {
 
             map.put("paper_name", paper.getPaper_name());
             map.put("pt_id", paper.getPt_id());
-            map.put("leader_id", uid);
             map.put("periodical_id", paper.getPeriodical_id());
             map.put("publish_time", paper.getPublish_time());
             map.put("include_number", paper.getInclude_number());
@@ -146,14 +152,33 @@ public class PaperServiceImpl implements PaperService {
             }
 
             System.out.println("map:"+ map);
-            List<Paper> papers = paperMapper.selectPaperByCondition(map);
+            User user = userDao.findUserById(uid);
+            List<UserAuth> userAuths = roleAuthMapper.findUserAuth(user.getRole_id());
+            int cnt =0;
+            for (UserAuth userAuth : userAuths) {
+                if (userAuth.getAuth_resource().equals("/allAward")){
+                    cnt=1;
+                }
+            }
 
-            Integer total = paperMapper.selectTotalPaper(map);
-            Map<String, Object> map1 = new HashMap<>();
-            map1.put("total", total);
-            list = new ArrayList<>();
-            list.add(map1);
-            list.add(papers);
+            if (cnt==1){
+                List<Paper> papers = paperMapper.selectPaperByCondition(map);
+                Integer total = paperMapper.selectTotalPaper(map);
+                Map<String, Object> map1 = new HashMap<>();
+                map1.put("total", total);
+                list = new ArrayList<>();
+                list.add(map1);
+                list.add(papers);
+            }else {
+                map.put("leader_id", uid);
+                List<Paper> papers = paperMapper.selectPaperByCondition(map);
+                Integer total = paperMapper.selectTotalPaper(map);
+                Map<String, Object> map1 = new HashMap<>();
+                map1.put("total", total);
+                list = new ArrayList<>();
+                list.add(map1);
+                list.add(papers);
+            }
         } catch (ParseException e) {
             e.printStackTrace();
         }

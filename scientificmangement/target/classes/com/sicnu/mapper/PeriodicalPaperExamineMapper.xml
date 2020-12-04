@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sicnu.mapper.PeriodicalPaperExamineMapper">
+    <insert id="addPeriodicalPaperExamine" parameterType="PeriodicalPaperExamine">
+        insert into periodical_paper
+        (
+          pe_id,
+          periodical_id
+          )
+          values
+          (
+          #{pe_id},
+          #{periodical_id}
+          )
+    </insert>
+    <select id="findPeriodicalExamineByPaperId" parameterType="int" resultType="PeriodicalPaperExamine">
+        select periodical_id from periodical_paper
+        where
+        pe_id = #{pe_id}
+    </select>
+    <delete id="delPeriodicalExamineByPaperId" parameterType="int">
+        delete from periodical_paper
+        where
+        pe_id = #{pe_id}
+    </delete>
+</mapper>

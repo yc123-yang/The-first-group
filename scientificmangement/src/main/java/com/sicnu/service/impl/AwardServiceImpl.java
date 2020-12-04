@@ -5,6 +5,7 @@ import com.sicnu.pojo.Award;
 import com.sicnu.pojo.CacheUser;
 import com.sicnu.pojo.User;
 import com.sicnu.pojo.teamExamine.AwardTeamExamine;
+import com.sicnu.pojo.teamMap.UserAuth;
 import com.sicnu.service.AwardService;
 import com.sicnu.util.Result;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -40,7 +41,8 @@ public class AwardServiceImpl implements AwardService {
     JavaMailSenderImpl mailSender;
     @Resource
     CacheUserMapper cacheUserMapper;
-
+    @Resource
+    RoleAuthMapper roleAuthMapper;
     @Override
     public Result addAward(Award award,String checkMessage,String message) {
         try {
@@ -103,7 +105,6 @@ public class AwardServiceImpl implements AwardService {
             //获取登录用户的id
             Integer uid = cacheUsers.get(0).getUser_id();
             map.put("achievement_name", award.getAchievement_name());
-            map.put("leader_id", uid);
             map.put("award_name", award.getAward_name());
             map.put("issuing_authority", award.getIssuing_authority());
             map.put("approval_number", award.getApproval_number());
@@ -125,14 +126,32 @@ public class AwardServiceImpl implements AwardService {
             if (!award_time_end.equals("")) {
                 map.put("award_time_end", sdf.parse(award_time_end));
             }
-            System.out.println(map);
-            List<Award> awards = awardMapper.selectAwardByCondition(map);
-            Integer total = awardMapper.selectTotalAward(map);
-            Map<String, Object> map1 = new HashMap<>();
-            map1.put("total", total);
-            list = new ArrayList<>();
-            list.add(map1);
-            list.add(awards);
+            User user = userDao.findUserById(uid);
+            List<UserAuth> userAuths = roleAuthMapper.findUserAuth(user.getRole_id());
+            int cnt =0;
+            for (UserAuth userAuth : userAuths) {
+                if (userAuth.getAuth_resource().equals("/allAward")){
+                    cnt=1;
+                }
+            }
+           if (cnt==1){
+               List<Award> awards = awardMapper.selectAwardByCondition(map);
+               Integer total = awardMapper.selectTotalAward(map);
+               Map<String, Object> map1 = new HashMap<>();
+               map1.put("total", total);
+               list = new ArrayList<>();
+               list.add(map1);
+               list.add(awards);
+           }else {
+               map.put("leader_id", uid);
+               List<Award> awards = awardMapper.selectAwardByCondition(map);
+               Integer total = awardMapper.selectTotalAward(map);
+               Map<String, Object> map1 = new HashMap<>();
+               map1.put("total", total);
+               list = new ArrayList<>();
+               list.add(map1);
+               list.add(awards);
+           }
         } catch (ParseException e) {
             e.printStackTrace();
         }
