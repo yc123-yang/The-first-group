@@ -4,7 +4,6 @@ import com.sicnu.pojo.Project;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -28,4 +27,6 @@ public interface ProjectMapper {
     Project findProjectById(Integer project_id);
     Integer selectCountProject(Map<String, Object> map);
     List<Project> findProjectByLeaderId(Integer leader_id);
+    List<Project> selectProjectByIds(Integer[] idlist);
+
 }

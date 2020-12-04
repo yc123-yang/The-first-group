@@ -278,4 +278,14 @@
         </where>
     </select>
 
+    <select id="selectProjectByIds" resultType="Project" parameterType="java.util.ArrayList">
+        select * from project where
+        <if test="idList != null and idList.size() > 0">
+            project_id in (
+            <foreach collection="idList" item="project_id" separator=",">
+                #{project_id}
+            </foreach>
+            )
+        </if>
+    </select>
 </mapper>

@@ -231,4 +231,20 @@
         and
         patent_name = #{patent_name}
     </select>
+
+    <select id="findPatentById" parameterType="Patent" resultType="Patent">
+        select * from patent where
+        patent_id = #{patent_id}
+    </select>
+
+    <select id="selectPatentByIds" resultType="Patent" parameterType="java.util.ArrayList">
+        select * from patent where
+        <if test="idList != null and idList.size() > 0">
+            patent_id in (
+            <foreach collection="idList" item="patent_id" separator=",">
+                #{patent_id}
+            </foreach>
+            )
+        </if>
+    </select>
 </mapper>

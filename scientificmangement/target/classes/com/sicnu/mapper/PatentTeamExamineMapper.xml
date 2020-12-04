@@ -27,11 +27,27 @@
         pe_id = #{pe_id}
     </delete>
 
-    <select id="selectPatentTeamExamineById" parameterType="int">
+    <select id="selectPatentTeamExamineById" parameterType="int" resultType="PatentTeamExamine">
         select * from patent_team_examine
         where
         pe_id = #{pe_id}
     </select>
 
+    <select id="selectPatentTeamExamine" parameterType="int" resultType="com.sicnu.pojo.teamMap.PatentTeamMap">
+        SELECT
+        u.user_name name,u.department_id department_id,
+        t.role_id role_id,
+        t.contribution contribution
+        FROM
+        user u,
+        patent_examine p,
+        patent_team_examine t
+        WHERE
+        p.pe_id = #{pe_id}
+        and
+        p.pe_id = t.pe_id
+        and
+        t.user_id = u.user_id
+    </select>
 
 </mapper>

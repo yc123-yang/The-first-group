@@ -1,6 +1,8 @@
 package com.sicnu.mapper;
 
 import com.sicnu.pojo.Award;
+import com.sicnu.pojo.Book;
+import com.sun.mail.imap.protocol.INTERNALDATE;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -28,4 +30,5 @@ public interface AwardMapper {
 
     Integer selectAwardId(Integer leader_id,String award_name);
     Award findAwardById(Integer award_id);
+    List<Award> selectBookByIds(Integer[] idlist);
 }

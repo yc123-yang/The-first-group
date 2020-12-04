@@ -30,6 +30,20 @@
         where
         pe_id = #{pe_id}
     </select>
-
+    <select id="selectProjectTeamExamineUser" parameterType="int" resultType="com.sicnu.pojo.teamMap.ProjectTeamMap">
+        SELECT
+        u.user_name name,u.department_id department_id,
+        u.role_id role_id,t.team_role team_role
+        FROM
+        user u,
+        project_examine p,
+        project_team_examine t
+        WHERE
+        p.pe_id = #{pe_id}
+        and
+        p.pe_id = t.pe_id
+        and
+        t.user_id = u.user_id
+    </select>
 
 </mapper>

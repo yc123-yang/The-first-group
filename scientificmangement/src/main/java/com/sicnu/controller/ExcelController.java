@@ -1,5 +1,6 @@
 package com.sicnu.controller;
 
+import com.sicnu.mapper.ProjectMapper;
 import com.sicnu.pojo.Project;
 import com.sicnu.service.impl.ProjectServiceImpl;
 import com.sicnu.util.Result;
@@ -24,14 +25,15 @@ public class ExcelController {
     @Resource
     private ProjectServiceImpl projectService;
 
+    @Resource
+    ProjectMapper projectMapper;
     private Result rs;
 
-    @RequestMapping(value = "/excel/companyExcel",method = RequestMethod.POST)
+    @RequestMapping(value = "/excel/exportProjectExcel",method = RequestMethod.POST)
     @ResponseBody
-    public void exportCompanyExcel( Project project, String start_time_start, String start_time_end, String complete_time_start, String complete_time_end, String plan_time_start, String plan_time_end, Integer pageNum, Integer pageSize,HttpServletResponse response) {
+    public void exportProjectExcel(Integer[] idList, HttpServletResponse response) {
         try {
-            rs = projectService.selectAllProjectByCondition(project, start_time_start, start_time_end, complete_time_start, complete_time_end, plan_time_start, plan_time_end, pageNum, pageSize);
-            List<Project> projectLists = (List<Project>) rs.getData();
+            List<Project> projects =projectMapper.selectProjectByIds(idList);
             HSSFWorkbook wb = new HSSFWorkbook();
 
             HSSFSheet sheet = wb.createSheet("委托方信息列表");
@@ -65,9 +67,9 @@ public class ExcelController {
             row.createCell(15).setCellValue("经费");
             row.createCell(16).setCellValue("结题形式");
 
-            for (int i = 0; i < projectLists.size(); i++) {
+            for (int i = 0; i < projects.size(); i++) {
                 row = sheet.createRow(i + 2);
-                Project project1 = projectLists.get(i);
+                Project project1 = projects.get(i);
                 row.createCell(0).setCellValue(project1.getProject_name());
                 row.createCell(1).setCellValue(project1.getLeader_id());
                 row.createCell(2).setCellValue(project1.getDepartment_id());

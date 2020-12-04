@@ -233,4 +233,15 @@
         select * from award where
         award_id = #{award_id}
     </select>
+
+    <select id="selectBookByIds" resultType="Award" parameterType="java.util.ArrayList">
+        select * from award where
+        <if test="idList != null and idList.size() > 0">
+            award_id in (
+            <foreach collection="idList" item="award_id" separator=",">
+                #{award_id}
+            </foreach>
+            )
+        </if>
+    </select>
 </mapper>

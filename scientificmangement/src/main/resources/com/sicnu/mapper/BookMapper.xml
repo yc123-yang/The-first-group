@@ -259,4 +259,15 @@
         where
         book_id = #{book_id}
     </select>
+
+    <select id="selectBookByIds" resultType="Book" parameterType="java.util.ArrayList">
+        select * from book where
+        <if test="idList != null and idList.size() > 0">
+            book_id in (
+            <foreach collection="idList" item="book_id" separator=",">
+                #{book_id}
+            </foreach>
+            )
+        </if>
+    </select>
 </mapper>

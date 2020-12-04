@@ -27,11 +27,26 @@
         be_id = #{be_id}
     </delete>
 
-    <select id="selectBookTeamExamineById" parameterType="int">
+    <select id="selectBookTeamExamineById" parameterType="int" resultType="BookTeamExamine">
         select * from book_team_examine
         where
         be_id = #{be_id}
     </select>
-
+    <select id="selectBookTeamExamine" parameterType="int" resultType="com.sicnu.pojo.teamMap.BookTeamMap">
+        SELECT
+        u.user_name name,u.department_id department_id,
+        t.role_id role_id,
+        t.contribution contribution
+        FROM
+        user u,
+        book_examine b,
+        book_team_examine t
+        WHERE
+        b.be_id = #{be_id}
+        and
+        b.be_id = t.be_id
+        and
+        t.user_id = u.user_id
+    </select>
 
 </mapper>

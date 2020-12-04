@@ -163,15 +163,7 @@
 
     <select id="selectCountPaper" resultType="int" parameterType="int">
         select count(*) cnt
-        from
-        paper
-        where
-        leader_id = #{leader_id}
-    </select>
-
-
-    <select id="findPaperByLeaderId" parameterType="java.util.HashMap" resultType="Paper">
-        select * from Paper
+        from paper
         <where>
             <if test="leader_id!=null and leader_id!=''">
                 and leader_id = #{leader_id}
@@ -185,11 +177,35 @@
         </where>
     </select>
 
+
+    <select id="findPaperByLeaderId" parameterType="java.util.HashMap" resultType="Paper">
+        select * from Paper
+        where
+        leader_id = #{leader_id}
+    </select>
+
     <select id="selectPaperId" parameterType="Paper" resultType="int">
         select paper_id from paper
         where
         leader_id = #{leader_id}
         and
         paper_name = #{paper_name}
+    </select>
+
+    <select id="findPaperById" parameterType="java.util.HashMap" resultType="Paper">
+        select * from Paper
+        where
+        paper_id = #{paper_id}
+    </select>
+
+    <select id="selectPaperByIds" resultType="Paper" parameterType="java.util.ArrayList">
+        select * from paper where
+        <if test="idList != null and idList.size() > 0">
+            paper_id in (
+            <foreach collection="idList" item="paper_id" separator=",">
+                #{paper_id}
+            </foreach>
+            )
+        </if>
     </select>
 </mapper>

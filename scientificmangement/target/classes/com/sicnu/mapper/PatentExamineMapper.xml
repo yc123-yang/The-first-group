@@ -114,54 +114,7 @@
             limit #{key_offset},#{pageSize}
         </if>
     </select>
-<!--    <update id="updatePatent" parameterType="Patent">-->
-<!--        update patent-->
-<!--        <trim prefix="set" suffixOverrides=",">-->
-<!--            <if test="patent_name!=null and patent_name!=''">-->
-<!--                patent_name = #{patent_name},-->
-<!--            </if>-->
-<!--            <if test="leader_id!=null and leader_id!=''">-->
-<!--                leader_id = #{leader_id},-->
-<!--            </if>-->
-<!--            <if test="pt_id!=null and pt_id!=''">-->
-<!--                pt_id = #{pt_id},-->
-<!--            </if>-->
-<!--            <if test="pr_id!=null and pr_id!=''">-->
-<!--                pr_id = #{pr_id},-->
-<!--            </if>-->
-<!--            <if test="ps_id!=null and ps_id!=''">-->
-<!--                ps_id = #{ps_id},-->
-<!--            </if>-->
-<!--            <if test="aod_id!=null and aod_id!=''">-->
-<!--                aod_id = #{aod_id},-->
-<!--            </if>-->
-<!--            <if test="application_number!=null and application_number!=''">-->
-<!--                application_number = #{application_number},-->
-<!--            </if>-->
-<!--            <if test="application_time!=null  ">-->
-<!--                <![CDATA[-->
-<!--                 application_time = #{application_time},-->
-<!--                ]]>-->
-<!--            </if>-->
-<!--            <if test="public_number!=null and public_number!=''">-->
-<!--                public_number =#{public_number},-->
-<!--            </if>-->
-<!--            <if test="public_time!=null ">-->
-<!--                <![CDATA[-->
-<!--                 public_time = #{public_time},-->
-<!--                ]]>-->
-<!--            </if>-->
-<!--            <if test="authorization_number!=null and authorization_number!=''">-->
-<!--                authorization_number =#{authorization_number},-->
-<!--            </if>-->
-<!--            <if test="authorization_time!=null ">-->
-<!--                <![CDATA[-->
-<!--                authorization_time = #{authorization_time},-->
-<!--                ]]>-->
-<!--            </if>-->
-<!--        </trim>-->
-<!--        where patent_id = #{patent_id}-->
-<!--    </update>-->
+
     <delete id="delPatentExamineById" parameterType="int">
         delete from patent_examine
         where
@@ -242,5 +195,10 @@
         leader_id = #{leader_id}
         and
         patent_name = #{patent_name}
+    </select>
+
+    <select id="findPatentExamineById" parameterType="PatentExamine" resultType="PatentExamine">
+        select * from patent_examine where
+        pe_id = #{pe_id}
     </select>
 </mapper>

@@ -32,6 +32,21 @@
         where
         ae_id = #{ae_id}
     </select>
-
+    <select id="selectAwardTeamExamineUser" parameterType="int" resultType="com.sicnu.pojo.teamMap.AwardTeamMap">
+        SELECT
+        u.user_name name,u.department_id department_id,
+        u.role_id role_id,
+        t.contribution contribution
+        FROM
+        user u,
+        award_examine a,
+        award_team_examine t
+        WHERE
+        a.ae_id = #{ae_id}
+        and
+        a.ae_id = t.ae_id
+        and
+        t.user_id = u.user_id
+    </select>
 
 </mapper>

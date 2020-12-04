@@ -197,4 +197,15 @@
         where
         paper_id = #{paper_id}
     </select>
+
+    <select id="selectPaperByIds" resultType="Paper" parameterType="java.util.ArrayList">
+        select * from paper where
+        <if test="idList != null and idList.size() > 0">
+            paper_id in (
+            <foreach collection="idList" item="paper_id" separator=",">
+                #{paper_id}
+            </foreach>
+            )
+        </if>
+    </select>
 </mapper>

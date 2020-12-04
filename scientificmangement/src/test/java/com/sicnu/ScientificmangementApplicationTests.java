@@ -2,8 +2,10 @@ package com.sicnu;
 
 
 
+import com.sicnu.mapper.AwardTeamExamineMapper;
 import com.sicnu.pojo.PatentExamine;
 import com.sicnu.pojo.ProjectExamine;
+import com.sicnu.pojo.teamMap.AwardTeamMap;
 import com.sicnu.service.ProjectExamineService;
 import com.sicnu.service.impl.AwardExamineServiceImpl;
 import com.sicnu.service.impl.BookExamineServiceImpl;
@@ -24,8 +26,9 @@ import java.util.*;
 @SpringBootTest
 public class ScientificmangementApplicationTests {
 
-
     @Resource
+    AwardTeamExamineMapper awardTeamExamineMapper;
+     @Resource
     AwardExamineServiceImpl awardExamineService;
 
     @Resource
@@ -66,7 +69,9 @@ public class ScientificmangementApplicationTests {
         Integer[] user_id = {1,2,3};
         String[] team_role = {"1","2","3"};
 //        Double[] contribution = {1.00,2.00,3.00};
-        projectExamineService.addProjectExamine(projectExamine,user_id,team_role);
+//        projectExamineService.addProjectExamine(projectExamine,user_id,team_role);
+       List<AwardTeamMap> awardTeamMaps =awardTeamExamineMapper.selectAwardTeamExamine(28);
+        System.out.println(awardTeamMaps.get(0).getName());
     }
 
 }
