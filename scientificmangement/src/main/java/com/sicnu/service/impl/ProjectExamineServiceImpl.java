@@ -128,6 +128,17 @@ public class ProjectExamineServiceImpl implements ProjectExamineService {
         return rs;
     }
 
+    @Override
+    public Result findProjectExamineById(Integer pe_id) {
+        try {
+            ProjectExamine projectExamine = projectExamineMapper.findProjectExamineById(pe_id);
+            rs = new Result("200",null,projectExamine);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
     public Result selectAllProjectExamineByCondition(ProjectExamine projectExamine, String start_time_start, String start_time_end, String complete_time_start, String complete_time_end, String plan_time_start, String plan_time_end, Integer pageNum, Integer pageSize,String apply_time_start,String apply_time_end) {
         List<Object> list = null;
         try {

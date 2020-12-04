@@ -119,6 +119,17 @@ public class PatentExamineServiceImpl implements PatentExamineService {
         return rs;
     }
 
+    @Override
+    public Result findPatentExamineById(Integer pe_id) {
+        try {
+            PatentExamine patentExamine = patentExamineMapper.findPatentExamineById(pe_id);
+            rs = new Result("200",null,patentExamine);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
     public Result selectAllPatentExamineByCondition(PatentExamine patentExamine, String application_time_start, String application_time_end, String public_time_start, String public_time_end, String authorization_time_start, String authorization_time_end, Integer pageSize, Integer pageNum, String apply_time_start, String apply_time_end) {
         List<Object> list = null;
         try {

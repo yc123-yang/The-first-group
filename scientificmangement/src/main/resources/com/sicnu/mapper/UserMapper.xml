@@ -106,7 +106,7 @@
     </select>
 
     <select id="findNameId" parameterType="string" resultType="User">
-        select user_id,user_name,department_id from user
+        select user_id,user_name,department_id,role_id from user
         where
         user_name like '%${user_name}%'
     </select>

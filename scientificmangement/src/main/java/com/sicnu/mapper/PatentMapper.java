@@ -1,6 +1,7 @@
 package com.sicnu.mapper;
 
 import com.sicnu.pojo.Patent;
+import com.sun.mail.imap.protocol.INTERNALDATE;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -32,4 +33,5 @@ public interface PatentMapper {
     Integer selectPatentId(Integer leader_id,String petent_name);
 
     void delPatentById(Integer patent_id);
+    Patent findPatentById(Integer patent_id);
 }

@@ -253,4 +253,10 @@
         and
         book_name = #{book_name}
     </select>
+
+    <select id="findBookById" parameterType="int" resultType="Book">
+        select * from book
+        where
+        book_id = #{book_id}
+    </select>
 </mapper>

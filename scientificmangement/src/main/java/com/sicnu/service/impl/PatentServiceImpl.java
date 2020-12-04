@@ -257,5 +257,16 @@ public class PatentServiceImpl implements PatentService {
         return rs = new Result("200", null, list);
     }
 
+    @Override
+    public Result findPatentById(Integer patent_id) {
+        try {
+            Patent patent = patentMapper.findPatentById(patent_id);
+            rs = new Result("200",null,patent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
 
 }

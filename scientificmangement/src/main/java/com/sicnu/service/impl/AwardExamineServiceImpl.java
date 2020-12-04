@@ -114,6 +114,18 @@ public class AwardExamineServiceImpl implements AwardExamineService {
         rs = new Result("200","删除成功",null);
         return rs;
     }
+
+    @Override
+    public Result findAwardExamineById(Integer ae_id) {
+        try {
+            AwardExamine awardExamine = awardExamineMapper.findAwardExamineById(ae_id);
+            rs = new Result("200",null,awardExamine);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
     public Result selectAllAwardExamineByCondition(AwardExamine awardExamine, String award_time_start, String award_time_end, Integer pageSize, Integer pageNum, String apply_time_start, String apply_time_end) {
         List<Object> list = null;
         try {

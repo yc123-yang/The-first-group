@@ -6,6 +6,7 @@ import com.sicnu.service.impl.PaperExamineServiceImpl;
 import com.sicnu.util.Result;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -25,7 +26,7 @@ public class PaperExamineController {
 
 
 
-    @PostMapping("/paperExamine/addPaperExamine")
+    @GetMapping("/paperExamine/addPaperExamine")
     public Result addPaperExamine(PaperExamine paperExamine,Integer[] user_id,Double[] contribution) {
         try {
             rs=paperExamineService.addPaperExamine(paperExamine, user_id, contribution);
@@ -57,6 +58,16 @@ public class PaperExamineController {
         List<Object> list = null;
         try {
             rs = paperExamineService.selectAllPaperExamineByCondition(paperExamine, publish_time_start, publish_time_end, pageNum, pageSize, apply_time_start, apply_time_end);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
+    @PostMapping("/paperExamine/findPaperExamineById")
+    public Result findPaperExamineById(Integer pe_id) {
+        try {
+            rs = paperExamineService.findPaperExamineById(pe_id);
         } catch (Exception e) {
             e.printStackTrace();
         }

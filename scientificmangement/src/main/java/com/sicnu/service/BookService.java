@@ -11,9 +11,10 @@ public interface BookService {
 
     Result selectBookByCondition(Book book, String publish_time_start, String publish_time_end, Integer pageSize, Integer pageNum) throws ParseException;
 
-    Result delBook(Integer book_id);
+    Result delBookById(Integer book_id);
 
     Result updateBook(Book book);
     Result selectAllBookByCondition(Book book, String publish_time_start, String publish_time_end, Integer pageSize, Integer pageNum) throws ParseException;
+    Result findBookById(Integer book_id);
 
 }

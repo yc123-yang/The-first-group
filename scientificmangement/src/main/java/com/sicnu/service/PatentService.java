@@ -17,5 +17,5 @@ public interface PatentService {
 
     Result delPatentById(Integer patent_id);
     Result selectAllPatentByCondition(Patent patent, String application_time_start, String application_time_end, String public_time_start, String public_time_end, String authorization_time_start, String authorization_time_end, Integer pageSize, Integer pageNum) throws ParseException;
-
+    Result findPatentById(Integer patent_id);
 }

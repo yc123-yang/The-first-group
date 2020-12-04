@@ -148,9 +148,9 @@ public class AwardServiceImpl implements AwardService {
     }
 
     @Override
-    public Result delAward(Integer award_id) {
+    public Result delAwardById(Integer award_id) {
         try {
-            awardMapper.delAward(award_id);
+            awardMapper.delAwardById(award_id);
             rs = new Result("200", "删除成功", null);
         } catch (Exception e) {
             e.printStackTrace();
@@ -196,5 +196,16 @@ public class AwardServiceImpl implements AwardService {
             e.printStackTrace();
         }
         return rs = new Result("200", null, list);
+    }
+
+    @Override
+    public Result findAwardById(Integer award_id) {
+        try {
+            Award award = awardMapper.findAwardById(award_id);
+            rs = new Result("200",null,award);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
     }
 }

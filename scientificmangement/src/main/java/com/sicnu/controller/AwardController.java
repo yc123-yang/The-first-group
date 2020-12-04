@@ -52,9 +52,9 @@ public class AwardController {
     }
 
     @PostMapping("/award/delAward")
-    public Result delAward(Integer award_id) {
+    public Result delAwardById(Integer award_id) {
         try {
-            rs = awardService.delAward(award_id);
+            rs = awardService.delAwardById(award_id);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -66,6 +66,16 @@ public class AwardController {
         try {
             rs = awardService.selectAllAwardByCondition(award, award_time_start, award_time_end, pageSize, pageNum);
         } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
+    @PostMapping("/award/findAwardById")
+    public Result findAwardById(Integer award_id) {
+        try {
+            rs = awardService.findAwardById(award_id);
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return rs;

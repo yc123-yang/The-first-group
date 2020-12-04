@@ -18,7 +18,7 @@ public interface BookMapper {
 
     List<Book> selectBookByCondition(Map<String, Object> map);
 
-    void delBook(Integer book_id);
+    void delBookById(Integer book_id);
 
     void updateBook(Book book);
 
@@ -28,4 +28,5 @@ public interface BookMapper {
 
     List<Book> findBookByLeaderId(Integer leader_id);
     Integer selectBookId(Integer leader_id,String Book_name);
+    Book findBookById(Integer book_id);
 }

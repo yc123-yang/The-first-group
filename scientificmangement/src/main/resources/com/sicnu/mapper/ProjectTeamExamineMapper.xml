@@ -25,7 +25,7 @@
         pe_id = #{pe_id}
     </delete>
 
-    <select id="selectProjectTeamExamineById" parameterType="int">
+    <select id="selectProjectTeamExamineById" parameterType="int" resultType="PatentTeamExamine">
         select * from project_team_examine
         where
         pe_id = #{pe_id}

@@ -25,4 +25,5 @@ public interface PaperMapper {
     Integer selectCountPaper(Map<String, Object> map);
     List<Paper> findPaperByLeaderId(Integer leader_id);
     Integer selectPaperId(Integer leader_id,String paper_name);
+    Paper findPaperById(Integer paper_id);
 }

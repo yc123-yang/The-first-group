@@ -41,9 +41,9 @@ public class BookController {
     }
 
     @PostMapping("/book/delBook")
-    public Result delBook(Integer book_id) {
+    public Result delBookById(Integer book_id) {
         try {
-            rs = bookService.delBook(book_id);
+            rs = bookService.delBookById(book_id);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -71,4 +71,13 @@ public class BookController {
         return rs;
     }
 
+    @PostMapping("/book/findBookById")
+    public Result findBookById(Integer book_id) {
+        try {
+            rs = bookService.findBookById(book_id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
 }

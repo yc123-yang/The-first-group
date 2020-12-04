@@ -17,4 +17,5 @@ public interface ProjectExamineMapper {
     Integer selectTotalProjectExamine(Map<String,Object> map);
     void delProjectExamineById(Integer pe_id);
     Integer selectProjectExamineId(Integer leader_id,String project_name);
+    ProjectExamine findProjectExamineById(Integer pe_id);
 }

@@ -139,9 +139,9 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
-    public Result delBook(Integer book_id) {
+    public Result delBookById(Integer book_id) {
         try {
-            bookMapper.delBook(book_id);
+            bookMapper.delBookById(book_id);
             rs = new Result("200","删除成功",null);
         } catch (Exception e) {
             e.printStackTrace();
@@ -199,5 +199,16 @@ public class BookServiceImpl implements BookService{
             e.printStackTrace();
         }
         return rs = new Result("200", null, list);
+    }
+
+    @Override
+    public Result findBookById(Integer book_id) {
+        try {
+            Book book = bookMapper.findBookById(book_id);
+            rs = new Result("200",null,book);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
     }
 }

@@ -117,60 +117,6 @@
             limit #{key_offset},#{pageSize}
         </if>
     </select>
-<!--    <update id="updateBook" parameterType="BookExamine">-->
-<!--        update Book-->
-<!--        <trim prefix="set" suffixOverrides=",">-->
-<!--            <if test="book_name!=null and book_name!=''">-->
-<!--                book_name = #{book_name},-->
-<!--            </if>-->
-<!--            <if test="leader_id!=null and leader_id!=''">-->
-<!--                leader_id = #{leader_id},-->
-<!--            </if>-->
-<!--            <if test="press!=null and press!=''">-->
-<!--                press = #{press},-->
-<!--            </if>-->
-<!--            <if test="bt_id!=null and bt_id!=''">-->
-<!--                bt_id = #{bt_id},-->
-<!--            </if>-->
-<!--            <if test="pp_id!=null and pp_id!=''">-->
-<!--                pp_id = #{pp_id},-->
-<!--            </if>-->
-<!--            <if test="isbn!=null and isbn!=''">-->
-<!--                isbn = #{isbn},-->
-<!--            </if>-->
-<!--            <if test="word_number!=null and word_number!=''">-->
-<!--                word_number = #{word_number},-->
-<!--            </if>-->
-
-<!--            <if test="public_number!=null and public_number!=''">-->
-<!--                public_number =#{public_number},-->
-<!--            </if>-->
-<!--            <if test="trans!=null and trans!=''">-->
-<!--                trans =#{trans},-->
-<!--            </if>-->
-<!--            <if test="sc_id!=null and sc_id!=''">-->
-<!--                sc_id =#{sc_id},-->
-<!--            </if>-->
-<!--            <if test="subject_id!=null and subject_id!=''">-->
-<!--                subject_id =#{subject_id},-->
-<!--            </if>-->
-<!--            <if test="publish_time!=null  ">-->
-<!--                <![CDATA[-->
-<!--                 publish_time = #{publish_time},-->
-<!--                ]]>-->
-<!--            </if>-->
-<!--            <if test="aod_id!=null and aod_id!=''">-->
-<!--                aod_id =#{aod_id},-->
-<!--            </if>-->
-<!--            <if test="sd_id!=null and sd_id!=''">-->
-<!--                sd_id =#{sd_id},-->
-<!--            </if>-->
-<!--            <if test="rt_id!=null and rt_id!=''">-->
-<!--                rt_id =#{rt_id}-->
-<!--            </if>-->
-<!--        </trim>-->
-<!--        where book_id = #{book_id}-->
-<!--    </update>-->
     <delete id="delBookExamineById" parameterType="int">
         delete from book_examine
         where
@@ -260,5 +206,10 @@
         book_name = #{book_name}
         and
         leader_id = #{leader_id}
+    </select>
+
+    <select id="findBookExamineById" parameterType="BookExamine" resultType="BookExamine">
+        select * from book_examine where
+        be_id = #{be_id}
     </select>
 </mapper>

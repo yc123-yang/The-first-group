@@ -16,4 +16,5 @@ public interface AwardExamineMapper {
     void delAwardExamine(Integer leader_id,String award_name);
     Integer selectTotalAwardExamine(Map<String,Object> map);
     Integer selectAwardExamineId(String award_name,Integer leader_id);
+    AwardExamine findAwardExamineById(Integer ae_id);
 }

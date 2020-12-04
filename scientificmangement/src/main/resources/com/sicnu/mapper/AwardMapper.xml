@@ -149,7 +149,7 @@
     <delete id="delAwardById" parameterType="int">
         delete from award
         where
-        ae_id = #{ae_id}
+        award_id = #{award_id}
     </delete>
     <select id="selectTotalAward" parameterType="java.util.HashMap" resultType="int">
         select * from award
@@ -228,5 +228,9 @@
         leader_id = #{leader_id}
         and
         award_name = #{award_name}
+    </select>
+    <select id="findAwardById" parameterType="Award" resultType="Award">
+        select * from award where
+        award_id = #{award_id}
     </select>
 </mapper>

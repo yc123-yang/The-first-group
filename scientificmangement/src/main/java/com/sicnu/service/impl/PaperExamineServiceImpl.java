@@ -108,6 +108,17 @@ public class PaperExamineServiceImpl implements PaperExamineService {
         return rs;
     }
 
+    @Override
+    public Result findPaperExamineById(Integer pe_id) {
+        try {
+            PaperExamine paperExamine = paperExamineMapper.findPaperExamineById(pe_id);
+            rs = new Result("200",null,paperExamine);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
     public Result selectAllPaperExamineByCondition(PaperExamine paperExamine, String publish_time_start, String publish_time_end, Integer pageNum, Integer pageSize, String apply_time_start, String apply_time_end) {
         List<Object> list = null;
         try {

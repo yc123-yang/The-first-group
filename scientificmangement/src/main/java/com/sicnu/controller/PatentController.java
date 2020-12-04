@@ -72,4 +72,14 @@ public class PatentController {
         }
         return rs;
     }
+
+    @PostMapping("/patent/findPatentById")
+    public Result findPatentById(Integer patent_id) {
+        try {
+            rs = patentService.findPatentById(patent_id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
 }

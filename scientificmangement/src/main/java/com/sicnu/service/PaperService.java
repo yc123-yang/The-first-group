@@ -17,4 +17,7 @@ public interface PaperService {
     Result delPaperById(Integer paper_id);
 
     Result selectAllPaperByCondition(Paper paper, String publish_time_start, String publish_time_end, Integer pageNum, Integer pageSize) throws ParseException;
+
+    Result findPaperById(Integer paper_id);
+
 }

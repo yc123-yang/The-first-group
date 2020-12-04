@@ -70,4 +70,14 @@ public class PaperController {
         return rs;
     }
 
+    @PostMapping("/paper/findPaperById")
+
+    public Result findPaperById(Integer paper_id) {
+        try {
+            rs = paperService.findPaperById(paper_id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
 }

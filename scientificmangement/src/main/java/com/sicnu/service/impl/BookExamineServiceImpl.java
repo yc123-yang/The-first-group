@@ -113,6 +113,17 @@ public class BookExamineServiceImpl implements BookExamineService {
         return rs;
     }
 
+    @Override
+    public Result findBookExamineById(Integer be_id) {
+        try {
+            BookExamine bookExamine =bookExamineMapper.findBookExamineById(be_id);
+            rs = new Result("200",null,bookExamine);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
     public Result selectAllBookExamineByCondition(BookExamine bookExamine, String publish_time_start, String publish_time_end, Integer pageSize, Integer pageNum, String apply_time_start, String apply_time_end) {
         List<Object> list = null;
 

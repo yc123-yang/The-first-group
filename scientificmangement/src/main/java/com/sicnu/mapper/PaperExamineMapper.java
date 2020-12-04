@@ -16,4 +16,5 @@ public interface PaperExamineMapper {
     Integer selectTotalPaperExamine(Map<String,Object> map);
     void delPaperExamineById(Integer pe_id);
     Integer selectPaperExamineId(Integer leader_id,String paper_name);
+    PaperExamine findPaperExamineById(Integer pe_id);
 }

@@ -5,10 +5,7 @@ import com.sicnu.pojo.CacheUser;
 import com.sicnu.service.impl.AwardExamineServiceImpl;
 import com.sicnu.util.Result;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.text.ParseException;
@@ -28,7 +25,7 @@ public class AwardExamineController {
 
     private Result rs;
 
-    @PostMapping("/awardExamine/addAwardExamine")
+    @GetMapping("/awardExamine/addAwardExamine")
     public Result addAwardExamine(@RequestParam(value = "awardExamine")AwardExamine awardExamine,Integer[] user_id,Double[] contribution) {
         try {
             rs=awardExamineService.addAwardExamine(awardExamine,user_id,contribution);
@@ -62,4 +59,13 @@ public class AwardExamineController {
         return rs;
     }
 
+    @PostMapping("/awardExamine/findAwardExamineById")
+    public Result findAwardExamineById(Integer ae_id) {
+        try {
+            rs = awardExamineService.findAwardExamineById(ae_id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
 }

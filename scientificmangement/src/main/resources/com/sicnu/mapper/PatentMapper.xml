@@ -231,4 +231,9 @@
         and
         patent_name = #{patent_name}
     </select>
+
+    <select id="findPatentById" parameterType="Patent" resultType="Patent">
+        select * from patent where
+        patent_id = #{patent_id}
+    </select>
 </mapper>

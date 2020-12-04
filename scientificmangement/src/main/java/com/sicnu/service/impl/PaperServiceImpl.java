@@ -231,4 +231,15 @@ public class PaperServiceImpl implements PaperService {
         return rs = new Result("200", null, list);
     }
 
+    @Override
+    public Result findPaperById(Integer paper_id) {
+        try {
+            Paper paper = paperMapper.findPaperById(paper_id);
+            rs = new Result("200",null,paper);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
 }

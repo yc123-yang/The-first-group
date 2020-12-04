@@ -18,7 +18,7 @@ public interface AwardMapper {
 
     void updateAward(Award award);
 
-    void delAward(Integer award_id);
+    void delAwardById(Integer award_id);
 
     Integer selectTotalAward(Map<String, Object> map);
 
@@ -27,4 +27,5 @@ public interface AwardMapper {
     List<Award> findAwardByLeaderId(Integer leader_id);
 
     Integer selectAwardId(Integer leader_id,String award_name);
+    Award findAwardById(Integer award_id);
 }

@@ -6,9 +6,7 @@ import com.sicnu.pojo.CacheUser;
 import com.sicnu.service.impl.BookExamineServiceImpl;
 import com.sicnu.util.Result;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -24,7 +22,7 @@ public class BookExamineController {
     private Result rs;
 
 
-    @PostMapping("/bookExamine/addBookExamine")
+    @GetMapping("/bookExamine/addBookExamine")
    public Result addBookExamine(BookExamine bookExamine,Integer[] user_id,Double[] contribution) {
        try {
            rs=bookExamineService.addBookExamine(bookExamine, user_id, contribution);

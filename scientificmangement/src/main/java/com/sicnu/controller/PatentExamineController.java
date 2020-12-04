@@ -5,6 +5,7 @@ import com.sicnu.service.impl.PatentExamineServiceImpl;
 import com.sicnu.util.Result;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -22,7 +23,7 @@ public class PatentExamineController {
     private Result rs;
 
 
-    @PostMapping("/patentExamine/addPatentExamine")
+    @GetMapping("/patentExamine/addPatentExamine")
     public Result addPatentExamine(PatentExamine patentExamine,Integer[] user_id,Double[] contribution) {
         try {
             rs=patentExamineService.addPatentExamine(patentExamine, user_id, contribution);
@@ -58,6 +59,15 @@ public class PatentExamineController {
 
             rs = patentExamineService.selectAllPatentExamineByCondition(patentExamine, application_time_start, application_time_end, public_time_start, public_time_end, authorization_time_start, authorization_time_end, pageSize, pageNum, apply_time_start, apply_time_end);
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+    @PostMapping("/patentExamine/findPatentExamineById")
+    public Result findPatentExamineById(Integer pe_id) {
+        try {
+            rs = patentExamineService.findPatentExamineById(pe_id);
         } catch (Exception e) {
             e.printStackTrace();
         }

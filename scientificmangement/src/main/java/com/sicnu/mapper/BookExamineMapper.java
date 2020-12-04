@@ -16,4 +16,5 @@ public interface BookExamineMapper {
     Integer selectTotalBookExamine(Map<String,Object> map);
     void delBookExamine(Integer leader_id,String book_name);
     Integer selectBookExamineId(Integer leader_id,String book_name);
+    BookExamine findBookExamineById(Integer be_id);
 }
