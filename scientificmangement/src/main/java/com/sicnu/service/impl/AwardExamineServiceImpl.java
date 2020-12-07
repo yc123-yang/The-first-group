@@ -37,6 +37,9 @@ public class AwardExamineServiceImpl implements AwardExamineService {
                 rs = new Result("401","切勿重复提交审核",null);
                 return rs;
             }
+            awardExamine.setExamine_status("未审核");
+            awardExamine.setApply_time(new Date());
+            awardExamine.setReviewer_id(1);
             awardExamineMapper.addAwardExamine(awardExamine);
             System.out.println("aaa:"+awardExamine.getLeader_id()+awardExamine.getAward_name());
             Integer award_id = awardExamineMapper.selectAwardExamineId(awardExamine.getAward_name(),awardExamine.getLeader_id());

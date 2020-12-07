@@ -15,10 +15,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class ProjectExamineServiceImpl implements ProjectExamineService {
@@ -34,6 +31,9 @@ public class ProjectExamineServiceImpl implements ProjectExamineService {
     @Override
     public Result addProjectExamine(ProjectExamine projectExamine,Integer[] user_id,String []team_role) {
         try {
+            projectExamine.setExamine_status("未审核");
+            projectExamine.setApply_time(new Date());
+            projectExamine.setReviewer_id(1);
             projectExamineMapper.addProjectExamine(projectExamine);
             Integer project_id = projectExamineMapper.selectProjectExamineId(projectExamine.getLeader_id(),projectExamine.getProject_name());
             for (int i = 0; i < user_id.length; i++) {

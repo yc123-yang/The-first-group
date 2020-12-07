@@ -17,7 +17,7 @@
         role_id = #{role_id}
     </delete>
 
-    <select id="findUserAuth" parameterType="com.sicnu.pojo.teamMap.UserAuth">
+    <select id="findUserAuth"   parameterType="int" resultType="com.sicnu.pojo.teamMap.UserAuth" >
         select auth_resource from
         auth a,role r,role_auth ra
         where

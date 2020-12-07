@@ -13,10 +13,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class PatentExamineServiceImpl implements PatentExamineService {
@@ -32,6 +29,9 @@ public class PatentExamineServiceImpl implements PatentExamineService {
     @Override
     public Result addPatentExamine(PatentExamine patentExamine,Integer[] user_id,Double[] contribution) {
         try {
+            patentExamine.setExamine_status("未审核");
+            patentExamine.setApply_time(new Date());
+            patentExamine.setReviewer_id(1);
             patentExamineMapper.addPatentExamine(patentExamine);
             Integer patent_id = patentExamineMapper.selectPatentExamineId(patentExamine.getLeader_id(),patentExamine.getPatent_name());
             for (int i = 0; i < user_id.length; i++) {

@@ -122,7 +122,7 @@
         where
         book_id = #{book_id}
     </delete>
-    <delete id="delBookExamine" parameterType="int">
+    <delete id="delBookExamine" parameterType="BookExamine">
         delete from book_examine
         where
         leader_id = #{leader_id}

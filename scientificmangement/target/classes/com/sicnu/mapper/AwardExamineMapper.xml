@@ -116,7 +116,7 @@
         where
         award_id = #{award_id}
     </delete>
-    <delete id="delAwardExamine" parameterType="int">
+    <delete id="delAwardExamine" parameterType="AwardExamine">
         delete from award_examine
         where
         leader_id = #{leader_id}

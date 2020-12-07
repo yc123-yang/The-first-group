@@ -49,7 +49,7 @@ public class BookServiceImpl implements BookService{
     public Result addBook(Book book,String checkMessage,String message) {
         try {
             Integer bookExamineId = bookExamineMapper.selectBookExamineId(book.getLeader_id(),book.getBook_name());
-            List<BookTeamExamine> bookTeamExamines = bookTeamExamineMapper.selectAwardTeamExamineById(bookExamineId);
+            List<BookTeamExamine> bookTeamExamines = bookTeamExamineMapper.selectBookTeamExamineById(bookExamineId);
             //获取项目负责人信息
             User user = userDao.findUserById(book.getLeader_id());
             //创建邮件环境，反馈信息
@@ -110,7 +110,7 @@ public class BookServiceImpl implements BookService{
             map.put("pp_id", book.getPp_id());
             map.put("isbn", book.getIsbn());
             map.put("word_number", book.getWord_number());
-            map.put("translate", book.getTrans());
+            map.put("trans", book.getTrans());
             map.put("language_id", book.getLanguage_id());
             map.put("sc_id", book.getSc_id());
             map.put("subject_id", book.getSubject_id());
@@ -130,7 +130,7 @@ public class BookServiceImpl implements BookService{
             List<UserAuth> userAuths = roleAuthMapper.findUserAuth(user.getRole_id());
             int cnt =0;
             for (UserAuth userAuth : userAuths) {
-                if (userAuth.getAuth_resource().equals("/allAward")){
+                if (userAuth.getAuth_resource().equals("/allBook")){
                     cnt=1;
                 }
             }

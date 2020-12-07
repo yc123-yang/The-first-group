@@ -120,7 +120,7 @@
         where
         pe_id = #{pe_id}
     </delete>
-    <delete id="delPatentExamine" parameterType="int">
+    <delete id="delPatentExamine" parameterType="PatentExamine">
         delete from patent_examine
         where
         leader_id = #{leader_id}

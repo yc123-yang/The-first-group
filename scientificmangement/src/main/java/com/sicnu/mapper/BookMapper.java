@@ -27,6 +27,6 @@ public interface BookMapper {
     Integer selectCountBook(Map<String, Object> map);
 
     List<Book> findBookByLeaderId(Integer leader_id);
-    Integer selectBookId(Integer leader_id,String Book_name);
+    Integer selectBookId(Integer leader_id,String book_name);
     Book findBookById(Integer book_id);
 }

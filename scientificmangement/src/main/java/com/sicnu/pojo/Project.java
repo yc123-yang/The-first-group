@@ -15,8 +15,8 @@ public class Project implements Serializable {
     private Integer leader_id;
     private Integer department_id;
     private Integer aod_id;
-    private Integer sc_id;
-    private Integer subject_id;
+    private String sc_id;
+    private String subject_id;
     private Integer nature_id;
     private Integer level_id;
     private Integer status_id;
@@ -33,7 +33,7 @@ public class Project implements Serializable {
     public Project() {
     }
 
-    public Project(Integer project_id, String project_name, Integer leader_id, Integer department_id, Integer aod_id, Integer sc_id, Integer subject_id, Integer nature_id, Integer level_id, Integer status_id, Integer sd_id, Integer at_id, String approval_number, Date start_time, Date plan_time, Date complete_time, Integer outlay, Integer ct_id) {
+    public Project(Integer project_id, String project_name, Integer leader_id, Integer department_id, Integer aod_id, String sc_id, String subject_id, Integer nature_id, Integer level_id, Integer status_id, Integer sd_id, Integer at_id, String approval_number, Date start_time, Date plan_time, Date complete_time, Integer outlay, Integer ct_id) {
         this.project_id = project_id;
         this.project_name = project_name;
         this.leader_id = leader_id;
@@ -94,19 +94,19 @@ public class Project implements Serializable {
         this.aod_id = aod_id;
     }
 
-    public Integer getSc_id() {
+    public String getSc_id() {
         return sc_id;
     }
 
-    public void setSc_id(Integer sc_id) {
+    public void setSc_id(String sc_id) {
         this.sc_id = sc_id;
     }
 
-    public Integer getSubject_id() {
+    public String getSubject_id() {
         return subject_id;
     }
 
-    public void setSubject_id(Integer subject_id) {
+    public void setSubject_id(String subject_id) {
         this.subject_id = subject_id;
     }
 

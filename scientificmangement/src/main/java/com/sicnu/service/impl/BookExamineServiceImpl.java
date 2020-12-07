@@ -13,10 +13,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class BookExamineServiceImpl implements BookExamineService {
@@ -34,6 +31,9 @@ public class BookExamineServiceImpl implements BookExamineService {
     @Override
     public Result addBookExamine(BookExamine bookExamine,Integer[] user_id,Double[] contribution) {
         try {
+            bookExamine.setExamine_status("未审核");
+            bookExamine.setApply_time(new Date());
+            bookExamine.setReviewer_id(1);
             bookExamineMapper.addBookExamine(bookExamine);
             Integer book_id = bookExamineMapper.selectBookExamineId(bookExamine.getLeader_id(),bookExamine.getBook_name());
             for (int i = 0; i < user_id.length; i++) {

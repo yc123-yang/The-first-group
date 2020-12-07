@@ -152,7 +152,7 @@
         where
         pe_id = #{pe_id}
     </delete>
-    <delete id="delPaperExamine" parameterType="int">
+    <delete id="delPaperExamine" parameterType="PaperExamine">
         delete from paper_examine
         where
         leader_id =#{leader_id}

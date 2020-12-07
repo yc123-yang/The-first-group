@@ -30,7 +30,7 @@ public interface PatentMapper {
 
     List<Patent> findPatentByLeaderId(Integer leader_id);
 
-    Integer selectPatentId(Integer leader_id,String petent_name);
+    Integer selectPatentId(Integer leader_id,String patent_name);
 
     void delPatentById(Integer patent_id);
     Patent findPatentById(Integer patent_id);

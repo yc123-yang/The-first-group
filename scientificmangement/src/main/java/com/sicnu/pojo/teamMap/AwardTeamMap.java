@@ -3,7 +3,7 @@ package com.sicnu.pojo.teamMap;
 public class AwardTeamMap {
     private String name;
     private Integer department_id;
-    private String user_role;
+    private Integer role_id;
     private Double contribution;
 
     public String getName() {
@@ -22,12 +22,12 @@ public class AwardTeamMap {
         this.department_id = department_id;
     }
 
-    public String getUser_role() {
-        return user_role;
+    public Integer getRole_id() {
+        return role_id;
     }
 
-    public void setUser_role(String user_role) {
-        this.user_role = user_role;
+    public void setRole_id(Integer role_id) {
+        this.role_id = role_id;
     }
 
     public Double getContribution() {

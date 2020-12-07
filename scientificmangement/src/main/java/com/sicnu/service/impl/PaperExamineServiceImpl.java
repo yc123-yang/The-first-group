@@ -14,10 +14,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class PaperExamineServiceImpl implements PaperExamineService {
@@ -39,6 +36,9 @@ public class PaperExamineServiceImpl implements PaperExamineService {
     @Override
     public Result addPaperExamine(PaperExamine paperExamine,Integer[] user_id,Double[] contribution,Integer[] periodicalIds) {
         try {
+            paperExamine.setExamine_status("未审核");
+            paperExamine.setApply_time(new Date());
+            paperExamine.setReviewer_id(1);
             paperExamineMapper.addPaperExamine(paperExamine);
             Integer paper_id = paperExamineMapper.selectPaperExamineId(paperExamine.getLeader_id(),paperExamine.getPaper_name());
             for (int i = 0; i < user_id.length; i++) {

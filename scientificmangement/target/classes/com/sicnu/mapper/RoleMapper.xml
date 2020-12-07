@@ -17,7 +17,7 @@
         role_name = #{role_name}
     </select>
     <select id="selectRoleName" parameterType="int" resultType="String">
-        select role_name form role
+        select role_name from role
         where
         role_id = #{role_id}
     </select>
