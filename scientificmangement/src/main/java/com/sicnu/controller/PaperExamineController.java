@@ -2,6 +2,7 @@ package com.sicnu.controller;
 
 
 import com.sicnu.pojo.PaperExamine;
+import com.sicnu.pojo.teamMap.PaperTeamMap;
 import com.sicnu.service.impl.PaperExamineServiceImpl;
 import com.sicnu.util.Result;
 import org.springframework.stereotype.Controller;
@@ -12,7 +13,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin
 @Controller
@@ -27,7 +30,7 @@ public class PaperExamineController {
 
 
     @GetMapping("/paperExamine/addPaperExamine")
-    public Result addPaperExamine(PaperExamine paperExamine,Integer[] user_id,Double[] contribution,Integer[] periodicalIds) {
+    public Result addPaperExamine(PaperExamine paperExamine,Integer[] user_id,Integer[] contribution,Integer[] periodicalIds) {
         try {
             rs=paperExamineService.addPaperExamine(paperExamine, user_id, contribution,periodicalIds);
         } catch (Exception e) {
@@ -68,6 +71,16 @@ public class PaperExamineController {
     public Result findPaperExamineById(Integer pe_id) {
         try {
             rs = paperExamineService.findPaperExamineById(pe_id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
+    @PostMapping("/paperExamine/findPersonalPaperExamineMessage")
+    public Result findPersonalPaperExamineMessage(Integer pe_id){
+        try {
+            rs = paperExamineService.findPersonalPaperExamineMessage(pe_id);
         } catch (Exception e) {
             e.printStackTrace();
         }

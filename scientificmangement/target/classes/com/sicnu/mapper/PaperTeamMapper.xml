@@ -22,6 +22,8 @@
     <delete id="delPaperTeamUser" parameterType="PaperTeam">
         delete from paper_team
         where
+        paper_id = #{paper_id}
+        and
         user_id = #{user_id}
     </delete>
 
@@ -42,4 +44,12 @@
         and
         t.user_id = u.user_id
     </select>
+    <update id="updatePaperTeamUser" parameterType="PaperTeam">
+        update paper_team
+        <trim prefix="set" suffixOverrides=",">
+            <if test="contribution!=null and contribution!=''">
+                contribution = #{contribution},
+            </if>
+        </trim>>
+    </update>
 </mapper>

@@ -4,8 +4,11 @@ import com.sicnu.mapper.CacheUserMapper;
 import com.sicnu.mapper.PatentExamineMapper;
 import com.sicnu.mapper.PatentTeamExamineMapper;
 import com.sicnu.pojo.CacheUser;
+import com.sicnu.pojo.PaperExamine;
 import com.sicnu.pojo.Patent;
 import com.sicnu.pojo.PatentExamine;
+import com.sicnu.pojo.teamMap.PaperTeamMap;
+import com.sicnu.pojo.teamMap.PatentTeamMap;
 import com.sicnu.service.PatentExamineService;
 import com.sicnu.util.Result;
 import org.springframework.stereotype.Service;
@@ -27,7 +30,7 @@ public class PatentExamineServiceImpl implements PatentExamineService {
     @Resource
     CacheUserMapper cacheUserMapper;
     @Override
-    public Result addPatentExamine(PatentExamine patentExamine,Integer[] user_id,Double[] contribution) {
+    public Result addPatentExamine(PatentExamine patentExamine,Integer[] user_id,Integer[] contribution) {
         try {
             patentExamine.setExamine_status("未审核");
             patentExamine.setApply_time(new Date());
@@ -184,5 +187,19 @@ public class PatentExamineServiceImpl implements PatentExamineService {
             e.printStackTrace();
         }
         return rs = new Result("200", null, list);
+    }
+
+    public Result findPersonalPatentExamineMessage(Integer pe_id){
+        try {
+            List<PatentTeamMap> patentTeamMaps = patentTeamExamineMapper.selectPatentTeamExamineUser(pe_id);
+            PatentExamine patentExamine = patentExamineMapper.findPatentExamineById(pe_id);
+            Map<String,Object> map = new HashMap<>();
+            map.put("patentTeamMaps",patentTeamMaps);
+            map.put("patentExamine",patentExamine);
+            rs = new Result("200",null,map);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
     }
 }

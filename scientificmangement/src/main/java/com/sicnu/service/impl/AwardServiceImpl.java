@@ -5,6 +5,7 @@ import com.sicnu.pojo.Award;
 import com.sicnu.pojo.CacheUser;
 import com.sicnu.pojo.User;
 import com.sicnu.pojo.teamExamine.AwardTeamExamine;
+import com.sicnu.pojo.teamMap.AwardTeamMap;
 import com.sicnu.pojo.teamMap.UserAuth;
 import com.sicnu.service.AwardService;
 import com.sicnu.util.Result;
@@ -222,6 +223,19 @@ public class AwardServiceImpl implements AwardService {
         try {
             Award award = awardMapper.findAwardById(award_id);
             rs = new Result("200",null,award);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+    public  Result findPersonalAwardMessage(Integer award_id){
+        try {
+            Award award = awardMapper.findAwardById(award_id);
+            List<AwardTeamMap> awardTeamMaps = awardTeamMapper.selectAwardTeam(award_id);
+            Map<String,Object> map =new HashMap<>();
+            map.put("award",award);
+            map.put("awardTeamMaps",awardTeamMaps);
+            rs = new Result("200",null,map);
         } catch (Exception e) {
             e.printStackTrace();
         }

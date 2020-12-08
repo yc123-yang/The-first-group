@@ -41,6 +41,9 @@
             <if test="department_id!=null and department_id!=''">
                and department_id = #{department_id}
             </if>
+            <if test="check_time!=null and check_time!=''">
+                and check_time =#{check_time}
+            </if>
         </where>
         order by total_grade desc
     </select>

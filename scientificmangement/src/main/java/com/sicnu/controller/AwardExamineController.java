@@ -2,6 +2,7 @@ package com.sicnu.controller;
 
 import com.sicnu.pojo.AwardExamine;
 import com.sicnu.pojo.CacheUser;
+import com.sicnu.pojo.teamMap.AwardTeamMap;
 import com.sicnu.service.impl.AwardExamineServiceImpl;
 import com.sicnu.util.Result;
 import org.springframework.stereotype.Controller;
@@ -26,7 +27,7 @@ public class AwardExamineController {
     private Result rs;
 
     @GetMapping("/awardExamine/addAwardExamine")
-    public Result addAwardExamine(@RequestParam(value = "awardExamine")AwardExamine awardExamine,Integer[] user_id,Double[] contribution) {
+    public Result addAwardExamine(@RequestParam(value = "awardExamine")AwardExamine awardExamine,Integer[] user_id,Integer[] contribution) {
         try {
             rs=awardExamineService.addAwardExamine(awardExamine,user_id,contribution);
         } catch (Exception e) {
@@ -63,6 +64,16 @@ public class AwardExamineController {
     public Result findAwardExamineById(Integer ae_id) {
         try {
             rs = awardExamineService.findAwardExamineById(ae_id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
+    @PostMapping("/awardExamine/findPersonalAwardExamineMessage")
+    public Result findPersonalAwardExamineMessage(Integer ae_id){
+        try {
+            rs = awardExamineService.findPersonalAwardExamineMessage(ae_id);
         } catch (Exception e) {
             e.printStackTrace();
         }

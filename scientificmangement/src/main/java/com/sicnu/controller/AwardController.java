@@ -1,6 +1,7 @@
 package com.sicnu.controller;
 
 import com.sicnu.pojo.Award;
+import com.sicnu.pojo.teamMap.AwardTeamMap;
 import com.sicnu.service.impl.AwardServiceImpl;
 import com.sicnu.util.Result;
 import org.springframework.stereotype.Controller;
@@ -10,6 +11,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import java.text.ParseException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @CrossOrigin
 @Controller
@@ -75,6 +79,16 @@ public class AwardController {
     public Result findAwardById(Integer award_id) {
         try {
             rs = awardService.findAwardById(award_id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
+    @PostMapping("/award/findPersonalAwardMessage")
+    public  Result findPersonalAwardMessage(Integer award_id){
+        try {
+            rs = awardService.findPersonalAwardMessage(award_id);
         } catch (Exception e) {
             e.printStackTrace();
         }

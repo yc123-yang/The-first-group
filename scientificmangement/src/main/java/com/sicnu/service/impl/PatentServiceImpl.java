@@ -2,9 +2,12 @@ package com.sicnu.service.impl;
 
 import com.sicnu.mapper.*;
 import com.sicnu.pojo.CacheUser;
+import com.sicnu.pojo.Paper;
 import com.sicnu.pojo.Patent;
 import com.sicnu.pojo.User;
 import com.sicnu.pojo.teamExamine.PatentTeamExamine;
+import com.sicnu.pojo.teamMap.PaperTeamMap;
+import com.sicnu.pojo.teamMap.PatentTeamMap;
 import com.sicnu.pojo.teamMap.UserAuth;
 import com.sicnu.service.PatentService;
 import com.sicnu.util.Result;
@@ -290,5 +293,17 @@ public class PatentServiceImpl implements PatentService {
         return rs;
     }
 
-
+    public  Result findPersonalPatentMessage(Integer patent_id){
+        try {
+            Patent patent = patentMapper.findPatentById(patent_id);
+            List<PatentTeamMap> paperTeamMaps = patentTeamMapper.selectPatentTeam(patent_id);
+            Map<String,Object> map =new HashMap<>();
+            map.put("patent",patent);
+            map.put("paperTeamMaps",paperTeamMaps);
+            rs = new Result("200",null,map);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
 }

@@ -1,6 +1,7 @@
 package com.sicnu.controller;
 
 import com.sicnu.pojo.Patent;
+import com.sicnu.pojo.teamMap.PatentTeamMap;
 import com.sicnu.service.impl.PatentServiceImpl;
 import com.sicnu.util.Result;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,9 @@ import javax.annotation.Resource;
 import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @CrossOrigin
@@ -77,6 +81,16 @@ public class PatentController {
     public Result findPatentById(Integer patent_id) {
         try {
             rs = patentService.findPatentById(patent_id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
+    @PostMapping("/patent/findPersonalPatentMessage")
+    public  Result findPersonalPatentMessage(Integer patent_id){
+        try {
+            rs = patentService.findPersonalPatentMessage(patent_id);
         } catch (Exception e) {
             e.printStackTrace();
         }

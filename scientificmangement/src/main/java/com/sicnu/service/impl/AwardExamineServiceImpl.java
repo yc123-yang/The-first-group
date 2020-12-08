@@ -8,6 +8,7 @@ import com.sicnu.pojo.Award;
 import com.sicnu.pojo.AwardExamine;
 import com.sicnu.pojo.AwardTeam;
 import com.sicnu.pojo.CacheUser;
+import com.sicnu.pojo.teamMap.AwardTeamMap;
 import com.sicnu.service.AwardExamineService;
 import com.sicnu.util.Result;
 import org.springframework.stereotype.Service;
@@ -24,13 +25,14 @@ public class AwardExamineServiceImpl implements AwardExamineService {
 
     @Resource
     AwardTeamExamineMapper awardTeamExamineMapper;
+
     private Result rs;
 
     @Resource
     CacheUserMapper cacheUserMapper;
 
     @Override
-    public Result addAwardExamine(AwardExamine awardExamine, Integer[] user_id,Double[] contribution) {
+    public Result addAwardExamine(AwardExamine awardExamine, Integer[] user_id,Integer[] contribution) {
         try {
             Integer award_id1 = awardExamineMapper.selectAwardExamineId(awardExamine.getAward_name(),awardExamine.getLeader_id());
             if(award_id1 !=null){
@@ -179,5 +181,18 @@ public class AwardExamineServiceImpl implements AwardExamineService {
         return rs = new Result("200", null, list);
     }
 
+    public Result findPersonalAwardExamineMessage(Integer ae_id){
+        try {
+            List<AwardTeamMap> awardTeamMaps = awardTeamExamineMapper.selectAwardTeamExamineUser(ae_id);
+            AwardExamine awardExamine = awardExamineMapper.findAwardExamineById(ae_id);
+            Map<String,Object> map = new HashMap<>();
+            map.put("awardExamine",awardExamine);
+            map.put("awardTeamMaps",awardTeamMaps);
+            rs = new Result("200",null,map);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
 
 }

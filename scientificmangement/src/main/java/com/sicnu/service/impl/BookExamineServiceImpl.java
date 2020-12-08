@@ -3,9 +3,12 @@ package com.sicnu.service.impl;
 import com.sicnu.mapper.BookExamineMapper;
 import com.sicnu.mapper.BookTeamExamineMapper;
 import com.sicnu.mapper.CacheUserMapper;
+import com.sicnu.pojo.AwardExamine;
 import com.sicnu.pojo.BookExamine;
 import com.sicnu.pojo.BookTeam;
 import com.sicnu.pojo.CacheUser;
+import com.sicnu.pojo.teamMap.AwardTeamMap;
+import com.sicnu.pojo.teamMap.BookTeamMap;
 import com.sicnu.service.BookExamineService;
 import com.sicnu.util.Result;
 import org.springframework.stereotype.Service;
@@ -29,7 +32,7 @@ public class BookExamineServiceImpl implements BookExamineService {
     CacheUserMapper cacheUserMapper;
 
     @Override
-    public Result addBookExamine(BookExamine bookExamine,Integer[] user_id,Double[] contribution) {
+    public Result addBookExamine(BookExamine bookExamine,Integer[] user_id,Integer[] contribution) {
         try {
             bookExamine.setExamine_status("未审核");
             bookExamine.setApply_time(new Date());
@@ -172,5 +175,19 @@ public class BookExamineServiceImpl implements BookExamineService {
             e.printStackTrace();
         }
         return rs = new Result("200", null, list);
+    }
+
+    public Result findPersonalBookExamineMessage(Integer be_id){
+        try {
+            List<BookTeamMap>bookTeamMaps = bookTeamExamineMapper.selectBookTeamExamineUser(be_id);
+            BookExamine bookExamine = bookExamineMapper.findBookExamineById(be_id);
+            Map<String,Object> map = new HashMap<>();
+            map.put("bookExamine",bookExamine);
+            map.put("bookTeamMaps",bookTeamMaps);
+            rs = new Result("200",null,map);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
     }
 }

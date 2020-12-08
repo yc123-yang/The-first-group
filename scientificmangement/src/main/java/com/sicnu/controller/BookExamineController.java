@@ -3,6 +3,7 @@ package com.sicnu.controller;
 import com.sicnu.mapper.CacheUserMapper;
 import com.sicnu.pojo.BookExamine;
 import com.sicnu.pojo.CacheUser;
+import com.sicnu.pojo.teamMap.BookTeamMap;
 import com.sicnu.service.impl.BookExamineServiceImpl;
 import com.sicnu.util.Result;
 import org.springframework.stereotype.Controller;
@@ -10,7 +11,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @CrossOrigin
@@ -23,7 +26,7 @@ public class BookExamineController {
 
 
     @GetMapping("/bookExamine/addBookExamine")
-   public Result addBookExamine(BookExamine bookExamine,Integer[] user_id,Double[] contribution) {
+   public Result addBookExamine(BookExamine bookExamine,Integer[] user_id,Integer[] contribution) {
        try {
            rs=bookExamineService.addBookExamine(bookExamine, user_id, contribution);
        } catch (Exception e) {
@@ -64,6 +67,16 @@ public class BookExamineController {
     public Result findBookExamineById(Integer be_id) {
         try {
             rs =bookExamineService.findBookExamineById(be_id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
+    @PostMapping("/bookExamine/findPersonalAwardExamineMessage")
+    public Result findPersonalAwardExamineMessage(Integer be_id){
+        try {
+            rs = bookExamineService.findPersonalBookExamineMessage(be_id);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -1,9 +1,12 @@
 package com.sicnu.service.impl;
 
 import com.sicnu.mapper.*;
+import com.sicnu.pojo.Award;
 import com.sicnu.pojo.CacheUser;
 import com.sicnu.pojo.User;
 import com.sicnu.pojo.teamExamine.BookTeamExamine;
+import com.sicnu.pojo.teamMap.AwardTeamMap;
+import com.sicnu.pojo.teamMap.BookTeamMap;
 import com.sicnu.pojo.teamMap.UserAuth;
 import com.sicnu.service.BookService;
 import com.sicnu.util.Result;
@@ -226,6 +229,20 @@ public class BookServiceImpl implements BookService{
         try {
             Book book = bookMapper.findBookById(book_id);
             rs = new Result("200",null,book);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
+    public  Result findPersonalBookMessage(Integer book_id){
+        try {
+            Book book = bookMapper.findBookById(book_id);
+            List<BookTeamMap> bookTeamMaps = bookTeamMapper.selectBookTeam(book_id);
+            Map<String,Object> map =new HashMap<>();
+            map.put("book",book);
+            map.put("bookTeamMaps",bookTeamMaps);
+            rs = new Result("200",null,map);
         } catch (Exception e) {
             e.printStackTrace();
         }

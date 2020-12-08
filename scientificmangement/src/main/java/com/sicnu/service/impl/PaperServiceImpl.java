@@ -1,11 +1,14 @@
 package com.sicnu.service.impl;
 
 import com.sicnu.mapper.*;
+import com.sicnu.pojo.Book;
 import com.sicnu.pojo.CacheUser;
 import com.sicnu.pojo.Paper;
 import com.sicnu.pojo.User;
 import com.sicnu.pojo.teamExamine.BookTeamExamine;
 import com.sicnu.pojo.teamExamine.PaperTeamExamine;
+import com.sicnu.pojo.teamMap.BookTeamMap;
+import com.sicnu.pojo.teamMap.PaperTeamMap;
 import com.sicnu.pojo.teamMap.UserAuth;
 import com.sicnu.service.PaperService;
 import com.sicnu.util.Result;
@@ -267,4 +270,17 @@ public class PaperServiceImpl implements PaperService {
         return rs;
     }
 
+    public  Result findPersonalPaperMessage(Integer paper_id){
+        try {
+            Paper paper = paperMapper.findPaperById(paper_id);
+            List<PaperTeamMap> paperTeamMaps = paperTeamMapper.selectPaperTeam(paper_id);
+            Map<String,Object> map =new HashMap<>();
+            map.put("paper",paper);
+            map.put("paperTeamMaps",paperTeamMaps);
+            rs = new Result("200",null,map);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
 }

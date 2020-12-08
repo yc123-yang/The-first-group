@@ -19,7 +19,6 @@ import java.io.Serializable;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-//@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"})
 public class CacheUser implements Serializable {
 
     private static final long serialVersionUID = 10L;

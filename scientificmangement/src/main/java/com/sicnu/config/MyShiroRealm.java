@@ -1,9 +1,7 @@
 package com.sicnu.config;
 
 
-import com.sicnu.mapper.AuthMapper;
 import com.sicnu.mapper.UserMapper;
-import com.sicnu.pojo.Auth;
 import com.sicnu.pojo.Role;
 import com.sicnu.pojo.User;
 import com.sicnu.service.AuthService;
@@ -18,10 +16,12 @@ import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Objects;
 
@@ -41,6 +41,7 @@ public class MyShiroRealm extends AuthorizingRealm {
 
     @Resource
     private AuthServiceImpl authService;
+
 
 
     /**

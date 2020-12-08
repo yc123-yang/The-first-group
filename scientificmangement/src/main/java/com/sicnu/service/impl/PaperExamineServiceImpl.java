@@ -4,9 +4,12 @@ import com.sicnu.mapper.CacheUserMapper;
 import com.sicnu.mapper.PaperExamineMapper;
 import com.sicnu.mapper.PaperTeamExamineMapper;
 import com.sicnu.mapper.PeriodicalPaperExamineMapper;
+import com.sicnu.pojo.BookExamine;
 import com.sicnu.pojo.CacheUser;
 import com.sicnu.pojo.PaperExamine;
 import com.sicnu.pojo.PaperTeam;
+import com.sicnu.pojo.teamMap.BookTeamMap;
+import com.sicnu.pojo.teamMap.PaperTeamMap;
 import com.sicnu.service.PaperExamineService;
 import com.sicnu.util.Result;
 import org.springframework.stereotype.Service;
@@ -34,7 +37,7 @@ public class PaperExamineServiceImpl implements PaperExamineService {
     PeriodicalPaperExamineMapper periodicalPaperExamineMapper;
 
     @Override
-    public Result addPaperExamine(PaperExamine paperExamine,Integer[] user_id,Double[] contribution,Integer[] periodicalIds) {
+    public Result addPaperExamine(PaperExamine paperExamine,Integer[] user_id,Integer[] contribution,Integer[] periodicalIds) {
         try {
             paperExamine.setExamine_status("未审核");
             paperExamine.setApply_time(new Date());
@@ -172,5 +175,20 @@ public class PaperExamineServiceImpl implements PaperExamineService {
             e.printStackTrace();
         }
         return rs = new Result("200", null, list);
+    }
+
+
+    public Result findPersonalPaperExamineMessage(Integer pe_id){
+        try {
+            List<PaperTeamMap> paperTeamMaps = paperTeamExamineMapper.selectPaperTeamExamineUser(pe_id);
+            PaperExamine paperExamine = paperExamineMapper.findPaperExamineById(pe_id);
+            Map<String,Object> map = new HashMap<>();
+            map.put("paperExamine",paperExamine);
+            map.put("paperTeamMaps",paperTeamMaps);
+            rs = new Result("200",null,map);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
     }
 }

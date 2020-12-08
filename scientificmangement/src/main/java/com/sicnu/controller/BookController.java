@@ -1,6 +1,7 @@
 package com.sicnu.controller;
 
 import com.sicnu.pojo.Book;
+import com.sicnu.pojo.teamMap.BookTeamMap;
 import com.sicnu.service.impl.BookServiceImpl;
 import com.sicnu.util.Result;
 import org.springframework.stereotype.Controller;
@@ -10,6 +11,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import java.text.ParseException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @CrossOrigin
@@ -75,6 +79,15 @@ public class BookController {
     public Result findBookById(Integer book_id) {
         try {
             rs = bookService.findBookById(book_id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+    @PostMapping("/book/findPersonalBookMessage")
+    public  Result findPersonalBookMessage(Integer book_id){
+        try {
+            rs = bookService.findPersonalBookMessage(book_id);
         } catch (Exception e) {
             e.printStackTrace();
         }

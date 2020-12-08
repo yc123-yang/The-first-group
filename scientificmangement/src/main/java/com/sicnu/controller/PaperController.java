@@ -1,6 +1,7 @@
 package com.sicnu.controller;
 
 import com.sicnu.pojo.Paper;
+import com.sicnu.pojo.teamMap.PaperTeamMap;
 import com.sicnu.service.impl.PaperServiceImpl;
 import com.sicnu.util.Result;
 import org.springframework.stereotype.Controller;
@@ -10,6 +11,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import java.text.ParseException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @CrossOrigin
@@ -75,6 +79,16 @@ public class PaperController {
     public Result findPaperById(Integer paper_id) {
         try {
             rs = paperService.findPaperById(paper_id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
+    @PostMapping("/paper/findPersonalPaperMessage")
+    public  Result findPersonalPaperMessage(Integer paper_id){
+        try {
+            rs =paperService.findPersonalPaperMessage(paper_id);
         } catch (Exception e) {
             e.printStackTrace();
         }

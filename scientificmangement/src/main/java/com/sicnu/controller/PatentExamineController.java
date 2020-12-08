@@ -1,6 +1,7 @@
 package com.sicnu.controller;
 
 import com.sicnu.pojo.PatentExamine;
+import com.sicnu.pojo.teamMap.PatentTeamMap;
 import com.sicnu.service.impl.PatentExamineServiceImpl;
 import com.sicnu.util.Result;
 import org.springframework.stereotype.Controller;
@@ -10,7 +11,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @CrossOrigin
@@ -24,7 +27,7 @@ public class PatentExamineController {
 
 
     @GetMapping("/patentExamine/addPatentExamine")
-    public Result addPatentExamine(PatentExamine patentExamine,Integer[] user_id,Double[] contribution) {
+    public Result addPatentExamine(PatentExamine patentExamine,Integer[] user_id,Integer[] contribution) {
         try {
             rs=patentExamineService.addPatentExamine(patentExamine, user_id, contribution);
           } catch (Exception e) {
@@ -68,6 +71,16 @@ public class PatentExamineController {
     public Result findPatentExamineById(Integer pe_id) {
         try {
             rs = patentExamineService.findPatentExamineById(pe_id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
+    @PostMapping("/patentExamine/findPersonalPatentExamineMessage")
+    public Result findPersonalPatentExamineMessage(Integer pe_id){
+        try {
+            rs = patentExamineService.findPersonalPatentExamineMessage(pe_id);
         } catch (Exception e) {
             e.printStackTrace();
         }
