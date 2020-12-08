@@ -2,6 +2,7 @@ package com.sicnu.service.impl;
 
 import com.sicnu.mapper.PaperTeamMapper;
 import com.sicnu.mapper.UserMapper;
+import com.sicnu.pojo.PaperTeam;
 import com.sicnu.pojo.User;
 import com.sicnu.pojo.teamMap.PaperTeamMap;
 import com.sicnu.service.PaperTeamService;
@@ -55,9 +56,9 @@ public class PaperTeamServiceImpl implements PaperTeamService {
     }
 
     @Override
-    public Result updatePaperTeamUser(int contribution) {
+    public Result updatePaperTeamUser(PaperTeam paperTeam) {
         try {
-            paperTeamMapper.updatePaperTeamUser(contribution);
+            paperTeamMapper.updatePaperTeamUser(paperTeam);
             rs = new Result("200","更改成功",null);
         } catch (Exception e) {
             e.printStackTrace();

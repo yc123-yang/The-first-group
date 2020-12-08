@@ -1,6 +1,7 @@
 package com.sicnu.controller;
 
 import com.sicnu.mapper.PaperTeamMapper;
+import com.sicnu.pojo.PaperTeam;
 import com.sicnu.pojo.teamMap.PaperTeamMap;
 import com.sicnu.service.PaperTeamService;
 import com.sicnu.service.impl.PaperTeamServiceImpl;
@@ -50,9 +51,9 @@ public class PaperTeamController {
     }
 
     @PostMapping("/team/updatePaperTeamUser")
-    public Result updatePaperTeamUser(int contribution) {
+    public Result updatePaperTeamUser(PaperTeam paperTeam) {
         try {
-            rs=paperTeamService.updatePaperTeamUser(contribution);
+            rs=paperTeamService.updatePaperTeamUser(paperTeam);
         } catch (Exception e) {
             e.printStackTrace();
         }

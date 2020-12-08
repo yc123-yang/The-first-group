@@ -1,6 +1,7 @@
 package com.sicnu.service;
 
 
+import com.sicnu.pojo.ProjectTeam;
 import com.sicnu.util.Result;
 
 
@@ -11,6 +12,6 @@ public interface ProjectTeamService {
     Result delProjectTeamUser(Integer project_id,Integer user_id);
 
     Result selectProjectTeam(Integer project_id);
-    Result updateProjectTeamUser(String team_role);
+    Result updateProjectTeamUser(ProjectTeam projectTeam);
 
 }

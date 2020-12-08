@@ -36,6 +36,7 @@ public class PaperExamineServiceImpl implements PaperExamineService {
     @Resource
     PeriodicalPaperExamineMapper periodicalPaperExamineMapper;
 
+
     @Override
     public Result addPaperExamine(PaperExamine paperExamine,Integer[] user_id,Integer[] contribution,Integer[] periodicalIds) {
         try {
@@ -182,9 +183,11 @@ public class PaperExamineServiceImpl implements PaperExamineService {
         try {
             List<PaperTeamMap> paperTeamMaps = paperTeamExamineMapper.selectPaperTeamExamineUser(pe_id);
             PaperExamine paperExamine = paperExamineMapper.findPaperExamineById(pe_id);
+            List<Integer> periodicalIds = periodicalPaperExamineMapper.findPeriodicalExamineByPaperId(pe_id);
             Map<String,Object> map = new HashMap<>();
             map.put("paperExamine",paperExamine);
             map.put("paperTeamMaps",paperTeamMaps);
+            map.put("periodicalIds",periodicalIds);
             rs = new Result("200",null,map);
         } catch (Exception e) {
             e.printStackTrace();

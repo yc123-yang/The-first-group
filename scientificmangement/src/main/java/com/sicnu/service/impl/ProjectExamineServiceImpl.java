@@ -5,8 +5,11 @@ import com.sicnu.mapper.ProjectExamineMapper;
 import com.sicnu.mapper.ProjectTeamExamineMapper;
 import com.sicnu.mapper.UserMapper;
 import com.sicnu.pojo.CacheUser;
+import com.sicnu.pojo.PatentExamine;
 import com.sicnu.pojo.Project;
 import com.sicnu.pojo.ProjectExamine;
+import com.sicnu.pojo.teamMap.PatentTeamMap;
+import com.sicnu.pojo.teamMap.ProjectTeamMap;
 import com.sicnu.service.ProjectExamineService;
 import com.sicnu.util.Result;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -193,5 +196,19 @@ public class ProjectExamineServiceImpl implements ProjectExamineService {
         }
 
         return rs = new Result("200", null, list);
+    }
+
+    public Result findPersonalProjectExamineMessage(Integer pe_id){
+        try {
+            List<ProjectTeamMap> projectTeamMaps = projectTeamExamineMapper.selectProjectTeamExamineUser(pe_id);
+            ProjectExamine projectExamine = projectExamineMapper.findProjectExamineById(pe_id);
+            Map<String,Object> map = new HashMap<>();
+            map.put("projectTeamMaps",projectTeamMaps);
+            map.put("projectExamine",projectExamine);
+            rs = new Result("200",null,map);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
     }
 }

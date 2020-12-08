@@ -1,6 +1,7 @@
 package com.sicnu.controller;
 
 import com.sicnu.pojo.ProjectExamine;
+import com.sicnu.pojo.teamMap.ProjectTeamMap;
 import com.sicnu.service.impl.ProjectExamineServiceImpl;
 import com.sicnu.util.Result;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @CrossOrigin
 @Controller
@@ -63,6 +66,16 @@ public class ProjectExamineController {
     public Result findProjectExamineById(Integer pe_id) {
         try {
             rs = projectExamineService.findProjectExamineById(pe_id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
+    @PostMapping("/projectExamine/findPersonalProjectExamineMessage")
+    public Result findPersonalProjectExamineMessage(Integer pe_id){
+        try {
+            rs = projectExamineService.findPersonalProjectExamineMessage(pe_id);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -1,6 +1,7 @@
 package com.sicnu.controller;
 
 
+import com.sicnu.pojo.BookTeam;
 import com.sicnu.service.impl.BookTeamServiceImpl;
 import com.sicnu.util.Result;
 import org.springframework.stereotype.Controller;
@@ -46,9 +47,9 @@ public class BookTeamController {
         return rs;
     }
     @PostMapping("/team/updateBookTeamUser")
-    public Result updateBookTeamUser(int contribution) {
+    public Result updateBookTeamUser(BookTeam bookTeam) {
         try {
-            rs=bookTeamService.updateBookTeamUser(contribution);
+            rs=bookTeamService.updateBookTeamUser(bookTeam);
         } catch (Exception e) {
             e.printStackTrace();
         }

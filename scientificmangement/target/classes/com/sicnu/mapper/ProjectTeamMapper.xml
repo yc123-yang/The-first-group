@@ -54,6 +54,11 @@
             <if test="team_role!=null and team_role!=''">
                 team_role = #{team_role},
             </if>
-        </trim>>
+        </trim>
+        where
+        project_id = #{project_id}
+        and
+        user_id = #{user_id}
     </update>
+
 </mapper>

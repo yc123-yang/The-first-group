@@ -2,6 +2,7 @@ package com.sicnu.service.impl;
 
 import com.sicnu.mapper.ProjectTeamMapper;
 import com.sicnu.mapper.UserMapper;
+import com.sicnu.pojo.ProjectTeam;
 import com.sicnu.pojo.teamMap.ProjectTeamMap;
 import com.sicnu.pojo.User;
 import com.sicnu.service.ProjectTeamService;
@@ -60,9 +61,9 @@ public class ProjectTeamServiceImpl implements ProjectTeamService {
     }
 
     @Override
-    public Result updateProjectTeamUser(String team_role) {
+    public Result updateProjectTeamUser(ProjectTeam projectTeam) {
         try {
-            projectTeamMapper.updateProjectTeamUser(team_role);
+            projectTeamMapper.updateProjectTeamUser(projectTeam);
             rs = new Result("200","更改成功",null);
         } catch (Exception e) {
             e.printStackTrace();

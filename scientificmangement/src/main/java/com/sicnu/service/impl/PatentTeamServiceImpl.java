@@ -2,6 +2,7 @@ package com.sicnu.service.impl;
 
 import com.sicnu.mapper.PatentTeamMapper;
 import com.sicnu.mapper.UserMapper;
+import com.sicnu.pojo.PatentTeam;
 import com.sicnu.pojo.User;
 import com.sicnu.pojo.teamMap.PatentTeamMap;
 import com.sicnu.service.PatentTeamService;
@@ -54,9 +55,9 @@ public class PatentTeamServiceImpl implements PatentTeamService {
     }
 
     @Override
-    public Result updatePatentTeamUser(Integer contribution) {
+    public Result updatePatentTeamUser(PatentTeam patentTeam) {
         try {
-            patentTeamMapper.updatePatentTeamUser(contribution);
+            patentTeamMapper.updatePatentTeamUser(patentTeam);
             rs =new Result("200","更改成功",null);
         } catch (Exception e) {
             e.printStackTrace();

@@ -2,10 +2,13 @@ package com.sicnu.service.impl;
 
 import com.sicnu.mapper.*;
 import com.sicnu.pojo.CacheUser;
+import com.sicnu.pojo.Patent;
 import com.sicnu.pojo.Project;
 import com.sicnu.pojo.User;
 import com.sicnu.pojo.teamExamine.PatentTeamExamine;
 import com.sicnu.pojo.teamExamine.ProjectTeamExamine;
+import com.sicnu.pojo.teamMap.PatentTeamMap;
+import com.sicnu.pojo.teamMap.ProjectTeamMap;
 import com.sicnu.pojo.teamMap.UserAuth;
 import com.sicnu.service.ProjectService;
 import com.sicnu.util.Result;
@@ -362,5 +365,17 @@ public class ProjectServiceImpl implements ProjectService {
         return rs;
     }
 
-
+    public  Result findPersonalProjectMessage(Integer project_id){
+        try {
+            Project project = projectDao.findProjectById(project_id);
+            List<ProjectTeamMap> projectTeamMaps = projectTeamMapper.selectProjectTeam(project_id);
+            Map<String,Object> map =new HashMap<>();
+            map.put("project",project);
+            map.put("projectTeamMaps",projectTeamMaps);
+            rs = new Result("200",null,map);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
 }

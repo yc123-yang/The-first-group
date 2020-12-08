@@ -1,5 +1,7 @@
 package com.sicnu.controller;
 
+import com.sicnu.pojo.Award;
+import com.sicnu.pojo.AwardTeam;
 import com.sicnu.service.impl.AwardTeamServiceImpl;
 import com.sicnu.util.Result;
 import org.springframework.stereotype.Controller;
@@ -52,9 +54,9 @@ public class AwardTeamController {
     }
 
     @PostMapping("/team/updateAwardTeamUser")
-    public Result updateAwardTeamUser(int contribution) {
+    public Result updateAwardTeamUser(AwardTeam awardTeam) {
         try {
-            rs=awardTeamService.updateAwardTeamUser(contribution);
+            rs=awardTeamService.updateAwardTeamUser(awardTeam);
         } catch (Exception e) {
             e.printStackTrace();
         }

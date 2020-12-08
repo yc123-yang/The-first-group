@@ -2,6 +2,7 @@ package com.sicnu.service.impl;
 
 import com.sicnu.mapper.BookTeamMapper;
 import com.sicnu.mapper.UserMapper;
+import com.sicnu.pojo.BookTeam;
 import com.sicnu.pojo.User;
 import com.sicnu.pojo.teamMap.BookTeamMap;
 import com.sicnu.service.BookTeamService;
@@ -59,9 +60,9 @@ public class BookTeamServiceImpl implements BookTeamService {
     }
 
     @Override
-    public Result updateBookTeamUser(int contribution) {
+    public Result updateBookTeamUser(BookTeam bookTeam) {
         try {
-            bookTeamMapper.updateBookTeamUser(contribution);
+            bookTeamMapper.updateBookTeamUser(bookTeam);
             rs = new Result("200","更改成功",null);
         } catch (Exception e) {
             e.printStackTrace();

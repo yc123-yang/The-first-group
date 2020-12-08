@@ -2,6 +2,8 @@ package com.sicnu.service.impl;
 
 import com.sicnu.mapper.AwardTeamMapper;
 import com.sicnu.mapper.UserMapper;
+import com.sicnu.pojo.Award;
+import com.sicnu.pojo.AwardTeam;
 import com.sicnu.pojo.User;
 import com.sicnu.pojo.teamMap.AwardTeamMap;
 import com.sicnu.service.AwardTeamService;
@@ -55,9 +57,9 @@ public class AwardTeamServiceImpl implements AwardTeamService {
     }
 
     @Override
-    public Result updateAwardTeamUser(int contribution) {
+    public Result updateAwardTeamUser(AwardTeam awardTeam) {
         try {
-            awardTeamMapper.updateAwardTeamUser(contribution);
+            awardTeamMapper.updateAwardTeamUser(awardTeam);
             rs = new Result("200","更改成功",null);
         } catch (Exception e) {
             e.printStackTrace();

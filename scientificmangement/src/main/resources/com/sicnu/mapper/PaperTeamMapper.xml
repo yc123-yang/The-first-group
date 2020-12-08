@@ -50,6 +50,10 @@
             <if test="contribution!=null and contribution!=''">
                 contribution = #{contribution},
             </if>
-        </trim>>
+        </trim>
+        where
+        paper_id =#{paper_id}
+        and
+        user_id = #{user_id}
     </update>
 </mapper>

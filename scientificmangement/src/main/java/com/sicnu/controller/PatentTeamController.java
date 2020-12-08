@@ -1,6 +1,7 @@
 package com.sicnu.controller;
 
 
+import com.sicnu.pojo.PatentTeam;
 import com.sicnu.service.impl.PatentTeamServiceImpl;
 import com.sicnu.util.Result;
 import org.springframework.stereotype.Controller;
@@ -49,9 +50,9 @@ public class PatentTeamController {
         return rs;
     }
     @PostMapping("/team/updatePatentTeamUser")
-    public Result updatePatentTeamUser(Integer contribution) {
+    public Result updatePatentTeamUser(PatentTeam patentTeam) {
         try {
-            rs=patentTeamService.updatePatentTeamUser(contribution);
+            rs=patentTeamService.updatePatentTeamUser(patentTeam);
         } catch (Exception e) {
             e.printStackTrace();
         }

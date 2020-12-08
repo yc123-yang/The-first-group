@@ -275,8 +275,11 @@ public class PaperServiceImpl implements PaperService {
             Paper paper = paperMapper.findPaperById(paper_id);
             List<PaperTeamMap> paperTeamMaps = paperTeamMapper.selectPaperTeam(paper_id);
             Map<String,Object> map =new HashMap<>();
+            List<Integer> periodicalIds = periodicalPaperMapper.findPeriodicalByPaperId(paper_id);
+
             map.put("paper",paper);
             map.put("paperTeamMaps",paperTeamMaps);
+            map.put("periodicalIds",periodicalIds);
             rs = new Result("200",null,map);
         } catch (Exception e) {
             e.printStackTrace();

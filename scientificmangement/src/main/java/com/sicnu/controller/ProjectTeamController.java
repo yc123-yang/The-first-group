@@ -1,5 +1,6 @@
 package com.sicnu.controller;
 
+import com.sicnu.pojo.ProjectTeam;
 import com.sicnu.service.impl.ProjectTeamServiceImpl;
 import com.sicnu.util.Result;
 import org.springframework.stereotype.Controller;
@@ -42,9 +43,9 @@ public class ProjectTeamController {
     }
 
     @PostMapping(value = "/team/updateProjectTeamUser")
-    public Result updateProjectTeamUser(String team_role) {
+    public Result updateProjectTeamUser(ProjectTeam projectTeam) {
         try {
-           rs= projectTeamService.updateProjectTeamUser(team_role);
+           rs= projectTeamService.updateProjectTeamUser(projectTeam);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -2,6 +2,7 @@ package com.sicnu.controller;
 
 import com.sicnu.pojo.Project;
 import com.sicnu.pojo.ProjectExamine;
+import com.sicnu.pojo.teamMap.ProjectTeamMap;
 import com.sicnu.service.impl.ProjectServiceImpl;
 import com.sicnu.util.Result;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -16,6 +17,9 @@ import javax.mail.MessagingException;
 import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @CrossOrigin
@@ -160,5 +164,14 @@ public class ProjectController {
         return rs;
     }
 
+    @PostMapping("/project/findPersonalProjectMessage")
+    public  Result findPersonalProjectMessage(Integer project_id){
+        try {
 
+            rs = projectService.findPersonalProjectMessage(project_id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
 }
