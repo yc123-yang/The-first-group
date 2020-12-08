@@ -39,7 +39,7 @@
           <el-table-column prop="publish_time" label="发表日期" width="230px" align="center">
             <template slot="header" slot-scope="scope">{{scope.haha}}
               <div style="line-height: 14px;">发表日期</div>
-              <el-date-picker class="columnInput" style="width: 200px; padding-right: 0;" size="mini"
+              <el-date-picker class="columnInput" style="width: 200px; padding-right: 0;" size="mini" value-format="yyyy-MM-dd 00:00:00"
                 v-model="queryInfo.publish_time" type="daterange" range-separator="至" start-placeholder="开始日期"
                 end-placeholder="结束日期" @change="QueryPaperList">
               </el-date-picker>
@@ -194,27 +194,27 @@ export default {
     // 获取论文成果列表
     async getPaperData () {
        // 获取单位列表
-      const { data: res1 } = await this.$http.post('/department/findAlldepartment')
+      const { data: res1 } = await this.$http.post('/department/findAllDepartment')
       this.departmentList = res1.data
       // 构造单位 id:name 对象
       this.departmentList.forEach(item => this.departmentObj[item.department_id] = item.department_name)
       // 获取学科门类列表
-      const { data: res2 } = await this.$http.post('/sc/findAllsc')
+      const { data: res2 } = await this.$http.post('/category/findAllSubjectCategory')
       this.scList = res2.data
       // 构造学科门类 id:name 对象
       this.scList.forEach(item => this.scObj[item.sc_id] = item.sc_name)
       // 获取一级学科列表
-      const { data: res3 } = await this.$http.post('/subject/findAllsubject')
+      const { data: res3 } = await this.$http.post('/subject/findAllSubject')
       this.subjectList = res3.data
       // 构造一级学科 id:name 对象
       this.subjectList.forEach(item => this.subjectObj[item.subject_id] = item.subject_name)
       // 获取期刊列表
-      const { data: res4 } = await this.$http.post('/periodical/findAllperiodical')
+      const { data: res4 } = await this.$http.post('/periodical/findAllPeriodical')
       this.periodicalList = res4.data
       // 构造 期刊 对象
       this.periodicalList.forEach(item => this.periodicalObj[item.periodical_id] = item.periodical_name)
       // 获取论文类型列表
-      const { data: res5 } = await this.$http.post('/pt/findAllpt')
+      const { data: res5 } = await this.$http.post('/paperType/findAllPaperType')
       this.ptList = res5.data
       // 构造 论文类型对象
       this.ptList.forEach(item => this.ptObj[item.pt_id] = item.pt_name)
@@ -222,8 +222,12 @@ export default {
 
        // 获取论文成果列表
     async getPaperList() {
+      if(this.queryInfo.publish_time !== ''){
+        this.queryInfo.publish_time_start = this.queryInfo.publish_time[0]
+        this.queryInfo.publish_time_end = this.queryInfo.publish_time[1]
+      }else this.queryInfo.publish_time_start = this.queryInfo.publish_time_end = ''
       // 通过 post 请求获取科研项目列表
-      const { data: res } = await this.$http.post('paper/selectPaperByCondition', this.$qs.stringify(this.queryInfo))
+      const { data: res } = await this.$http.post('/paper/selectAllPaperByCondition', this.$qs.stringify(this.queryInfo))
       if( res.status === '404' ) {
         return this.$router.push('/home')
       }

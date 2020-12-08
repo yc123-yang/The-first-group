@@ -29,9 +29,19 @@ import {
   TabPane,
   Tree,
   MessageBox,
-  Tag
+  Tag,
+  Loading,
+  InputNumber,
+  Radio,
+  RadioGroup,
+  Cascader
 } from 'element-ui'
 
+Vue.use(Cascader)
+Vue.use(RadioGroup)
+Vue.use(Radio)
+Vue.use(InputNumber)
+Vue.use(Loading)
 Vue.use(Tag)
 Vue.use(Tree)
 Vue.use(TabPane)

@@ -10,32 +10,28 @@
           <!-- 多选列 -->
           <el-table-column type="selection" align="center" fixed></el-table-column>
           <el-table-column prop="book_name" label="著作题目" width="300px" align="center" fixed>
-            <template slot="header" slot-scope="scope"
-              >{{ scope.haha }}
+            <template slot="header" slot-scope="scope">
               <div style="line-height: 14px">著作题目</div>
               <el-input class="columnInput" size="mini" clearable v-model="queryInfo.book_name" placeholder="请输入" @change="QueryBookList"> </el-input>
             </template>
           </el-table-column>
 
           <el-table-column prop="authorName" label="著作作者" width="150px" align="center">
-            <template slot="header" slot-scope="scope"
-              >{{ scope.haha }}
+            <template slot="header" slot-scope="scope">
               <div style="line-height: 14px">著作作者</div>
               <el-input class="columnInput" size="mini" clearable v-model="queryInfo.authorName" placeholder="请输入" @change="QueryBookList"> </el-input>
             </template>
           </el-table-column>
 
           <el-table-column prop="press" label="出版社" width="150px" align="center">
-            <template slot="header" slot-scope="scope"
-              >{{ scope.haha }}
+            <template slot="header" slot-scope="scope">
               <div style="line-height: 14px">出版社</div>
               <el-input class="columnInput" size="mini" clearable v-model="queryInfo.press" placeholder="请输入" @change="QueryBookList"> </el-input>
             </template>
           </el-table-column>
           
           <el-table-column prop="pl_name" label="出版社级别" width="200px" align="center">
-            <template slot="header" slot-scope="scope"
-              >{{ scope.haha }}
+            <template slot="header" slot-scope="scope">
               <div style="line-height: 14px">出版社级别</div>
               <el-select class="columnInput" v-model="queryInfo.pl" size="mini" placeholder="请选择" @change="QueryBookList">
                 <el-option v-for="item in plList" :key="item.pl_id" :label="item.pl_name" :value="item.pl_id"> </el-option>
@@ -44,8 +40,7 @@
           </el-table-column>
 
           <el-table-column prop="bt_name" label="著作类型" width="200px" align="center">
-            <template slot="header" slot-scope="scope"
-              >{{ scope.haha }}
+            <template slot="header" slot-scope="scope">
               <div style="line-height: 14px">著作类型</div>
               <el-select class="columnInput" v-model="queryInfo.bt" size="mini" placeholder="请选择" @change="QueryBookList">
                 <el-option v-for="item in btList" :key="item.bt_id" :label="item.bt_name" :value="item.bt_id"> </el-option>
@@ -54,8 +49,7 @@
           </el-table-column>
 
           <el-table-column prop="pp_name" label="出版地" width="200px" align="center">
-            <template slot="header" slot-scope="scope"
-              >{{ scope.haha }}
+            <template slot="header" slot-scope="scope">
               <div style="line-height: 14px">出版地</div>
               <el-select class="columnInput" v-model="queryInfo.pp_id" size="mini" placeholder="请选择" @change="QueryBookList">
                 <el-option v-for="item in ppList" :key="item.pp_id" :label="item.pp_name" :value="item.pp_id"> </el-option>
@@ -66,40 +60,37 @@
 
 
           <el-table-column prop="publish_time" label="发表日期" width="230px" align="center">
-            <template slot="header" slot-scope="scope"
-              >{{ scope.haha }}
+            <template slot="header" slot-scope="scope">
               <div style="line-height: 14px">发表日期</div>
-              <el-date-picker class="columnInput" style="width: 200px; padding-right: 0" size="mini"  @change="QueryBookList" v-model="queryInfo.publish_time" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"> </el-date-picker>
+              <el-date-picker class="columnInput" style="width: 200px; padding-right: 0" size="mini"  @change="QueryBookList"
+                v-model="queryInfo.publish_time" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"
+                value-format="yyyy-MM-dd"> </el-date-picker>
             </template>
           </el-table-column>
 
           <el-table-column prop="isbn" label="ISBN号" width="150px" align="center">
-            <template slot="header" slot-scope="scope"
-              >{{ scope.haha }}
+            <template slot="header" slot-scope="scope">
               <div style="line-height: 14px">ISBN号</div>
               <el-input class="columnInput" size="mini" clearable v-model="queryInfo.isbn" placeholder="请输入" @change="QueryBookList"> </el-input>
             </template>
           </el-table-column>
 
           <el-table-column prop="word_number" label="总字数" width="150px" align="center">
-            <template slot="header" slot-scope="scope"
-              >{{ scope.haha }}
+            <template slot="header" slot-scope="scope">
               <div style="line-height: 14px">总字数</div>
               <el-input class="columnInput" size="mini" clearable v-model="queryInfo.word_number" placeholder="请输入" @change="QueryBookList"> </el-input>
             </template>
           </el-table-column>
 
           <el-table-column prop="trans" label="是否翻译" width="150px" align="center">
-            <template slot="header" slot-scope="scope"
-              >{{ scope.haha }}
+            <template slot="header" slot-scope="scope">
               <div style="line-height: 14px">总字数</div>
               <el-input class="columnInput" size="mini" clearable v-model="queryInfo.trans" placeholder="请输入" @change="QueryBookList"> </el-input>
             </template>
           </el-table-column>
 
           <el-table-column prop="language_name" label="翻译语种" width="200px" align="center">
-            <template slot="header" slot-scope="scope"
-              >{{ scope.haha }}
+            <template slot="header" slot-scope="scope">
               <div style="line-height: 14px">翻译语种</div>
               <el-select  @change="QueryBookList" class="columnInput" v-model="queryInfo.language_id" multiple size="mini" collapse-tags placeholder="请选择">
                 <el-option v-for="item in languageList" :key="item.language_id" :label="item.language_name" :value="item.language_id"> </el-option>
@@ -108,8 +99,7 @@
           </el-table-column>
 
           <el-table-column prop="sc_name" label="学科门类" width="200px" align="center">
-            <template slot="header" slot-scope="scope"
-              >{{ scope.haha }}
+            <template slot="header" slot-scope="scope">
               <div style="line-height: 14px">学科门类</div>
               <el-select  @change="QueryBookList" class="columnInput" v-model="queryInfo.sc_id" multiple size="mini" collapse-tags placeholder="请选择">
                 <el-option v-for="item in scList" :key="item.sc_id" :label="item.sc_name" :value="item.sc_id"> </el-option>
@@ -117,8 +107,7 @@
             </template>
           </el-table-column>
           <el-table-column prop="subject_name" label="一级学科" width="200px" align="center">
-            <template slot="header" slot-scope="scope"
-              >{{ scope.haha }}
+            <template slot="header" slot-scope="scope">
               <div style="line-height: 14px">一级学科</div>
               <el-select @change="QueryBookList"  class="columnInput" v-model="queryInfo.subject" multiple size="mini" collapse-tags placeholder="请选择">
                 <el-option v-for="item in subjectList" :key="item.subject_id" :label="item.subject_name" :value="item.subject_id"> </el-option>
@@ -126,8 +115,7 @@
             </template>
           </el-table-column>
           <el-table-column prop="aod_name" label="归属单位" width="200px" align="center">
-            <template slot="header" slot-scope="scope"
-              >{{ scope.haha }}
+            <template slot="header" slot-scope="scope">
               <div style="line-height: 14px">归属单位</div>
               <el-select  @change="QueryBookList" class="columnInput" v-model="queryInfo.aod_id" multiple size="mini" collapse-tags placeholder="请选择">
                 <el-option v-for="item in departmentList" :key="item.department_id" :label="item.department_name" :value="item.department_id"> </el-option>
@@ -136,8 +124,7 @@
           </el-table-column>
 
           <el-table-column prop="sd_name" label="项目来源" width="250px" align="center">
-            <template slot="header" slot-scope="scope"
-              >{{ scope.haha }}
+            <template slot="header" slot-scope="scope">
               <div style="line-height: 14px">项目来源</div>
               <el-select  @change="QueryBookList" class="columnInput" v-model="queryInfo.sd_id" multiple size="mini" collapse-tags placeholder="请选择">
                 <el-option v-for="item in departmentList" :key="item.department_id" :label="item.department_name" :value="item.department_id"> </el-option>
@@ -146,8 +133,7 @@
           </el-table-column>
 
           <el-table-column prop="rt_name" label="研究类别" width="250px" align="center">
-            <template slot="header" slot-scope="scope"
-              >{{ scope.haha }}
+            <template slot="header" slot-scope="scope">
               <div style="line-height: 14px">研究类别</div>
               <el-select  @change="QueryBookList" class="columnInput" v-model="queryInfo.rt_id" multiple size="mini" collapse-tags placeholder="请选择">
                 <el-option v-for="item in rtList" :key="item.rt_id" :label="item.rt_name" :value="item.rt_id"> </el-option>
@@ -248,50 +234,46 @@ export default {
   },
   async created() {
       await this.getBookData()
-      this.getBookList()
+      await this.getBookList()
+      this.booksList = JSON.parse(JSON.stringify(this.booksList))
   },
   methods: {
     // 获取论文成果列表
     async getBookData () {
        // 获取单位列表
-      const { data: res1 } = await this.$http.post('/department/findAlldepartment')
+      const { data: res1 } = await this.$http.post('/department/findAllDepartment')
       this.departmentList = res1.data
       // 构造单位 id:name 对象
       this.departmentList.forEach(item => this.departmentObj[item.department_id] = item.department_name)
       // 获取学科门类列表
-      const { data: res2 } = await this.$http.post('/sc/findAllsc')
+      const { data: res2 } = await this.$http.post('/category/findAllSubjectCategory')
       this.scList = res2.data
       // 构造学科门类 id:name 对象
       this.scList.forEach(item => this.scObj[item.sc_id] = item.sc_name)
       // 获取一级学科列表
-      const { data: res3 } = await this.$http.post('/subject/findAllsubject')
+      const { data: res3 } = await this.$http.post('/subject/findAllSubject')
       this.subjectList = res3.data
       // 构造一级学科 id:name 对象
       this.subjectList.forEach(item => this.subjectObj[item.subject_id] = item.subject_name)
-      // 获取出版社列表
-      const { data: res4 } = await this.$http.post('/press/findAllpress')
-      this.pressList = res4.data
-      // 构造 出版社 对象
-      this.pressList.forEach(item => this.pressObj[item.press_id] = item.press_name)
       // 获取出版社等级列表
-      const { data: res5 } = await this.$http.post('/pl/findAllpl')
+      const { data: res5 } = await this.$http.post('/pressLevel/findAllPressLevel')
       this.plList = res5.data
       // 构造 出版社等级对象
       this.plList.forEach(item => this.plObj[item.pl_id] = item.pl_name)
       // 构造 著作类型
-      const { data: res6 } = await this.$http.post('/bt/findAllbt')
+      const { data: res6 } = await this.$http.post('/bookType/findAllBookType')
       this.btList = res6.data
       this.btList.forEach(item => this.btObj[item.bt_id] = item.bt_name)
       // 构造 出版地
-      const { data: res7 } = await this.$http.post('/pp/findAllpp')
+      const { data: res7 } = await this.$http.post('/publicationPlace/findAllPublicationPlace')
       this.ppList = res7.data
       this.ppList.forEach(item => this.ppObj[item.pp_id] = item.pp_name)
       // 构造语种
-      const { data: res8 } = await this.$http.post('/language/findAlllanguage')
+      const { data: res8 } = await this.$http.post('/language/findAllLanguage')
       this.languageList = res8.data
       this.languageList.forEach(item => this.languageObj[item.language_id] = item.language_name)
       // 构造研究类型
-      const { data: res9 } = await this.$http.post('/rt/findAllrt')
+      const { data: res9 } = await this.$http.post('researchType/findAllResearchType')
       this.rtList = res9.data
       this.rtList.forEach(item => this.rtObj[item.rt_id] = item.rt_name)
     },
@@ -299,7 +281,11 @@ export default {
        // 获取论文成果列表
     async getBookList() {
       // 通过 post 请求获取科研项目列表
-      const { data: res } = await this.$http.post('book/selectBookByCondition', this.$qs.stringify(this.queryInfo))
+      if(this.queryInfo.publish_time !== '') {
+        this.queryInfo.publish_time_start = this.publish_time[0]
+        this.queryInfo.publish_time_end = this.publish_time[0]
+      } else this.queryInfo.publish_time_start = this.queryInfo.publish_time_end = ''
+      const { data: res } = await this.$http.post('/book/selectAllBookByCondition', this.$qs.stringify(this.queryInfo))
       if( res.status === '404' ) {
         return this.$router.push('/home')
       }
@@ -319,7 +305,11 @@ export default {
         item.rt_name = this.rtObj[item.rt_id]
         item.language_name = this.languageObj[item.language_id]
       })
-      console.log(this.booksList)
+      for(var i=0;i<this.booksList.length;i++) {
+        const { data: res } = await this.$http.post('/user/findUserById', this.$qs.stringify({user_id: this.booksList[i].leader_id}))
+        if( res.status !== '200' ) return this.$message.error('查询作者失败')
+        this.booksList[i].authorName = res.data.user_name
+      }
     },
     // 多选框条件发生变化
     selectionChange() {

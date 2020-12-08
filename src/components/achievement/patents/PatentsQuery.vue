@@ -24,20 +24,12 @@
         </template>
       </el-table-column>
 
-      <el-table-column prop="award_name" label="获奖名字" width="300px" align="center">
-        <template slot="header" slot-scope="scope"
-          >{{ scope.haha }}
-          <div style="line-height: 14px">获奖名字</div>
-          <el-input class="columnInput" size="mini" clearable v-model="queryInfo.award_name" placeholder="请输入" @change="QueryPatentList"> </el-input>
-        </template>
-      </el-table-column>
-
-      <el-table-column prop="ptz_name" label="专利类型" width="200px" align="center">
+      <el-table-column prop="pt_name" label="专利类型" width="200px" align="center">
         <template slot="header" slot-scope="scope"
           >{{ scope.haha }}
           <div style="line-height: 14px">专利类型</div>
-          <el-select @change="QueryPatentList" class="columnInput" v-model="queryInfo.ptz_id" multiple size="mini" collapse-tags placeholder="请选择">
-            <el-option v-for="item in ptzList" :key="item.ptz_id" :label="item.ptz_name" :value="item.ptz_id"> </el-option>
+          <el-select @change="QueryPatentList" class="columnInput" v-model="queryInfo.pt_id" multiple size="mini" collapse-tags placeholder="请选择">
+            <el-option v-for="item in ptList" :key="item.pt_id" :label="item.pt_name" :value="item.pt_id"> </el-option>
           </el-select>
         </template>
       </el-table-column>
@@ -139,7 +131,7 @@ export default {
         patent_id: "",
         leader_id: "",
         patent_name: "",
-        ptz_id: "",
+        pt_id: "",
         pr_id: "",
         ps_id: "",
         aod_id: "",
@@ -169,8 +161,8 @@ export default {
       departmentList: [],
 
       // 专利类型
-      ptzObj: {},
-      ptzList: [],
+      ptObj: {},
+      ptList: [],
       // 专利范围
       prObj: {},
       prList: [],
@@ -192,27 +184,39 @@ export default {
     // 获取论文成果列表
     async getPatentData() {
       // 获取单位列表
-      const { data: res1 } = await this.$http.post("/department/findAlldepartment");
+      const { data: res1 } = await this.$http.post("/department/findAllDepartment");
       this.departmentList = res1.data;
       // 构造单位 id:name 对象
       this.departmentList.forEach((item) => (this.departmentObj[item.department_id] = item.department_name));
 
       // 构造 专利类型
-      const { data: res2 } = await this.$http.post("/ptz/findAllptz");
-      this.ptzList = res2.data;
-      this.ptzList.forEach((item) => (this.ptzObj[item.ptz_id] = item.ptz_name));
+      const { data: res2 } = await this.$http.post("/patentType/findAllPatentType");
+      this.ptList = res2.data;
+      this.ptList.forEach((item) => (this.ptObj[item.pt_id] = item.pt_name));
       // 构造 专利范围
-      const { data: res3 } = await this.$http.post("/pr/findAllpr");
+      const { data: res3 } = await this.$http.post("/patentRange/findAllPatentRange");
       this.prList = res3.data;
       this.prList.forEach((item) => (this.prObj[item.pr_id] = item.pr_name));
       // 构造 专利状态
-      const { data: res4 } = await this.$http.post("/ps/findAllps");
+      const { data: res4 } = await this.$http.post("/patentStatus/findAllPatentStatus");
       this.psList = res4.data;
       this.psList.forEach((item) => (this.psObj[item.ps_id] = item.ps_name));
     },
 
     // 获取论文成果列表
-    async getPatentList() {
+    async preGetPatentList() {
+      if(this.queryInfo.public_time !== '') {
+        this.queryInfo.public_time_start = this.queryInfo.public_time[0]
+        this.queryInfo.public_time_end = this.queryInfo.public_time[1]
+      } else this.queryInfo.public_time_start = this.queryInfo.public_time_end = ''
+      if(this.queryInfo.authorization_time !== '') {
+        this.queryInfo.authorization_time_start = this.queryInfo.authorization_time[0]
+        this.queryInfo.authorization_time_end = this.queryInfo.authorization_time[1]
+      } else this.queryInfo.authorization_time_start = this.queryInfo.authorization_time_end = ''
+      if(this.queryInfo.application_time !== '') {
+        this.queryInfo.application_time_start = this.queryInfo.application_time[0]
+        this.queryInfo.application_time_end = this.queryInfo.application_time[1]
+      } else this.queryInfo.application_time_start = this.queryInfo.application_time_end = ''
       // 通过 post 请求获取科研项目列表
       const { data: res } = await this.$http.post("patent/selectPatentByCondition", this.$qs.stringify(this.queryInfo));
       if (res.status === "404") {
@@ -226,11 +230,20 @@ export default {
         item.application_time = item.application_time.substring(0, 10);
         item.public_time = item.public_time.substring(0, 10);
         item.authorization_time = item.authorization_time.substring(0, 10);
-        item.ptz_name = this.ptzObj[item.ptz_id];
+        item.pt_name = this.ptObj[item.pt_id];
         item.pr_name = this.prObj[item.pr_id];
         item.ps_name = this.psObj[item.ps_id];
       });
+      for(var i=0;i<this.patentsList.length;i++) {
+        const { data: res } = await this.$http.post('/user/findUserById', this.$qs.stringify({user_id: this.patentsList[i].leader_id}))
+        if( res.status !== '200' ) return this.$message.error('查询作者失败')
+        this.patentsList[i].authorName = res.data.user_name
+      }
       console.log(this.patentsList);
+    },
+    async getPatentList() {
+      await this.preGetPatentList()
+      this.patentsList = JSON.parse(JSON.stringify(this.patentsList))
     },
     // 多选框条件发生变化
     selectionChange() {

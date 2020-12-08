@@ -3,7 +3,7 @@
     <el-button type="warning" size="medium" @click="print">导出信息</el-button>
 
     <el-table :data="projectsList" style="width: 100%; margin-top: 15px;" border
-      @selection-change="selectionChange" 
+      @selection-change="selectionChange" v-loading="isLoading"
       :header-cell-style="{background: '#f5f7fa'}">
       <!-- 序号列 -->
       <el-table-column type="index" label="#" align="center" fixed></el-table-column>
@@ -234,7 +234,8 @@ export default {
       // 结题形式 id:name 对象
       ctObj: {},
       // 结题形式列表
-      ctList: []
+      ctList: [],
+      isLoading: false
     }
   },
   async created() {
@@ -244,44 +245,56 @@ export default {
   methods: {
     // 获取科研项目页面所需的全部数据项，构造id:name字典
     async getProjectData() {
+      this.isLoading = true
       // 获取单位列表
-      const { data: res1 } = await this.$http.post('/department/findAlldepartment')
+      const { data: res1 } = await this.$http.post('/department/findAllDepartment')
+      if(res1.status !== '200') return this.$message.error('获取单位数据失败')
       this.departmentList = res1.data
       // 构造单位 id:name 对象
       this.departmentList.forEach(item => this.departmentObj[item.department_id] = item.department_name)
       // 获取学科门类列表
-      const { data: res2 } = await this.$http.post('/sc/findAllsc')
+      const { data: res2 } = await this.$http.post('/category/findAllSubjectCategory')
+      if(res2.status !== '200') return this.$message.error('获取学科门类数据失败')
       this.scList = res2.data
       // 构造学科门类 id:name 对象
       this.scList.forEach(item => this.scObj[item.sc_id] = item.sc_name)
       // 获取一级学科列表
-      const { data: res3 } = await this.$http.post('/subject/findAllsubject')
+      const { data: res3 } = await this.$http.post('/subject/findAllSubject')
+      if(res3.status !== '200') return this.$message.error('获取一级学科列表失败')
       this.subjectList = res3.data
       // 构造一级学科 id:name 对象
       this.subjectList.forEach(item => this.subjectObj[item.subject_id] = item.subject_name)
       // 获取项目性质列表
-      const { data: res4 } = await this.$http.post('/nature/findAllnature')
+      const { data: res4 } = await this.$http.post('/nature/findAllNature')
+      if(res4.status !== '200') return this.$message.error('获取项目性质列表失败')
       this.natureList = res4.data
       // 构造项目性质 id:name 对象
       this.natureList.forEach(item => this.natureObj[item.nature_id] = item.nature_name)
       // 获取项目级别列表
-      const { data: res5 } = await this.$http.post('/level/findAlllevel')
+      const { data: res5 } = await this.$http.post('/level/findAllLevel')
+      if(res5.status !== '200') return this.$message.error('获取项目级别列表失败')
       this.levelList = res5.data
       // 构造项目级别 id:name 对象
       this.levelList.forEach(item => this.levelObj[item.level_id] = item.level_name)
       // 获取项目状态列表
-      const { data: res6 } = await this.$http.post('status/findAllstatus')
+      const { data: res6 } = await this.$http.post('/status/findAllStatus')
+      if(res6.status !== '200') return this.$message.error('获取项目状态列表失败')
       this.statusList = res6.data
       // 构造项目状态 id:name 对象
       this.statusList.forEach(item => this.statusObj[item.status_id] = item.status_name)
       // 获取结题形式列表
-      const { data: res7 } = await this.$http.post('ct/findAllct')
+      const { data: res7 } = await this.$http.post('/conclusionType/findAllConclusionType')
+      console.log(res7)
+      if(res7.status !== '200') return this.$message.error('获取结题形式列表失败')
       this.ctList = res7.data
+      console.log(this.ctList)
       // 构造结题形式 id:name 对象
       this.ctList.forEach(item => this.ctObj[item.ct_id]=item.ct_name)
+      this.isLoading = false
     },
     // 获取科研项目列表
     async getProjectList() {
+      this.isLoading = true
       // 通过 post 请求获取科研项目列表
       const { data: res } = await this.$http.post('/project/selectAllProjectByCondition', this.$qs.stringify(this.queryInfo))
       if( res.status === '404' ) {
@@ -303,6 +316,10 @@ export default {
         item.complete_time = item.complete_time.substring(0, 10)
         item.ct_name = this.ctObj[item.ct_id]
       })
+      this.isLoading = false
+      console.log(this.scObj)
+      console.log(this.subjectObj)
+      console.log(this.projectsList)
     },
     // 多选框条件发生变化
     selectionChange() {

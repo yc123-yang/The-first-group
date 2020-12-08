@@ -4,7 +4,6 @@ import NotLogin from '../components/NotLogin.vue'
 import Home from '../components/Home.vue'
 import axios from 'axios'
 import Login from '../components/logins/Login.vue'
-import Register from '../components/logins/Register.vue'
 import Welcome from '../components/Welcome.vue'
 import Papers from '../components/achievement/papers/Papers.vue'
 import Books from '../components/achievement/books/Books.vue'
@@ -25,6 +24,13 @@ import PatentsManage from '../components/achievement/patents/PatentsManage.vue'
 import PatentsQuery from '../components/achievement/patents/PatentsQuery.vue'
 import Logs from '../components/Logs.vue'
 import CheckProject from '../components/check/CheckProject.vue'
+import CheckBooks from '../components/check/CheckBooks.vue'
+import CheckPapers from '../components/check/CheckPapers.vue'
+import CheckPatents from '../components/check/CheckPatents.vue'
+import CheckAwards from '../components/check/CheckAwards.vue'
+import Data from '../components/Data.vue'
+import Assess from '../components/Assess.vue'
+import UserEdit from '../components/UserEdit.vue'
 
 Vue.use(VueRouter)
 axios.defaults.baseURL = 'http://localhost:8080/'
@@ -35,8 +41,7 @@ const routes = [
     component: NotLogin,
     redirect: '/login',
     children: [
-      { path: '/login', component: Login },
-      { path: '/register', component: Register }
+      { path: '/login', component: Login }
     ]
   },
   {
@@ -89,7 +94,14 @@ const routes = [
       { path: '/roleEdit', component: RoleEdit },
       { path: '/assignRole', component: AssignRole },
       { path: '/logs', component: Logs },
-      { path: '/checkproject', component: CheckProject }
+      { path: '/checkproject', component: CheckProject },
+      { path: '/checkbooks', component: CheckBooks },
+      { path: '/checkawards', component: CheckAwards },
+      { path: '/checkpapers', component: CheckPapers },
+      { path: '/checkpatents', component: CheckPatents },
+      { path: '/data', component: Data },
+      { path: '/assess', component: Assess },
+      { path: '/userEdit', component: UserEdit }
     ]
   }
 ]

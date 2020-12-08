@@ -269,7 +269,7 @@ export default {
     // 获取角色列表
     async getRoleList() {
       const { data: res } = await this.$http.post('/role/findAllRole')
-      if( res.status !== '0' ) return this.$message.error('获取角色列表失败')
+      if( res.status !== '200' ) return this.$message.error('获取角色列表失败')
       this.roleList = res.data
     },
     // 点击按钮，显示修改角色权限对话框
@@ -332,7 +332,7 @@ export default {
       this.$refs.addRoleFormRef.validate(async valid => {
         if(valid === 'false') return
         const { data: res } = await this.$http.post('role/addRole', this.$qs.stringify(this.addRoleForm))
-        if(res.status !== '0') return this.$message.error('添加角色失败')
+        if(res.status !== '200') return this.$message.error('添加角色失败')
         this.$message.success('添加角色成功')
         this.getRoleList()
         this.addRoleDialogVisible = false
@@ -350,9 +350,9 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).catch(err => err)
-      if(res === 'cancle') return this.$message.info('取消了本次删除操作')
+      if(res === 'cancel') return this.$message.info('取消了本次删除操作')
       const { data: res2 } = await this.$http.post('/role/delRole', this.$qs.stringify({ role_id: val }))
-      if(res2.status !== '0') return this.$message.error('删除角色失败')
+      if(res2.status !== '200') return this.$message.error('删除角色失败')
       this.$message.success('删除角色成功')
       this.getRoleList()
     }

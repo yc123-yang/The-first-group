@@ -10,6 +10,8 @@ import axios from 'axios'
 import qs from 'qs'
 // 导入一下mock
 require('./mock/api')
+import JsonExcel from 'vue-json-excel'
+Vue.component('downloadExcel', JsonExcel)
 
 // 配置请求的根路径
 // baseURL里面是网站的根目录
@@ -23,7 +25,7 @@ axios.interceptors.request.use(config => {
 })
 axios.interceptors.response.use(result => {
   const data = result.data
-  if (data.status === '401') {
+  if (data.status === '404') {
     window.sessionStorage.clear()
     router.push('/login')
     Vue.prototype.$message.error(data.msg)

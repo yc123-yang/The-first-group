@@ -1,5 +1,5 @@
 import Mock from 'mockjs'
-var flag = true
+var flag = false
 
 // 菜单列表+权限列表
 const menulist = [{

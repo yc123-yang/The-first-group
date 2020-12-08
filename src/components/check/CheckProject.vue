@@ -19,10 +19,10 @@
             </el-input>
           </template>
         </el-table-column>
-        <el-table-column prop="project_id" label="项目编号" width="200px" align="center">
+        <el-table-column prop="pe_id" label="项目编号" width="200px" align="center">
           <template slot="header" slot-scope="scope">
             <div style="line-height: 14px;">项目编号</div>
-            <el-input class="columnInput" size="mini" clearable v-model="queryInfo.project_id"
+            <el-input class="columnInput" size="mini" clearable v-model="queryInfo.pe_id"
               placeholder="请输入" @change="getProjectList">
             </el-input>
           </template>
@@ -158,7 +158,7 @@
         </el-table-column>
         <el-table-column label="操作" align="center" width="120" fixed="right">
           <template slot-scope="scope">
-            <el-button type="primary" icon="el-icon-edit" size="mini" @click="showCheckProjectDialog(scope.row.project_id)">审核</el-button>
+            <el-button type="primary" icon="el-icon-edit" size="mini" @click="showCheckProjectDialog(scope.row.pe_id)">审核</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -180,7 +180,7 @@
           <el-form-item label="项目名称：">{{projectInfo.project_name}}</el-form-item>
         </el-row>
         <el-row>
-          <el-col :span="12"><el-form-item label="项目编号：">{{projectInfo.project_id}}</el-form-item></el-col>
+          <el-col :span="12"><el-form-item label="项目编号：">{{projectInfo.pe_id}}</el-form-item></el-col>
           <el-col :span="12"><el-form-item label="所在单位：">{{projectInfo.department_name}}</el-form-item></el-col>
         </el-row>
         <el-row>
@@ -326,31 +326,31 @@ export default {
     // 预先获取待审核项目所需的字典数据
     async getProjectData() {
       // 处理单位列表和 id:name 对象
-      const { data: res1 } = await this.$http.post('/department/findAlldepartment')
+      const { data: res1 } = await this.$http.post('/department/findAllDepartment')
       this.departmentList = res1.data
       this.departmentList.forEach(item => this.departmentObj[item.department_id] = item.department_name)
       // 处理学科门类列表和 id:name 对象
-      const { data: res2 } = await this.$http.post('/sc/findAllsc')
+      const { data: res2 } = await this.$http.post('/category/findAllSubjectCategory')
       this.scList = res2.data
       this.scList.forEach(item => this.scObj[item.sc_id] = item.sc_name)
       // 获取一级学科列表和 id:name 对象
-      const { data: res3 } = await this.$http.post('/subject/findAllsubject')
+      const { data: res3 } = await this.$http.post('/subject/findAllSubject')
       this.subjectList = res3.data
       this.subjectList.forEach(item => this.subjectObj[item.subject_id] = item.subject_name)
       // 获取项目性质列表和 id:name 对象
-      const { data: res4 } = await this.$http.post('/nature/findAllnature')
+      const { data: res4 } = await this.$http.post('/nature/findAllNature')
       this.natureList = res4.data
       this.natureList.forEach(item => this.natureObj[item.nature_id] = item.nature_name)
       // 获取项目级别列表和 id:name 对象
-      const { data: res5 } = await this.$http.post('/level/findAlllevel')
+      const { data: res5 } = await this.$http.post('/level/findAllLevel')
       this.levelList = res5.data
       this.levelList.forEach(item => this.levelObj[item.level_id] = item.level_name)
       // 获取项目状态列表和 id:name 对象
-      const { data: res6 } = await this.$http.post('status/findAllstatus')
+      const { data: res6 } = await this.$http.post('/status/findAllStatus')
       this.statusList = res6.data
       this.statusList.forEach(item => this.statusObj[item.status_id] = item.status_name)
       // 获取结题形式列表和 id:name 对象
-      const { data: res7 } = await this.$http.post('ct/findAllct')
+      const { data: res7 } = await this.$http.post('/conclusionType/findAllConclusionType')
       this.ctList = res7.data
       this.ctList.forEach(item => this.ctObj[item.ct_id]=item.ct_name)
     },
@@ -370,7 +370,7 @@ export default {
         this.queryInfo.complete_time_end = this.complete_time[1]
       } else this.queryInfo.complete_time_start = this.queryInfo.complete_time_end = ''
       this.queryInfo.pageNum = 1
-      const { data: res } = await this.$http.post('/check/project/findAllProjectByCondition', this.$qs.stringify(this.queryInfo))
+      const { data: res } = await this.$http.post('/projectExamine/selectAllProjectExamineByCondition', this.$qs.stringify(this.queryInfo))
       if( res.status !== '200' ) return this.$message('查询待审核项目列表失败')
       this.total = res.data[0].total
       this.projectList = res.data[1]
@@ -404,7 +404,7 @@ export default {
     },
     // 点击审核按钮，显示审核项目对话框
     async showCheckProjectDialog(projectId) {
-      const { data: res } = await this.$http.post('/check/project/findProjectById', this.$qs.stringify({project_id: projectId}))
+      const { data: res } = await this.$http.post('/projectExamine/findProjectExamineById', this.$qs.stringify({pe_id: projectId}))
       if(res.status !== '200') return this.$message.error('获取待审核项目信息失败')
       this.projectInfo = res.data
       this.projectInfo.department_name = this.departmentObj[this.projectInfo.department_id]
@@ -431,7 +431,12 @@ export default {
         type: 'warning'
       }).catch(err => err)
       if(res === 'cancel') return this.$message.info('取消了本次操作')
-      const { data: res2 } = await this.$http.post('/check/project/approve', { project_id: this.projectInfo.project_id })
+      var postObj = JSON.parse(JSON.stringify(this.projectInfo))
+      postObj.complete_time = postObj.complete_time + " 00:00:00"
+      postObj.start_time = postObj.start_time + " 00:00:00"
+      postObj.plan_time = postObj.plan_time + " 00:00:00"
+      postObj.checkMessage = 'success'
+      const { data: res2 } = await this.$http.post('/project/addProject', this.$qs.stringify(postObj))
       if( res2.status !== '200' ) return this.$message.error('批准项目申请失败')
       this.$message.success('批准项目申请成功')
       this.getProjectList()

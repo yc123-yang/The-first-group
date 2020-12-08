@@ -10,32 +10,28 @@
       <!-- 多选列 -->
       <el-table-column type="selection" align="center" fixed></el-table-column>
       <el-table-column prop="book_name" label="著作题目" width="300px" align="center" fixed>
-        <template slot="header" slot-scope="scope"
-          >{{ scope.haha }}
+        <template slot="header" slot-scope="scope">
           <div style="line-height: 14px">著作题目</div>
           <el-input class="columnInput" size="mini" clearable v-model="queryInfo.book_name" placeholder="请输入" @change="QueryBookList"> </el-input>
         </template>
       </el-table-column>
 
       <el-table-column prop="authorName" label="著作作者" width="150px" align="center">
-        <template slot="header" slot-scope="scope"
-          >{{ scope.haha }}
+        <template slot="header" slot-scope="scope">
           <div style="line-height: 14px">著作作者</div>
           <el-input class="columnInput" size="mini" clearable v-model="queryInfo.authorName" placeholder="请输入" @change="QueryBookList"> </el-input>
         </template>
       </el-table-column>
 
       <el-table-column prop="press" label="出版社" width="150px" align="center">
-        <template slot="header" slot-scope="scope"
-          >{{ scope.haha }}
+        <template slot="header" slot-scope="scope">
           <div style="line-height: 14px">出版社</div>
           <el-input class="columnInput" size="mini" clearable v-model="queryInfo.press" placeholder="请输入" @change="QueryBookList"> </el-input>
         </template>
       </el-table-column>
 
       <el-table-column prop="pl_name" label="出版社级别" width="200px" align="center">
-        <template slot="header" slot-scope="scope"
-          >{{ scope.haha }}
+        <template slot="header" slot-scope="scope">
           <div style="line-height: 14px">出版社级别</div>
           <el-select class="columnInput" v-model="queryInfo.pl" size="mini" placeholder="请选择" @change="QueryBookList">
             <el-option v-for="item in plList" :key="item.pl_id" :label="item.pl_name" :value="item.pl_id"> </el-option>
@@ -44,8 +40,7 @@
       </el-table-column>
 
       <el-table-column prop="bt_name" label="著作类型" width="200px" align="center">
-        <template slot="header" slot-scope="scope"
-          >{{ scope.haha }}
+        <template slot="header" slot-scope="scope">
           <div style="line-height: 14px">著作类型</div>
           <el-select class="columnInput" v-model="queryInfo.bt" size="mini" placeholder="请选择" @change="QueryBookList">
             <el-option v-for="item in btList" :key="item.bt_id" :label="item.bt_name" :value="item.bt_id"> </el-option>
@@ -55,7 +50,7 @@
 
       <el-table-column prop="pp_name" label="出版地" width="200px" align="center">
         <template slot="header" slot-scope="scope"
-          >{{ scope.haha }}
+          >
           <div style="line-height: 14px">出版地</div>
           <el-select class="columnInput" v-model="queryInfo.pp_id" size="mini" placeholder="请选择" @change="QueryBookList">
             <el-option v-for="item in ppList" :key="item.pp_id" :label="item.pp_name" :value="item.pp_id"> </el-option>
@@ -64,40 +59,35 @@
       </el-table-column>
 
       <el-table-column prop="publish_time" label="发表日期" width="230px" align="center">
-        <template slot="header" slot-scope="scope"
-          >{{ scope.haha }}
+        <template slot="header" slot-scope="scope">
           <div style="line-height: 14px">发表日期</div>
           <el-date-picker class="columnInput" style="width: 200px; padding-right: 0" size="mini" @change="QueryBookList" v-model="queryInfo.publish_time" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"> </el-date-picker>
         </template>
       </el-table-column>
 
       <el-table-column prop="isbn" label="ISBN号" width="150px" align="center">
-        <template slot="header" slot-scope="scope"
-          >{{ scope.haha }}
+        <template slot="header" slot-scope="scope">
           <div style="line-height: 14px">ISBN号</div>
           <el-input class="columnInput" size="mini" clearable v-model="queryInfo.isbn" placeholder="请输入" @change="QueryBookList"> </el-input>
         </template>
       </el-table-column>
 
       <el-table-column prop="word_number" label="总字数" width="150px" align="center">
-        <template slot="header" slot-scope="scope"
-          >{{ scope.haha }}
+        <template slot="header" slot-scope="scope">
           <div style="line-height: 14px">总字数</div>
           <el-input class="columnInput" size="mini" clearable v-model="queryInfo.word_number" placeholder="请输入" @change="QueryBookList"> </el-input>
         </template>
       </el-table-column>
 
       <el-table-column prop="trans" label="是否翻译" width="150px" align="center">
-        <template slot="header" slot-scope="scope"
-          >{{ scope.haha }}
+        <template slot="header" slot-scope="scope">
           <div style="line-height: 14px">总字数</div>
           <el-input class="columnInput" size="mini" clearable v-model="queryInfo.trans" placeholder="请输入" @change="QueryBookList"> </el-input>
         </template>
       </el-table-column>
 
       <el-table-column prop="language_name" label="翻译语种" width="200px" align="center">
-        <template slot="header" slot-scope="scope"
-          >{{ scope.haha }}
+        <template slot="header" slot-scope="scope">
           <div style="line-height: 14px">翻译语种</div>
           <el-select @change="QueryBookList" class="columnInput" v-model="queryInfo.language_id" multiple size="mini" collapse-tags placeholder="请选择">
             <el-option v-for="item in languageList" :key="item.language_id" :label="item.language_name" :value="item.language_id"> </el-option>
@@ -106,8 +96,7 @@
       </el-table-column>
 
       <el-table-column prop="sc_name" label="学科门类" width="200px" align="center">
-        <template slot="header" slot-scope="scope"
-          >{{ scope.haha }}
+        <template slot="header" slot-scope="scope">
           <div style="line-height: 14px">学科门类</div>
           <el-select @change="QueryBookList" class="columnInput" v-model="queryInfo.sc_id" multiple size="mini" collapse-tags placeholder="请选择">
             <el-option v-for="item in scList" :key="item.sc_id" :label="item.sc_name" :value="item.sc_id"> </el-option>
@@ -115,8 +104,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="subject_name" label="一级学科" width="200px" align="center">
-        <template slot="header" slot-scope="scope"
-          >{{ scope.haha }}
+        <template slot="header" slot-scope="scope">
           <div style="line-height: 14px">一级学科</div>
           <el-select @change="QueryBookList" class="columnInput" v-model="queryInfo.subject" multiple size="mini" collapse-tags placeholder="请选择">
             <el-option v-for="item in subjectList" :key="item.subject_id" :label="item.subject_name" :value="item.subject_id"> </el-option>
@@ -124,8 +112,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="aod_name" label="归属单位" width="200px" align="center">
-        <template slot="header" slot-scope="scope"
-          >{{ scope.haha }}
+        <template slot="header" slot-scope="scope">
           <div style="line-height: 14px">归属单位</div>
           <el-select @change="QueryBookList" class="columnInput" v-model="queryInfo.aod_id" multiple size="mini" collapse-tags placeholder="请选择">
             <el-option v-for="item in departmentList" :key="item.department_id" :label="item.department_name" :value="item.department_id"> </el-option>
@@ -134,8 +121,7 @@
       </el-table-column>
 
       <el-table-column prop="sd_name" label="项目来源" width="250px" align="center">
-        <template slot="header" slot-scope="scope"
-          >{{ scope.haha }}
+        <template slot="header" slot-scope="scope">
           <div style="line-height: 14px">项目来源</div>
           <el-select @change="QueryBookList" class="columnInput" v-model="queryInfo.sd_id" multiple size="mini" collapse-tags placeholder="请选择">
             <el-option v-for="item in departmentList" :key="item.department_id" :label="item.department_name" :value="item.department_id"> </el-option>
@@ -144,12 +130,18 @@
       </el-table-column>
 
       <el-table-column prop="rt_name" label="研究类别" width="250px" align="center">
-        <template slot="header" slot-scope="scope"
-          >{{ scope.haha }}
+        <template slot="header" slot-scope="scope">
           <div style="line-height: 14px">研究类别</div>
           <el-select @change="QueryBookList" class="columnInput" v-model="queryInfo.rt_id" multiple size="mini" collapse-tags placeholder="请选择">
             <el-option v-for="item in rtList" :key="item.rt_id" :label="item.rt_name" :value="item.rt_id"> </el-option>
           </el-select>
+        </template>
+      </el-table-column>
+
+      <el-table-column label="操作" align="center" width="120" fixed="right">
+        <template slot-scope="scope">
+          <el-button type="primary" icon="el-icon-edit" size="mini"></el-button>
+          <el-button type="danger" icon="el-icon-delete" size="mini" @click="deleteBookById(scope.row.book_id)"></el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -164,18 +156,18 @@
           <el-col>
             <!-- 著作题目 -->
             <el-form-item label="著作题目:" prop="book_name">
-              <el-input v-model="addForm.title" size="mini"></el-input>
+              <el-input v-model="addForm.book_name" size="mini"></el-input>
             </el-form-item>
             <!-- 出版社、出版社级别 -->
             <el-row :gutter="20">
               <el-col :span="12">
                 <el-form-item label="出版社:" prop="press">
-                  <el-input v-model="addForm.publishUnit" size="mini"></el-input>
+                  <el-input v-model="addForm.press" size="mini"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item label="出版社级别:" prop="pl">
-                  <el-select v-model="addForm.pl" placeholder="请选择" size="mini" style="width: 100%">
+                  <el-select v-model="addForm.pl_id" placeholder="请选择" size="mini" style="width: 100%">
                     <el-option v-for="item in plList" :label="item.pl_name" :value="item.pl_id" :key="item.pl_id"> </el-option>
                   </el-select>
                 </el-form-item>
@@ -185,14 +177,14 @@
             <el-row :gutter="20">
               <el-col :span="12">
                 <el-form-item label="著作类别:" prop="bt">
-                  <el-select v-model="addForm.bt" placeholder="请选择" size="mini" style="width: 100%">
+                  <el-select v-model="addForm.bt_id" placeholder="请选择" size="mini" style="width: 100%">
                     <el-option v-for="item in btList" :label="item.bt_name" :value="item.bt_id" :key="item.bt_id"> </el-option>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item label="出版地:" prop="pp">
-                  <el-select v-model="addForm.pp" placeholder="请选择" size="mini" style="width: 100%">
+                  <el-select v-model="addForm.pp_id" placeholder="请选择" size="mini" style="width: 100%">
                     <el-option v-for="item in ppList" :label="item.pp_name" :value="item.pp_id" :key="item.pp_id"> </el-option>
                   </el-select>
                 </el-form-item>
@@ -216,13 +208,16 @@
             <el-row :gutter="20">
                 <el-col :span="12">
                 <el-form-item label="是否翻译:" prop="trans">
-                  <el-input v-model="addForm.trans" size="mini"></el-input>
+                  <el-select v-model="addForm.trans" size="mini">
+                    <el-option value="是"></el-option>
+                    <el-option value="否"></el-option>
+                  </el-select>
                 </el-form-item>
               </el-col>
 
               <el-col :span="12">
                 <el-form-item label="翻译语种:" prop="language">
-                  <el-select v-model="addForm.language" placeholder="请选择" size="mini" style="width: 100%">
+                  <el-select v-model="addForm.language_id" placeholder="请选择" size="mini" style="width: 100%">
                     <el-option v-for="item in languageList" :label="item.language_name" :value="item.language_id" :key="item.language_id"> </el-option>
                   </el-select>
                 </el-form-item>
@@ -232,14 +227,15 @@
             <el-row :gutter="20">
               <el-col :span="12">
                 <el-form-item label="学科门类:" prop="sc">
-                  <el-select v-model="addForm.sc" placeholder="请选择" size="mini" style="width: 100%">
+                  <el-select v-model="addForm.sc_id" placeholder="请选择" size="mini" style="width: 100%">
                     <el-option v-for="item in scList" :label="item.sc_name" :value="item.sc_id" :key="item.sc_id"> </el-option>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item label="发表时间:" prop="publish_time">
-                  <el-date-picker type="date" placeholder="请选择日期" v-model="addForm.publish_time" style="width: 100%" size="mini"> </el-date-picker>
+                  <el-date-picker placeholder="请选择日期" v-model="addForm.publish_time" style="width: 100%" size="mini"
+                    value-format="yyyy-MM-dd 00:00:00"> </el-date-picker>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -248,14 +244,14 @@
             <el-row :gutter="20">
               <el-col :span="12">
                 <el-form-item label="一级学科:" prop="subject">
-                  <el-select v-model="addForm.subject" placeholder="请选择" size="mini" style="width: 100%">
+                  <el-select v-model="addForm.subject_id" placeholder="请选择" size="mini" style="width: 100%">
                     <el-option v-for="item in subjectList" :label="item.subject_name" :value="item.subject_id" :key="item.subject_id"> </el-option>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item label="归属单位:" prop="aod">
-                  <el-select v-model="addForm.aod" placeholder="请选择" size="mini" style="width: 100%">
+                  <el-select v-model="addForm.aod_id" placeholder="请选择" size="mini" style="width: 100%">
                     <el-option v-for="item in departmentList" :label="item.department_name" :value="item.department_id" :key="item.department_id"> </el-option>
                   </el-select>
                 </el-form-item>
@@ -265,14 +261,14 @@
             <el-row :gutter="20">
               <el-col :span="12">
                 <el-form-item label="项目来源:" prop="sd">
-                  <el-select v-model="addForm.sd" placeholder="请选择" size="mini" style="width: 100%">
+                  <el-select v-model="addForm.sd_id" placeholder="请选择" size="mini" style="width: 100%">
                     <el-option v-for="item in departmentList" :label="item.department_name" :value="item.department_id" :key="item.department_id"> </el-option>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item label="研究类别:" prop="rt">
-                  <el-select v-model="addForm.rt" placeholder="请选择" size="mini" style="width: 100%">
+                  <el-select v-model="addForm.rt_id" placeholder="请选择" size="mini" style="width: 100%">
                     <el-option v-for="item in rtList" :label="item.rt_name" :value="item.rt_id" :key="item.rt_id"> </el-option>
                   </el-select>
                 </el-form-item>
@@ -284,48 +280,23 @@
               <el-input v-model="addForm.remark" size="mini"></el-input>
             </el-form-item>
             <el-form-item label="作者:" prop="author" size="mini">
-              <el-button type="primary" size="mini">添加作者</el-button>
-              <el-button type="danger" size="mini" :disabled="authorSelectionList.length === 0"> 批量删除 </el-button>
+              <el-button type="primary" size="mini" @click="addAuthorDialogVisible = true">添加作者</el-button>
             </el-form-item>
 
-            <el-table :data="addForm.authorList" style="width: 100%" ref="authorTableRef" @selection-change="addAuthorSelectionChange" size="mini" border height="250px" :header-cell-style="{ background: '#f5f7fa' }">
+            <el-table :data="addForm.authorList" style="width: 100%" ref="authorTableRef" size="mini" border height="250px"
+              :header-cell-style="{ background: '#f5f7fa' }" :default-sort="{prop: 'author_rate', order: 'descending'}">
               <!-- 序号列 -->
               <el-table-column type="index" label="#" align="center"></el-table-column>
-              <!-- 多选列 -->
-              <el-table-column type="selection" align="center"></el-table-column>
-              <el-table-column prop="authorName" label="作者姓名" width="120px" align="center">
-                <template slot="header" slot-scope="scope"
-                  >{{ scope.haha }}
-                  <div style="line-height: 14px">作者姓名</div>
-                  <el-input class="columnInput" size="mini" clearable v-model="authorQueryInfo.authorName" placeholder="请输入"> </el-input>
-                </template>
+              <el-table-column prop="author_info.user_name" label="作者姓名" align="center"></el-table-column>
+              <el-table-column prop="author_type" label="成员类型" align="center"></el-table-column>
+              <el-table-column prop="author_department" label="归属单位" align="center"></el-table-column>
+              <el-table-column prop="author_rate" label="贡献率" align="center">
+                <template slot-scope="scope">{{scope.row.author_rate + '%'}}</template>
               </el-table-column>
-              <el-table-column prop="authorType" label="成员类型" width="180px" align="center">
-                <template slot="header" slot-scope="scope"
-                  >{{ scope.haha }}
-                  <div style="line-height: 14px">成员类型</div>
-                  <el-select class="columnInput" v-model="authorQueryInfo.authorType" multiple size="mini" collapse-tags placeholder="请选择">
-                    <el-option v-for="item in authorTypeList" :key="item" :label="item" :value="item"> </el-option>
-                  </el-select>
-                </template>
-              </el-table-column>
-              <el-table-column prop="employer" label="归属单位" width="200px" align="center">
-                <template slot="header" slot-scope="scope"
-                  >{{ scope.haha }}
-                  <div style="line-height: 14px">归属单位</div>
-                  <el-select class="columnInput" v-model="authorQueryInfo.employer" multiple size="mini" collapse-tags placeholder="请选择">
-                    <el-option v-for="item in attributionList" :key="item" :label="item" :value="item"> </el-option>
-                  </el-select>
-                </template>
-              </el-table-column>
-              <el-table-column prop="rank" label="排名" align="center"></el-table-column>
-              <el-table-column prop="rate" label="贡献率" align="center"></el-table-column>
-              <!-- 操作列 -->
-              <el-table-column label="操作" align="center" width="120" fixed="right">
-                <template slot-scope="scope"
-                  >{{ scope.haha }}
-                  <el-button type="primary" icon="el-icon-edit" size="mini"></el-button>
-                  <el-button type="danger" icon="el-icon-delete" size="mini"></el-button>
+              <el-table-column label="操作" align="center" width="120px">
+                <template slot-scope="scope">
+                  <el-button type="primary" icon="el-icon-edit" size="mini" @click="showEditAuthorDialog(scope)"></el-button>
+                  <el-button type="danger" icon="el-icon-delete" size="mini" @click="deleteAuthor(scope.$index)"></el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -335,6 +306,64 @@
       <span slot="footer" class="dialog-footer">
         <el-button @click="addBooksDialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="addBooks">确 定</el-button>
+      </span>
+    </el-dialog>
+
+    <el-dialog title="添加作者" :visible.sync="addAuthorDialogVisible" width="40%" @closed="addAuthorDialogClosed">
+      <el-form :model="addAuthorForm" :rules="addAuthorFormRules" ref="addAuthorFormRef" label-width="100px">
+        <el-form-item label="作者姓名：" prop="author_info">
+          <el-select v-model="addAuthorForm.author_info" remote placeholder="请输入作者姓名" :remote-method="getLeaderList" filterable
+            :loading="loadingLeaderList" style="width: 100%;" @change="addAuthorAuthorInfoSelectorChanged">
+            <el-option v-for="item in leaderList" :key="item.user_id" :value="JSON.stringify(item)" :label="item.user_name">
+              <span style="float: left">{{ item.user_name }}</span>
+              <span style="float: right; color: #8492a6; font-size: 13px">{{ item.user_id }}</span>
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="作者类型：" prop="author_type">
+          <el-input v-model="addAuthorForm.author_type" disabled placeholder="请输入作者姓名"></el-input>
+        </el-form-item>
+        <el-form-item label="归属单位：" prop="author_department">
+          <el-input v-model="addAuthorForm.author_department" disabled placeholder="请输入作者姓名"></el-input>
+        </el-form-item>
+        <el-form-item label="贡献率：" prop="author_rate">
+          <el-input-number v-model="addAuthorForm.author_rate" controls-position="right" :min="1" :max="100" style="width: 100px">
+          </el-input-number>
+          <span>  %</span>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="addAuthorDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="addAuthor">确 定</el-button>
+      </span>
+    </el-dialog>
+
+    <el-dialog title="编辑作者" :visible.sync="editAuthorDialogVisible" width="40%" @closed="editAuthorDialogClosed">
+      <el-form :model="editAuthorForm" :rules="editAuthorFormRules" ref="editAuthorFormRef" label-width="100px">
+        <el-form-item label="作者姓名：" prop="author_info">
+          <el-select v-model="editAuthorForm.author_info" remote placeholder="请输入作者姓名" :remote-method="getLeaderList" filterable
+            :loading="loadingLeaderList" style="width: 100%;" @change="editAuthorAuthorInfoSelectorChanged">
+            <el-option v-for="item in leaderList" :key="item.user_id" :value="JSON.stringify(item)" :label="item.user_name">
+              <span style="float: left">{{ item.user_name }}</span>
+              <span style="float: right; color: #8492a6; font-size: 13px">{{ item.user_id }}</span>
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="作者类型：" prop="author_type">
+          <el-input v-model="editAuthorForm.author_type" disabled placeholder="请输入作者姓名"></el-input>
+        </el-form-item>
+        <el-form-item label="归属单位：" prop="author_department">
+          <el-input v-model="editAuthorForm.author_department" disabled placeholder="请输入作者姓名"></el-input>
+        </el-form-item>
+        <el-form-item label="贡献率：" prop="author_rate">
+          <el-input-number v-model="editAuthorForm.author_rate" controls-position="right" :min="1" :max="100" style="width: 100px">
+          </el-input-number>
+          <span>  %</span>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="editAuthorDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="editAuthor">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -410,30 +439,23 @@ export default {
       rtList: [],
       addForm: {
         book_name: "",
-        leader: "",
+        leader_id: "",
         press: "",
-        pl: "",
-        bt: "",
-        pp: "",
+        pl_id: "",
+        bt_id: "",
+        pp_id: "",
         isbn: "",
         word_number: "",
         trans: "",
-        language: "",
-        sc: "",
-        subject: "",
+        language_id: "",
+        sc_id: "",
+        subject_id: "",
         publish_time: "",
-        aod: "",
-        sd: "",
-        ry: "",
-        authorList: [
-          {
-            authorName: "谢承洋",
-            authorType: "老师",
-            employer: "计算机科学学院",
-            rank: 1,
-            rate: "100%",
-          },
-        ],
+        aod_id: "",
+        sd_id: "",
+        rt_id: "",
+        remark: "",
+        authorList: [],
         periodicalSelectionList: [],
       },
       // 录入、修改论文数据表单验证对象
@@ -445,21 +467,14 @@ export default {
             trigger: "blur",
           },
         ],
-        learder: [
-          {
-            required: true,
-            message: "请输入著作作者",
-            trigger: "blur",
-          },
-        ],
-        sd: [
+        sd_id: [
           {
             required: true,
             message: "请选择项目来源",
             trigger: "change",
           },
         ],
-        rt: [
+        rt_id: [
           {
             required: true,
             message: "请选择研究类别",
@@ -487,21 +502,21 @@ export default {
             trigger: "change",
           },
         ],
-        language: [
+        language_id: [
           {
             required: true,
             message: "请输入是或者否",
             trigger: "blur",
           },
         ],
-        pl: [
+        pl_id: [
           {
             required: true,
             message: "请选择出版社等级",
             trigger: "change",
           },
         ],
-        bt: [
+        bt_id: [
           {
             required: true,
             message: "请选择著作类型",
@@ -510,13 +525,12 @@ export default {
         ],
         publish_time: [
           {
-            type: "date",
             required: true,
             message: "请选择发表日期",
             trigger: "change",
           },
         ],
-        pp: [
+        pp_id: [
           {
             required: true,
             message: "请选择出版地",
@@ -530,21 +544,21 @@ export default {
             trigger: "blur",
           },
         ],
-        sc: [
+        sc_id: [
           {
             required: true,
             message: "请选择学科门类",
             trigger: "change",
           },
         ],
-        subject: [
+        subject_id: [
           {
             required: true,
             message: "请选择一级学科",
             trigger: "change",
           },
         ],
-        aod: [
+        aod_id: [
           {
             required: true,
             message: "请选择成果归属单位",
@@ -566,60 +580,92 @@ export default {
       selection: [],
       // // 控制录入论文成果对话框显示与隐藏变量
       addBooksDialogVisible: false,
+
+      addAuthorDialogVisible: false,
+      // 添加作者信息表单
+      addAuthorForm: {
+        author_info: '',
+        author_type: '',
+        author_department: '',
+        author_rate: ''
+      },
+      // 添加作者表单验证规则对象
+      addAuthorFormRules: {
+        author_info: [{ required: true, message: '请输入作者姓名', trigger: 'change' }],
+        author_type: [{ required: true, message: '请选择作者类型', trigger: 'change' }]
+      },
+      // 是否正在加载
+      loadingLeaderList: false,
+      // 用户列表
+      leaderList: [],
+      // 编辑作者对话框显示与隐藏
+      editAuthorDialogVisible: false,
+      // 编辑作者信息表单
+      editAuthorForm: {
+        author_info: '',
+        author_type: '',
+        author_department: '',
+        author_rate: ''
+      },
+      // 正在编辑的位置
+      editAuthorIndex: '',
+      // 编辑作者表单验证对象
+      editAuthorFormRules: {}
+      
     };
   },
   async created() {
     await this.getBookData();
-    this.getBookList();
+    await this.getBookList();
+    this.booksList = JSON.parse(JSON.stringify(this.booksList))
   },
   methods: {
     // 获取论文成果列表
-    async getBookData() {
-      // 获取单位列表
-      const { data: res1 } = await this.$http.post("/department/findAlldepartment");
-      this.departmentList = res1.data;
+    async getBookData () {
+       // 获取单位列表
+      const { data: res1 } = await this.$http.post('/department/findAllDepartment')
+      this.departmentList = res1.data
       // 构造单位 id:name 对象
-      this.departmentList.forEach((item) => (this.departmentObj[item.department_id] = item.department_name));
+      this.departmentList.forEach(item => this.departmentObj[item.department_id] = item.department_name)
       // 获取学科门类列表
-      const { data: res2 } = await this.$http.post("/sc/findAllsc");
-      this.scList = res2.data;
+      const { data: res2 } = await this.$http.post('/category/findAllSubjectCategory')
+      this.scList = res2.data
       // 构造学科门类 id:name 对象
-      this.scList.forEach((item) => (this.scObj[item.sc_id] = item.sc_name));
+      this.scList.forEach(item => this.scObj[item.sc_id] = item.sc_name)
       // 获取一级学科列表
-      const { data: res3 } = await this.$http.post("/subject/findAllsubject");
-      this.subjectList = res3.data;
+      const { data: res3 } = await this.$http.post('/subject/findAllSubject')
+      this.subjectList = res3.data
       // 构造一级学科 id:name 对象
-      this.subjectList.forEach((item) => (this.subjectObj[item.subject_id] = item.subject_name));
-      // 获取出版社列表
-      const { data: res4 } = await this.$http.post("/press/findAllpress");
-      this.pressList = res4.data;
-      // 构造 出版社 对象
-      this.pressList.forEach((item) => (this.pressObj[item.press_id] = item.press_name));
+      this.subjectList.forEach(item => this.subjectObj[item.subject_id] = item.subject_name)
       // 获取出版社等级列表
-      const { data: res5 } = await this.$http.post("/pl/findAllpl");
-      this.plList = res5.data;
+      const { data: res5 } = await this.$http.post('/pressLevel/findAllPressLevel')
+      this.plList = res5.data
       // 构造 出版社等级对象
-      this.plList.forEach((item) => (this.plObj[item.pl_id] = item.pl_name));
+      this.plList.forEach(item => this.plObj[item.pl_id] = item.pl_name)
       // 构造 著作类型
-      const { data: res6 } = await this.$http.post("/bt/findAllbt");
-      this.btList = res6.data;
-      this.btList.forEach((item) => (this.btObj[item.bt_id] = item.bt_name));
+      const { data: res6 } = await this.$http.post('/bookType/findAllBookType')
+      this.btList = res6.data
+      this.btList.forEach(item => this.btObj[item.bt_id] = item.bt_name)
       // 构造 出版地
-      const { data: res7 } = await this.$http.post("/pp/findAllpp");
-      this.ppList = res7.data;
-      this.ppList.forEach((item) => (this.ppObj[item.pp_id] = item.pp_name));
+      const { data: res7 } = await this.$http.post('/publicationPlace/findAllPublicationPlace')
+      this.ppList = res7.data
+      this.ppList.forEach(item => this.ppObj[item.pp_id] = item.pp_name)
       // 构造语种
-      const { data: res8 } = await this.$http.post("/language/findAlllanguage");
-      this.languageList = res8.data;
-      this.languageList.forEach((item) => (this.languageObj[item.language_id] = item.language_name));
+      const { data: res8 } = await this.$http.post('/language/findAllLanguage')
+      this.languageList = res8.data
+      this.languageList.forEach(item => this.languageObj[item.language_id] = item.language_name)
       // 构造研究类型
-      const { data: res9 } = await this.$http.post("/rt/findAllrt");
-      this.rtList = res9.data;
-      this.rtList.forEach((item) => (this.rtObj[item.rt_id] = item.rt_name));
+      const { data: res9 } = await this.$http.post('researchType/findAllResearchType')
+      this.rtList = res9.data
+      this.rtList.forEach(item => this.rtObj[item.rt_id] = item.rt_name)
     },
 
     // 获取论文成果列表
     async getBookList() {
+      if(this.queryInfo.publish_time !== '') {
+        this.queryInfo.publish_time_start = this.queryInfo.publish_time[0]
+        this.queryInfo.publish_time_end = this.queryInfo.publish_time[1]
+      } else this.queryInfo.publish_time_start = this.queryInfo.publish_time_end = ''
       // 通过 post 请求获取科研项目列表
       const { data: res } = await this.$http.post("book/selectBookByCondition", this.$qs.stringify(this.queryInfo));
       if (res.status === "404") {
@@ -641,7 +687,11 @@ export default {
         item.rt_name = this.rtObj[item.rt_id];
         item.language_name = this.languageObj[item.language_id];
       });
-      console.log(this.booksList);
+      for(var i=0;i<this.booksList.length;i++) {
+        const { data: res } = await this.$http.post('/user/findUserById', this.$qs.stringify({user_id: this.booksList[i].leader_id}))
+        if( res.status !== '200' ) return this.$message.error('查询作者失败')
+        this.booksList[i].authorName = res.data.user_name
+      }
     },
     // 多选框条件发生变化
     selectionChange() {
@@ -678,16 +728,107 @@ export default {
     },
     // 关闭录入著作对话框，清空相应数据
     addBooksDialogClosed() {
+      this.addForm.authorList = []
       this.$refs.addFormRef.resetFields();
-      this.$refs.authorTableRef.clearSelection();
-      this.$refs.periodicalTableRef.clearSelection();
     },
     // 点击确定，录入著作
     addBooks() {
-      this.$refs.addFormRef.validate((valid) => {
+      this.$refs.addFormRef.validate(async valid => {
         if (!valid) return this.$message.error("请正确填写著作成果信息");
+        var user_id = []
+        var contribution = []
+        this.addForm.authorList.forEach(item => {
+          user_id.push(item.author_info.user_id)
+          contribution.push(item.author_rate)
+        })
+        this.addForm.leader_id = user_id[0]
+        console.log(this.addForm)
+        const { data: res } = await this.$http.get(`/bookExamine/addBookExamine?${this.$qs.stringify(this.addForm)}&user_id=${user_id}&contribution=${contribution}`)
+        if(res.status !== '200') return this.$message.error('提交著作成果申请失败')
         this.$message.success("收录著作成果成功");
+        this.addBooksDialogVisible = false
+        this.getBookList()
       })
+    },
+    // 根据用户输入，获取用户列表
+    async getLeaderList(query) {
+      if(query === null || query === '') return
+      this.loadingLeaderList = true
+      const { data: res } = await this.$http.post('/user/findNameId', this.$qs.stringify({ user_name: query }))
+      this.leaderList = res.data
+      this.loadingLeaderList = false
+    },
+    // 添加作者作者选项卡变化事件
+    async addAuthorAuthorInfoSelectorChanged() {
+      this.addAuthorForm.author_info = JSON.parse(this.addAuthorForm.author_info)
+      this.addAuthorForm.author_department = this.departmentObj[this.addAuthorForm.author_info.department_id]
+      const { data: res } = await this.$http.post('/role/selectRoleName', this.$qs.stringify({ role_id: this.addAuthorForm.author_info.role_id }))
+      if( res.status !== '200' ) return this.$message.error('获取用户类型失败')
+      this.addAuthorForm.author_type = res.data
+      console.log(this.addAuthorForm)
+    },
+    // 点击确定，添加作者
+    addAuthor() {
+      var authorObj = JSON.parse(JSON.stringify(this.addAuthorForm))
+      this.addForm.authorList.push(authorObj)
+      console.log(this.addForm.authorList)
+      this.$message.success('添加作者成功')
+      this.addAuthorDialogVisible = false
+    },
+    // 关闭添加作者对话框，清空表单
+    addAuthorDialogClosed() {
+      this.$refs.addAuthorFormRef.resetFields()
+    },
+    // 点击删除按钮，删除作者
+    async deleteAuthor(index) {
+      const res = await this.$confirm('此操作将永久删除该作者，是否继续？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).catch(err => err)
+      if( res === 'cancel' ) return this.$message.info('取消了本次操作')
+      this.addForm.authorList.splice(index, 1)
+      this.$message.success('成功删除了作者')
+      console.log(this.addForm.authorList)
+    },
+    // 关闭编辑作者对话框，清空表单
+    editAuthorDialogClosed() {
+      this.$refs.editAuthorFormRef.resetFields()
+    },
+    // 编辑作者作者选项卡变化事件
+    async editAuthorAuthorInfoSelectorChanged() {
+      this.editAuthorForm.author_info = JSON.parse(this.editAuthorForm.author_info)
+      this.editAuthorForm.author_department = this.departmentObj[this.editAuthorForm.author_info.department_id]
+      const { data: res } = await this.$http.post('/role/selectRoleName', this.$qs.stringify({ role_id: this.editAuthorForm.author_info.role_id }))
+      if( res.status !== '200' ) return this.$message.error('获取用户类型失败')
+      this.editAuthorForm.author_type = res.data
+      console.log(this.editAuthorForm)
+    },
+    // 点击编辑按钮，显示编辑作者对话框
+    showEditAuthorDialog(scope){
+      this.editAuthorForm = JSON.parse(JSON.stringify(scope.row))
+      this.editAuthorIndex = JSON.parse(JSON.stringify(scope.$index))
+      this.editAuthorDialogVisible = true
+    },
+    // 点击确定，上传编辑作者信息
+    editAuthor() {
+      this.addForm.authorList[this.editAuthorIndex] = JSON.parse(JSON.stringify(this.editAuthorForm))
+      this.addForm.authorList = JSON.parse(JSON.stringify(this.addForm.authorList))
+      this.$message.success('成功编辑了作者信息')
+      this.editAuthorDialogVisible = false
+    },
+    // 点击按钮，删除著作
+    async deleteBookById(bookId) {
+      const res = await this.$confirm('此操作将永久删除该著作，是否继续？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).catch(err => err)
+      if(res === 'cancel') return this.$message.info('取消了本次操作')
+      const { data: res2 } = await this.$http.post('/book/delBook', this.$qs.stringify({ book_id: bookId }))
+      if(res2.status !== '200') return this.$message.error('删除著作失败')
+      this.$message.success('删除著作成功')
+      this.getBookList()
     }
   }
 }

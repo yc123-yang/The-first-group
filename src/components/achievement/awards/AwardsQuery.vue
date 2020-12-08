@@ -209,38 +209,42 @@ export default {
     // 获取论文成果列表
     async getAwardData() {
       // 获取单位列表
-      const { data: res1 } = await this.$http.post("/department/findAlldepartment");
+      const { data: res1 } = await this.$http.post("/department/findAllDepartment");
       this.departmentList = res1.data;
       // 构造单位 id:name 对象
       this.departmentList.forEach((item) => (this.departmentObj[item.department_id] = item.department_name));
       // 获取学科门类列表
-      const { data: res2 } = await this.$http.post("/sc/findAllsc");
+      const { data: res2 } = await this.$http.post("/category/findAllSubjectCategory");
       this.scList = res2.data;
       // 构造学科门类 id:name 对象
       this.scList.forEach((item) => (this.scObj[item.sc_id] = item.sc_name));
       // 获取一级学科列表
-      const { data: res3 } = await this.$http.post("/subject/findAllsubject");
+      const { data: res3 } = await this.$http.post("/subject/findAllSubject");
       this.subjectList = res3.data;
       // 构造一级学科 id:name 对象
       this.subjectList.forEach((item) => (this.subjectObj[item.subject_id] = item.subject_name));
       // 构造 获奖级别
-      const { data: res4 } = await this.$http.post("/ar/findAllar");
+      const { data: res4 } = await this.$http.post("/awardRank/findAllAwardRank");
       this.arList = res4.data;
       this.arList.forEach((item) => (this.arObj[item.ar_id] = item.ar_name));
       // 构造 获奖等级
-      const { data: res5 } = await this.$http.post("/al/findAllal");
+      const { data: res5 } = await this.$http.post("/awardLevel/findAllAwardLevel");
       this.alList = res5.data;
       this.alList.forEach((item) => (this.alObj[item.al_id] = item.al_name));
       // 构造 成果形式
-      const { data: res6 } = await this.$http.post("/at/findAllat");
+      const { data: res6 } = await this.$http.post("/achievementType/findAllAchievementType");
       this.atList = res6.data;
       this.atList.forEach((item) => (this.atObj[item.at_id] = item.at_name));
     },
 
     // 获取论文成果列表
     async getAwardList() {
+      if(this.queryInfo.award_time !== ''){
+        this.queryInfo.award_time_start = this.queryInfo.award_time[0]
+        this.queryInfo.award_time_end = this.queryInfo.award_time[1]
+      } else this.queryInfo.award_time_start = this.queryInfo.award_time_end = ''
       // 通过 post 请求获取科研项目列表
-      const { data: res } = await this.$http.post("award/selectAwardByCondition", this.$qs.stringify(this.queryInfo));
+      const { data: res } = await this.$http.post("/award/selectAllAwardByCondition", this.$qs.stringify(this.queryInfo));
       if (res.status === "404") {
         return this.$router.push("/home");
       }
