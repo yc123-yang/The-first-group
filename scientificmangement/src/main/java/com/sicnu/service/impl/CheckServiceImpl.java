@@ -4,14 +4,12 @@ import com.sicnu.mapper.*;
 import com.sicnu.pojo.*;
 import com.sicnu.service.CheckService;
 import com.sicnu.util.Result;
-import com.sun.mail.imap.protocol.INTERNALDATE;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
 public class CheckServiceImpl implements CheckService {
@@ -29,32 +27,51 @@ public class CheckServiceImpl implements CheckService {
     ProjectMapper projectMapper;
     @Resource
     CheckMapper checkMapper;
+    @Resource
+    CacheUserMapper cacheUserMapper;
     private Result rs;
-    @Override
-    public Result finalCheck(String checkTime) {
-        checkMapper.delCheck();
-        List<Object> list = new ArrayList<>();
-        List<Integer> userIds = userMapper.selectAllUserId();
-        String[] str = checkTime.split("年");
-        String start_time =null;
-        String end_time = null;
-        if (str[1].equals("第1学期")){
-            start_time = str[0]+"-01-01 00:00:00";
-            end_time = str[0]+"-06-30 00:00:00";
-        }else{
-            start_time = str[0]+"-07-01 00:00:00";
-            end_time = str[0]+"-12-31 00:00:00";
-        }
 
+    @Scheduled(cron = "* * * 30 6,12 ? ")
+    public void addAllFinalCheck() {
 
-        for (Integer userId : userIds) {
+        try {
+            checkMapper.delCheck();
+            String start_time =null;
+            String end_time = null;
+
+            Date date = new Date();//当前日期
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//格式化对象
+            Calendar calendar = Calendar.getInstance();//日历对象
+            calendar.setTime(date);//设置当前日期
+            end_time = sdf.format(calendar.getTime());
+            System.out.println(sdf.format(calendar.getTime()));
+            calendar.add(Calendar.MONTH, -6);//月份减6
+            start_time = sdf.format(calendar.getTime());
+            System.out.println(sdf.format(calendar.getTime()));//输出格式化的日期
+            String[] str = start_time.split("-");
+            int a = Integer.parseInt(str[1]);
+            String checkTime;
+            if (a==6){
+                checkTime = str[0] + "年第一学期";
+            }else{
+                checkTime = str[0] + "年第二学期";
+
+            }
+            List<Object> list = new ArrayList<>();
+            //获取登陆用户的缓存信息
+            List<CacheUser> cacheUsers = cacheUserMapper.findAllCacheUser();
+            //获取登录用户的id
+            Integer userId = cacheUsers.get(0).getUser_id();
+
             Check check =  new Check();
+
             Map<String,Object> map= new HashMap<>();
             map.put("start_time",start_time);
             map.put("end_time",end_time);
             map.put("leader_id",userId);
             //用户信息
             User user = userMapper.findUserById(userId);
+            check.setUser_id(userId);
             check.setName(user.getUser_name());
             check.setDepartment_id(user.getDepartment_id());
             //用户获奖情况考核
@@ -83,12 +100,49 @@ public class CheckServiceImpl implements CheckService {
             check.setTotal_grade(totalGrade);
             check.setCheck_time(checkTime);
             checkMapper.addCheck(check);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
         }
-        List<Check> checks = checkMapper.selectCheckByCondition();
-        rs = new Result("200",null,checks);
+
+    }
+
+    @Override
+    public Result selectAllCheckByCondition(Integer user_id,Integer department_id,String check_time) {
+        try {
+            Map<String,Object> map = new HashMap<>();
+            map.put("user_id",user_id);
+            map.put("department_id",department_id);
+            map.put("check_time",check_time);
+            List<Check> checks = checkMapper.selectCheckByCondition(map);
+            rs = new Result("200",null,checks);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 
+
+    public Result selectPersonalCheckByCondition(Integer department_id,String check_time) {
+        try {
+            //获取登陆用户的缓存信息
+            List<CacheUser> cacheUsers = cacheUserMapper.findAllCacheUser();
+            //获取登录用户的id
+            Integer uid = cacheUsers.get(0).getUser_id();
+            Map<String,Object> map = new HashMap<>();
+            map.put("user_id",uid);
+            map.put("department_id",department_id);
+            map.put("check_time",check_time);
+            List<Check> checks = checkMapper.selectCheckByCondition(map);
+            rs = new Result("200",null,checks);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
+
+
+    //项目成绩
     public int projectGrade(int id){
         int grade = 0;
         List<Project> projects = projectMapper.findProjectByLeaderId(id);

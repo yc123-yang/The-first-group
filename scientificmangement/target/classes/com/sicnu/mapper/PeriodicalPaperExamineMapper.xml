@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sicnu.mapper.PeriodicalPaperExamineMapper">
     <insert id="addPeriodicalPaperExamine" parameterType="PeriodicalPaperExamine">
-        insert into periodical_paper
+        insert into periodical_paper_examine
         (
           pe_id,
           periodical_id
@@ -16,12 +16,12 @@
           )
     </insert>
     <select id="findPeriodicalExamineByPaperId" parameterType="int" resultType="PeriodicalPaperExamine">
-        select periodical_id from periodical_paper
+        select periodical_id from periodical_paper_examine
         where
         pe_id = #{pe_id}
     </select>
     <delete id="delPeriodicalExamineByPaperId" parameterType="int">
-        delete from periodical_paper
+        delete from periodical_paper_examine
         where
         pe_id = #{pe_id}
     </delete>

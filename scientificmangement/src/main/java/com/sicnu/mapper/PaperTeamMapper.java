@@ -10,7 +10,8 @@ import java.util.List;
 @Repository
 public interface PaperTeamMapper {
 
-    void addPaperTeamUser(Integer paper_id,Integer user_id,Double contribution);
-    void delPaperTeamUser(Integer user_id);
+    void addPaperTeamUser(Integer paper_id,Integer user_id,Integer contribution);
+    void delPaperTeamUser(Integer paper_id,Integer user_id);
     List<PaperTeamMap> selectPaperTeam(Integer paper_id);
+    void updatePaperTeamUser(int contribution);
 }

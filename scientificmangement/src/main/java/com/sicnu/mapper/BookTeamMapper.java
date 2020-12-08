@@ -10,7 +10,8 @@ import java.util.List;
 @Repository
 public interface BookTeamMapper {
 
-    void addBookTeamUser(Integer book_id, Integer user_id, Double contribution);
-    void delBookTeamUser(Integer user_id);
+    void addBookTeamUser(Integer book_id, Integer user_id, Integer contribution);
+    void delBookTeamUser(Integer book_id,Integer user_id);
     List<BookTeamMap> selectBookTeam(Integer book_id);
+    void updateBookTeamUser(int contribution);
 }

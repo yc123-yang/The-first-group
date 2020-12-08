@@ -22,6 +22,8 @@
     <delete id="delPatentTeamUser" parameterType="PatentTeam">
         delete from patent_team
         where
+        patent_id = #{patent_id}
+        and
         user_id = #{user_id}
     </delete>
 
@@ -42,4 +44,13 @@
         and
         t.user_id = u.user_id
     </select>
+
+    <update id="updatePatentTeamUser" parameterType="PatentTeam">
+        update patent_team
+        <trim prefix="set" suffixOverrides=",">
+            <if test="contribution!=null and contribution!=''">
+                contribution = #{contribution},
+            </if>
+        </trim>>
+    </update>
 </mapper>

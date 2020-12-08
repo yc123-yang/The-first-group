@@ -19,7 +19,7 @@ public class BookTeamController {
 
     private Result rs ;
     @PostMapping("/team/addBookTeamUser")
-    public Result addBookTeamUser(Integer book_id, Integer user_id, Double contribution) {
+    public Result addBookTeamUser(Integer book_id, Integer user_id, Integer contribution) {
         try {
             rs= bookTeamService.addBookTeamUser(book_id, user_id, contribution);
         } catch (Exception e) {
@@ -28,9 +28,9 @@ public class BookTeamController {
         return rs;
     }
     @PostMapping("/team/delBookTeamUser")
-    public Result delBookTeamUser(Integer user_id) {
+    public Result delBookTeamUser(Integer book_id,Integer user_id) {
         try {
-            rs=bookTeamService.delBookTeamUser(user_id);
+            rs=bookTeamService.delBookTeamUser(book_id,user_id);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -40,6 +40,15 @@ public class BookTeamController {
     public Result selectBookTeam(Integer book_id) {
         try {
             rs= bookTeamService.selectBookTeam(book_id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+    @PostMapping("/team/updateBookTeamUser")
+    public Result updateBookTeamUser(int contribution) {
+        try {
+            rs=bookTeamService.updateBookTeamUser(contribution);
         } catch (Exception e) {
             e.printStackTrace();
         }

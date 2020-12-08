@@ -6,7 +6,15 @@ public class BookTeam {
   private Integer book_id;
   private Integer user_id;
   private String user_role;
-  private Double contribution;
+  private Integer contribution;
+
+  public Integer getContribution() {
+    return contribution;
+  }
+
+  public void setContribution(Integer contribution) {
+    this.contribution = contribution;
+  }
 
 
   public Integer getBook_id() {
@@ -33,11 +41,4 @@ public class BookTeam {
     this.user_role = user_role;
   }
 
-  public Double getContribution() {
-    return contribution;
-  }
-
-  public void setContribution(Double contribution) {
-    this.contribution = contribution;
-  }
 }

@@ -22,6 +22,8 @@
     <delete id="delProjectTeamUser" parameterType="ProjectTeam">
         delete from projectTeam
         where
+        project_id = #{project_id}
+        and
         user_id = #{user_id}
     </delete>
     <select id="selectProject_id" parameterType="ProjectTeam" resultType="int">
@@ -45,4 +47,13 @@
         and
         t.user_id = u.user_id
     </select>
+
+    <update id="updateProjectTeamUser" parameterType="ProjectTeam">
+        update project_team
+        <trim prefix="set" suffixOverrides=",">
+            <if test="team_role!=null and team_role!=''">
+                team_role = #{team_role},
+            </if>
+        </trim>>
+    </update>
 </mapper>

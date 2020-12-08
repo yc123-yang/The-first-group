@@ -21,7 +21,7 @@ public class AwardTeamServiceImpl implements AwardTeamService {
 
     private Result rs;
     @Override
-    public Result addAwardTeamUser(Integer award_id, Integer user_id,  Double contribution) {
+    public Result addAwardTeamUser(Integer award_id, Integer user_id,  Integer contribution) {
         try {
                 awardTeamMapper.addAwardTeamUser(award_id, user_id, contribution);
                 rs = new Result("200","添加成功",null);
@@ -32,9 +32,9 @@ public class AwardTeamServiceImpl implements AwardTeamService {
     }
 
     @Override
-    public Result delAwardTeamUser(Integer user_id) {
+    public Result delAwardTeamUser(Integer award_id,Integer user_id) {
         try {
-            awardTeamMapper.delAwardTeamUser(user_id);
+            awardTeamMapper.delAwardTeamUser(award_id,user_id);
             rs = new Result("200","添加成功",null);
         } catch (Exception e) {
             e.printStackTrace();
@@ -48,6 +48,17 @@ public class AwardTeamServiceImpl implements AwardTeamService {
         try {
             List<AwardTeamMap> awardTeamMaps = awardTeamMapper.selectAwardTeam(award_id);
             rs = new Result("200",null,awardTeamMaps);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
+    @Override
+    public Result updateAwardTeamUser(int contribution) {
+        try {
+            awardTeamMapper.updateAwardTeamUser(contribution);
+            rs = new Result("200","更改成功",null);
         } catch (Exception e) {
             e.printStackTrace();
         }

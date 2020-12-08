@@ -20,7 +20,7 @@ public class PaperTeamServiceImpl implements PaperTeamService {
     private Result rs;
 
     @Override
-    public Result addPaperTeamUser(Integer paper_id,Integer user_id,Double contribution) {
+    public Result addPaperTeamUser(Integer paper_id,Integer user_id,Integer contribution) {
         try {
 
 
@@ -33,9 +33,9 @@ public class PaperTeamServiceImpl implements PaperTeamService {
     }
 
     @Override
-    public Result delPaperTeamUser(Integer user_id) {
+    public Result delPaperTeamUser(Integer paper_id,Integer user_id) {
         try {
-            paperTeamMapper.delPaperTeamUser(user_id);
+            paperTeamMapper.delPaperTeamUser(paper_id,user_id);
             rs = new Result("200","删除作者成功",null);
         } catch (Exception e) {
             e.printStackTrace();
@@ -48,6 +48,17 @@ public class PaperTeamServiceImpl implements PaperTeamService {
         try {
             List<PaperTeamMap> paperTeamMaps = paperTeamMapper.selectPaperTeam(paper_id);
             rs = new Result("200",null,paperTeamMaps);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
+    @Override
+    public Result updatePaperTeamUser(int contribution) {
+        try {
+            paperTeamMapper.updatePaperTeamUser(contribution);
+            rs = new Result("200","更改成功",null);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -4,7 +4,16 @@ public class PatentTeamMap {
     private String name;
     private Integer department_id;
     private Integer role_id;
-    private Double contribution;
+    private Integer contribution;
+
+    public Integer getContribution() {
+        return contribution;
+    }
+
+    public void setContribution(Integer contribution) {
+        this.contribution = contribution;
+    }
+
 
     public String getName() {
         return name;
@@ -30,11 +39,4 @@ public class PatentTeamMap {
         this.role_id = role_id;
     }
 
-    public Double getContribution() {
-        return contribution;
-    }
-
-    public void setContribution(Double contribution) {
-        this.contribution = contribution;
-    }
 }

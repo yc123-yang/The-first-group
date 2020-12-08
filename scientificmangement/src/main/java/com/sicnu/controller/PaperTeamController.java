@@ -22,7 +22,7 @@ public class PaperTeamController {
 
     private Result rs;
     @PostMapping("/team/addPaperTeamUser")
-    public Result addPaperTeamUser(Integer paper_id, Integer user_id, Double contribution) {
+    public Result addPaperTeamUser(Integer paper_id, Integer user_id, Integer contribution) {
         try {
             rs=paperTeamService.addPaperTeamUser(paper_id, user_id, contribution);
         } catch (Exception e) {
@@ -31,9 +31,9 @@ public class PaperTeamController {
         return rs;
     }
     @PostMapping("/team/delPaperTeamUser")
-    public Result delPaperTeamUser(Integer user_id) {
+    public Result delPaperTeamUser(Integer paper_id,Integer user_id) {
         try {
-            rs=paperTeamService.delPaperTeamUser(user_id);
+            rs=paperTeamService.delPaperTeamUser(paper_id,user_id);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -43,6 +43,16 @@ public class PaperTeamController {
     public Result selectPaperTeam(Integer paper_id) {
         try {
             rs = paperTeamService.selectPaperTeam(paper_id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
+    @PostMapping("/team/updatePaperTeamUser")
+    public Result updatePaperTeamUser(int contribution) {
+        try {
+            rs=paperTeamService.updatePaperTeamUser(contribution);
         } catch (Exception e) {
             e.printStackTrace();
         }

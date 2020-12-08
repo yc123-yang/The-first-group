@@ -22,6 +22,8 @@
     <delete id="delAwardTeamUser" parameterType="AwardTeam">
         delete from award_team
         where
+        award_id = #{award_id}
+        and
         user_id = #{user_id}
     </delete>
 
@@ -42,4 +44,12 @@
         and
         t.user_id = u.user_id
     </select>
+    <update id="updateAwardTeamUser" parameterType="AwardTeam">
+        update award_team
+        <trim prefix="set" suffixOverrides=",">
+            <if test="contribution!=null and contribution!=''">
+                contribution = #{contribution},
+            </if>
+        </trim>>
+    </update>
 </mapper>

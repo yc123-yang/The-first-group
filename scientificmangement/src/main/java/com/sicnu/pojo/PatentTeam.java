@@ -6,7 +6,16 @@ public class PatentTeam {
   private Integer patent_id;
   private Integer user_id;
   private String user_role;
-  private Double contribution;
+  private Integer contribution;
+
+  public Integer getContribution() {
+    return contribution;
+  }
+
+  public void setContribution(Integer contribution) {
+    this.contribution = contribution;
+  }
+
 
 
   public Integer getPatent_id() {
@@ -33,11 +42,4 @@ public class PatentTeam {
     this.user_role = user_role;
   }
 
-  public Double getContribution() {
-    return contribution;
-  }
-
-  public void setContribution(Double contribution) {
-    this.contribution = contribution;
-  }
 }

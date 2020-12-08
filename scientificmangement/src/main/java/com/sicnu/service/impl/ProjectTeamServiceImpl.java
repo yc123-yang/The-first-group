@@ -38,9 +38,9 @@ public class ProjectTeamServiceImpl implements ProjectTeamService {
     }
 
     @Override
-    public Result delProjectTeamUser(Integer user_id) {
+    public Result delProjectTeamUser(Integer project_id,Integer user_id) {
         try {
-            projectTeamMapper.delProjectTeamUser(user_id);
+            projectTeamMapper.delProjectTeamUser(project_id,user_id);
             rs = new Result("200", "删除成功", null);
         } catch (Exception e) {
             e.printStackTrace();
@@ -53,6 +53,17 @@ public class ProjectTeamServiceImpl implements ProjectTeamService {
         try {
             List<ProjectTeamMap> projectTeamMaps = projectTeamMapper.selectProjectTeam(project_id);
             rs = new Result("200",null,projectTeamMaps);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
+    @Override
+    public Result updateProjectTeamUser(String team_role) {
+        try {
+            projectTeamMapper.updateProjectTeamUser(team_role);
+            rs = new Result("200","更改成功",null);
         } catch (Exception e) {
             e.printStackTrace();
         }

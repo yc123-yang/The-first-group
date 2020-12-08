@@ -7,6 +7,7 @@
    <insert id="addCheck" parameterType="Check">
        insert into `check`
        (
+            user_id,
             `name`,
             department_id,
             award_count,
@@ -19,6 +20,7 @@
        )
         values
         (
+            #{user_id},
             #{name},
             #{department_id},
             #{award_count},
@@ -30,7 +32,7 @@
             #{check_time}
         )
    </insert>
-    <select id="selectCheckByCondition" resultType="Check">
+    <select id="selectCheckByCondition" resultType="Check" parameterType="java.util.HashMap">
         select * from `check`
         <where>
             <if test="user_id!=null and user_id!=''">
@@ -38,9 +40,6 @@
             </if>
             <if test="department_id!=null and department_id!=''">
                and department_id = #{department_id}
-            </if>
-            <if test="check_ime!=null and check_time!=''">
-                and check_time = #{check_time}
             </if>
         </where>
         order by total_grade desc

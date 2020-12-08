@@ -152,7 +152,7 @@
         award_id = #{award_id}
     </delete>
     <select id="selectTotalAward" parameterType="java.util.HashMap" resultType="int">
-        select * from award
+        select count(*) from award
         <where>
             <if test="achievement_name!=null and achievement_name!=''">
                 and achievement_name like '%${achievement_name}%'

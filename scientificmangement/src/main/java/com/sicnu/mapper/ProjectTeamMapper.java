@@ -11,8 +11,9 @@ import java.util.List;
 public interface ProjectTeamMapper {
     void addProjectTeamUser(Integer project_id, Integer user_id, String team_role);
 
-    void delProjectTeamUser(Integer user_id);
+    void delProjectTeamUser(Integer project_id,Integer user_id);
 
     List<Integer> selectProject_id(Integer user_id);
     List<ProjectTeamMap> selectProjectTeam(Integer project_id);
+    void updateProjectTeamUser(String team_role);
 }

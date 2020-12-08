@@ -6,7 +6,16 @@ public class PaperTeam {
   private Integer paper_id;
   private Integer user_id;
   private String user_role;
-  private double contribution;
+  private Integer contribution;
+
+  public Integer getContribution() {
+    return contribution;
+  }
+
+  public void setContribution(Integer contribution) {
+    this.contribution = contribution;
+  }
+
 
 
   public Integer getPaper_id() {
@@ -33,12 +42,4 @@ public class PaperTeam {
     this.user_role = user_role;
   }
 
-
-  public double getContribution() {
-    return contribution;
-  }
-
-  public void setContribution(double contribution) {
-    this.contribution = contribution;
-  }
 }

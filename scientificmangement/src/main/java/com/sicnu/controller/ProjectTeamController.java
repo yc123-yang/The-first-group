@@ -27,9 +27,9 @@ public class ProjectTeamController {
     }
 
     @PostMapping(value = "/team/delTeamUser")
-    public Result delTeamUser(Integer user_id) {
+    public Result delTeamUser(Integer project_id,Integer user_id) {
         try {
-            rs = projectTeamService.delProjectTeamUser(user_id);
+            rs = projectTeamService.delProjectTeamUser(project_id,user_id);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -38,6 +38,16 @@ public class ProjectTeamController {
     @PostMapping(value = "/team/selectProjectTeam")
     public Result selectProjectTeam(Integer project_id) {
         rs = projectTeamService.selectProjectTeam(project_id);
+        return rs;
+    }
+
+    @PostMapping(value = "/team/updateProjectTeamUser")
+    public Result updateProjectTeamUser(String team_role) {
+        try {
+           rs= projectTeamService.updateProjectTeamUser(team_role);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 }

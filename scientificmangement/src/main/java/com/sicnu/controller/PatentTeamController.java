@@ -20,7 +20,7 @@ public class PatentTeamController {
     private Result rs;
 
     @PostMapping("/team/addPatentTeamUser")
-    public Result addPatentTeamUser(Integer patent_id, Integer user_id, Double contribution) {
+    public Result addPatentTeamUser(Integer patent_id, Integer user_id, Integer contribution) {
         try {
             rs=patentTeamService.addPatentTeamUser(patent_id, user_id, contribution);
         } catch (Exception e) {
@@ -30,9 +30,9 @@ public class PatentTeamController {
     }
 
     @PostMapping("/team/delPatentTeamUser")
-    public Result delPatentTeamUser(Integer user_id) {
+    public Result delPatentTeamUser(Integer patent_id,Integer user_id) {
         try {
-            rs=patentTeamService.delPatentTeamUser(user_id);
+            rs=patentTeamService.delPatentTeamUser(patent_id,user_id);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -43,6 +43,15 @@ public class PatentTeamController {
     public Result selectPatentTeam(Integer patent_id) {
         try {
             rs= patentTeamService.selectPatentTeam(patent_id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+    @PostMapping("/team/updatePatentTeamUser")
+    public Result updatePatentTeamUser(Integer contribution) {
+        try {
+            rs=patentTeamService.updatePatentTeamUser(contribution);
         } catch (Exception e) {
             e.printStackTrace();
         }

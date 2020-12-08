@@ -7,7 +7,16 @@ public class AwardTeam {
   private Integer award_id;
   private Integer user_id;
   private String user_role;
-  private Double contribution;
+  private Integer contribution;
+
+  public Integer getContribution() {
+    return contribution;
+  }
+
+  public void setContribution(Integer contribution) {
+    this.contribution = contribution;
+  }
+
 
   public Integer getAward_id(Integer user_id) {
     return award_id;
@@ -34,11 +43,4 @@ public class AwardTeam {
   }
 
 
-  public double getContribution() {
-    return contribution;
-  }
-
-  public void setContribution(double contribution) {
-    this.contribution = contribution;
-  }
 }
