@@ -17,13 +17,13 @@ public class PressLevelServiceImpl implements PressLevelService {
 
     private Result rs;
     @Override
-    public Result addPressLevel(String pl_name) {
+    public Result addPressLevel(String pl_name,Integer bpl_score) {
         try {
             PressLevel pressLevel = pressLevelMapper.selectPressLevelByName(pl_name);
             if (pressLevel!=null){
                 rs = new Result("400","该字典已经存在",null);
             }else {
-                pressLevelMapper.addPressLevel(pl_name);
+                pressLevelMapper.addPressLevel(pl_name,bpl_score);
                 rs = new Result("200","添加成功",null);
             }
         } catch (Exception e) {

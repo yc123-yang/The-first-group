@@ -15,4 +15,5 @@ interface AwardLevelMapper {
     List<AwardLevel> findAllAwardLevel();
     AwardLevel selectAwardLevelByName(String al_name);
     void updateAwardLevel(AwardLevel awardLevel);
+    Integer selectAwardScoreById(Integer al_id);
 }

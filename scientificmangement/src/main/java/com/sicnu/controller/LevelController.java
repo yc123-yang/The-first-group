@@ -21,9 +21,9 @@ public class LevelController {
 
     @PostMapping("/level/addLevel")
     @RequiresPermissions("/data")
-    public Result addLevel(String level_name) {
+    public Result addLevel(String level_name,Integer pl_score) {
         try {
-            rs = levelService.addLevel(level_name);
+            rs = levelService.addLevel(level_name,pl_score);
         } catch (Exception e) {
             e.printStackTrace();
         }

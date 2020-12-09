@@ -20,11 +20,11 @@ public class AwardRankServiceImpl implements AwardRankService {
     private Result rs;
 
     @Override
-    public Result addAwardRank(String ar_name) {
+    public Result addAwardRank(String ar_name,Integer ar_score) {
         try {
             AwardRank awardRank = awardRankMapper.selectAwardRankByName(ar_name);
             if (awardRank == null){
-                awardRankMapper.addAwardRank(ar_name);
+                awardRankMapper.addAwardRank(ar_name,ar_score);
                 rs = new Result("200","插入字典数据成功",null);
             }else{
                 rs = new Result("400","字典数据已经存在，切勿重复插入",null);

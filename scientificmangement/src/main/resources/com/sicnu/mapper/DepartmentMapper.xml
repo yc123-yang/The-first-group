@@ -12,7 +12,7 @@
     <select id="findAllDepartment" resultType="Department">
         select * from department
     </select>
-    <select id="selectDepartmentByName"parameterType="string"  resultType="Department">
+    <select id="selectDepartmentByName" parameterType="string"  resultType="Department">
         select * from department where
         department_name = #{department_name}
     </select>

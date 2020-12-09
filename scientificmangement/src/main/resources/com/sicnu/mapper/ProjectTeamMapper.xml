@@ -34,7 +34,7 @@
 
     <select id="selectProjectTeam" parameterType="int" resultType="com.sicnu.pojo.teamMap.ProjectTeamMap">
         SELECT
-        u.user_name name,u.department_id department_id,
+        u.user_id user_id,u.user_name name,u.department_id department_id,
         u.role_id role_id,t.team_role team_role
         FROM
         user u,

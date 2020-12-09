@@ -13,7 +13,7 @@
     <select id="findAllSubject" resultType="Subject">
         select * from subject
     </select>
-    <select id="selectSubjectByName" resultType="Subject">
+    <select id="selectSubjectByName" parameterType="string" resultType="Subject">
         select * from subject where
         subject_name = #{subject_name}
     </select>

@@ -12,7 +12,7 @@
     <select id="findAllBookType" resultType="BookType">
         select * from book_type
     </select>
-    <select id="selectBookTypeByName" resultType="BookType">
+    <select id="selectBookTypeByName" parameterType="string" resultType="BookType">
         select * from book_type where
         bt_name = #{bt_name}
     </select>

@@ -6,7 +6,7 @@ import com.sicnu.util.Result;
 import java.util.List;
 
 public interface LevelService {
-    Result addLevel(String level_name);
+    Result addLevel(String level_name,Integer pl_score);
 
     Result delLevel(Integer level_id);
 

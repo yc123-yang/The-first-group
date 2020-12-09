@@ -12,7 +12,7 @@
     <select id="findAllRole" resultType="Role">
         select * from role
     </select>
-    <select id="selectRoleByName" resultType="Role">
+    <select id="selectRoleByName" parameterType="string" resultType="Role">
         select * from role where
         role_name = #{role_name}
     </select>

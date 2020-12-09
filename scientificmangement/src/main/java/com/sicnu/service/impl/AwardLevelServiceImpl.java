@@ -16,11 +16,11 @@ public class AwardLevelServiceImpl implements AwardLevelService {
 
     private Result rs;
     @Override
-    public Result addAwardLevel(String al_name) {
+    public Result addAwardLevel(String al_name,Integer al_score) {
         try {
             AwardLevel awardLevel = awardLevelMapper.selectAwardLevelByName(al_name);
             if (awardLevel==null){
-                awardLevelMapper.addAwardLevel(al_name);
+                awardLevelMapper.addAwardLevel(al_name,al_score);
                 rs = new Result("200","插入成功",null);
             }else{
                 rs = new Result("400","该字典数据已经存在，请勿重复插入",null);

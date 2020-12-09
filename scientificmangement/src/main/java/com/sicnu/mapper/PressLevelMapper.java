@@ -15,4 +15,5 @@ public interface PressLevelMapper {
     List<PressLevel> findAllPressLevel();
     PressLevel selectPressLevelByName(String pl_name);
     void updatePressLevel(PressLevel pressLevel);
+    Integer selectPressLevelScoreById(Integer pl_id);
 }

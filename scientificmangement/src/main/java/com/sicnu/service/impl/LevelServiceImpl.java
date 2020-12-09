@@ -19,11 +19,11 @@ public class LevelServiceImpl implements LevelService {
     LevelMapper levelMapper;
 
     @Override
-    public Result addLevel(String level_name) {
+    public Result addLevel(String level_name,Integer pl_score) {
         try {
             Level level = levelMapper.selectLevelByName(level_name);
             if (level == null) {
-                levelMapper.addLevel(level_name);
+                levelMapper.addLevel(level_name,pl_score);
                 rs = new Result("200", "添加等级成功", null);
             } else {
                 rs = new Result("400", "该等级已存在", null);

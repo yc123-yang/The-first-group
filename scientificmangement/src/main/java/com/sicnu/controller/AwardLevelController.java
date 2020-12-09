@@ -27,9 +27,9 @@ public class AwardLevelController {
     @PostMapping("/awardLevel/addAwardLevel")
     @RequiresPermissions("/data")
 
-    public Result addAwardLevel(String al_name) {
+    public Result addAwardLevel(String al_name,Integer al_score) {
         try {
-            rs   = awardLevelService.addAwardLevel(al_name);
+            rs   = awardLevelService.addAwardLevel(al_name,al_score);
         } catch (Exception e) {
             e.printStackTrace();
         }

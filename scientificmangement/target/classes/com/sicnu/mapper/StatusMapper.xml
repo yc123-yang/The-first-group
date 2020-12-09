@@ -12,7 +12,7 @@
     <select id="findAllStatus" resultType="Status">
         select * from status
     </select>
-    <select id="selectStatusByName" resultType="Status">
+    <select id="selectStatusByName" parameterType="string" resultType="Status">
         select * from status where
         status_name = #{status_name}
     </select>

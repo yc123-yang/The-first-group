@@ -12,7 +12,7 @@
     <select id="findAllLanguage" resultType="Language">
         select * from `language`
     </select>
-    <select id="selectLanguageByName" resultType="Language">
+    <select id="selectLanguageByName" parameterType="string" resultType="Language">
         select * from `language` where
         language_name = #{language_name}
     </select>

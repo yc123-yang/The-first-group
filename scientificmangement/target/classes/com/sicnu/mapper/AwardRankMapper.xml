@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sicnu.mapper.AwardRankMapper">
     <insert id="addAwardRank" parameterType="AwardRank">
-        insert into award_rank(ar_name) values(#{ar_name})
+        insert into award_rank(ar_name,ar_Score) values(#{ar_name},#{ar_score})
     </insert>
     <delete id="delAwardRank" parameterType="AwardRank">
         delete from award_rank where ar_id = #{ar_id}
@@ -19,7 +19,8 @@
     <update id="updateAwardRank" parameterType="AwardRank">
         update award_rank
         set
-        ar_name = #{ar_name}
+        ar_name = #{ar_name},
+        ar_score =#{ar_score}
         where
         ar_id =#{ar_id}
     </update>

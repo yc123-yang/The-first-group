@@ -17,4 +17,5 @@ public interface LevelMapper {
 
     Level selectLevelByName(String level_name);
     void updateLevel(Level level);
+    Integer selectLevelRankScoreById(Integer level_id);
 }

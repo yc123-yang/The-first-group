@@ -12,7 +12,7 @@
     <select id="findAllResearchType" resultType="ResearchType">
         select * from research_type
     </select>
-    <select id="selectResearchTypeByName" resultType="ResearchType">
+    <select id="selectResearchTypeByName" parameterType="string" resultType="ResearchType">
         select * from research_type where
         rt_name = #{rt_name}
     </select>

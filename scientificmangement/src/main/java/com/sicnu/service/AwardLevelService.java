@@ -6,7 +6,7 @@ import com.sicnu.util.Result;
 import java.util.List;
 
 public interface AwardLevelService {
-    Result addAwardLevel(String al_name);
+    Result addAwardLevel(String al_name,Integer al_score);
     Result delAwardLevel(Integer al_id);
     Result findAllAwardLevel();
     Result updateAwardLevel(AwardLevel awardLevel);

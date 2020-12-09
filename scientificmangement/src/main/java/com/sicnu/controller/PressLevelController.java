@@ -25,9 +25,9 @@ public class PressLevelController {
 
     @PostMapping("/pressLevel/addPressLevel")
     @RequiresPermissions("/data")
-    public Result addPressLevel(String pl_name) {
+    public Result addPressLevel(String pl_name,Integer bpl_score) {
         try {
-            rs = pressLevelService.addPressLevel(pl_name);
+            rs = pressLevelService.addPressLevel(pl_name,bpl_score);
         } catch (Exception e) {
             e.printStackTrace();
         }

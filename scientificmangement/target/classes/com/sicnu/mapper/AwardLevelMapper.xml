@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sicnu.mapper.AwardLevelMapper">
     <insert id="addAwardLevel" parameterType="AwardLevel">
-        insert into award_level(al_name) values(#{al_name})
+        insert into award_level(al_name,al_score) values(#{al_name},#{al_score})
     </insert>
     <delete id="delAwardLevel" parameterType="AwardLevel">
         delete from award_level where al_id = #{al_id}
@@ -12,15 +12,20 @@
     <select id="findAllAwardLevel" resultType="AwardLevel">
         select * from award_level
     </select>
-    <select id="selectAwardLevelByName" resultType="AwardLevel">
+    <select id="selectAwardLevelByName" parameterType="string" resultType="AwardLevel">
         select * from award_level where
         al_name = #{al_name}
     </select>
     <update id="updateAwardLevel" parameterType="AwardLevel">
         update award_level
         set
-        al_name =#{al_name}
+        al_name =#{al_name},
+        al_score =#{al_name}
         where
         al_id = #{al_id}
     </update>
+    <select id="selectAwardScore" parameterType="int" resultType="AwardLevel">
+        select al_score from award_level where
+        al_id = #{al_id}
+    </select>
 </mapper>

@@ -21,9 +21,9 @@ public class AwardRankController {
 
     @PostMapping("/awardRank/addAwardRank")
     @RequiresPermissions("/data")
-    public Result addAwardRank(String ar_name) {
+    public Result addAwardRank(String ar_name,Integer ar_score) {
         try {
-            rs = awardRankService.addAwardRank(ar_name);
+            rs = awardRankService.addAwardRank(ar_name,ar_score);
         } catch (Exception e) {
             e.printStackTrace();
         }
