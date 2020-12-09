@@ -9,7 +9,7 @@ import java.util.List;
 @Repository
 @Mapper
 public interface LevelMapper {
-    void addLevel(String level_name);
+    void addLevel(String level_name,Integer pl_score);
 
     void delLevel(Integer level_id);
 

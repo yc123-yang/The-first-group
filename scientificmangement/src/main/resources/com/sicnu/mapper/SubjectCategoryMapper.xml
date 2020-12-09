@@ -22,7 +22,7 @@
     <select id="findAllSubjectCategory" resultType="SubjectCategory">
         select * from subject_category
     </select>
-    <select id="selectSubjectCategoryByName" resultType="SubjectCategory">
+    <select id="selectSubjectCategoryByName" parameterType="string" resultType="SubjectCategory">
         select * from subject_category where
         sc_name = #{sc_name}
     </select>

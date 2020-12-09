@@ -12,7 +12,7 @@
     <select id="findAllPublicationPlace" resultType="PublicationPlace">
         select * from publication_place
     </select>
-    <select id="findPublicationPlaceByName" resultType="PublicationPlace">
+    <select id="findPublicationPlaceByName" parameterType="string" resultType="PublicationPlace">
         select * from publication_place where
         pp_name = #{pp_name}
     </select>

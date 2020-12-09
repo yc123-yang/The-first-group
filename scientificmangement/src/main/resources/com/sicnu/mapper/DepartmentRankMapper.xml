@@ -12,7 +12,7 @@
     <select id="findAllDepartmentRank" resultType="DepartmentRank">
         select * from department_rank
     </select>
-    <select id="selectDepartmentRankByName" resultType="DepartmentRank">
+    <select id="selectDepartmentRankByName" parameterType="string" resultType="DepartmentRank">
         select * from department_rank where
         dr_name = #{dr_name}
     </select>

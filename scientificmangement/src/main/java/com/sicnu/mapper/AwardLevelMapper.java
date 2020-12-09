@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public
 interface AwardLevelMapper {
-    void addAwardLevel(String al_name);
+    void addAwardLevel(String al_name,Integer al_score);
     void delAwardLevel(Integer al_id);
     List<AwardLevel> findAllAwardLevel();
     AwardLevel selectAwardLevelByName(String al_name);

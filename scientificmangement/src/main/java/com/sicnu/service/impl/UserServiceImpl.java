@@ -99,7 +99,7 @@ public class UserServiceImpl implements UserService {
                 // 构建缓存用户信息返回给前端，并保存到
                 User user = (User) currentUser.getPrincipals().getPrimaryPrincipal();
                 cacheUser = CacheUser.builder()
-                        .token(currentUser.getSession().getId().toString())
+                        .user_token(currentUser.getSession().getId().toString())
                         .build();
                 //复制登录用户的关键信息到缓存库
                 BeanUtils.copyProperties(user, cacheUser);

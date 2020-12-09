@@ -12,6 +12,29 @@
       "sourceType": "com.sicnu.config.ShiroConfig"
     }
   ],
-  "properties": [],
+  "properties": [
+    {
+      "name": "spring.redis.host",
+      "type": "java.lang.String",
+      "sourceType": "com.sicnu.config.ShiroConfig",
+      "defaultValue": "101.37.30.164"
+    },
+    {
+      "name": "spring.redis.password",
+      "type": "java.lang.String",
+      "sourceType": "com.sicnu.config.ShiroConfig"
+    },
+    {
+      "name": "spring.redis.port",
+      "type": "java.lang.Integer",
+      "sourceType": "com.sicnu.config.ShiroConfig",
+      "defaultValue": 6379
+    },
+    {
+      "name": "spring.redis.timeout",
+      "type": "java.time.Duration",
+      "sourceType": "com.sicnu.config.ShiroConfig"
+    }
+  ],
   "hints": []
 }

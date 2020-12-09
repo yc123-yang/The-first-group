@@ -21,12 +21,14 @@ import java.io.Serializable;
  */
 public class MySessionManager extends DefaultWebSessionManager {
 
-    private static final String AUTHORIZATION = "token";
+    private static final String AUTHORIZATION = "user_token";
     private static final String REFERENCED_SESSION_ID_SOURCE = "Stateless request";
 
     @Override
     protected Serializable getSessionId(ServletRequest request, ServletResponse response) {
+        System.out.println("accccc");
         String id = WebUtils.toHttp(request).getHeader(AUTHORIZATION);
+        System.out.println(id);
         //如果请求头中有 Authorization 则其值为sessionId
         if (!StringUtils.isEmpty(id)) {
             request.setAttribute(ShiroHttpServletRequest.REFERENCED_SESSION_ID_SOURCE, REFERENCED_SESSION_ID_SOURCE);

@@ -6,6 +6,15 @@ package com.sicnu.pojo;
 public class PressLevel {
     private Integer pl_id;
     private String pl_name;
+    private Integer bpl_score;
+
+    public Integer getBpl_score() {
+        return bpl_score;
+    }
+
+    public void setBpl_score(Integer bpl_score) {
+        this.bpl_score = bpl_score;
+    }
 
     public Integer getPl_id() {
         return pl_id;
@@ -23,11 +32,5 @@ public class PressLevel {
         this.pl_name = pl_name;
     }
 
-    @Override
-    public String toString() {
-        return "PressLevel{" +
-                "pl_id=" + pl_id +
-                ", pl_name='" + pl_name + '\'' +
-                '}';
-    }
+
 }

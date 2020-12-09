@@ -12,7 +12,7 @@
     <select id="findAllNature" resultType="Nature">
         select * from nature
     </select>
-    <select id="selectNatureByName" resultType="Nature">
+    <select id="selectNatureByName" parameterType="string" resultType="Nature">
         select * from nature where
         nature_name = #{nature_name}
     </select>

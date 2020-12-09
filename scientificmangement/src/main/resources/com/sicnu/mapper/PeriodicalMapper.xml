@@ -12,7 +12,7 @@
     <select id="findAllPeriodical" resultType="Periodical">
         select * from periodical
     </select>
-    <select id="selectPeriodicalByName" resultType="Periodical">
+    <select id="selectPeriodicalByName" parameterType="string" resultType="Periodical">
         select * from periodical where
         periodical_name = #{periodical_name}
     </select>

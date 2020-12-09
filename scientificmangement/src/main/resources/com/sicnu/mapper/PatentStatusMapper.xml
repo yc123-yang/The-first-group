@@ -12,7 +12,7 @@
     <select id="findAllPatentStatus" resultType="PatentStatus">
         select * from patent_status
     </select>
-    <select id="selectPatentStatusByName" resultType="PatentStatus">
+    <select id="selectPatentStatusByName"  parameterType="string" resultType="PatentStatus">
         select * from patent_status where
         ps_name = #{ps_name}
     </select>

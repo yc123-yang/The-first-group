@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sicnu.mapper.LevelMapper">
     <insert id="addLevel" parameterType="Level">
-        insert into level(level_name) values(#{level_name})
+        insert into level(level_name,pl_score) values(#{level_name},#{pl_score})
     </insert>
     <delete id="delLevel" parameterType="Level">
         delete from level where level_id = #{level_id}
@@ -12,14 +12,15 @@
     <select id="findAllLevel" resultType="Level">
         select * from level
     </select>
-    <select id="selectLevelByName" resultType="Level">
+    <select id="selectLevelByName" parameterType="string" resultType="Level">
         select * from level where
         level_name = #{level_name}
     </select>
     <update id="updateLevel" parameterType="Level">
         update level
         set
-        level_name = #{level_name}
+        level_name = #{level_name},
+        pl_score =#{pl_score}
         where
         level_id = #{level_id}
     </update>

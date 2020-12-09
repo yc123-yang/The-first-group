@@ -8,6 +8,15 @@ import java.io.Serializable;
 public class Level implements Serializable {
     private Integer level_id;
     private String level_name;
+    private Integer pl_score;
+
+    public Integer getPl_score() {
+        return pl_score;
+    }
+
+    public void setPl_score(Integer pl_score) {
+        this.pl_score = pl_score;
+    }
 
     public Level(Integer level_id, String level_name) {
 

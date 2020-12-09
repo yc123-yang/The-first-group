@@ -9,7 +9,7 @@ import java.util.List;
 @Mapper
 @Repository
 public interface AwardRankMapper {
-    void addAwardRank(String ar_name);
+    void addAwardRank(String ar_name,Integer ar_Score);
     void delAwardRank(Integer ar_id);
     List<AwardRank> findAllAwardRank();
     AwardRank selectAwardRankByName(String ar_name);

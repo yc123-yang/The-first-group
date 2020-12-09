@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sicnu.mapper.PressLevelMapper">
     <insert id="addPressLevel" parameterType="PressLevel">
-        insert into press_level(pl_name) values(#{pl_name})
+        insert into press_level(pl_name,bpl_score) values(#{pl_name},#{bpl_score})
     </insert>
     <delete id="delPressLevel" parameterType="PressLevel">
         delete from press_level where pl_id = #{pl_id}
@@ -19,7 +19,8 @@
     <update id="updatePressLevel" parameterType="PressLevel">
         update press_level
         set
-        pl_name = #{pl_name}
+        pl_name = #{pl_name},
+        bpl_score =#{bpl_score}
         where
         pl_id =#{pl_id}
     </update>

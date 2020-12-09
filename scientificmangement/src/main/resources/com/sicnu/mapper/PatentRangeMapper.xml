@@ -12,7 +12,7 @@
     <select id="findAllPatentRange" resultType="PatentRange">
         select * from patent_range
     </select>
-    <select id="selectPatentRangeByName" resultType="PatentRange">
+    <select id="selectPatentRangeByName" parameterType="string" resultType="PatentRange">
         select * from patent_range where
         pr_name = #{pr_name}
     </select>

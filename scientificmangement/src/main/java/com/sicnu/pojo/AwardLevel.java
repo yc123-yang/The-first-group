@@ -6,6 +6,15 @@ package com.sicnu.pojo;
 public class AwardLevel {
     private Integer al_id;
     private String al_name;
+    private Integer al_score;
+
+    public Integer getAl_score() {
+        return al_score;
+    }
+
+    public void setAl_score(Integer al_score) {
+        this.al_score = al_score;
+    }
 
     public Integer getAl_id() {
         return al_id;
@@ -23,11 +32,5 @@ public class AwardLevel {
         this.al_name = al_name;
     }
 
-    @Override
-    public String toString() {
-        return "AwardLevel{" +
-                "al_id=" + al_id +
-                ", al_name='" + al_name + '\'' +
-                '}';
-    }
+
 }

@@ -1,5 +1,7 @@
 package com.sicnu.config;
 
+
+import lombok.Data;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.session.mgt.SessionManager;
@@ -8,6 +10,9 @@ import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSource
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.SimpleCookie;
+import org.crazycake.shiro.RedisCacheManager;
+import org.crazycake.shiro.RedisManager;
+import org.crazycake.shiro.RedisSessionDAO;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -16,33 +21,28 @@ import org.springframework.context.annotation.Configuration;
 import java.time.Duration;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Properties;
 
 /**
- * @author ：yangchun
- * @date ：2020/11/13
+ * @author ：leigq
+ * @date ：2019/6/28 16:53
  * @description：shiro配置
  */
 @Configuration
 @ConfigurationProperties(
         prefix = "spring.redis"
+
 )
+@Data
 public class ShiroConfig {
 
-    private String host = "localhost";
+    private String host = "101.37.30.164";
     private int port = 6379;
     private String password;
     private Duration timeout;
 
-    /**
-     * Filter工厂，设置对应的过滤条件和跳转条件
-     * create by: yangchun
-     * create time: 2020/11/13
-     *
-     * @return ShiroFilterFactoryBean
-     */
+
     @Bean
-    public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager) {
+    public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager) {
 
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager);
@@ -65,11 +65,11 @@ public class ShiroConfig {
          * 过滤链定义，从上向下顺序执行，authc 应放在 anon 下面
          * */
         filterChainDefinitionMap.put("/login", "anon");
-        filterChainDefinitionMap.put("/css/**", "anon");
+        filterChainDefinitionMap.put("s/**", "anon");
         filterChainDefinitionMap.put("/fonts/**", "anon");
         filterChainDefinitionMap.put("/img/**", "anon");
         filterChainDefinitionMap.put("/js/**", "anon");
-        filterChainDefinitionMap.put("/html/**", "anon");
+        filterChainDefinitionMap.put("ml/**", "anon");
         filterChainDefinitionMap.put("/user/**", "anon");
         // 所有url都必须认证通过才可以访问
         filterChainDefinitionMap.put("/**", "authc");
@@ -81,13 +81,6 @@ public class ShiroConfig {
     }
 
 
-    /**
-     * 凭证匹配器（由于我们的密码校验交给Shiro的SimpleAuthenticationInfo进行处理了）
-     * create by: yangchun
-     * create time: 2020/11/13
-     *
-     * @return HashedCredentialsMatcher
-     */
     @Bean
     public HashedCredentialsMatcher hashedCredentialsMatcher() {
         HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
@@ -98,13 +91,7 @@ public class ShiroConfig {
         return hashedCredentialsMatcher;
     }
 
-    /**
-     * 将自己的验证方式加入容器
-     * create by: yangchun
-     * create time: 2020/11/13
-     *
-     * @return MyShiroRealm
-     */
+
     @Bean
     public MyShiroRealm myShiroRealm() {
         MyShiroRealm myShiroRealm = new MyShiroRealm();
@@ -114,33 +101,57 @@ public class ShiroConfig {
 
 
     @Bean
+    public RedisSessionDAO redisSessionDAO() {
+        RedisSessionDAO redisSessionDAO = new RedisSessionDAO();
+        redisSessionDAO.setRedisManager(redisManager());
+        redisSessionDAO.setSessionIdGenerator(sessionIdGenerator());
+        redisSessionDAO.setExpire(18000);
+        return redisSessionDAO;
+    }
+
+    @Bean
     public JavaUuidSessionIdGenerator sessionIdGenerator() {
         return new JavaUuidSessionIdGenerator();
     }
 
 
-    /**
-     * 自定义sessionManager
-     *
-     * @return SessionManager
-     */
     @Bean
     public SessionManager sessionManager() {
         MySessionManager mySessionManager = new MySessionManager();
 //        mySessionManager.setSessionDAO(redisSessionDAO());
         return mySessionManager;
     }
-    /**
-     * create by: yangchun
-     * description: 权限管理，配置主要是Realm的管理认证
-     * create time: 2020/11/13
-     *
-     * @return SecurityManager
-     */
+
+
+    private RedisManager redisManager() {
+        RedisManager redisManager = new RedisManager();
+        redisManager.setHost(host);
+        redisManager.setPort(port);
+//        redisManager.setTimeout((int) timeout.toMillis());
+        redisManager.setTimeout(60000);
+        redisManager.setPassword(password);
+        return redisManager;
+    }
+
+
+    @Bean
+    public RedisCacheManager cacheManager() {
+        RedisCacheManager redisCacheManager = new RedisCacheManager();
+        redisCacheManager.setRedisManager(redisManager());
+        // 必须要设置主键名称，shiro-redis 插件用过这个缓存用户信息
+        redisCacheManager.setPrincipalIdFieldName("user_id");
+        return redisCacheManager;
+    }
+
+
     @Bean
     public SecurityManager securityManager() {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setRealm(myShiroRealm());
+        // 自定义session管理 使用redis
+        securityManager.setSessionManager(sessionManager());
+        // 自定义缓存实现 使用redis
+//        securityManager.setCacheManager(cacheManager());
         return securityManager;
     }
 

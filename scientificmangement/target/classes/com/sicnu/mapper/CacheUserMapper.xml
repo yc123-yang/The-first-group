@@ -15,7 +15,7 @@
         user_name,
         user_email,
         user_state,
-        token
+        user_token
         )
         values
         (#{user_id},
@@ -23,7 +23,7 @@
         #{user_name},
         #{user_email},
         #{user_state},
-        #{token}
+        #{user_token}
         )
     </insert>
 

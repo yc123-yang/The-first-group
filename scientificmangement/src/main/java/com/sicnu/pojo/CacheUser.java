@@ -35,7 +35,7 @@ public class CacheUser implements Serializable {
 
     private Integer user_state;
 
-    private String token;
+    private String user_token;
 
 
 }

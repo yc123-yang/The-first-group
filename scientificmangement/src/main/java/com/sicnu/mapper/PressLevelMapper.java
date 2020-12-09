@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface PressLevelMapper {
 
-    void addPressLevel(String pl_name);
+    void addPressLevel(String pl_name,Integer bpl_score );
     void delPressLevel(Integer pl_id);
     List<PressLevel> findAllPressLevel();
     PressLevel selectPressLevelByName(String pl_name);
