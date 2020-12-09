@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpSession;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -57,7 +58,8 @@ public class ProjectServiceImpl implements ProjectService {
     @Resource
     RoleAuthMapper roleAuthMapper;
     private Result rs = null;
-
+    @Resource
+    private HttpSession session;
     /**
      * 审核项目
      *
@@ -142,10 +144,11 @@ public class ProjectServiceImpl implements ProjectService {
 
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
+            User user = (User) session.getAttribute("user");
             //获取登陆用户的缓存信息
             List<CacheUser> cacheUsers = cacheUserMapper.findAllCacheUser();
             //获取登录用户的id
-            Integer uid = cacheUsers.get(0).getUser_id();
+            Integer uid = user.getUser_id();
             System.out.println(uid);
             System.out.println(project.getProject_name());
             map.put("project_name", project.getProject_name());
@@ -181,7 +184,7 @@ public class ProjectServiceImpl implements ProjectService {
                 map.put("plan_time_end", sdf.parse(plan_time_end));
             }
 
-            User user = userDao.findUserById(uid);
+//            User user = userDao.findUserById(uid);
             List<UserAuth> userAuths = roleAuthMapper.findUserAuth(user.getRole_id());
             int cnt =0;
             for (UserAuth userAuth : userAuths) {

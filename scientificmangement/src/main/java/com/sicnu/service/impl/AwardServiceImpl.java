@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -44,6 +45,8 @@ public class AwardServiceImpl implements AwardService {
     CacheUserMapper cacheUserMapper;
     @Resource
     RoleAuthMapper roleAuthMapper;
+    @Resource
+    private HttpSession session;
     @Override
     public Result addAward(Award award,String checkMessage,String message) {
         try {
@@ -101,10 +104,11 @@ public class AwardServiceImpl implements AwardService {
         try {
             Map<String, Object> map = new HashMap<>();
 
+            User user = (User) session.getAttribute("user");
             //获取登陆用户的缓存信息
-            List<CacheUser> cacheUsers = cacheUserMapper.findAllCacheUser();
+//            List<CacheUser> cacheUsers = cacheUserMapper.findAllCacheUser();
             //获取登录用户的id
-            Integer uid = cacheUsers.get(0).getUser_id();
+            Integer uid = user.getUser_id();
             map.put("achievement_name", award.getAchievement_name());
             map.put("award_name", award.getAward_name());
             map.put("issuing_authority", award.getIssuing_authority());
@@ -127,7 +131,7 @@ public class AwardServiceImpl implements AwardService {
             if (!award_time_end.equals("")) {
                 map.put("award_time_end", sdf.parse(award_time_end));
             }
-            User user = userDao.findUserById(uid);
+//            User user = userDao.findUserById(uid);
             List<UserAuth> userAuths = roleAuthMapper.findUserAuth(user.getRole_id());
             int cnt =0;
             for (UserAuth userAuth : userAuths) {

@@ -41,7 +41,6 @@ public class PatentRangeController {
         return rs;
     }
     @PostMapping("/patentRange/findAllPatentRange")
-    @RequiresPermissions("/data")
     public Result findAllPatentRange() {
         try {
             rs = patentRangeService.findAllPatentRange();

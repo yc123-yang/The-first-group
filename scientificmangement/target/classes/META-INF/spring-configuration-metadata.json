@@ -17,7 +17,7 @@
       "name": "spring.redis.host",
       "type": "java.lang.String",
       "sourceType": "com.sicnu.config.ShiroConfig",
-      "defaultValue": "101.37.30.164"
+      "defaultValue": "101.37.30.164:6379"
     },
     {
       "name": "spring.redis.password",

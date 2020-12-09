@@ -4,10 +4,7 @@ import com.sicnu.mapper.CacheUserMapper;
 import com.sicnu.mapper.ProjectExamineMapper;
 import com.sicnu.mapper.ProjectTeamExamineMapper;
 import com.sicnu.mapper.UserMapper;
-import com.sicnu.pojo.CacheUser;
-import com.sicnu.pojo.PatentExamine;
-import com.sicnu.pojo.Project;
-import com.sicnu.pojo.ProjectExamine;
+import com.sicnu.pojo.*;
 import com.sicnu.pojo.teamMap.PatentTeamMap;
 import com.sicnu.pojo.teamMap.ProjectTeamMap;
 import com.sicnu.service.ProjectExamineService;
@@ -16,6 +13,7 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -30,7 +28,8 @@ public class ProjectExamineServiceImpl implements ProjectExamineService {
     ProjectTeamExamineMapper projectTeamExamineMapper;
     @Resource
     CacheUserMapper cacheUserMapper;
-
+    @Resource
+    private HttpSession session;
     @Override
     public Result addProjectExamine(ProjectExamine projectExamine,Integer[] user_id,String []team_role) {
         try {
@@ -57,10 +56,11 @@ public class ProjectExamineServiceImpl implements ProjectExamineService {
 
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
+            User user = (User) session.getAttribute("user");
             //获取登陆用户的缓存信息
             List<CacheUser> cacheUsers = cacheUserMapper.findAllCacheUser();
             //获取登录用户的id
-            Integer uid = cacheUsers.get(0).getUser_id();
+            Integer uid = user.getUser_id();
             System.out.println(uid);
             System.out.println(projectExamine.getProject_name());
             map.put("project_name", projectExamine.getProject_name());

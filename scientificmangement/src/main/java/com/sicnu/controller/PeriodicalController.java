@@ -44,7 +44,6 @@ public class PeriodicalController {
     }
 
     @PostMapping("/periodical/findAllPeriodical")
-    @RequiresPermissions("/data")
     public Result findAllPeriodical() {
         try {
            rs= periodicalService.findAllPeriodical();

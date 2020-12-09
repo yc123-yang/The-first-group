@@ -24,4 +24,9 @@
         where
         pl_id =#{pl_id}
     </update>
+    <select id="selectPressLevelScoreById" parameterType="int" resultType="int">
+        select bpl_score from press_level
+        where
+        pl_id =#{pl_id}
+    </select>
 </mapper>

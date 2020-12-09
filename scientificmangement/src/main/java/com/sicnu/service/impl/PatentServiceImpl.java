@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -49,6 +50,8 @@ public class PatentServiceImpl implements PatentService {
     CacheUserMapper cacheUserMapper;
     @Resource
     RoleAuthMapper roleAuthMapper;
+    @Resource
+    private HttpSession session;
 
     /**
      * 添加专利
@@ -132,10 +135,11 @@ public class PatentServiceImpl implements PatentService {
         try {
             Map<String, Object> map = new HashMap<>();
 
+            User user = (User) session.getAttribute("user");
             //获取登陆用户的缓存信息
-            List<CacheUser> cacheUsers = cacheUserMapper.findAllCacheUser();
+//            List<CacheUser> cacheUsers = cacheUserMapper.findAllCacheUser();
             //获取登录用户的id
-            Integer uid = cacheUsers.get(0).getUser_id();
+            Integer uid = user.getUser_id();
 
             map.put("patent_name", patent.getPatent_name());
             map.put("pt_id", patent.getPt_id());
@@ -166,7 +170,7 @@ public class PatentServiceImpl implements PatentService {
             if (!authorization_time_end.equals("")) {
                 map.put("authorization_time_end", sdf.parse(authorization_time_end));
             }
-            User user = userDao.findUserById(uid);
+//            User user = userDao.findUserById(uid);
             List<UserAuth> userAuths = roleAuthMapper.findUserAuth(user.getRole_id());
             int cnt =0;
             for (UserAuth userAuth : userAuths) {

@@ -30,7 +30,7 @@
 
     <select id="selectBookTeam" parameterType="int" resultType="com.sicnu.pojo.teamMap.BookTeamMap">
         SELECT
-        u.user_name name,u.department_id department_id,
+        u.user_id user_id,u.user_name name,u.department_id department_id,
         u.role_id role_id,
         t.contribution contribution
         FROM

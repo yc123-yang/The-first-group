@@ -17,6 +17,7 @@ import com.sicnu.pojo.Book;
 
 import javax.annotation.Resource;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -48,6 +49,9 @@ public class BookServiceImpl implements BookService{
     RoleAuthMapper roleAuthMapper;
     @Resource
     CacheUserMapper cacheUserMapper;
+    @Resource
+    private HttpSession session;
+
     @Override
     public Result addBook(Book book,String checkMessage,String message) {
         try {
@@ -100,10 +104,11 @@ public class BookServiceImpl implements BookService{
         List<Object> list = null;
 
         try {
+            User user = (User) session.getAttribute("user");
             //获取登陆用户的缓存信息
             List<CacheUser> cacheUsers = cacheUserMapper.findAllCacheUser();
             //获取登录用户的id
-            Integer uid = cacheUsers.get(0).getUser_id();
+            Integer uid = user.getUser_id();
 
             Map<String, Object> map = new HashMap<>();
             map.put("book_name", book.getBook_name());
@@ -129,7 +134,7 @@ public class BookServiceImpl implements BookService{
             if (!publish_time_end.equals("")) {
                 map.put("publish_time_end", sdf.parse(publish_time_end));
             }
-            User user = userDao.findUserById(uid);
+//            User user = userDao.findUserById(uid);
             List<UserAuth> userAuths = roleAuthMapper.findUserAuth(user.getRole_id());
             int cnt =0;
             for (UserAuth userAuth : userAuths) {

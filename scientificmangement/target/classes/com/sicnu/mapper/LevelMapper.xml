@@ -24,4 +24,9 @@
         where
         level_id = #{level_id}
     </update>
+
+    <select id="selectLevelScoreById" parameterType="int" resultType="int">
+        select pl_score from level where
+        level_id = #{level_id}
+    </select>
 </mapper>

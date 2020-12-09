@@ -35,7 +35,7 @@ import java.util.Map;
 @Data
 public class ShiroConfig {
 
-    private String host = "101.37.30.164";
+    private String host = "101.37.30.164:6379";
     private int port = 6379;
     private String password;
     private Duration timeout;

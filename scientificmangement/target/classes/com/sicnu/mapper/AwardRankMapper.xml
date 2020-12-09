@@ -24,4 +24,8 @@
         where
         ar_id =#{ar_id}
     </update>
+    <select id="selectAwardRankScoreById" parameterType="int" resultType="int">
+        select ar_score from award_level where
+        ar_id = #{ar_id}
+    </select>
 </mapper>

@@ -20,7 +20,7 @@
     </insert>
 
     <delete id="delProjectTeamUser" parameterType="ProjectTeam">
-        delete from projectTeam
+        delete from project_team
         where
         project_id = #{project_id}
         and

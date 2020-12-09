@@ -3,10 +3,7 @@ package com.sicnu.service.impl;
 import com.sicnu.mapper.CacheUserMapper;
 import com.sicnu.mapper.PatentExamineMapper;
 import com.sicnu.mapper.PatentTeamExamineMapper;
-import com.sicnu.pojo.CacheUser;
-import com.sicnu.pojo.PaperExamine;
-import com.sicnu.pojo.Patent;
-import com.sicnu.pojo.PatentExamine;
+import com.sicnu.pojo.*;
 import com.sicnu.pojo.teamMap.PaperTeamMap;
 import com.sicnu.pojo.teamMap.PatentTeamMap;
 import com.sicnu.service.PatentExamineService;
@@ -14,6 +11,7 @@ import com.sicnu.util.Result;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -29,6 +27,9 @@ public class PatentExamineServiceImpl implements PatentExamineService {
     PatentTeamExamineMapper patentTeamExamineMapper;
     @Resource
     CacheUserMapper cacheUserMapper;
+
+    @Resource
+    private HttpSession session;
     @Override
     public Result addPatentExamine(PatentExamine patentExamine,Integer[] user_id,Integer[] contribution) {
         try {
@@ -53,10 +54,11 @@ public class PatentExamineServiceImpl implements PatentExamineService {
         try {
             Map<String, Object> map = new HashMap<>();
 
+            User user = (User) session.getAttribute("user");
             //获取登陆用户的缓存信息
-            List<CacheUser> cacheUsers = cacheUserMapper.findAllCacheUser();
+//            List<CacheUser> cacheUsers = cacheUserMapper.findAllCacheUser();
             //获取登录用户的id
-            Integer uid = cacheUsers.get(0).getUser_id();
+            Integer uid = user.getUser_id();
 
             map.put("patent_name", patentExamine.getPatent_name());
             map.put("leader_id", uid);

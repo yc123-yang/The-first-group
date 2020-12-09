@@ -4,10 +4,7 @@ import com.sicnu.mapper.CacheUserMapper;
 import com.sicnu.mapper.PaperExamineMapper;
 import com.sicnu.mapper.PaperTeamExamineMapper;
 import com.sicnu.mapper.PeriodicalPaperExamineMapper;
-import com.sicnu.pojo.BookExamine;
-import com.sicnu.pojo.CacheUser;
-import com.sicnu.pojo.PaperExamine;
-import com.sicnu.pojo.PaperTeam;
+import com.sicnu.pojo.*;
 import com.sicnu.pojo.teamMap.BookTeamMap;
 import com.sicnu.pojo.teamMap.PaperTeamMap;
 import com.sicnu.service.PaperExamineService;
@@ -15,6 +12,7 @@ import com.sicnu.util.Result;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -36,6 +34,8 @@ public class PaperExamineServiceImpl implements PaperExamineService {
     @Resource
     PeriodicalPaperExamineMapper periodicalPaperExamineMapper;
 
+    @Resource
+    private HttpSession session;
 
     @Override
     public Result addPaperExamine(PaperExamine paperExamine,Integer[] user_id,Integer[] contribution,Integer[] periodicalIds) {
@@ -65,10 +65,11 @@ public class PaperExamineServiceImpl implements PaperExamineService {
             Map<String, Object> map = new HashMap<>();
 
 
+            User user = (User) session.getAttribute("user");
             //获取登陆用户的缓存信息
             List<CacheUser> cacheUsers = cacheUserMapper.findAllCacheUser();
             //获取登录用户的id
-            Integer uid = cacheUsers.get(0).getUser_id();
+            Integer uid = user.getUser_id();
 
             map.put("paper_name", paperExamine.getPaper_name());
             map.put("pt_id", paperExamine.getPt_id());

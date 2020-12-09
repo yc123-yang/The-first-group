@@ -4,16 +4,14 @@ import com.sicnu.mapper.AwardExamineMapper;
 import com.sicnu.mapper.AwardTeamExamineMapper;
 import com.sicnu.mapper.AwardTeamMapper;
 import com.sicnu.mapper.CacheUserMapper;
-import com.sicnu.pojo.Award;
-import com.sicnu.pojo.AwardExamine;
-import com.sicnu.pojo.AwardTeam;
-import com.sicnu.pojo.CacheUser;
+import com.sicnu.pojo.*;
 import com.sicnu.pojo.teamMap.AwardTeamMap;
 import com.sicnu.service.AwardExamineService;
 import com.sicnu.util.Result;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -30,6 +28,9 @@ public class AwardExamineServiceImpl implements AwardExamineService {
 
     @Resource
     CacheUserMapper cacheUserMapper;
+
+    @Resource
+    private HttpSession session;
 
     @Override
     public Result addAwardExamine(AwardExamine awardExamine, Integer[] user_id,Integer[] contribution) {
@@ -64,10 +65,11 @@ public class AwardExamineServiceImpl implements AwardExamineService {
         try {
             Map<String, Object> map = new HashMap<>();
 
+            User user = (User) session.getAttribute("user");
             //获取登陆用户的缓存信息
-            List<CacheUser> cacheUsers = cacheUserMapper.findAllCacheUser();
+//            List<CacheUser> cacheUsers = cacheUserMapper.findAllCacheUser();
             //获取登录用户的id
-            Integer uid = cacheUsers.get(0).getUser_id();
+            Integer uid = user.getUser_id();
             map.put("achievement_name", awardExamine.getAchievement_name());
             map.put("leader_id", uid);
             map.put("award_name", awardExamine.getAward_name());
