@@ -1,10 +1,8 @@
 package com.sicnu.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.sicnu.mapper.*;
-import com.sicnu.pojo.Book;
-import com.sicnu.pojo.CacheUser;
-import com.sicnu.pojo.Paper;
-import com.sicnu.pojo.User;
+import com.sicnu.pojo.*;
 import com.sicnu.pojo.teamExamine.BookTeamExamine;
 import com.sicnu.pojo.teamExamine.PaperTeamExamine;
 import com.sicnu.pojo.teamMap.BookTeamMap;
@@ -267,7 +265,12 @@ public class PaperServiceImpl implements PaperService {
     public Result findPaperById(Integer paper_id) {
         try {
             Paper paper = paperMapper.findPaperById(paper_id);
-            rs = new Result("200",null,paper);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//格式化对象
+            User user = (User) session.getAttribute("user");
+            Map map = JSON.parseObject(JSON.toJSONString(paper), Map.class);
+            map.put("user_name", user.getUser_name());
+            map.put("publish_time", sdf.format(paper.getPublish_time()));
+            rs = new Result("200", null, map);
         } catch (Exception e) {
             e.printStackTrace();
         }

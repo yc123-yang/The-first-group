@@ -1,5 +1,6 @@
 package com.sicnu.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.sicnu.mapper.CacheUserMapper;
 import com.sicnu.mapper.PaperExamineMapper;
 import com.sicnu.mapper.PaperTeamExamineMapper;
@@ -123,7 +124,13 @@ public class PaperExamineServiceImpl implements PaperExamineService {
     public Result findPaperExamineById(Integer pe_id) {
         try {
             PaperExamine paperExamine = paperExamineMapper.findPaperExamineById(pe_id);
-            rs = new Result("200",null,paperExamine);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//格式化对象
+            User user = (User) session.getAttribute("user");
+            Map map = JSON.parseObject(JSON.toJSONString(paperExamine), Map.class);
+            map.put("user_name", user.getUser_name());
+            map.put("publish_time", sdf.format(paperExamine.getPublish_time()));
+            map.put("apply_time", sdf.format(paperExamine.getApply_time()));
+            rs = new Result("200", null, map);
         } catch (Exception e) {
             e.printStackTrace();
         }

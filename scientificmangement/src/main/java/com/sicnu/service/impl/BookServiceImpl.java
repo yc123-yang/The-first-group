@@ -1,9 +1,8 @@
 package com.sicnu.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.sicnu.mapper.*;
-import com.sicnu.pojo.Award;
-import com.sicnu.pojo.CacheUser;
-import com.sicnu.pojo.User;
+import com.sicnu.pojo.*;
 import com.sicnu.pojo.teamExamine.BookTeamExamine;
 import com.sicnu.pojo.teamMap.AwardTeamMap;
 import com.sicnu.pojo.teamMap.BookTeamMap;
@@ -13,7 +12,6 @@ import com.sicnu.util.Result;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-import com.sicnu.pojo.Book;
 
 import javax.annotation.Resource;
 import javax.mail.internet.MimeMessage;
@@ -233,7 +231,12 @@ public class BookServiceImpl implements BookService{
     public Result findBookById(Integer book_id) {
         try {
             Book book = bookMapper.findBookById(book_id);
-            rs = new Result("200",null,book);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//格式化对象
+            User user = (User) session.getAttribute("user");
+            Map map = JSON.parseObject(JSON.toJSONString(book), Map.class);
+            map.put("user_name", user.getUser_name());
+            map.put("publish_time", sdf.format(book.getPublish_time()));
+            rs = new Result("200", null, map);
         } catch (Exception e) {
             e.printStackTrace();
         }

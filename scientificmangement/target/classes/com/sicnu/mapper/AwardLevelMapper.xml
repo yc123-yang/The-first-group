@@ -24,7 +24,7 @@
         where
         al_id = #{al_id}
     </update>
-    <select id="selectAwardScoreById" parameterType="int" resultType="int">
+    <select id="selectAwardLevelScoreById" parameterType="int" resultType="int">
         select al_score from award_level where
         al_id = #{al_id}
     </select>

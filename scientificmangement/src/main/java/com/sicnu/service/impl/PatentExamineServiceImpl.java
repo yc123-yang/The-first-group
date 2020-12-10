@@ -1,5 +1,6 @@
 package com.sicnu.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.sicnu.mapper.CacheUserMapper;
 import com.sicnu.mapper.PatentExamineMapper;
 import com.sicnu.mapper.PatentTeamExamineMapper;
@@ -128,7 +129,15 @@ public class PatentExamineServiceImpl implements PatentExamineService {
     public Result findPatentExamineById(Integer pe_id) {
         try {
             PatentExamine patentExamine = patentExamineMapper.findPatentExamineById(pe_id);
-            rs = new Result("200",null,patentExamine);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//格式化对象
+            User user = (User) session.getAttribute("user");
+            Map map = JSON.parseObject(JSON.toJSONString(patentExamine), Map.class);
+            map.put("user_name", user.getUser_name());
+            map.put("application_time", sdf.format(patentExamine.getApplication_time()));
+            map.put("authorization_time", sdf.format(patentExamine.getAuthorization_time()));
+            map.put("public_time", sdf.format(patentExamine.getPublic_time()));
+            map.put("apply_time", sdf.format(patentExamine.getApply_time()));
+            rs = new Result("200", null, map);
         } catch (Exception e) {
             e.printStackTrace();
         }

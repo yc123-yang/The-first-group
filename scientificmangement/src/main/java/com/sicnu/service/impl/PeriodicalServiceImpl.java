@@ -15,13 +15,13 @@ public class PeriodicalServiceImpl implements PeriodicalService {
     PeriodicalMapper periodicalMapper;
     private Result rs;
     @Override
-    public Result addPeriodical(String pt_name) {
+    public Result addPeriodical(String periodical_name,Integer pp_score) {
         try {
-            Periodical periodical = periodicalMapper.selectPeriodicalByName(pt_name);
+            Periodical periodical = periodicalMapper.selectPeriodicalByName(periodical_name);
             if (periodical!=null){
                 rs = new Result("401","该字典已经存在",null);
             }else {
-                periodicalMapper.addPeriodical(pt_name);
+                periodicalMapper.addPeriodical(periodical_name,pp_score);
                 rs = new Result("200","期刊字典插入成功",null);
             }
 

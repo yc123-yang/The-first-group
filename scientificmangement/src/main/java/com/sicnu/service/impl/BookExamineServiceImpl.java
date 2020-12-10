@@ -1,5 +1,6 @@
 package com.sicnu.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.sicnu.mapper.BookExamineMapper;
 import com.sicnu.mapper.BookTeamExamineMapper;
 import com.sicnu.mapper.CacheUserMapper;
@@ -122,6 +123,13 @@ public class BookExamineServiceImpl implements BookExamineService {
         try {
             BookExamine bookExamine =bookExamineMapper.findBookExamineById(be_id);
             rs = new Result("200",null,bookExamine);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//格式化对象
+            User user = (User) session.getAttribute("user");
+            Map map = JSON.parseObject(JSON.toJSONString(bookExamine), Map.class);
+            map.put("user_name", user.getUser_name());
+            map.put("apply_time", sdf.format(bookExamine.getApply_time()));
+            map.put("publish_time", sdf.format(bookExamine.getPublish_time()));
+            rs = new Result("200", null, map);
         } catch (Exception e) {
             e.printStackTrace();
         }

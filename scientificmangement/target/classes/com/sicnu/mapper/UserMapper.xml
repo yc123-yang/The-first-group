@@ -101,7 +101,7 @@
         user_id = #{user_id}
     </update>
 
-    <select resultType="int" id="selectAllUserId">
+    <select id="selectAllUserId" resultType="int">
         select user_id from user
     </select>
 

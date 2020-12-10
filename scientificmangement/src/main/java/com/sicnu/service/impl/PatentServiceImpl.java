@@ -1,10 +1,8 @@
 package com.sicnu.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.sicnu.mapper.*;
-import com.sicnu.pojo.CacheUser;
-import com.sicnu.pojo.Paper;
-import com.sicnu.pojo.Patent;
-import com.sicnu.pojo.User;
+import com.sicnu.pojo.*;
 import com.sicnu.pojo.teamExamine.PatentTeamExamine;
 import com.sicnu.pojo.teamMap.PaperTeamMap;
 import com.sicnu.pojo.teamMap.PatentTeamMap;
@@ -290,7 +288,14 @@ public class PatentServiceImpl implements PatentService {
     public Result findPatentById(Integer patent_id) {
         try {
             Patent patent = patentMapper.findPatentById(patent_id);
-            rs = new Result("200",null,patent);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//格式化对象
+            User user = (User) session.getAttribute("user");
+            Map map = JSON.parseObject(JSON.toJSONString(patent), Map.class);
+            map.put("user_name", user.getUser_name());
+            map.put("application_time", sdf.format(patent.getApplication_time()));
+            map.put("authorization_time", sdf.format(patent.getAuthorization_time()));
+            map.put("public_time", sdf.format(patent.getPublic_time()));
+            rs = new Result("200", null, map);
         } catch (Exception e) {
             e.printStackTrace();
         }

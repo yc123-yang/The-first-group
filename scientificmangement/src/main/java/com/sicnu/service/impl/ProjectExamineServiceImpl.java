@@ -1,5 +1,6 @@
 package com.sicnu.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.sicnu.mapper.CacheUserMapper;
 import com.sicnu.mapper.ProjectExamineMapper;
 import com.sicnu.mapper.ProjectTeamExamineMapper;
@@ -134,8 +135,18 @@ public class ProjectExamineServiceImpl implements ProjectExamineService {
     @Override
     public Result findProjectExamineById(Integer pe_id) {
         try {
+            User user = (User) session.getAttribute("user");
             ProjectExamine projectExamine = projectExamineMapper.findProjectExamineById(pe_id);
-            rs = new Result("200",null,projectExamine);
+            Map map = JSON.parseObject(JSON.toJSONString(projectExamine), Map.class);
+            map.put("user_name", user.getUser_name());
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//格式化对象
+            map.put("complete_time", sdf.format(projectExamine.getComplete_time()));
+            map.put("start_time", sdf.format(projectExamine.getStart_time()));
+            map.put("plan_time", sdf.format(projectExamine.getPlan_time()));
+            map.put("apply_time", sdf.format(projectExamine.getApply_time()));
+
+            rs = new Result("200", null, map);
+
         } catch (Exception e) {
             e.printStackTrace();
         }

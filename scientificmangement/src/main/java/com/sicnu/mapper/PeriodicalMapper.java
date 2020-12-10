@@ -12,9 +12,10 @@ import java.util.List;
 @Mapper
 @Repository
 public interface PeriodicalMapper {
-    void addPeriodical(String pt_name);
-    void delPeriodical(Integer pt_id);
+    void addPeriodical(String periodical_name,Integer pp_score);
+    void delPeriodical(Integer periodical_id);
     List<Periodical> findAllPeriodical();
-    Periodical selectPeriodicalByName(String pt_name);
+    Periodical selectPeriodicalByName(String periodical_name);
     void updatePeriodical(Periodical periodical);
+    Integer selectPeriodicalScoreById(Integer periodical_id);
 }

@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sicnu.mapper.PeriodicalMapper">
     <insert id="addPeriodical" parameterType="Periodical">
-        insert into periodical(periodical_name) values (#{periodical_name})
+        insert into periodical(periodical_name,pp_score) values (#{periodical_name},#{pp_score})
     </insert>
     <delete id="delPeriodical" parameterType="Periodical">
         delete from periodical where periodical_id = #{periodical_id}
@@ -23,4 +23,10 @@
         where
         periodical_id =#{periodical_id}
     </update>
+    <select id="selectPeriodicalScoreById" resultType="int" parameterType="int">
+        select pp_score from periodical
+        where
+        periodical_id =#{periodical_id}
+
+    </select>
 </mapper>

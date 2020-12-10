@@ -8,6 +8,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -28,7 +29,17 @@ public class CheckServiceImpl implements CheckService {
     @Resource
     CheckMapper checkMapper;
     @Resource
-    CacheUserMapper cacheUserMapper;
+    LevelMapper levelMapper;
+    @Resource
+    AwardLevelMapper awardLevelMapper;
+    @Resource
+    AwardRankMapper awardRankMapper;
+    @Resource
+    PeriodicalMapper periodicalMapper;
+    @Resource
+    PressLevelMapper pressLevelMapper;
+    @Resource
+    HttpSession session;
     private Result rs;
 
     @Scheduled(cron = "* * * 30 6,12 ? ")
@@ -57,49 +68,49 @@ public class CheckServiceImpl implements CheckService {
                 checkTime = str[0] + "年第二学期";
 
             }
-            List<Object> list = new ArrayList<>();
-            //获取登陆用户的缓存信息
-            List<CacheUser> cacheUsers = cacheUserMapper.findAllCacheUser();
-            //获取登录用户的id
-            Integer userId = cacheUsers.get(0).getUser_id();
+            List<Integer> userIds = userMapper.selectAllUserId();
+            for (Integer userId : userIds) {
+                Check check =  new Check();
 
-            Check check =  new Check();
+                Map<String,Object> map= new HashMap<>();
+                map.put("start_time",start_time);
+                map.put("end_time",end_time);
+                map.put("leader_id",userId);
+                //用户信息
+                 User user = userMapper.findUserById(userId);
+                check.setUser_id(userId);
+                check.setName(user.getUser_name());
+                check.setDepartment_id(user.getDepartment_id());
+                //用户获奖情况考核
+                Integer awardCount = awardMapper.selectCountAward(map);
+                Integer awardGrade = awardGrade(userId);
+                check.setAward_count(awardCount);
+                //用户著作情况考核
 
-            Map<String,Object> map= new HashMap<>();
-            map.put("start_time",start_time);
-            map.put("end_time",end_time);
-            map.put("leader_id",userId);
-            //用户信息
-            User user = userMapper.findUserById(userId);
-            check.setUser_id(userId);
-            check.setName(user.getUser_name());
-            check.setDepartment_id(user.getDepartment_id());
-            //用户获奖情况考核
-            Integer awardCount = awardMapper.selectCountAward(map);
-            Integer awardGrade = awardGrade(userId);
-            check.setAward_count(awardCount);
-            //用户著作情况考核
+                Integer bookCount = bookMapper.selectCountBook(map);
+                Integer bookGrade = bookGrade(userId);
+                check.setBook_count(bookCount);
+                //用户论文情况考核
+                Integer paperCount = paperMapper.selectCountPaper(map);
+                Integer paperGrade = paperGrade(userId);
+                check.setPaper_count(paperCount);
+                //用户专利情况考核
+                Integer patentCount = patentMapper.selectCountPatent(map);
+                Integer patentGrade = patentCount*7;
+                check.setPatent_count(patentCount);
 
-            Integer bookCount = bookMapper.selectCountBook(map);
-            Integer bookGrade = bookGrade(userId);
-            check.setBook_count(bookCount);
-            //用户论文情况考核
-            Integer paperCount = paperMapper.selectCountPaper(map);
-            Integer paperGrade = paperCount*7;
-            check.setPaper_count(paperCount);
-            //用户专利情况考核
-            Integer patentCount = patentMapper.selectCountPatent(map);
-            Integer patentGrade = patentCount*7;
-            check.setPatent_count(patentCount);
+                Integer projectCount = projectMapper.selectCountProject(map);
+                Integer projectGrade = projectGrade(userId);
+                check.setProject_count(projectCount);
 
-            Integer projectCount = projectMapper.selectCountProject(map);
-            Integer projectGrade = projectGrade(userId);
-            check.setProject_count(projectCount);
+                Integer totalGrade =awardGrade+bookGrade+paperGrade+patentGrade+projectGrade;
+                check.setTotal_grade(totalGrade);
+                check.setCheck_time(checkTime);
+                checkMapper.addCheck(check);
+            }
 
-            Integer totalGrade =awardGrade+bookGrade+paperGrade+patentGrade+projectGrade;
-            check.setTotal_grade(totalGrade);
-            check.setCheck_time(checkTime);
-            checkMapper.addCheck(check);
+
+
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }
@@ -124,10 +135,11 @@ public class CheckServiceImpl implements CheckService {
 
     public Result selectPersonalCheckByCondition(Integer department_id,String check_time) {
         try {
+            User user = (User)session.getAttribute("user");
             //获取登陆用户的缓存信息
-            List<CacheUser> cacheUsers = cacheUserMapper.findAllCacheUser();
+//            List<CacheUser> cacheUsers = cacheUserMapper.findAllCacheUser();
             //获取登录用户的id
-            Integer uid = cacheUsers.get(0).getUser_id();
+            Integer uid = user.getUser_id();
             Map<String,Object> map = new HashMap<>();
             map.put("user_id",uid);
             map.put("department_id",department_id);
@@ -147,13 +159,7 @@ public class CheckServiceImpl implements CheckService {
         int grade = 0;
         List<Project> projects = projectMapper.findProjectByLeaderId(id);
         for (Project project : projects) {
-            if (project.getLevel_id()==1){
-                grade+=3;
-            }else if (project.getLevel_id()==2){
-                grade +=5;
-            }else{
-                grade+=10;
-            }
+            grade +=levelMapper.selectLevelScoreById(project.getLevel_id());
         }
         return grade;
     }
@@ -162,13 +168,7 @@ public class CheckServiceImpl implements CheckService {
         int grade = 0;
         List<Award> awards = awardMapper.findAwardByLeaderId(id);
         for (Award award : awards) {
-            if (award.getAl_id()==1){
-                grade+=3;
-            }else if (award.getAl_id()==2){
-                grade+=5;
-            }else {
-                grade+=10;
-            }
+            grade+=awardLevelMapper.selectAwardLevelScoreById(award.getAl_id())+awardRankMapper.selectAwardRankScoreById(award.getAr_id());
         }
         return grade;
     }
@@ -176,17 +176,18 @@ public class CheckServiceImpl implements CheckService {
         int grade = 0;
         List<Book> books = bookMapper.findBookByLeaderId(id);
         for (Book book : books) {
-            if (book.getPl_id()==1){
-                grade+=3;
-            }else if (book.getPl_id()==2){
-                grade+=5;
-            }else {
-                grade+=10;
-            }
+            grade =pressLevelMapper.selectPressLevelScoreById(book.getPl_id());
         }
         return grade;
     }
-
+    public int paperGrade(int id){
+        int grade = 0;
+        List<Paper> papers = paperMapper.findPaperByLeaderId(id);
+        for (Paper paper : papers) {
+            grade = periodicalMapper.selectPeriodicalScoreById(paper.getPeriodical_id());
+        }
+        return grade;
+    }
     public static void main(String[] args) {
         String checkTime = "2018年第1学期";
         String[] str = checkTime.split("年");

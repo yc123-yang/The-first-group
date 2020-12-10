@@ -6,6 +6,15 @@ package com.sicnu.pojo;
 public class Periodical {
     private Integer periodical_id;
     private String periodical_name;
+    private Integer pp_score;
+
+    public Integer getPp_score() {
+        return pp_score;
+    }
+
+    public void setPp_score(Integer pp_score) {
+        this.pp_score = pp_score;
+    }
 
     public Integer getPeriodical_id() {
         return periodical_id;
@@ -23,11 +32,4 @@ public class Periodical {
         this.periodical_name = periodical_name;
     }
 
-    @Override
-    public String toString() {
-        return "Periodical{" +
-                "periodical_id=" + periodical_id +
-                ", periodical_name='" + periodical_name + '\'' +
-                '}';
-    }
 }

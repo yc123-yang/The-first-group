@@ -22,9 +22,9 @@ public class PeriodicalController {
 
     @PostMapping("/periodical/addPeriodical")
     @RequiresPermissions("/data")
-    public Result addPeriodical(String periodical_name) {
+    public Result addPeriodical(String periodical_name,Integer pp_score) {
         try {
-            rs = periodicalService.addPeriodical(periodical_name);
+            rs = periodicalService.addPeriodical(periodical_name,pp_score);
         } catch (Exception e) {
             e.printStackTrace();
         }

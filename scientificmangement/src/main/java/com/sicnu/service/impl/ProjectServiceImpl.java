@@ -1,5 +1,6 @@
 package com.sicnu.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.sicnu.mapper.*;
 import com.sicnu.pojo.CacheUser;
 import com.sicnu.pojo.Patent;
@@ -360,8 +361,15 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public Result findProjectById(Integer project_id) {
         try {
+            User user = (User) session.getAttribute("user");
             Project project = projectDao.findProjectById(project_id);
-            rs = new Result("200", null, project);
+            Map map = JSON.parseObject(JSON.toJSONString(project), Map.class);
+            map.put("user_name", user.getUser_name());
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//格式化对象
+            map.put("complete_time", sdf.format(project.getComplete_time()));
+            map.put("start_time", sdf.format(project.getStart_time()));
+            map.put("plan_time", sdf.format(project.getPlan_time()));
+            rs = new Result("200", null, map);
         } catch (Exception e) {
             e.printStackTrace();
         }

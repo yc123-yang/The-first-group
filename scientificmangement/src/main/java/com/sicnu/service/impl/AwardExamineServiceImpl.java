@@ -1,5 +1,6 @@
 package com.sicnu.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.sicnu.mapper.AwardExamineMapper;
 import com.sicnu.mapper.AwardTeamExamineMapper;
 import com.sicnu.mapper.AwardTeamMapper;
@@ -125,8 +126,16 @@ public class AwardExamineServiceImpl implements AwardExamineService {
     @Override
     public Result findAwardExamineById(Integer ae_id) {
         try {
+
+
+            User user = (User) session.getAttribute("user");
             AwardExamine awardExamine = awardExamineMapper.findAwardExamineById(ae_id);
-            rs = new Result("200",null,awardExamine);
+            Map map = JSON.parseObject(JSON.toJSONString(awardExamine), Map.class);
+            map.put("user_name", user.getUser_name());
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//格式化对象
+            map.put("apply_time", sdf.format(awardExamine.getApply_time()));
+            map.put("award_time", sdf.format(awardExamine.getAward_time()));
+            rs = new Result("200", null, map);
         } catch (Exception e) {
             e.printStackTrace();
         }

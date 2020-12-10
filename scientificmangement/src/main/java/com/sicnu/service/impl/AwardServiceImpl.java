@@ -1,7 +1,9 @@
 package com.sicnu.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.sicnu.mapper.*;
 import com.sicnu.pojo.Award;
+import com.sicnu.pojo.AwardExamine;
 import com.sicnu.pojo.CacheUser;
 import com.sicnu.pojo.User;
 import com.sicnu.pojo.teamExamine.AwardTeamExamine;
@@ -226,7 +228,12 @@ public class AwardServiceImpl implements AwardService {
     public Result findAwardById(Integer award_id) {
         try {
             Award award = awardMapper.findAwardById(award_id);
-            rs = new Result("200",null,award);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//格式化对象
+            User user = (User) session.getAttribute("user");
+            Map map = JSON.parseObject(JSON.toJSONString(award), Map.class);
+            map.put("user_name", user.getUser_name());
+            map.put("award_time", sdf.format(award.getAward_time()));
+            rs = new Result("200", null, map);
         } catch (Exception e) {
             e.printStackTrace();
         }
