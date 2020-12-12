@@ -207,7 +207,7 @@ export default {
         // 登录成功，跳转到主页
         this.$message.success(res.msg);
         console.log(res.data)
-        window.sessionStorage.setItem("token", res.data.token);
+        window.sessionStorage.setItem("token", res.data.user_token);
         this.$router.push("/home");
       });
     },

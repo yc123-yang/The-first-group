@@ -19,7 +19,7 @@ axios.defaults.baseURL = 'http://localhost:8080/'
 axios.defaults.withCredentials = true
 axios.interceptors.request.use(config => {
   // console.log(config)
-  config.headers.token = window.sessionStorage.getItem('token')
+  config.headers.user_token = window.sessionStorage.getItem('token')
   // 最后必须return config
   return config
 })

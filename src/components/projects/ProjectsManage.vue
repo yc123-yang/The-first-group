@@ -494,17 +494,17 @@
         </el-row>
         <el-row>
           <el-col :span="12"><el-form-item label="立项日期：" prop="start_time">
-            <el-date-picker v-model="editForm.start_time" type="date" placeholder="选择日期" value-format="yyyy-MM-dd"
+            <el-date-picker v-model="editForm.start_time" type="date" placeholder="选择日期" value-format="yyyy-MM-dd 00:00:00"
               style="width: 100%"></el-date-picker>
           </el-form-item></el-col>
           <el-col :span="12"><el-form-item label="计划完成日期：" prop="plan_time">
-            <el-date-picker v-model="editForm.plan_time" type="date" placeholder="选择日期" value-format="yyyy-MM-dd"
+            <el-date-picker v-model="editForm.plan_time" type="date" placeholder="选择日期" value-format="yyyy-MM-dd 00:00:00"
               style="width: 100%"></el-date-picker>
           </el-form-item></el-col>
         </el-row>
         <el-row>
           <el-col :span="12"><el-form-item label="结项日期：" prop="complete_time">
-            <el-date-picker v-model="editForm.complete_time" type="date" placeholder="选择日期" value-format="yyyy-MM-dd"
+            <el-date-picker v-model="editForm.complete_time" type="date" placeholder="选择日期" value-format="yyyy-MM-dd 00:00:00"
               style="width: 100%"></el-date-picker>
           </el-form-item></el-col>
           <el-col :span="12"><el-form-item label="合同经费：" prop="outlay">
@@ -535,7 +535,7 @@
             <el-table-column prop="department_name" label="归属单位"></el-table-column>
             <el-table-column label="操作" width="180px">
               <template slot-scope="scope">
-                <el-button type="primary" icon="el-icon-edit" size="mini" @click="showEditMemberDialog(scope)">编辑</el-button>
+                <el-button type="primary" icon="el-icon-edit" size="mini" @click="showEditEditMemberDialog(scope)">编辑</el-button>
                 <el-button type="danger" icon="el-icon-delete" size="mini" @click="deleteEditMember(scope)">删除</el-button>
               </template>
             </el-table-column>
@@ -543,7 +543,7 @@
         </el-row>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="editProjectDialogVisible = false">确 定</el-button>
+        <el-button type="primary" @click="editProject()">确 定</el-button>
         <el-button @click="editProjectDialogVisible = false">取 消</el-button>
       </span>
     </el-dialog>
@@ -576,6 +576,31 @@
       <span slot="footer" class="dialog-footer">
         <el-button @click="addMemberDialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="addEditMember">确 定</el-button>
+      </span>
+    </el-dialog>
+
+    <!-- 编辑项目对话框中的编辑团队成员信息对话框 -->
+    <el-dialog title="编辑团队成员" :visible.sync="editEditMemberDialogVisible" width="40%">
+      <el-form :model="editMemberForm" :rules="editMemberFormRules" ref="editMemberFormRef" label-width="100px">
+        <el-form-item label="成员姓名：" prop="member_info">
+          <el-input v-model="editMemberForm.name" disabled></el-input>
+        </el-form-item>
+        <el-form-item label="成员类型：" prop="member_type">
+          <el-input v-model="editMemberForm.role_name" disabled></el-input>
+        </el-form-item>
+        <el-form-item label="归属单位：" prop="member_department">
+          <el-input v-model="editMemberForm.department_name" disabled></el-input>
+        </el-form-item>
+        <el-form-item label="成员角色：">
+          <el-select v-model="editMemberForm.team_role" placeholder="请选择成员角色" style="width: 100%;">
+            <el-option value="负责人"></el-option>
+            <el-option value="成员"></el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="editEditMemberDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="editEditMember">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -755,7 +780,8 @@ export default {
       editForm: {},
       // 编辑项目表单中的成员列表
       editMemberList: [],
-      addEditMemberDialogVisible: false
+      addEditMemberDialogVisible: false,
+      editEditMemberDialogVisible: false
     }
   },
   async created() {
@@ -835,9 +861,9 @@ export default {
         item.level_name = this.levelObj[item.level_id]
         item.status_name = this.statusObj[item.status_id]
         item.sd_name = this.departmentObj[item.sd_id]
-        item.start_time = item.start_time.substring(0, 10)
-        item.plan_time = item.plan_time.substring(0, 10)
-        item.complete_time = item.complete_time.substring(0, 10)
+        item.start_time = item.start_time.substring(0, 10) + ' 00:00:00'
+        item.plan_time = item.plan_time.substring(0, 10) + ' 00:00:00'
+        item.complete_time = item.complete_time.substring(0, 10) + ' 00:00:00'
         item.ct_name = this.ctObj[item.ct_id]
       })
       console.log(this.projectsList)
@@ -1011,6 +1037,8 @@ export default {
       const { data: res } = await this.$http.post('/project/findProjectById', this.$qs.stringify({ project_id: project_id }))
       if( res.status !== '200' ) return this.$message.error('获取项目信息失败')
       this.editForm = res.data
+      console.log(this.editForm)
+      this.getLeaderList(this.editForm.user_name)
       await this.getEditMemberList(project_id)
       this.editProjectDialogVisible = true
     },
@@ -1040,7 +1068,35 @@ export default {
         type: 'warning'
       }).catch(err => err)
       if(res === 'cancel') return this.$message.info('取消了本次操作')
+      const { data: res1 } = await this.$http.post('/team/delTeamUser', this.$qs.stringify({ project_id: this.editForm.project_id, user_id: scope.row.user_id }))
+      if( res1.status !== '200' ) return this.$message.error('删除团队成员失败')
+      this.$message.success('删除团队成员成功')
+      await this.getEditMemberList(this.editForm.project_id)
+      this.editMemberList = JSON.parse(JSON.stringify(this.editMemberList))
+    },
+    // 点击编辑按钮，编辑成员信息
+    showEditEditMemberDialog(scope) {
+      this.editMemberForm = JSON.parse(JSON.stringify(scope.row)) 
       console.log(scope)
+      this.editEditMemberDialogVisible = true
+    },
+    // 点击确定，上传编辑成员信息
+    async editEditMember() {
+      this.editMemberForm.project_id = this.editForm.project_id
+      const { data: res } = await this.$http.post('/team/updateProjectTeamUser', this.$qs.stringify(this.editMemberForm))
+      if( res.status !== '200' ) return this.$message.error('编辑团队成员信息失败')
+      this.$message.success('编辑团队成员信息成功')
+      await this.getEditMemberList(this.editForm.project_id)
+      this.editMemberList = JSON.parse(JSON.stringify(this.editMemberList))
+      this.editEditMemberDialogVisible = false
+    },
+    // 点击确定，编辑项目信息
+    async editProject() {
+      const { data: res } = await this.$http.post('/project/updateProject', this.$qs.stringify(this.editForm))
+      if( res.status !== '200' ) return this.$message.error('编辑项目信息失败')
+      this.$message.success('编辑项目信息成功')
+      this.getProjectList()
+      this.editProjectDialogVisible = false
     }
   }
 }
