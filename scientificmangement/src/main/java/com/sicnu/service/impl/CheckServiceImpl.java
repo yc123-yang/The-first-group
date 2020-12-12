@@ -40,6 +40,9 @@ public class CheckServiceImpl implements CheckService {
     PressLevelMapper pressLevelMapper;
     @Resource
     HttpSession session;
+    @Resource
+    private OutlayMapper outlayMapper;
+
     private Result rs;
 
     @Scheduled(cron = "* * * 30 6,12 ? ")
@@ -79,32 +82,41 @@ public class CheckServiceImpl implements CheckService {
                 //用户信息
                  User user = userMapper.findUserById(userId);
                 check.setUser_id(userId);
-                check.setName(user.getUser_name());
+                check.setUser_name(user.getUser_name());
                 check.setDepartment_id(user.getDepartment_id());
                 //用户获奖情况考核
                 Integer awardCount = awardMapper.selectCountAward(map);
                 Integer awardGrade = awardGrade(userId);
                 check.setAward_count(awardCount);
+                check.setAward_score(awardGrade);
                 //用户著作情况考核
 
                 Integer bookCount = bookMapper.selectCountBook(map);
                 Integer bookGrade = bookGrade(userId);
                 check.setBook_count(bookCount);
+                check.setBook_score(bookGrade);
                 //用户论文情况考核
                 Integer paperCount = paperMapper.selectCountPaper(map);
                 Integer paperGrade = paperGrade(userId);
                 check.setPaper_count(paperCount);
+                check.setPaper_score(paperGrade);
                 //用户专利情况考核
                 Integer patentCount = patentMapper.selectCountPatent(map);
                 Integer patentGrade = patentCount*7;
                 check.setPatent_count(patentCount);
+                check.setPatent_score(patentGrade);
 
                 Integer projectCount = projectMapper.selectCountProject(map);
                 Integer projectGrade = projectGrade(userId);
+                Integer projectOutlay = projectOutlay(userId);
+                Integer projectScore = projectOutlayScore(userId);
                 check.setProject_count(projectCount);
+                check.setProject_score(projectGrade);
+                check.setOutlay_sum(projectOutlay);
+                check.setOutlay_score(projectScore);
 
                 Integer totalGrade =awardGrade+bookGrade+paperGrade+patentGrade+projectGrade;
-                check.setTotal_grade(totalGrade);
+                check.setTotal_score(totalGrade);
                 check.setCheck_time(checkTime);
                 checkMapper.addCheck(check);
             }
@@ -163,15 +175,42 @@ public class CheckServiceImpl implements CheckService {
         }
         return grade;
     }
+    //项目经费
+    public int projectOutlay(int id){
+        int sumOutlay = 0;
+        List<Project> projects = projectMapper.findProjectByLeaderId(id);
+        for (Project project : projects) {
+            sumOutlay +=project.getOutlay();
+        }
+        return sumOutlay;
+    }
 
+    //项目经费成绩
+    public int projectOutlayScore(int id){
+        int OutlayScore = 0;
+        List<Project> projects = projectMapper.findProjectByLeaderId(id);
+        for (Project project : projects) {
+            OutlayScore +=outlayMapper.selectOutlayScore(project.getOutlay());
+        }
+        return OutlayScore;
+    }
+    //获奖成绩
     public int awardGrade(int id){
         int grade = 0;
         List<Award> awards = awardMapper.findAwardByLeaderId(id);
+        System.out.println(awards);
+        System.out.println(id);
         for (Award award : awards) {
+            System.out.println(award.getAl_id());
+            System.out.println(award.getAr_id());
+            System.out.println(awardLevelMapper.selectAwardLevelScoreById(award.getAl_id()));
+            System.out.println(awardRankMapper.selectAwardRankScoreById(award.getAr_id()));
+
             grade+=awardLevelMapper.selectAwardLevelScoreById(award.getAl_id())+awardRankMapper.selectAwardRankScoreById(award.getAr_id());
         }
         return grade;
     }
+    //著作成绩
     public int bookGrade(int id){
         int grade = 0;
         List<Book> books = bookMapper.findBookByLeaderId(id);
@@ -180,6 +219,7 @@ public class CheckServiceImpl implements CheckService {
         }
         return grade;
     }
+    //论文成绩
     public int paperGrade(int id){
         int grade = 0;
         List<Paper> papers = paperMapper.findPaperByLeaderId(id);

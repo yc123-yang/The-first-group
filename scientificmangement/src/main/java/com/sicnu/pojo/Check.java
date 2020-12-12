@@ -4,24 +4,23 @@ package com.sicnu.pojo;
 public class Check{
 
   private Integer check_id;
-  private String name;
+  private Integer user_id;
+  private String user_name;
   private Integer department_id;
   private Integer award_count;
+  private Integer award_score;
   private Integer book_count;
+  private Integer book_score;
   private Integer paper_count;
+  private Integer paper_score;
   private Integer patent_count;
+  private Integer patent_score;
   private Integer project_count;
-  private Integer total_grade;
+  private Integer project_score;
+  private Integer total_score;
+  private Integer outlay_sum;
+  private Integer outlay_score;
   private String check_time;
-  private Integer user_id;
-
-  public Integer getUser_id() {
-    return user_id;
-  }
-
-  public void setUser_id(Integer user_id) {
-    this.user_id = user_id;
-  }
 
   public Integer getCheck_id() {
     return check_id;
@@ -31,12 +30,20 @@ public class Check{
     this.check_id = check_id;
   }
 
-  public String getName() {
-    return name;
+  public Integer getUser_id() {
+    return user_id;
   }
 
-  public void setName(String name) {
-    this.name = name;
+  public void setUser_id(Integer user_id) {
+    this.user_id = user_id;
+  }
+
+  public String getUser_name() {
+    return user_name;
+  }
+
+  public void setUser_name(String user_name) {
+    this.user_name = user_name;
   }
 
   public Integer getDepartment_id() {
@@ -55,12 +62,28 @@ public class Check{
     this.award_count = award_count;
   }
 
+  public Integer getAward_score() {
+    return award_score;
+  }
+
+  public void setAward_score(Integer award_score) {
+    this.award_score = award_score;
+  }
+
   public Integer getBook_count() {
     return book_count;
   }
 
   public void setBook_count(Integer book_count) {
     this.book_count = book_count;
+  }
+
+  public Integer getBook_score() {
+    return book_score;
+  }
+
+  public void setBook_score(Integer book_score) {
+    this.book_score = book_score;
   }
 
   public Integer getPaper_count() {
@@ -71,12 +94,28 @@ public class Check{
     this.paper_count = paper_count;
   }
 
+  public Integer getPaper_score() {
+    return paper_score;
+  }
+
+  public void setPaper_score(Integer paper_score) {
+    this.paper_score = paper_score;
+  }
+
   public Integer getPatent_count() {
     return patent_count;
   }
 
   public void setPatent_count(Integer patent_count) {
     this.patent_count = patent_count;
+  }
+
+  public Integer getPatent_score() {
+    return patent_score;
+  }
+
+  public void setPatent_score(Integer patent_score) {
+    this.patent_score = patent_score;
   }
 
   public Integer getProject_count() {
@@ -87,12 +126,36 @@ public class Check{
     this.project_count = project_count;
   }
 
-  public Integer getTotal_grade() {
-    return total_grade;
+  public Integer getProject_score() {
+    return project_score;
   }
 
-  public void setTotal_grade(Integer total_grade) {
-    this.total_grade = total_grade;
+  public void setProject_score(Integer project_score) {
+    this.project_score = project_score;
+  }
+
+  public Integer getTotal_Score() {
+    return total_score;
+  }
+
+  public void setTotal_score(Integer total_Score) {
+    this.total_score = total_Score;
+  }
+
+  public Integer getOutlay_sum() {
+    return outlay_sum;
+  }
+
+  public void setOutlay_sum(Integer outlay_sum) {
+    this.outlay_sum = outlay_sum;
+  }
+
+  public Integer getOutlay_score() {
+    return outlay_score;
+  }
+
+  public void setOutlay_score(Integer outlay_score) {
+    this.outlay_score = outlay_score;
   }
 
   public String getCheck_time() {

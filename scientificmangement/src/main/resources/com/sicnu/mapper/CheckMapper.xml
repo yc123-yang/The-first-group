@@ -8,27 +8,41 @@
        insert into `check`
        (
             user_id,
-            `name`,
+            user_name,
             department_id,
             award_count,
+            award_score,
             book_count,
+            book_score,
             paper_count,
+            paper_score,
             patent_count,
+            patent_score,
             project_count,
-            total_grade,
+            project_score,
+            outlay_sum,
+            outlay_score,
+            total_score,
             check_time
        )
         values
         (
             #{user_id},
-            #{name},
+            #{user_name},
             #{department_id},
             #{award_count},
+            #{award_score},
             #{book_count},
+            #{book_score},
             #{paper_count},
+            #{paper_score},
             #{patent_count},
+            #{patent_score},
             #{project_count},
-            #{total_grade},
+            #{project_score},
+            #{outlay_sum},
+            #{outlay_score},
+            #{total_score},
             #{check_time}
         )
    </insert>
@@ -37,6 +51,9 @@
         <where>
             <if test="user_id!=null and user_id!=''">
                and user_id = #{user_id}
+            </if>
+            <if test="user_name!=null and user_name!=''">
+                and user_name = #{user_name}
             </if>
             <if test="department_id!=null and department_id!=''">
                and department_id = #{department_id}

@@ -1,0 +1,43 @@
+package com.sicnu.pojo;
+
+
+public class Outlay {
+
+  private Integer outlay_id;
+  private Integer outlay_start;
+  private Integer outlay_end;
+  private Integer out_score;
+
+
+  public Integer getOutlay_id() {
+    return outlay_id;
+  }
+
+  public void setOutlay_id(Integer outlay_id) {
+    this.outlay_id = outlay_id;
+  }
+
+  public Integer getOutlay_start() {
+    return outlay_start;
+  }
+
+  public void setOutlay_start(Integer outlay_start) {
+    this.outlay_start = outlay_start;
+  }
+
+  public Integer getOutlay_end() {
+    return outlay_end;
+  }
+
+  public void setOutlay_end(Integer outlay_end) {
+    this.outlay_end = outlay_end;
+  }
+
+  public Integer getOut_score() {
+    return out_score;
+  }
+
+  public void setOut_score(Integer out_score) {
+    this.out_score = out_score;
+  }
+}

@@ -22,19 +22,28 @@ public class LogsServiceImpl implements LogsService {
 
     @Override
     public Result findAllLogs(Integer pageSize, Integer pageNum) {
-        Integer total = logsDao.countAllLogs();
-        Map<String,Object> map = new HashMap<String,Object>();
-        map.put("pageSize", pageSize);
-        map.put("pageNum", pageNum);
-        List<Slog> logList = logsDao.findAllLogs(map);
-        LogsListResult logsListResult = new LogsListResult(total, logList);
+        LogsListResult logsListResult = null;
+        try {
+            Integer total = logsDao.countAllLogs();
+            Map<String,Object> map = new HashMap<String,Object>();
+            map.put("pageSize", pageSize);
+            map.put("pageNum", pageNum);
+            List<Slog> logList = logsDao.findAllLogs(map);
+            logsListResult = new LogsListResult(total, logList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return rs = new Result("200", "获取安全日志列表成功", logsListResult);
     }
 
     @Override
     public Result deleteAllLogs() {
-        logsDao.deleteAllLogs();
+        try {
+            logsDao.deleteAllLogs();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs = new Result("200", "清空日志成功", null);
     }
 }

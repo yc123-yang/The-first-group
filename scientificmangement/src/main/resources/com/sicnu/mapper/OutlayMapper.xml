@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sicnu.mapper.OutlayMapper">
+
+
+    <insert id="addOutlay" parameterType="Outlay">
+        insert into outlay
+        (outlay_id,
+        outlay_start,
+        outlay_end,
+        out_score,
+        )
+        values
+        (#{outlay_id},
+        #{outlay_start},
+        #{outlay_end},
+        #{outlay_end},
+        )
+    </insert>
+
+    <select id="selectAllOutlay" resultType="Outlay">
+        select * from outlay
+    </select>
+
+    <delete id="delOutlayById" parameterType="int">
+        delete from outlay
+        where
+        outlay_id = #{outlay_id}
+    </delete>
+
+    <update id="updateOutlay" parameterType="Outlay">
+        update outlay
+        <trim prefix="set" suffixOverrides=",">
+            <if test="outlay_start!=null and outlay_start!=''">
+                outlay_start = #{outlay_start}
+            </if>
+            <if test="outlay_end!=null and outlay_end!=''">
+                outlay_end = #{outlay_end}
+            </if>
+            <if test="outlay_score!=null and outlay_score!=''">
+                outlay_score = #{outlay_score}
+            </if>
+        </trim>
+    </update>
+
+    <select id="selectOutlayScore" parameterType="String" resultType="int">
+        select outlay_score from outlay
+        <where>
+            <if test="outlay!='' and outlay!=null">
+                and outlay.outlay_start &lt; #{outlay}
+                and outlay.outlay_end &gt;= #{outlay}
+            </if>
+        </where>
+    </select>
+</mapper>
