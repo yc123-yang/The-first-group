@@ -119,7 +119,7 @@ router.beforeEach(async (to, from, next) => {
   // 否则验证当前浏览器存储的token
   const tokenStr = window.sessionStorage.getItem('token')
   // 如果当前没有token，直接进入登录页面
-  if (!tokenStr) return next('/notlogin')
+  if (!tokenStr) return next('/login')
   // 如果当前有token但path是'/'，进入主页
   if (to.path === '/') return next('/home')
   // 否则直接放行

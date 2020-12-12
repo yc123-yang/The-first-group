@@ -83,12 +83,26 @@
           ></el-input>
         </el-form-item>
 
+        <!-- 密码 -->
+
+        <el-form-item prop="user_pwd2">
+          <el-input
+            class="input"
+            placeholder="请再次输入密码"
+            prefix-icon="el-icon-lock"
+            show-password
+            v-model="registerForm.user_pwd2"
+            type="password"
+            auto-complete="new-password"
+          ></el-input>
+        </el-form-item>
+
         <!-- 身份 -->
         <el-form-item prop="role_id">
-          职位：
-          <el-radio-group v-model="registerForm.role_id">
-            <el-radio label="4">学生</el-radio>
-            <el-radio label="5">教师</el-radio>
+        职位：
+          <el-radio-group   v-model="registerForm.role_id">
+            <el-radio  border label="4">学生</el-radio>
+            <el-radio border label="5">教师</el-radio>
           </el-radio-group>
         </el-form-item>
         <!-- 学号/职工号 -->
@@ -99,6 +113,24 @@
             placeholder="请输入学号/职工号"
             v-model="registerForm.user_number"
           ></el-input>
+        </el-form-item>
+        <!-- 部门 -->
+        <el-form-item prop="department">
+          <el-select
+            prefix-icon="el-icon-s-custom"
+            v-model="registerForm.depatement"
+            placeholder="请选择部门"
+            size="mini"
+            style="width: 100% "
+          >
+            <el-option
+              v-for="item in departmentList"
+              :label="item.department_name"
+              :value="item.department_id"
+              :key="item.department_id"
+            >
+            </el-option>
+          </el-select>
         </el-form-item>
         <!-- 邮箱 -->
         <el-form-item prop="user_email">
@@ -111,14 +143,19 @@
         </el-form-item>
         <el-row>
           <el-form-item prop="yzm">
-          
             <el-col :span="16">
-              <el-input class="input2" placeholder="请输入邮箱验证码" prefix-icon="el-icon-lock" v-model="registerForm.yzm"></el-input>
+              <el-input
+                class="input2"
+                placeholder="请输入邮箱验证码"
+                prefix-icon="el-icon-lock"
+                v-model="registerForm.yzm"
+              ></el-input>
             </el-col>
             <el-col :span="8">
-              <el-button type="primary" @click="sendyzm" style="float: right">点击获取</el-button>
+              <el-button type="primary" @click="sendyzm" style="float: right"
+                >点击获取</el-button
+              >
             </el-col>
-          
           </el-form-item>
         </el-row>
         <el-form-item>
@@ -140,14 +177,25 @@
 <script>
 export default {
   data() {
+    var validatePass = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("请再次输入密码"));
+      } else if (value !== this.registerForm.user_pwd) {
+        callback(new Error("两次输入密码不一致!"));
+      } else {
+        callback();
+      }
+    };
     return {
       registerForm: {
         user_act: "",
         user_pwd: "",
+        user_pwd2: "",
         user_email: "",
         role_id: "",
         user_number: "",
         yzm: "",
+        department: "",
       },
       // 表单验证规则对象
       registerFormRules: {
@@ -163,6 +211,11 @@ export default {
             message: "只能输入5-25个字母、数字、下划线",
           },
         ],
+        user_pwd2: [
+          { required: true, message: "请再次输入密码", trigger: "blur" },
+          { min: 5, max: 25, message: "长度在 5 到 25个字符" },
+          { validator: validatePass, trigger: "blur" },
+        ],
         user_email: [
           { required: true, message: "请输入邮箱", trigger: "blur" },
           {
@@ -177,6 +230,13 @@ export default {
           { required: true, message: "请选择身份", trigger: "change" },
         ],
         yzm: [{ required: true, message: "请输入邮箱验证码", trigger: "blur" }],
+        department: [
+          {
+            required: true,
+            message: "请选择部门",
+            trigger: "change",
+          },
+        ],
       },
       registerDialogVisible: false,
       // 表单绑定对象
@@ -191,9 +251,20 @@ export default {
         ],
         user_pwd: [{ required: true, message: "请输入密码", trigger: "blur" }],
       },
-    };
+      // 单位列表
+      departmentList: []
+    }
+  },
+  created() {
+    this.getData()
   },
   methods: {
+    // 获取需要的字典数据
+    async getData() {
+      const { data: res } = await this.$http.post('/department/findAllDepartment')
+      if( res.status !== '200' ) return this.$message.error('获取单位列表数据失败')
+      this.departmentList = res.data
+    },
     login() {
       this.$refs.loginFormRef.validate(async (valid) => {
         if (!valid) return false;
@@ -206,8 +277,8 @@ export default {
         if (res.status !== "200") return this.$message.error(res.msg);
         // 登录成功，跳转到主页
         this.$message.success(res.msg);
-        console.log(res.data)
-        window.sessionStorage.setItem("token", res.data.user_token);
+        console.log(res.data);
+        window.sessionStorage.setItem("token", res.data.token);
         this.$router.push("/home");
       });
     },
