@@ -1,9 +1,12 @@
 package com.sicnu.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.sicnu.mapper.BookTeamMapper;
+import com.sicnu.mapper.RoleMapper;
 import com.sicnu.mapper.UserMapper;
 import com.sicnu.pojo.BookTeam;
 import com.sicnu.pojo.User;
+import com.sicnu.pojo.teamMap.AwardTeamMap;
 import com.sicnu.pojo.teamMap.BookTeamMap;
 import com.sicnu.service.BookTeamService;
 import com.sicnu.util.Result;
@@ -11,10 +14,8 @@ import com.sun.mail.imap.protocol.INTERNALDATE;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Date;
+import java.util.*;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.List;
 
 @Service
 public class BookTeamServiceImpl implements BookTeamService {
@@ -24,7 +25,8 @@ public class BookTeamServiceImpl implements BookTeamService {
 
     @Resource
     UserMapper userMapper;
-
+    @Resource
+    RoleMapper roleMapper;
     private Result rs ;
     @Override
     public Result addBookTeamUser(Integer book_id, Integer user_id,  Integer contribution) {
@@ -52,7 +54,13 @@ public class BookTeamServiceImpl implements BookTeamService {
     public Result selectBookTeam(Integer book_id) {
         try {
             List<BookTeamMap> bookTeamMaps = bookTeamMapper.selectBookTeam(book_id);
-            rs = new Result("200",null,bookTeamMaps);
+            List<Map> mapList = new ArrayList<>();
+            for (int i = 0; i < bookTeamMaps.size(); i++) {
+                Map map = JSON.parseObject(JSON.toJSONString(bookTeamMaps.get(i)),Map.class);
+                map.put("role_name",roleMapper.selectRoleName(bookTeamMaps.get(i).getRole_id()));
+                mapList.add(map);
+            }
+            rs = new Result("200",null,mapList);
         } catch (Exception e) {
             e.printStackTrace();
         }

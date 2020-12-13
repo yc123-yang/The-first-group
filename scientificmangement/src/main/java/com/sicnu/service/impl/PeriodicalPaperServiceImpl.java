@@ -1,6 +1,7 @@
 package com.sicnu.service.impl;
 
 import com.sicnu.mapper.PeriodicalPaperMapper;
+import com.sicnu.pojo.PeriodicalPaper;
 import com.sicnu.service.PeriodicalPaperService;
 import com.sicnu.util.Result;
 import org.springframework.stereotype.Controller;
@@ -59,4 +60,20 @@ public class PeriodicalPaperServiceImpl implements PeriodicalPaperService {
         }
         return rs;
     }
+
+    @Override
+    public Result updatePeriodicalPaper(Integer paper_id,Integer[] periodical_ids) {
+        try {
+            periodicalPaperMapper.delPeriodicalByPaperId(paper_id);
+            for (int i = 0; i < periodical_ids.length; i++) {
+                PeriodicalPaper periodicalPaper = new PeriodicalPaper();
+                periodicalPaperMapper.addPeriodicalPaper(paper_id, periodical_ids[i]);
+            }
+            rs =new Result("200","更改成功",null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
 }

@@ -1,10 +1,7 @@
 package com.sicnu.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.sicnu.mapper.AwardExamineMapper;
-import com.sicnu.mapper.AwardTeamExamineMapper;
-import com.sicnu.mapper.AwardTeamMapper;
-import com.sicnu.mapper.CacheUserMapper;
+import com.sicnu.mapper.*;
 import com.sicnu.pojo.*;
 import com.sicnu.pojo.teamMap.AwardTeamMap;
 import com.sicnu.service.AwardExamineService;
@@ -33,6 +30,8 @@ public class AwardExamineServiceImpl implements AwardExamineService {
     @Resource
     private HttpSession session;
 
+    @Resource
+    UserMapper userMapper;
     @Override
     public Result addAwardExamine(AwardExamine awardExamine, Integer[] user_id,Integer[] contribution) {
         try {
@@ -105,11 +104,19 @@ public class AwardExamineServiceImpl implements AwardExamineService {
             System.out.println(map);
             List<AwardExamine> awardExamines = awardExamineMapper.selectAwardExamineByCondition(map);
             Integer total = awardExamineMapper.selectTotalAwardExamine(map);
+            List<Map> mapList = new ArrayList<>();
+            for (int i = 0; i < awardExamines.size(); i++) {
+                Map temp = JSON.parseObject(JSON.toJSONString(awardExamines.get(i)),Map.class);
+                temp.put("user_name",userMapper.findUserById(awardExamines.get(i).getLeader_id()).getUser_name());
+                temp.put("award_time",sdf.format(awardExamines.get(i).getAward_time()));
+                temp.put("apply_time",sdf.format(awardExamines.get(i).getApply_time()));
+                mapList.add(temp);
+            }
             Map<String, Object> map1 = new HashMap<>();
             map1.put("total", total);
             list = new ArrayList<>();
             list.add(map1);
-            list.add(awardExamines);
+            list.add(mapList);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -181,11 +188,19 @@ public class AwardExamineServiceImpl implements AwardExamineService {
             System.out.println(map);
             List<AwardExamine> awardExamines = awardExamineMapper.selectAwardExamineByCondition(map);
             Integer total = awardExamineMapper.selectTotalAwardExamine(map);
+            List<Map> mapList = new ArrayList<>();
+            for (int i = 0; i < awardExamines.size(); i++) {
+                Map temp = JSON.parseObject(JSON.toJSONString(awardExamines.get(i)),Map.class);
+                temp.put("user_name",userMapper.findUserById(awardExamines.get(i).getLeader_id()).getUser_name());
+                temp.put("award_time",sdf.format(awardExamines.get(i).getAward_time()));
+                temp.put("apply_time",sdf.format(awardExamines.get(i).getApply_time()));
+                mapList.add(temp);
+            }
             Map<String, Object> map1 = new HashMap<>();
             map1.put("total", total);
             list = new ArrayList<>();
             list.add(map1);
-            list.add(awardExamines);
+            list.add(mapList);
         } catch (ParseException e) {
             e.printStackTrace();
         }

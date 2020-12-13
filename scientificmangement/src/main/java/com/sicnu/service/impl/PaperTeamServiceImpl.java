@@ -1,6 +1,8 @@
 package com.sicnu.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.sicnu.mapper.PaperTeamMapper;
+import com.sicnu.mapper.RoleMapper;
 import com.sicnu.mapper.UserMapper;
 import com.sicnu.pojo.PaperTeam;
 import com.sicnu.pojo.User;
@@ -10,7 +12,9 @@ import com.sicnu.util.Result;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class PaperTeamServiceImpl implements PaperTeamService {
@@ -18,6 +22,8 @@ public class PaperTeamServiceImpl implements PaperTeamService {
     PaperTeamMapper paperTeamMapper;
     @Resource
     UserMapper userMapper;
+    @Resource
+    RoleMapper roleMapper;
     private Result rs;
 
     @Override
@@ -48,7 +54,13 @@ public class PaperTeamServiceImpl implements PaperTeamService {
     public Result selectPaperTeam(Integer paper_id) {
         try {
             List<PaperTeamMap> paperTeamMaps = paperTeamMapper.selectPaperTeam(paper_id);
-            rs = new Result("200",null,paperTeamMaps);
+            List<Map> mapList = new ArrayList<>();
+            for (int i = 0; i < paperTeamMaps.size(); i++) {
+                Map map = JSON.parseObject(JSON.toJSONString(paperTeamMaps.get(i)),Map.class);
+                map.put("role_name",roleMapper.selectRoleName(paperTeamMaps.get(i).getRole_id()));
+                mapList.add(map);
+            }
+            rs = new Result("200",null,mapList);
         } catch (Exception e) {
             e.printStackTrace();
         }

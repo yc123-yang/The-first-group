@@ -7,7 +7,13 @@ import java.util.List;
  * 权限
  */
 public class Auth implements Serializable {
-
+    /**
+     * 权限id
+     * 权限名字
+     * 权限父id
+     * 权限路径
+     * 权限是否开启
+     */
     private Integer auth_id;
     private String auth_name;
     private Integer auth_pid;

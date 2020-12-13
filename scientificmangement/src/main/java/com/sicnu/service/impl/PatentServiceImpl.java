@@ -71,8 +71,8 @@ public class PatentServiceImpl implements PatentService {
 
             //如果不通过审核反馈
             if (checkMessage.equals("fail")) {
-                helper.setSubject("高校科研管理系统注册验证码");
-                helper.setText("<p>您的项目申报审核未通过，因为<span style='color:blue;text-decoration:underline'>" + message + "</span>,请您解决之后重新申请。</p>", true);
+                helper.setSubject("专利上传科研项目管理系统审核");
+                helper.setText("<p>您的专利申报审核未通过，因为<span style='color:blue;text-decoration:underline'>" + message + "</span>,请您解决之后重新申请。</p>", true);
                 //负责人邮箱
                 helper.setTo(user.getUser_email());
                 helper.setFrom("1776557392@qq.com");
@@ -86,8 +86,8 @@ public class PatentServiceImpl implements PatentService {
                 patentMapper.addPatent(patent);
                 //获取项目id 返给用户
                 Integer patentId = patentMapper.selectPatentId(patent.getLeader_id(), patent.getPatent_name());
-                helper.setSubject("高校科研管理系统注册验证码");
-                helper.setText("<p>您的项目申报审核成功，项目编号为：<span style='color:blue;text-decoration:underline'>" + patent + "</span>,请勿遗忘。</p>", true);
+                helper.setSubject("专利上传科研项目管理系统审核");
+                helper.setText("<p>您的专利申报审核通过，项目编号为：<span style='color:blue;text-decoration:underline'>" + patent + "</span>,请勿遗忘。</p>", true);
                 helper.setTo(user.getUser_email());
                 helper.setFrom("1776557392@qq.com");
                 mailSender.send(mailMessage);
@@ -179,21 +179,39 @@ public class PatentServiceImpl implements PatentService {
             if (cnt==1){
                 Integer total = patentMapper.selectTotalPatent(map);
                 List<Patent> patents = patentMapper.selectPatentByCondition(map);
+                List<Map> mapList = new ArrayList<>();
+                for (int i = 0; i < patents.size(); i++) {
+                    Map temp = JSON.parseObject(JSON.toJSONString(patents.get(i)),Map.class);
+                    temp.put("user_name",userDao.findUserById(patents.get(i).getLeader_id()).getUser_name());
+                    temp.put("application_time",sdf.format(patents.get(i).getApplication_time()));
+                    temp.put("authorization_time",sdf.format(patents.get(i).getAuthorization_time()));
+                    temp.put("public_time",sdf.format(patents.get(i).getPublic_time()));
+                    mapList.add(temp);
+                }
                 Map<String, Object> map1 = new HashMap<>();
                 map1.put("total", total);
                 list = new ArrayList<>();
                 list.add(map1);
-                list.add(patents);
+                list.add(mapList);
             }else {
                 map.put("leader_id", uid);
 
                 Integer total = patentMapper.selectTotalPatent(map);
                 List<Patent> patents = patentMapper.selectPatentByCondition(map);
+                List<Map> mapList = new ArrayList<>();
+                for (int i = 0; i < patents.size(); i++) {
+                    Map temp = JSON.parseObject(JSON.toJSONString(patents.get(i)),Map.class);
+                    temp.put("user_name",userDao.findUserById(patents.get(i).getLeader_id()).getUser_name());
+                    temp.put("application_time",sdf.format(patents.get(i).getApplication_time()));
+                    temp.put("authorization_time",sdf.format(patents.get(i).getAuthorization_time()));
+                    temp.put("public_time",sdf.format(patents.get(i).getPublic_time()));
+                    mapList.add(temp);
+                }
                 Map<String, Object> map1 = new HashMap<>();
                 map1.put("total", total);
                 list = new ArrayList<>();
                 list.add(map1);
-                list.add(patents);
+                list.add(mapList);
             }
 
         } catch (ParseException e) {
@@ -273,11 +291,20 @@ public class PatentServiceImpl implements PatentService {
             System.out.println(map);
             Integer total = patentMapper.selectTotalPatent(map);
             List<Patent> patents = patentMapper.selectPatentByCondition(map);
+            List<Map> mapList = new ArrayList<>();
+            for (int i = 0; i < patents.size(); i++) {
+                Map temp = JSON.parseObject(JSON.toJSONString(patents.get(i)),Map.class);
+                temp.put("user_name",userDao.findUserById(patents.get(i).getLeader_id()).getUser_name());
+                temp.put("application_time",sdf.format(patents.get(i).getApplication_time()));
+                temp.put("authorization_time",sdf.format(patents.get(i).getAuthorization_time()));
+                temp.put("public_time",sdf.format(patents.get(i).getPublic_time()));
+                mapList.add(temp);
+            }
             Map<String, Object> map1 = new HashMap<>();
             map1.put("total", total);
             list = new ArrayList<>();
             list.add(map1);
-            list.add(patents);
+            list.add(mapList);
         } catch (ParseException e) {
             e.printStackTrace();
         }

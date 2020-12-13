@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.sicnu.mapper.CacheUserMapper;
 import com.sicnu.mapper.PatentExamineMapper;
 import com.sicnu.mapper.PatentTeamExamineMapper;
+import com.sicnu.mapper.UserMapper;
 import com.sicnu.pojo.*;
 import com.sicnu.pojo.teamMap.PaperTeamMap;
 import com.sicnu.pojo.teamMap.PatentTeamMap;
@@ -31,6 +32,8 @@ public class PatentExamineServiceImpl implements PatentExamineService {
 
     @Resource
     private HttpSession session;
+    @Resource
+    UserMapper userMapper;
     @Override
     public Result addPatentExamine(PatentExamine patentExamine,Integer[] user_id,Integer[] contribution) {
         try {
@@ -102,11 +105,22 @@ public class PatentExamineServiceImpl implements PatentExamineService {
             System.out.println(map);
             Integer total = patentExamineMapper.selectTotalPatentExamine(map);
             List<PatentExamine> patentExamines = patentExamineMapper.selectPatentExamineByCondition(map);
+            List<Map> mapList = new ArrayList<>();
+            for (int i = 0; i < patentExamines.size(); i++) {
+                Map temp = JSON.parseObject(JSON.toJSONString(patentExamines.get(i)),Map.class);
+                temp.put("user_name",userMapper.findUserById(patentExamines.get(i).getLeader_id()).getUser_name());
+                temp.put("application_time",sdf.format(patentExamines.get(i).getApplication_time()));
+                temp.put("authorization_time",sdf.format(patentExamines.get(i).getAuthorization_time()));
+                temp.put("public_time",sdf.format(patentExamines.get(i).getPublic_time()));
+                temp.put("apply_time",sdf.format(patentExamines.get(i).getApply_time()));
+
+                mapList.add(temp);
+            }
             Map<String, Object> map1 = new HashMap<>();
             map1.put("total", total);
             list = new ArrayList<>();
             list.add(map1);
-            list.add(patentExamines);
+            list.add(mapList);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -189,11 +203,22 @@ public class PatentExamineServiceImpl implements PatentExamineService {
             System.out.println(map);
             Integer total = patentExamineMapper.selectTotalPatentExamine(map);
             List<PatentExamine> patentExamines = patentExamineMapper.selectPatentExamineByCondition(map);
+            List<Map> mapList = new ArrayList<>();
+            for (int i = 0; i < patentExamines.size(); i++) {
+                Map temp = JSON.parseObject(JSON.toJSONString(patentExamines.get(i)),Map.class);
+                temp.put("user_name",userMapper.findUserById(patentExamines.get(i).getLeader_id()).getUser_name());
+                temp.put("application_time",sdf.format(patentExamines.get(i).getApplication_time()));
+                temp.put("authorization_time",sdf.format(patentExamines.get(i).getAuthorization_time()));
+                temp.put("public_time",sdf.format(patentExamines.get(i).getPublic_time()));
+                temp.put("apply_time",sdf.format(patentExamines.get(i).getApply_time()));
+
+                mapList.add(temp);
+            }
             Map<String, Object> map1 = new HashMap<>();
             map1.put("total", total);
             list = new ArrayList<>();
             list.add(map1);
-            list.add(patentExamines);
+            list.add(mapList);
         } catch (ParseException e) {
             e.printStackTrace();
         }

@@ -86,7 +86,7 @@ public class ProjectServiceImpl implements ProjectService {
 
             //如果不通过审核反馈
             if (checkMessage.equals("fail")) {
-                helper.setSubject("高校科研管理系统注册验证码");
+                helper.setSubject("项目上传科研项目管理系统审核");
                 helper.setText("<p>您的项目申报审核未通过，因为<span style='color:blue;text-decoration:underline'>" + message + "</span>,请您解决之后重新申请。</p>", true);
                 //负责人邮箱
                 helper.setTo(user.getUser_email());
@@ -100,7 +100,7 @@ public class ProjectServiceImpl implements ProjectService {
                 projectDao.addProject(project);
                 //获取项目id 返给用户
                 Integer projectId = projectDao.selectProjectId(project.getLeader_id(), project.getProject_name());
-                helper.setSubject("高校科研管理系统注册验证码");
+                helper.setSubject("项目上传科研项目管理系统审核");
                 helper.setText("<p>您的项目申报审核成功，项目编号为：<span style='color:blue;text-decoration:underline'>" + projectId + "</span>,请勿遗忘。</p>", true);
                 helper.setTo(user.getUser_email());
                 helper.setFrom("1776557392@qq.com");
@@ -198,22 +198,42 @@ public class ProjectServiceImpl implements ProjectService {
                 List<Project> projects = projectDao.selectProjectByCondition(map);
                 //根据条件获取的项目条数
                 Integer total = projectDao.selectTotalProject(map);
+                List<Map> mapList = new ArrayList<>();
+                for (int i = 0; i < projects.size(); i++) {
+                    Map temp = JSON.parseObject(JSON.toJSONString(projects.get(i)),Map.class);
+                    temp.put("user_name",userDao.findUserById(projects.get(i).getLeader_id()).getUser_name());
+                    temp.put("complete_time()",sdf.format(projects.get(i).getComplete_time()));
+                    temp.put("plan_time",sdf.format(projects.get(i).getPlan_time()));
+                    temp.put("start_time",sdf.format(projects.get(i).getStart_time()));
+
+                    mapList.add(temp);
+                }
                 Map<String, Object> map1 = new HashMap<>();
                 map1.put("total", total);
                 list = new ArrayList<>();
                 list.add(map1);
-                list.add(projects);
+                list.add(mapList);
             }else{
                 map.put("leader_id", uid);
                 //根据传来的条件筛选用户
                 List<Project> projects = projectDao.selectProjectByCondition(map);
                 //根据条件获取的项目条数
                 Integer total = projectDao.selectTotalProject(map);
+                List<Map> mapList = new ArrayList<>();
+                for (int i = 0; i < projects.size(); i++) {
+                    Map temp = JSON.parseObject(JSON.toJSONString(projects.get(i)),Map.class);
+                    temp.put("user_name",userDao.findUserById(projects.get(i).getLeader_id()).getUser_name());
+                    temp.put("complete_time()",sdf.format(projects.get(i).getComplete_time()));
+                    temp.put("plan_time",sdf.format(projects.get(i).getPlan_time()));
+                    temp.put("start_time",sdf.format(projects.get(i).getStart_time()));
+
+                    mapList.add(temp);
+                }
                 Map<String, Object> map1 = new HashMap<>();
                 map1.put("total", total);
                 list = new ArrayList<>();
                 list.add(map1);
-                list.add(projects);
+                list.add(mapList);
             }
 
         } catch (ParseException e) {
@@ -341,11 +361,21 @@ public class ProjectServiceImpl implements ProjectService {
 
             List<Project> projects = projectDao.selectProjectByCondition(map);
             Integer total = projectDao.selectTotalProject(map);
+            List<Map> mapList = new ArrayList<>();
+            for (int i = 0; i < projects.size(); i++) {
+                Map temp = JSON.parseObject(JSON.toJSONString(projects.get(i)),Map.class);
+                temp.put("user_name",userDao.findUserById(projects.get(i).getLeader_id()).getUser_name());
+                temp.put("complete_time()",sdf.format(projects.get(i).getComplete_time()));
+                temp.put("plan_time",sdf.format(projects.get(i).getPlan_time()));
+                temp.put("start_time",sdf.format(projects.get(i).getStart_time()));
+
+                mapList.add(temp);
+            }
             Map<String, Object> map1 = new HashMap<>();
             map1.put("total", total);
             list = new ArrayList<>();
             list.add(map1);
-            list.add(projects);
+            list.add(mapList);
         } catch (ParseException e) {
             e.printStackTrace();
         }

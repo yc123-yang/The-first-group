@@ -23,7 +23,8 @@ import java.util.*;
 public class ProjectExamineServiceImpl implements ProjectExamineService {
     @Resource
     ProjectExamineMapper projectExamineMapper;
-
+    @Resource
+    UserMapper userDao;
     private Result rs;
     @Resource
     ProjectTeamExamineMapper projectTeamExamineMapper;
@@ -109,11 +110,22 @@ public class ProjectExamineServiceImpl implements ProjectExamineService {
             List<ProjectExamine> ProjectExamines = projectExamineMapper.selectProjectExamineByCondition(map);
             //根据条件获取的项目条数
             Integer total = projectExamineMapper.selectTotalProjectExamine(map);
+            List<Map> mapList = new ArrayList<>();
+            for (int i = 0; i < ProjectExamines.size(); i++) {
+                Map temp = JSON.parseObject(JSON.toJSONString(ProjectExamines.get(i)),Map.class);
+                temp.put("user_name",userDao.findUserById(ProjectExamines.get(i).getLeader_id()).getUser_name());
+                temp.put("complete_time()",sdf.format(ProjectExamines.get(i).getComplete_time()));
+                temp.put("plan_time",sdf.format(ProjectExamines.get(i).getPlan_time()));
+                temp.put("start_time",sdf.format(ProjectExamines.get(i).getStart_time()));
+                temp.put("apply_time()",sdf.format(ProjectExamines.get(i).getApply_time()));
+
+                mapList.add(temp);
+            }
             Map<String, Object> map1 = new HashMap<>();
             map1.put("total", total);
             list = new ArrayList<>();
             list.add(map1);
-            list.add(ProjectExamines);
+            list.add(mapList);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -197,11 +209,22 @@ public class ProjectExamineServiceImpl implements ProjectExamineService {
             List<ProjectExamine> ProjectExamines = projectExamineMapper.selectProjectExamineByCondition(map);
             //根据条件获取的项目条数
             Integer total = projectExamineMapper.selectTotalProjectExamine(map);
+            List<Map> mapList = new ArrayList<>();
+            for (int i = 0; i < ProjectExamines.size(); i++) {
+                Map temp = JSON.parseObject(JSON.toJSONString(ProjectExamines.get(i)),Map.class);
+                temp.put("user_name",userDao.findUserById(ProjectExamines.get(i).getLeader_id()).getUser_name());
+                temp.put("complete_time()",sdf.format(ProjectExamines.get(i).getComplete_time()));
+                temp.put("plan_time",sdf.format(ProjectExamines.get(i).getPlan_time()));
+                temp.put("start_time",sdf.format(ProjectExamines.get(i).getStart_time()));
+                temp.put("apply_time()",sdf.format(ProjectExamines.get(i).getApply_time()));
+
+                mapList.add(temp);
+            }
             Map<String, Object> map1 = new HashMap<>();
             map1.put("total", total);
             list = new ArrayList<>();
             list.add(map1);
-            list.add(ProjectExamines);
+            list.add(mapList);
         } catch (ParseException e) {
             e.printStackTrace();
         }

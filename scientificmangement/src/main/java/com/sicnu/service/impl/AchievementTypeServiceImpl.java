@@ -10,7 +10,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
- *
+ *成果类型字典数据表
  */
 @Service
 public class AchievementTypeServiceImpl implements AchievementTypeService {
@@ -19,6 +19,11 @@ public class AchievementTypeServiceImpl implements AchievementTypeService {
 
     private Result rs;
 
+    /**
+     * 添加成果类型数据
+     * @param at_name
+     * @return
+     */
     @Override
     public Result addAchievementType(String at_name) {
         try {
@@ -36,6 +41,11 @@ public class AchievementTypeServiceImpl implements AchievementTypeService {
         return rs;
     }
 
+    /**
+     * 根据类型id删除成果类型
+     * @param at_id
+     * @return
+     */
     @Override
     public Result delAchievementType(Integer at_id) {
 
@@ -49,6 +59,10 @@ public class AchievementTypeServiceImpl implements AchievementTypeService {
         return rs;
     }
 
+    /**
+     * 获取所有成果类型
+     * @return
+     */
     @Override
     public Result findAllAchievementType() {
         try {
@@ -60,6 +74,11 @@ public class AchievementTypeServiceImpl implements AchievementTypeService {
         return rs;
     }
 
+    /**
+     * 更新成果类型数据
+     * @param achievementType
+     * @return
+     */
     @Override
     public Result updateAchievementType(AchievementType achievementType) {
         try {

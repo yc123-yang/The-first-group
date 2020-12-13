@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.sicnu.mapper.BookExamineMapper;
 import com.sicnu.mapper.BookTeamExamineMapper;
 import com.sicnu.mapper.CacheUserMapper;
+import com.sicnu.mapper.UserMapper;
 import com.sicnu.pojo.*;
 import com.sicnu.pojo.teamMap.AwardTeamMap;
 import com.sicnu.pojo.teamMap.BookTeamMap;
@@ -31,6 +32,8 @@ public class BookExamineServiceImpl implements BookExamineService {
     CacheUserMapper cacheUserMapper;
     @Resource
     private HttpSession session;
+    @Resource
+    UserMapper userMapper;
     @Override
     public Result addBookExamine(BookExamine bookExamine,Integer[] user_id,Integer[] contribution) {
         try {
@@ -96,11 +99,20 @@ public class BookExamineServiceImpl implements BookExamineService {
             }
             List<BookExamine> bookExamines = bookExamineMapper.selectBookExamineByCondition(map);
             Integer total = bookExamineMapper.selectTotalBookExamine(map);
+            List<Map> mapList = new ArrayList<>();
+            for (int i = 0; i < bookExamines.size(); i++) {
+                Map temp = JSON.parseObject(JSON.toJSONString(bookExamines.get(i)),Map.class);
+                temp.put("user_name",userMapper.findUserById(bookExamines.get(i).getLeader_id()).getUser_name());
+                temp.put("publish_time",sdf.format(bookExamines.get(i).getPublish_time()));
+                temp.put("apply_time",sdf.format(bookExamines.get(i).getApply_time()));
+
+                mapList.add(temp);
+            }
             Map<String, Object> map1 = new HashMap<>();
             map1.put("total", total);
             list = new ArrayList<>();
             list.add(map1);
-            list.add(bookExamines);
+            list.add(mapList);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -175,11 +187,20 @@ public class BookExamineServiceImpl implements BookExamineService {
             }
             List<BookExamine> bookExamines = bookExamineMapper.selectBookExamineByCondition(map);
             Integer total = bookExamineMapper.selectTotalBookExamine(map);
+            List<Map> mapList = new ArrayList<>();
+            for (int i = 0; i < bookExamines.size(); i++) {
+                Map temp = JSON.parseObject(JSON.toJSONString(bookExamines.get(i)),Map.class);
+                temp.put("user_name",userMapper.findUserById(bookExamines.get(i).getLeader_id()).getUser_name());
+                temp.put("publish_time",sdf.format(bookExamines.get(i).getPublish_time()));
+                temp.put("apply_time",sdf.format(bookExamines.get(i).getApply_time()));
+
+                mapList.add(temp);
+            }
             Map<String, Object> map1 = new HashMap<>();
             map1.put("total", total);
             list = new ArrayList<>();
             list.add(map1);
-            list.add(bookExamines);
+            list.add(mapList);
         } catch (ParseException e) {
             e.printStackTrace();
         }

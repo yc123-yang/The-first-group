@@ -15,7 +15,7 @@
           #{periodical_id}
           )
     </insert>
-    <select id="findPeriodicalExamineByPaperId" parameterType="int" resultType="PeriodicalPaperExamine">
+    <select id="findPeriodicalExamineByPaperId" parameterType="int" resultType="int">
         select periodical_id from periodical_paper_examine
         where
         pe_id = #{pe_id}

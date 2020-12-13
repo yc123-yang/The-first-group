@@ -49,6 +49,8 @@ public class BookServiceImpl implements BookService{
     CacheUserMapper cacheUserMapper;
     @Resource
     private HttpSession session;
+    @Resource
+    RoleMapper roleMapper;
 
     @Override
     public Result addBook(Book book,String checkMessage,String message) {
@@ -63,7 +65,7 @@ public class BookServiceImpl implements BookService{
 
             //如果不通过审核反馈
             if (checkMessage.equals("fail")) {
-                helper.setSubject("高校科研管理系统注册验证码");
+                helper.setSubject("著作上传科研项目管理系统审核");
                 helper.setText("<p>您的项目申报审核未通过，因为<span style='color:blue;text-decoration:underline'>" + message + "</span>,请您解决之后重新申请。</p>", true);
                 //负责人邮箱
                 helper.setTo(user.getUser_email());
@@ -77,8 +79,8 @@ public class BookServiceImpl implements BookService{
                 bookMapper.addBook(book);
                 //获取项目id 返给用户
                 Integer bookId = bookMapper.selectBookId(book.getLeader_id(), book.getBook_name());
-                helper.setSubject("高校科研管理系统注册验证码");
-                helper.setText("<p>您的项目申报审核成功，项目编号为：<span style='color:blue;text-decoration:underline'>" + bookId + "</span>,请勿遗忘。</p>", true);
+                helper.setSubject("著作上传科研项目管理系统审核");
+                helper.setText("<p>您的著作上传申报审核成功，项目编号为：<span style='color:blue;text-decoration:underline'>" + bookId + "</span>,请勿遗忘。</p>", true);
                 helper.setTo(user.getUser_email());
                 helper.setFrom("1776557392@qq.com");
                 mailSender.send(mailMessage);
@@ -132,7 +134,7 @@ public class BookServiceImpl implements BookService{
             if (!publish_time_end.equals("")) {
                 map.put("publish_time_end", sdf.parse(publish_time_end));
             }
-//            User user = userDao.findUserById(uid);
+
             List<UserAuth> userAuths = roleAuthMapper.findUserAuth(user.getRole_id());
             int cnt =0;
             for (UserAuth userAuth : userAuths) {
@@ -140,23 +142,38 @@ public class BookServiceImpl implements BookService{
                     cnt=1;
                 }
             }
+
             if (cnt==1){
                 List<Book> books = bookMapper.selectBookByCondition(map);
+                List<Map> mapList = new ArrayList<>();
+                for (int i = 0; i < books.size(); i++) {
+                    Map temp = JSON.parseObject(JSON.toJSONString(books.get(i)),Map.class);
+                    temp.put("user_name",userDao.findUserById(books.get(i).getLeader_id()).getUser_name());
+                    temp.put("publish_time",sdf.format(books.get(i).getPublish_time()));
+                    mapList.add(temp);
+                }
                 Integer total = bookMapper.selectTotalBook(map);
                 Map<String, Object> map1 = new HashMap<>();
                 map1.put("total", total);
                 list = new ArrayList<>();
                 list.add(map1);
-                list.add(books);
+                list.add(mapList);
             }else{
                 map.put("leader_id", uid);
                 List<Book> books = bookMapper.selectBookByCondition(map);
+                List<Map> mapList = new ArrayList<>();
+                for (int i = 0; i < books.size(); i++) {
+                    Map temp = JSON.parseObject(JSON.toJSONString(books.get(i)),Map.class);
+                    temp.put("user_name",userDao.findUserById(books.get(i).getLeader_id()).getUser_name());
+                    temp.put("publish_time",sdf.format(books.get(i).getPublish_time()));
+                    mapList.add(temp);
+                }
                 Integer total = bookMapper.selectTotalBook(map);
                 Map<String, Object> map1 = new HashMap<>();
                 map1.put("total", total);
                 list = new ArrayList<>();
                 list.add(map1);
-                list.add(books);
+                list.add(mapList);
             }
         } catch (ParseException e) {
             e.printStackTrace();
@@ -215,12 +232,19 @@ public class BookServiceImpl implements BookService{
                 map.put("publish_time_end", sdf.parse(publish_time_end));
             }
             List<Book> books = bookMapper.selectBookByCondition(map);
+            List<Map> mapList = new ArrayList<>();
+            for (int i = 0; i < books.size(); i++) {
+                Map temp = JSON.parseObject(JSON.toJSONString(books.get(i)),Map.class);
+                temp.put("user_name",userDao.findUserById(books.get(i).getLeader_id()).getUser_name());
+                temp.put("publish_time",sdf.format(books.get(i).getPublish_time()));
+                mapList.add(temp);
+            }
             Integer total = bookMapper.selectTotalBook(map);
             Map<String, Object> map1 = new HashMap<>();
             map1.put("total", total);
             list = new ArrayList<>();
             list.add(map1);
-            list.add(books);
+            list.add(mapList);
         } catch (ParseException e) {
             e.printStackTrace();
         }

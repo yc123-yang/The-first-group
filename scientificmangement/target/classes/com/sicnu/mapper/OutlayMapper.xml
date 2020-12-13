@@ -8,16 +8,16 @@
 
     <insert id="addOutlay" parameterType="Outlay">
         insert into outlay
-        (outlay_id,
+        (
         outlay_start,
         outlay_end,
-        out_score,
+        outlay_score
         )
         values
-        (#{outlay_id},
+        (
         #{outlay_start},
         #{outlay_end},
-        #{outlay_end},
+        #{outlay_score}
         )
     </insert>
 
@@ -35,15 +35,17 @@
         update outlay
         <trim prefix="set" suffixOverrides=",">
             <if test="outlay_start!=null and outlay_start!=''">
-                outlay_start = #{outlay_start}
+                outlay_start = #{outlay_start},
             </if>
             <if test="outlay_end!=null and outlay_end!=''">
-                outlay_end = #{outlay_end}
+                outlay_end = #{outlay_end},
             </if>
             <if test="outlay_score!=null and outlay_score!=''">
-                outlay_score = #{outlay_score}
+                outlay_score = #{outlay_score},
             </if>
         </trim>
+        where
+        outlay_id =#{outlay_id}
     </update>
 
     <select id="selectOutlayScore" parameterType="String" resultType="int">

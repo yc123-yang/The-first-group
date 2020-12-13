@@ -1,10 +1,7 @@
 package com.sicnu.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.sicnu.mapper.CacheUserMapper;
-import com.sicnu.mapper.PaperExamineMapper;
-import com.sicnu.mapper.PaperTeamExamineMapper;
-import com.sicnu.mapper.PeriodicalPaperExamineMapper;
+import com.sicnu.mapper.*;
 import com.sicnu.pojo.*;
 import com.sicnu.pojo.teamMap.BookTeamMap;
 import com.sicnu.pojo.teamMap.PaperTeamMap;
@@ -38,6 +35,8 @@ public class PaperExamineServiceImpl implements PaperExamineService {
     @Resource
     private HttpSession session;
 
+    @Resource
+    UserMapper userDao;
     @Override
     public Result addPaperExamine(PaperExamine paperExamine,Integer[] user_id,Integer[] contribution,Integer[] periodicalIds) {
         try {
@@ -103,11 +102,20 @@ public class PaperExamineServiceImpl implements PaperExamineService {
             List<PaperExamine> paperExamines = paperExamineMapper.selectPaperExamineByCondition(map);
 
             Integer total = paperExamineMapper.selectTotalPaperExamine(map);
+
+            List<Map> mapList = new ArrayList<>();
+            for (int i = 0; i < paperExamines.size(); i++) {
+                Map temp = JSON.parseObject(JSON.toJSONString(paperExamines.get(i)),Map.class);
+                temp.put("user_name",userDao.findUserById(paperExamines.get(i).getLeader_id()).getUser_name());
+                temp.put("publish_time",sdf.format(paperExamines.get(i).getPublish_time()));
+                temp.put("apply_time",sdf.format(paperExamines.get(i).getApply_time()));
+                mapList.add(temp);
+            }
             Map<String, Object> map1 = new HashMap<>();
             map1.put("total", total);
             list = new ArrayList<>();
             list.add(map1);
-            list.add(paperExamines);
+            list.add(mapList);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -175,11 +183,19 @@ public class PaperExamineServiceImpl implements PaperExamineService {
             List<PaperExamine> paperExamines = paperExamineMapper.selectPaperExamineByCondition(map);
 
             Integer total = paperExamineMapper.selectTotalPaperExamine(map);
+            List<Map> mapList = new ArrayList<>();
+            for (int i = 0; i < paperExamines.size(); i++) {
+                Map temp = JSON.parseObject(JSON.toJSONString(paperExamines.get(i)),Map.class);
+                temp.put("user_name",userDao.findUserById(paperExamines.get(i).getLeader_id()).getUser_name());
+                temp.put("publish_time",sdf.format(paperExamines.get(i).getPublish_time()));
+                temp.put("apply_time",sdf.format(paperExamines.get(i).getApply_time()));
+                mapList.add(temp);
+            }
             Map<String, Object> map1 = new HashMap<>();
             map1.put("total", total);
             list = new ArrayList<>();
             list.add(map1);
-            list.add(paperExamines);
+            list.add(mapList);
         } catch (ParseException e) {
             e.printStackTrace();
         }

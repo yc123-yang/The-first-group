@@ -1,6 +1,7 @@
 package com.sicnu.controller;
 
 import com.sicnu.mapper.PeriodicalPaperMapper;
+import com.sicnu.pojo.PeriodicalPaper;
 import com.sicnu.service.impl.PeriodicalPaperServiceImpl;
 import com.sicnu.util.Result;
 import org.springframework.stereotype.Controller;
@@ -49,6 +50,17 @@ public class PeriodicalPaperController {
     public Result delPeriodicalByPeriodicalId(Integer periodical_id) {
         try {
             rs=periodicalPaperService.delPeriodicalByPeriodicalId(periodical_id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
+    @PostMapping("/periodicalPaper/updatePeriodicalPaper")
+    public Result updatePeriodicalPaper(Integer paper_id,Integer[] periodical_ids) {
+        try {
+            rs =periodicalPaperService.updatePeriodicalPaper(paper_id,periodical_ids);
+
         } catch (Exception e) {
             e.printStackTrace();
         }

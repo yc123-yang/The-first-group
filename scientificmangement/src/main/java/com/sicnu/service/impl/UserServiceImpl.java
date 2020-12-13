@@ -1,5 +1,7 @@
 package com.sicnu.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.sicnu.mapper.RoleMapper;
 import com.sicnu.pojo.CacheUser;
 import com.sicnu.mapper.CacheUserMapper;
 import com.sicnu.mapper.UserMapper;
@@ -49,6 +51,8 @@ public class UserServiceImpl implements UserService {
     @Resource
     AuthServiceImpl authService;
 
+    @Resource
+    RoleMapper roleMapper;
     private Result rs = null;
 
     /**
@@ -351,7 +355,13 @@ public class UserServiceImpl implements UserService {
     public Result findNameId(String user_name) {
         try {
             List<User> users = userDao.findNameId(user_name);
-            rs =  new Result("200",null,users);
+            List<Map> mapList = new ArrayList<>();
+            for (int i = 0; i < users.size(); i++) {
+                Map map = JSON.parseObject(JSON.toJSONString(users.get(i)),Map.class);
+                map.put("role_name",roleMapper.selectRoleName(users.get(i).getRole_id()));
+                mapList.add(map);
+            }
+            rs =  new Result("200",null,mapList);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -6,8 +6,7 @@ public class Outlay {
   private Integer outlay_id;
   private Integer outlay_start;
   private Integer outlay_end;
-  private Integer out_score;
-
+  private Integer outlay_score;
 
   public Integer getOutlay_id() {
     return outlay_id;
@@ -33,11 +32,11 @@ public class Outlay {
     this.outlay_end = outlay_end;
   }
 
-  public Integer getOut_score() {
-    return out_score;
+  public Integer getOutlay_score() {
+    return outlay_score;
   }
 
-  public void setOut_score(Integer out_score) {
-    this.out_score = out_score;
+  public void setOutlay_score(Integer outlay_score) {
+    this.outlay_score = outlay_score;
   }
 }

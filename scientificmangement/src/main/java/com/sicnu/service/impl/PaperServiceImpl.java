@@ -73,8 +73,8 @@ public class PaperServiceImpl implements PaperService {
 
             //如果不通过审核反馈
             if (checkMessage.equals("fail")) {
-                helper.setSubject("高校科研管理系统注册验证码");
-                helper.setText("<p>您的项目申报审核未通过，因为<span style='color:blue;text-decoration:underline'>" + message + "</span>,请您解决之后重新申请。</p>", true);
+                helper.setSubject("论文上传科研项目管理系统审核");
+                helper.setText("<p>您的论文上传申报审核未通过，因为<span style='color:blue;text-decoration:underline'>" + message + "</span>,请您解决之后重新申请。</p>", true);
                 //负责人邮箱
                 helper.setTo(user.getUser_email());
                 helper.setFrom("1776557392@qq.com");
@@ -88,8 +88,8 @@ public class PaperServiceImpl implements PaperService {
                 paperMapper.addPaper(paper);
                 //获取项目id 返给用户
                 Integer paperId = paperMapper.selectPaperId(paper.getLeader_id(), paper.getPaper_name());
-                helper.setSubject("高校科研管理系统注册验证码");
-                helper.setText("<p>您的项目申报审核成功，项目编号为：<span style='color:blue;text-decoration:underline'>" + paperId + "</span>,请勿遗忘。</p>", true);
+                helper.setSubject("论文上传科研项目管理系统审核");
+                helper.setText("<p>您的论文上传申报审核通过，项目编号为：<span style='color:blue;text-decoration:underline'>" + paperId + "</span>,请勿遗忘。</p>", true);
                 helper.setTo(user.getUser_email());
                 helper.setFrom("1776557392@qq.com");
                 mailSender.send(mailMessage);
@@ -169,20 +169,34 @@ public class PaperServiceImpl implements PaperService {
             if (cnt==1){
                 List<Paper> papers = paperMapper.selectPaperByCondition(map);
                 Integer total = paperMapper.selectTotalPaper(map);
+                List<Map> mapList = new ArrayList<>();
+                for (int i = 0; i < papers.size(); i++) {
+                    Map temp = JSON.parseObject(JSON.toJSONString(papers.get(i)),Map.class);
+                    temp.put("user_name",userDao.findUserById(papers.get(i).getLeader_id()).getUser_name());
+                    temp.put("publish_time",sdf.format(papers.get(i).getPublish_time()));
+                    mapList.add(temp);
+                }
                 Map<String, Object> map1 = new HashMap<>();
                 map1.put("total", total);
                 list = new ArrayList<>();
                 list.add(map1);
-                list.add(papers);
+                list.add(mapList);
             }else {
                 map.put("leader_id", uid);
                 List<Paper> papers = paperMapper.selectPaperByCondition(map);
                 Integer total = paperMapper.selectTotalPaper(map);
+                List<Map> mapList = new ArrayList<>();
+                for (int i = 0; i < papers.size(); i++) {
+                    Map temp = JSON.parseObject(JSON.toJSONString(papers.get(i)),Map.class);
+                    temp.put("user_name",userDao.findUserById(papers.get(i).getLeader_id()).getUser_name());
+                    temp.put("publish_time",sdf.format(papers.get(i).getPublish_time()));
+                    mapList.add(temp);
+                }
                 Map<String, Object> map1 = new HashMap<>();
                 map1.put("total", total);
                 list = new ArrayList<>();
                 list.add(map1);
-                list.add(papers);
+                list.add(mapList);
             }
         } catch (ParseException e) {
             e.printStackTrace();
@@ -250,11 +264,18 @@ public class PaperServiceImpl implements PaperService {
 
             Integer total = paperMapper.selectTotalPaper(map);
             List<Paper> papers = paperMapper.selectPaperByCondition(map);
+            List<Map> mapList = new ArrayList<>();
+            for (int i = 0; i < papers.size(); i++) {
+                Map temp = JSON.parseObject(JSON.toJSONString(papers.get(i)),Map.class);
+                temp.put("user_name",userDao.findUserById(papers.get(i).getLeader_id()).getUser_name());
+                temp.put("publish_time",sdf.format(papers.get(i).getPublish_time()));
+                mapList.add(temp);
+            }
             Map<String, Object> map1 = new HashMap<>();
             map1.put("total", total);
             list = new ArrayList<>();
             list.add(map1);
-            list.add(papers);
+            list.add(mapList);
         } catch (ParseException e) {
             e.printStackTrace();
         }

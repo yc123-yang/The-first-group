@@ -1,5 +1,6 @@
 package com.sicnu.mapper;
 
+import com.sicnu.pojo.PeriodicalPaper;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 

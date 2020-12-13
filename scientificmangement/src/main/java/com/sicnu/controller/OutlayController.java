@@ -40,7 +40,7 @@ public class OutlayController {
     @PostMapping("/outlay/delOutlayById")
     public Result delOutlayById(Integer outlay_id) {
         try {
-            outlayService.delOutlayById(outlay_id);
+            rs = outlayService.delOutlayById(outlay_id);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -50,7 +50,7 @@ public class OutlayController {
     @PostMapping("/outlay/updateOutlay")
     public Result updateOutlay(Outlay outlay) {
         try {
-            outlayService.updateOutlay(outlay);
+            rs =outlayService.updateOutlay(outlay);
         } catch (Exception e) {
             e.printStackTrace();
         }

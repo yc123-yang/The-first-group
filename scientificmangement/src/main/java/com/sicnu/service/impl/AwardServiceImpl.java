@@ -64,8 +64,8 @@ public class AwardServiceImpl implements AwardService {
 
             //如果不通过审核反馈
             if (checkMessage.equals("fail")) {
-                helper.setSubject("高校科研管理系统注册验证码");
-                helper.setText("<p>您的项目申报审核未通过，因为<span style='color:blue;text-decoration:underline'>" + message + "</span>,请您解决之后重新申请。</p>", true);
+                helper.setSubject("获奖上传科研项目管理系统审核");
+                helper.setText("<p>您的获奖上传申报审核未通过，因为<span style='color:blue;text-decoration:underline'>" + message + "</span>,请您解决之后重新申请。</p>", true);
                 //负责人邮箱
                 helper.setTo(user.getUser_email());
                 helper.setFrom("1776557392@qq.com");
@@ -78,8 +78,8 @@ public class AwardServiceImpl implements AwardService {
                 awardMapper.addAward(award);
                 //获取项目id 返给用户
                 Integer awardId = awardMapper.selectAwardId(award.getLeader_id(), award.getAward_name());
-                helper.setSubject("高校科研管理系统注册验证码");
-                helper.setText("<p>您的项目申报审核成功，项目编号为：<span style='color:blue;text-decoration:underline'>" + awardId + "</span>,请勿遗忘。</p>", true);
+                helper.setSubject("获奖上传科研项目管理系统审核");
+                helper.setText("<p>您的获奖上传申报审核成功，系统编号为：<span style='color:blue;text-decoration:underline'>" + awardId + "</span>,请勿遗忘。</p>", true);
                 helper.setTo(user.getUser_email());
                 helper.setFrom("1776557392@qq.com");
                 mailSender.send(mailMessage);
@@ -143,21 +143,35 @@ public class AwardServiceImpl implements AwardService {
             }
            if (cnt==1){
                List<Award> awards = awardMapper.selectAwardByCondition(map);
+               List<Map> mapList = new ArrayList<>();
+               for (int i = 0; i < awards.size(); i++) {
+                   Map temp = JSON.parseObject(JSON.toJSONString(awards.get(i)),Map.class);
+                   temp.put("user_name",userDao.findUserById(awards.get(i).getLeader_id()).getUser_name());
+                   temp.put("award_time",sdf.format(awards.get(i).getAward_time()));
+                   mapList.add(temp);
+               }
                Integer total = awardMapper.selectTotalAward(map);
                Map<String, Object> map1 = new HashMap<>();
                map1.put("total", total);
                list = new ArrayList<>();
                list.add(map1);
-               list.add(awards);
+               list.add(mapList);
            }else {
                map.put("leader_id", uid);
                List<Award> awards = awardMapper.selectAwardByCondition(map);
+               List<Map> mapList = new ArrayList<>();
+               for (int i = 0; i < awards.size(); i++) {
+                   Map temp = JSON.parseObject(JSON.toJSONString(awards.get(i)),Map.class);
+                   temp.put("user_name",userDao.findUserById(awards.get(i).getLeader_id()).getUser_name());
+                   temp.put("award_time",sdf.format(awards.get(i).getAward_time()));
+                   mapList.add(temp);
+               }
                Integer total = awardMapper.selectTotalAward(map);
                Map<String, Object> map1 = new HashMap<>();
                map1.put("total", total);
                list = new ArrayList<>();
                list.add(map1);
-               list.add(awards);
+               list.add(mapList);
            }
         } catch (ParseException e) {
             e.printStackTrace();
@@ -167,9 +181,13 @@ public class AwardServiceImpl implements AwardService {
 
     @Override
     public Result updateAward(Award award) {
-        System.out.println();
-        awardMapper.updateAward(award);
-        rs = new Result("200", "更新成功", null);
+        try {
+            System.out.println();
+            awardMapper.updateAward(award);
+            rs = new Result("200", "更新成功", null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 
@@ -212,12 +230,19 @@ public class AwardServiceImpl implements AwardService {
             }
             System.out.println(map);
             List<Award> awards = awardMapper.selectAwardByCondition(map);
+            List<Map> mapList = new ArrayList<>();
+            for (int i = 0; i < awards.size(); i++) {
+                Map temp = JSON.parseObject(JSON.toJSONString(awards.get(i)),Map.class);
+                temp.put("user_name",userDao.findUserById(awards.get(i).getLeader_id()).getUser_name());
+                temp.put("award_time",sdf.format(awards.get(i).getAward_time()));
+                mapList.add(temp);
+            }
             Integer total = awardMapper.selectTotalAward(map);
             Map<String, Object> map1 = new HashMap<>();
             map1.put("total", total);
             list = new ArrayList<>();
             list.add(map1);
-            list.add(awards);
+            list.add(mapList);
         } catch (ParseException e) {
             e.printStackTrace();
         }
