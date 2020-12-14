@@ -66,7 +66,6 @@ public class PeriodicalPaperServiceImpl implements PeriodicalPaperService {
         try {
             periodicalPaperMapper.delPeriodicalByPaperId(paper_id);
             for (int i = 0; i < periodical_ids.length; i++) {
-                PeriodicalPaper periodicalPaper = new PeriodicalPaper();
                 periodicalPaperMapper.addPeriodicalPaper(paper_id, periodical_ids[i]);
             }
             rs =new Result("200","更改成功",null);

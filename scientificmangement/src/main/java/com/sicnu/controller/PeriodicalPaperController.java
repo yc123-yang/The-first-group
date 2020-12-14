@@ -5,6 +5,7 @@ import com.sicnu.pojo.PeriodicalPaper;
 import com.sicnu.service.impl.PeriodicalPaperServiceImpl;
 import com.sicnu.util.Result;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -56,7 +57,7 @@ public class PeriodicalPaperController {
         return rs;
     }
 
-    @PostMapping("/periodicalPaper/updatePeriodicalPaper")
+    @GetMapping("/periodicalPaper/updatePeriodicalPaper")
     public Result updatePeriodicalPaper(Integer paper_id,Integer[] periodical_ids) {
         try {
             rs =periodicalPaperService.updatePeriodicalPaper(paper_id,periodical_ids);
