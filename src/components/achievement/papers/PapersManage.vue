@@ -103,7 +103,7 @@
 
       <el-table-column label="操作" align="center" width="120" fixed="right">
         <template slot-scope="scope">
-          <el-button type="primary" icon="el-icon-edit" size="mini"></el-button>
+          <el-button type="primary" icon="el-icon-edit" size="mini" @click="showEditPaperDialog(scope.row.paper_id)"></el-button>
           <el-button type="danger" icon="el-icon-delete" size="mini" @click="deletePaperById(scope.row.paper_id)"></el-button>
         </template>
       </el-table-column>
@@ -280,11 +280,183 @@
         <el-button type="primary" @click="editAuthor">确 定</el-button>
       </span>
     </el-dialog>
+  
+    <!-- 编辑论文成果对话框 -->
+    <el-dialog title="编辑论文成果" :visible.sync="editPaperDialogVisible" width="70%" @close="editPaperDialogClosed">
+      <el-form :model="editForm" :rules="addFormRules" ref="editFormRef" label-width="90px" size="mini">
+        <el-row :gutter="20">
+          <!-- 表单左侧 -->
+          <el-col :span="16">
+            <!-- 论文题目 -->
+            <el-form-item label="论文题目:" prop="paper_name">
+              <el-input v-model="editForm.paper_name" size="mini"></el-input>
+            </el-form-item>
+            <!-- 论文类型、发表期刊 -->
+            <el-row :gutter="20">
+              <el-col :span="12">
+                <el-form-item label="论文类型:" prop="pt_id">
+                  <el-select v-model="editForm.pt_id" placeholder="请选择" size="mini" style="width: 100%">
+                    <el-option v-for="item in ptList" :label="item.pt_name" :value="item.pt_id" :key="item.pt_id"> </el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="发表期刊:" prop="periodical_id">
+                  <el-select v-model="editForm.periodical_id" placeholder="请选择" size="mini" style="width: 100%">
+                    <el-option v-for="item in periodicalList" :label="item.periodical_name" :value="item.periodical_id" :key="item.periodical_id"> </el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <!-- 发表时间 -->
+            <el-form-item label="发表时间:" prop="publish_time">
+              <el-date-picker placeholder="请选择日期" v-model="editForm.publish_time" style="width: 100%" size="mini"
+                value-format="yyyy-MM-dd 00:00:00">
+              </el-date-picker>
+            </el-form-item>
+            <!-- 收录号 -->
+            <el-form-item label="收录号:" prop="include_number">
+              <el-input v-model="editForm.include_number" size="mini"></el-input>
+            </el-form-item>
+            <!-- 学科门类、一级学科 -->
+            <el-row :gutter="20">
+              <el-col :span="12">
+                <el-form-item label="学科门类:" prop="sc_id">
+                  <el-select v-model="editForm.sc_id" placeholder="请选择" size="mini" style="width: 100%">
+                    <el-option v-for="item in scList" :label="item.sc_name" :value="item.sc_id" :key="item.sc_id"> </el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="一级学科:" prop="subject_id">
+                  <el-select v-model="editForm.subject_id" placeholder="请选择" size="mini" style="width: 100%">
+                    <el-option v-for="item in subjectList" :label="item.subject_name" :value="item.subject_id" :key="item.subject_id"> </el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <!-- 归属单位 -->
+            <el-form-item label="归属单位:" prop="aod_id">
+              <el-select v-model="editForm.aod_id" placeholder="请选择" size="mini" style="width: 100%">
+                <el-option v-for="item in departmentList" :label="item.department_name" :value="item.department_id" :key="item.department_id"> </el-option>
+              </el-select>
+            </el-form-item>
+            <!-- 项目来源 -->
+            <el-form-item label="项目来源:" prop="sd_id">
+              <el-select v-model="editForm.sd_id" placeholder="请选择" size="mini" style="width: 100%">
+                <el-option v-for="item in departmentList" :label="item.department_name" :value="item.department_id" :key="item.department_id"> </el-option>
+              </el-select>
+            </el-form-item>
+            <!-- 备注 -->
+
+            <el-form-item label="备注:" prop="remark">
+              <el-input size="mini" v-model="editForm.remark"></el-input>
+            </el-form-item>
+           
+            <el-form-item label="作者:" prop="author" size="mini">
+              <el-button type="primary" size="mini" @click="addMemberDialogVisble = true">添加作者</el-button>
+            </el-form-item>
+            <el-table :data="editForm.authorList" style="width: 100%" ref="authorTableRef" size="mini" border height="250px"
+              :header-cell-style="{ background: '#f5f7fa' }" :default-sort="{prop: 'contribution', order: 'descending'}">
+              <!-- 序号列 -->
+              <el-table-column type="index" label="#" align="center"></el-table-column>
+              <el-table-column prop="name" label="作者姓名" align="center"></el-table-column>
+              <el-table-column prop="role_name" label="成员类型" align="center"></el-table-column>
+              <el-table-column label="归属单位" align="center">
+                <template slot-scope="scope">{{ departmentObj[scope.row.department_id] }}</template>
+              </el-table-column>
+              <el-table-column prop="contribution" label="贡献率" align="center">
+                <template slot-scope="scope">{{scope.row.contribution + '%'}}</template>
+              </el-table-column>
+              <el-table-column label="操作" align="center" width="120px">
+                <template slot-scope="scope">
+                  <el-button type="primary" icon="el-icon-edit" size="mini" @click="showEditMemberDialog(scope.row)"></el-button>
+                  <el-button type="danger" icon="el-icon-delete" size="mini" @click="deleteMember(scope.row.user_id)"></el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+          </el-col>
+          <!-- 表单右侧 -->
+          <el-col :span="8">
+            <el-table  :data="periodicalList" style="width: 100%; margin: 0" height="670px" border @selection-change="editPeriodicalSelectionChange"
+              size="mini" ref="editPeriodicalTableRef" :header-cell-style="{ background: '#f5f7fa' }">
+              <!-- 多选列 -->
+              <el-table-column type="selection" align="center"></el-table-column>
+              <el-table-column label="收录情况" prop="periodical_name">
+              </el-table-column>
+            </el-table>
+          </el-col>
+        </el-row>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="editPaperDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="editPaper">确 定</el-button>
+      </span>
+    </el-dialog>
+    <!-- 编辑论文成果对话框中添加作者对话框 -->
+    <el-dialog title="添加作者" :visible.sync="addMemberDialogVisble" width="40%" @closed="addMemberDialogClosed">
+      <el-form :model="addMemberForm" :rules="addMemberFormRules" ref="addMemberFormRef" label-width="100px">
+        <el-form-item label="作者姓名：" prop="author_info">
+          <el-select v-model="addMemberForm.user_id" remote placeholder="请输入作者姓名" :remote-method="getLeaderList" filterable
+            :loading="loadingLeaderList" style="width: 100%;" @change="addMemberSelectionChanged">
+            <el-option v-for="item in leaderList" :key="item.user_id" :value="item.user_id" :label="item.user_name">
+              <span style="float: left">{{ item.user_name }}</span>
+              <span style="float: right; color: #8492a6; font-size: 13px">{{ item.user_id }}</span>
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="作者类型：" prop="author_type">
+          <el-input v-model="addMemberForm.role_name" disabled placeholder="请输入作者姓名"></el-input>
+        </el-form-item>
+        <el-form-item label="归属单位：" prop="author_department">
+          <el-input v-model="addMemberForm.department_name" disabled placeholder="请输入作者姓名"></el-input>
+        </el-form-item>
+        <el-form-item label="贡献率：">
+          <el-input-number v-model="addMemberForm.contribution" controls-position="right" :min="1" :max="100" style="width: 100px">
+          </el-input-number>
+          <span>  %</span>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="addMemberDialogVisble = false">取 消</el-button>
+        <el-button type="primary" @click="addMember">确 定</el-button>
+      </span>
+    </el-dialog>
+
+    <!-- 编辑论文对话框中的编辑作者对话框 -->
+    <el-dialog title="编辑作者" :visible.sync="editMemberDialogVisible" width="40%" @closed="editMemberDialogClosed">
+      <el-form :model="editMemberForm" :rules="editMemberFormRules" ref="editMemberFormRef" label-width="100px">
+        <el-form-item label="作者姓名：" prop="user_id">
+          <el-select v-model="editMemberForm.user_id" remote placeholder="请输入作者姓名" :remote-method="getLeaderList" filterable
+            :loading="loadingLeaderList" style="width: 100%;" @change="editMemberSelectionChanged" disabled>
+            <el-option v-for="item in leaderList" :key="item.user_id" :value="item.user_id" :label="item.user_name">
+              <span style="float: left">{{ item.user_name }}</span>
+              <span style="float: right; color: #8492a6; font-size: 13px">{{ item.user_id }}</span>
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="作者类型：" prop="role_name">
+          <el-input v-model="editMemberForm.role_name" disabled placeholder="请输入作者姓名"></el-input>
+        </el-form-item>
+        <el-form-item label="归属单位：" prop="department_name">
+          <el-input v-model="editMemberForm.department_name" disabled placeholder="请输入作者姓名"></el-input>
+        </el-form-item>
+        <el-form-item label="贡献率：" prop="contribution">
+          <el-input-number v-model="editMemberForm.contribution" controls-position="right" :min="1" :max="100" style="width: 100px">
+          </el-input-number>
+          <span>  %</span>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="editMemberDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="editMember">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { parse } from 'qs';
+import { parse, stringify } from 'qs';
 export default {
   data() {
     return {
@@ -385,6 +557,9 @@ export default {
         author_info: [{ required: true, message: '请输入作者姓名', trigger: 'change' }],
         author_type: [{ required: true, message: '请选择作者类型', trigger: 'change' }]
       },
+      addMemberFormRules: {
+        user_id: [{ required: true, message: '请输入作者姓名', trigger: 'change' }],
+      },
       // 是否正在加载
       loadingLeaderList: false,
       // 用户列表
@@ -401,8 +576,26 @@ export default {
       // 正在编辑的位置
       editAuthorIndex: '',
       // 编辑作者表单验证对象
-      editAuthorFormRules: {}
-      
+      editAuthorFormRules: {},
+      // 编辑论文对话框显示与隐藏变量
+      editPaperDialogVisible: false,
+      // 编辑论文表单对象
+      editForm: {},
+      // 编辑论文对话框中添加作者对话框的显示与隐藏控制变量
+      addMemberDialogVisble: false,
+      // 编辑论文对话框中添加作者表单对象
+      addMemberForm: {
+        user_id: '',
+        contribution: 1
+      },
+      // 编辑论文对话框中的编辑作者对话框的显示与隐藏控制变量
+      editMemberDialogVisible: false,
+      // 编辑论文对话框中的编辑作者表单对象
+      editMemberForm: {},
+      // 编辑论文编辑作者表单验证规则对象
+      editMemberFormRules: {
+        user_id: [{ required: true, message: '请输入作者姓名', trigger: 'change' }]
+      }
     }
   },
 
@@ -464,13 +657,6 @@ export default {
         item.publish_time = item.publish_time.substring(0, 10);
         item.pt_name = this.ptObj[item.pt_id];
       });
-      for(var i=0;i<this.papersList.length;i++) {
-        const { data: res } = await this.$http.post('/user/findUserById', this.$qs.stringify({user_id: this.papersList[i].leader_id}))
-        if( res.status !== '200' ) return this.$message.error('查询作者失败')
-        console.log(res)
-        this.papersList[i].authorName = res.data.user_name
-      }
-      console.log(this.papersList);
     },
     // 多选框条件发生变化
     selectionChange() {
@@ -539,6 +725,7 @@ export default {
     },
     // 根据用户输入，获取用户列表
     async getLeaderList(query) {
+      console.log(query)
       if(query === null || query === '') return
       this.loadingLeaderList = true
       const { data: res } = await this.$http.post('/user/findNameId', this.$qs.stringify({ user_name: query }))
@@ -616,6 +803,122 @@ export default {
       if(res2.status !== '200') return this.$message.error('删除著作失败')
       this.$message.success('删除著作成功')
       this.getPaperList()
+    },
+    // 点击编辑论文成果按钮，显示编辑论文成果对话框
+    async showEditPaperDialog(paper_id){
+      const { data: res } = await this.$http.post('/paper/findPaperById', this.$qs.stringify({ paper_id: paper_id }))
+      if(res.status !== '200') return this.$message.error('获取论文信息失败')
+      this.editForm = res.data
+      await this.getMemberList()
+      this.editPaperDialogVisible = true
+      await this.getPeriodicalList()
+    },
+    // 获取编辑论文对话框中的成员列表
+    async getMemberList() {
+      const { data: res } = await this.$http.post('/team/selectPaperTeam', this.$qs.stringify({ paper_id: this.editForm.paper_id }))
+      if( res.status !== '200' ) return this.$message.error('获取论文团队成员信息失败')
+      this.$set(this.editForm, "authorList", res.data)
+      // this.editForm.authorList = res.data
+    },
+    // 获取收录期刊列表
+    async getPeriodicalList() {
+      console.log(this.editForm.paper_id)
+      const { data: res } = await this.$http.post('/periodicalPaper/findPeriodicalByPaperId', this.$qs.stringify({ paper_id: this.editForm.paper_id }))
+      if( res.status !== '200' ) return this.$message.error('获取收录期刊列表失败')
+      this.$refs.editPeriodicalTableRef.clearSelection()
+      this.periodicalList.forEach(item => {
+        if(res.data.indexOf(item.periodical_id) !== -1)
+          this.$refs.editPeriodicalTableRef.toggleRowSelection(item)
+      })
+    },
+    // 编辑对话框中期刊列表选择状态改变
+    editPeriodicalSelectionChange(val) { this.editForm.editPeriodicalSelectionList = val },
+    // 编辑论文对话框关闭事件
+    editPaperDialogClosed() {
+      this.$refs.editPeriodicalTableRef.clearSelection()
+      this.$refs.editFormRef.resetFields()
+    },
+    // 编辑论文对话框中添加成员对话框的关闭事件
+    addMemberDialogClosed() {
+      this.$refs.addMemberFormRef.resetFields()
+    },
+    // 添加论文成员选项发生变化
+    addMemberSelectionChanged(user_id) {
+      this.leaderList.forEach(item => {
+        if(item.user_id === user_id) {
+          this.addMemberForm.role_name = item.role_name
+          this.addMemberForm.department_name = this.departmentObj[item.department_id]
+          return
+        }
+      })
+    },
+    // 点击确定，添加论文成员
+    async addMember() {
+      var postObj = JSON.parse(JSON.stringify(this.addMemberForm))
+      postObj.paper_id = this.editForm.paper_id
+      const { data: res } = await this.$http.post('/team/addPaperTeamUser', this.$qs.stringify(postObj))
+      if( res.status !== '200' ) return this.$message.error('添加团队成员失败')
+      this.$message.success('添加团队成员成功')
+      await this.getMemberList()
+      this.addMemberDialogVisble = false
+    },
+    // 点击删除按钮，删除成员
+    async deleteMember(user_id) {
+      const res = await this.$confirm('此操作将永久删除该作者，是否继续？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).catch(err => err)
+      if( res === 'cancel' ) return this.$message.info('取消了本次操作')
+      const { data: res2 } = await this.$http.post('/team/delPaperTeamUser', this.$qs.stringify({ paper_id: this.editForm.paper_id, user_id: user_id }))
+      console.log(res2)
+      if( res2.status !== '200' ) return this.$message.error('删除团队成员失败')
+      this.$message.success('删除团队成员成功')
+      await this.getMemberList()
+    },
+    // 编辑论文对话框中，点击编辑按钮，显示编辑作者对话框 
+    async showEditMemberDialog(val) {
+      this.editMemberForm = JSON.parse(JSON.stringify(val))
+      await this.getLeaderList(this.editMemberForm.name)
+      await this.editMemberSelectionChanged(this.editMemberForm.user_id)
+      this.editMemberDialogVisible = true
+    },
+    // 关闭编辑论文对话框中编辑作者对话框关闭事件，清空编辑作者表单
+    editMemberDialogClosed() {
+      this.$refs.editMemberFormRef.resetFields()
+    },
+    // 编辑论文编辑作者成员选项发生变化事件
+    editMemberSelectionChanged(user_id) {
+      this.leaderList.forEach(item => {
+        if(item.user_id === user_id) {
+          this.editMemberForm.user_name = item.user_name
+          this.editMemberForm.department_name = this.departmentObj[item.department_id]
+          return
+        }
+      })
+    },
+    // 点击确定按钮，上传编辑作者表单信息
+    async editMember() {
+      var postObj = JSON.parse(JSON.stringify( this.editMemberForm ))
+      postObj.paper_id = this.editForm.paper_id
+      const { data: res } = await this.$http.post('/team/updatePaperTeamUser', this.$qs.stringify(postObj))
+      if( res.status !== '200' ) return this.$message.error('编辑作者信息失败')
+      this.$message.success('编辑作者信息成功')
+      await this.getMemberList()
+      this.editMemberDialogVisible = false  
+    },
+    // 点击确定按钮，上传编辑论文数据
+    async editPaper() {
+      var plist = []
+      this.editForm.editPeriodicalSelectionList.forEach(item => plist.push(item.periodical_id))
+      console.log(plist)
+      const { data: res } = await this.$http.get(`/periodicalPaper/updatePeriodicalPaper?paper_id=${this.editForm.paper_id}&periodical_ids=${plist}`)
+      if( res.status !== '200' ) return this.$message.error('更新收录期刊失败')
+      const { data: res2 } = await this.$http.post('/paper/updatePaper', this.$qs.stringify(this.editForm))
+      if( res2.status !== '200' ) return this.$message.error('更新论文信息失败')
+      this.$message.success('更新论文信息成功')
+      this.getPaperList()
+      this.editPaperDialogVisible = false
     }
   }
 }

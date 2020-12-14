@@ -1,105 +1,48 @@
 <template>
   <!-- 登录框表单区域 -->
   <div class="loginBoxContent">
-    <el-form
-      ref="loginFormRef"
-      label-width="0px"
-      class="loginForm"
-      :model="loginForm"
-      :rules="loginFormRules"
-    >
+    <el-form ref="loginFormRef" label-width="0px" class="loginForm" :model="loginForm" :rules="loginFormRules">
       <p>登录</p>
       <!-- 用户名 -->
       <label class="formLabel">用户名</label>
       <el-form-item prop="user_act">
-        <el-input
-          placeholder="请输入用户名"
-          prefix-icon="el-icon-user"
-          v-model="loginForm.user_act"
-        ></el-input>
+        <el-input placeholder="请输入用户名" prefix-icon="el-icon-user" v-model="loginForm.user_act"></el-input>
       </el-form-item>
       <!-- 密码 -->
       <label class="formLabel">密码</label>
       <el-form-item prop="user_pwd">
-        <el-input
-          prefix-icon="el-icon-lock"
-          placeholder="请输入密码"
-          v-model="loginForm.user_pwd"
-          type="password"
-        ></el-input>
+        <el-input prefix-icon="el-icon-lock" placeholder="请输入密码" v-model="loginForm.user_pwd" type="password"></el-input>
       </el-form-item>
       <!-- 按钮区域 -->
       <div class="btns">
         <el-form-item>
-          <el-button type="primary" class="loginBtn" @click="login"
-            >登录</el-button
-          >
-          <el-button
-            type="text"
-            class="registerBtn"
-            @click="registerDialogVisible = true"
-            >创建用户</el-button
-          >
+          <el-button type="primary" class="loginBtn" @click="login">登录</el-button>
+          <el-button type="text" class="registerBtn" @click="registerDialogVisible = true">创建用户</el-button>
           <el-button type="text" class="forgetPwdBtn">忘记密码?</el-button>
         </el-form-item>
       </div>
     </el-form>
     <!-- 注册 -->
-    <el-dialog
-      append-to-body
-      :visible.sync="registerDialogVisible"
-      width="20%"
-      @close="registerDialogClosed"
-      title="注册"
-    >
-      <el-form
-        :model="registerForm"
-        :rules="registerFormRules"
-        ref="registerFormRef"
-        label-width="0px"
-        size="mini"
-      >
+    <el-dialog append-to-body :visible.sync="registerDialogVisible" width="20%" @close="registerDialogClosed" title="注册">
+      <el-form :model="registerForm" :rules="registerFormRules" ref="registerFormRef" label-width="0px" size="mini">
         <el-form-item prop="user_act">
-          <el-input
-            class="input"
-            placeholder="请输入用户名"
-            prefix-icon="el-icon-user"
-            v-model="registerForm.user_act"
-            auto-complete="new-password"
-          ></el-input>
+          <el-input class="input" placeholder="请输入用户名" prefix-icon="el-icon-user" v-model="registerForm.user_act" auto-complete="new-password"></el-input>
         </el-form-item>
-
         <!-- 密码 -->
-
         <el-form-item prop="user_pwd">
-          <el-input
-            class="input"
-            placeholder="请输入密码"
-            prefix-icon="el-icon-lock"
-            show-password
-            v-model="registerForm.user_pwd"
-            type="password"
-            auto-complete="new-password"
-          ></el-input>
+          <el-input class="input" placeholder="请输入密码" prefix-icon="el-icon-lock" show-password v-model="registerForm.user_pwd" type="password"
+            auto-complete="new-password">
+          </el-input>
         </el-form-item>
-
         <!-- 密码 -->
-
         <el-form-item prop="user_pwd2">
-          <el-input
-            class="input"
-            placeholder="请再次输入密码"
-            prefix-icon="el-icon-lock"
-            show-password
-            v-model="registerForm.user_pwd2"
-            type="password"
-            auto-complete="new-password"
-          ></el-input>
+          <el-input class="input" placeholder="请再次输入密码" prefix-icon="el-icon-lock" show-password v-model="registerForm.user_pwd2" type="password"
+            auto-complete="new-password">
+          </el-input>
         </el-form-item>
-
         <!-- 身份 -->
         <el-form-item prop="role_id">
-        职位：
+          <span>职位：</span>
           <el-radio-group   v-model="registerForm.role_id">
             <el-radio  border label="4">学生</el-radio>
             <el-radio border label="5">教师</el-radio>
@@ -107,69 +50,33 @@
         </el-form-item>
         <!-- 学号/职工号 -->
         <el-form-item prop="user_number">
-          <el-input
-            class="input"
-            prefix-icon="el-icon-s-custom"
-            placeholder="请输入学号/职工号"
-            v-model="registerForm.user_number"
-          ></el-input>
+          <el-input class="input" prefix-icon="el-icon-s-custom" placeholder="请输入学号/职工号" v-model="registerForm.user_number"></el-input>
         </el-form-item>
         <!-- 部门 -->
         <el-form-item prop="department">
-          <el-select
-            prefix-icon="el-icon-s-custom"
-            v-model="registerForm.depatement"
-            placeholder="请选择部门"
-            size="mini"
-            style="width: 100% "
-          >
-            <el-option
-              v-for="item in departmentList"
-              :label="item.department_name"
-              :value="item.department_id"
-              :key="item.department_id"
-            >
+          <el-select prefix-icon="el-icon-s-custom" v-model="registerForm.depatement" placeholder="请选择部门" size="mini" style="width: 100% ">
+            <el-option v-for="item in departmentList" :label="item.department_name" :value="item.department_id" :key="item.department_id">
             </el-option>
           </el-select>
         </el-form-item>
         <!-- 邮箱 -->
         <el-form-item prop="user_email">
-          <el-input
-            class="input"
-            placeholder="请输入邮箱"
-            prefix-icon="el-icon-message"
-            v-model="registerForm.user_email"
-          ></el-input>
+          <el-input class="input" placeholder="请输入邮箱" prefix-icon="el-icon-message" v-model="registerForm.user_email"></el-input>
         </el-form-item>
         <el-row>
           <el-form-item prop="yzm">
             <el-col :span="16">
-              <el-input
-                class="input2"
-                placeholder="请输入邮箱验证码"
-                prefix-icon="el-icon-lock"
-                v-model="registerForm.yzm"
-              ></el-input>
+              <el-input class="input2" placeholder="请输入邮箱验证码" prefix-icon="el-icon-lock" v-model="registerForm.yzm"></el-input>
             </el-col>
             <el-col :span="8">
-              <el-button type="primary" @click="sendyzm" style="float: right"
-                >点击获取</el-button
-              >
+              <el-button type="primary" @click="sendyzm" style="float: right">点击获取</el-button>
             </el-col>
           </el-form-item>
         </el-row>
         <el-form-item>
-          <el-button type="primary" class="registerBtn2" @click="register"
-            >注册</el-button
-          >
+          <el-button type="primary" class="registerBtn2" @click="register">注册</el-button>
         </el-form-item>
       </el-form>
-      <!--
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="registerDialogVisible = false">取 消</el-button>
-        <el-button @click="resetForm">清 空</el-button>
-      </span>
-      -->
     </el-dialog>
   </div>
 </template>
@@ -269,7 +176,7 @@ export default {
       this.$refs.loginFormRef.validate(async (valid) => {
         if (!valid) return false;
         const { data: res } = await this.$http.post(
-          "user/login",
+          "/user/login",
           this.$qs.stringify(this.loginForm)
         );
         console.log(res);
@@ -278,7 +185,7 @@ export default {
         // 登录成功，跳转到主页
         this.$message.success(res.msg);
         console.log(res.data);
-        window.sessionStorage.setItem("token", res.data.token);
+        window.sessionStorage.setItem("token", res.data.user_token);
         this.$router.push("/home");
       });
     },

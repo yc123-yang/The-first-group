@@ -136,7 +136,7 @@
       </el-table-column>
       <el-table-column label="操作" align="center" width="120" fixed="right">
         <template slot-scope="scope">
-          <el-button type="primary" icon="el-icon-edit" size="mini"></el-button>
+          <el-button type="primary" icon="el-icon-edit" size="mini" @click="showEditAwardDialog(scope.row.award_id)"></el-button>
           <el-button type="danger" icon="el-icon-delete" size="mini" @click="deleteAwardById(scope.row.award_id)"></el-button>
         </template>
       </el-table-column>
@@ -249,12 +249,6 @@
                 </el-form-item>
               </el-col>
             </el-row>
-
-
-            <!-- 备注 -->
-            <el-form-item label="备注:" prop="remark">
-              <el-input v-model="addForm.remark" size="mini"></el-input>
-            </el-form-item>
             <el-form-item label="作者:" prop="author" size="mini">
               <el-button type="primary" size="mini" @click="addAuthorDialogVisible = true">添加作者</el-button>
             </el-form-item>
@@ -342,10 +336,209 @@
         <el-button type="primary" @click="editAuthor">确 定</el-button>
       </span>
     </el-dialog>
+
+    <!-- 编辑成果获奖对话框 -->
+    <el-dialog title="编辑获奖成果" :visible.sync="editAwardsDialogVisible" width="60%" @close="editAwardsDialogClosed">
+      <el-form :model="editForm" :rules="addFormRules" ref="editFormRef" label-width="100px" size="mini">
+        <el-row :gutter="20">
+          <!-- 表单左侧 -->
+          <el-col>
+            <!-- 成果名字 -->
+            <el-form-item label="成果名字:" prop="achievement_name">
+              <el-input v-model="editForm.achievement_name" size="mini"></el-input>
+            </el-form-item>
+            <!-- 获奖名称、获奖时间 -->
+            <el-row :gutter="20">
+              <el-col :span="12">
+                <el-form-item label="获奖名称:" prop="award_name">
+                  <el-input v-model="editForm.award_name" size="mini"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="获奖时间:" prop="award_time">
+                  <el-date-picker type="date" placeholder="请选择日期" v-model="editForm.award_time" style="width: 100%" size="mini"
+                    value-format="yyyy-MM-dd 00:00:00">
+                  </el-date-picker>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <!-- 发证机关，奖励批准号 -->
+            <el-row :gutter="20">
+              <el-col :span="12">
+                <el-form-item label="发证机关:" prop="issuing_authority">
+                  <el-input v-model="editForm.issuing_authority" size="mini"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="奖励批准号:" prop="approval_number">
+                  <el-input v-model="editForm.approval_number" size="mini"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <!-- 成果归属单位、来源单位 -->
+            <el-row :gutter="20">
+              <el-col :span="12">
+                <el-form-item label="归属单位:" prop="aod_id">
+                  <el-select v-model="editForm.aod_id" placeholder="请选择" size="mini" style="width: 100%">
+                    <el-option v-for="item in departmentList" :label="item.department_name" :value="item.department_id" :key="item.department_id"> </el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="项目来源:" prop="sd_id">
+                  <el-select v-model="editForm.sd_id" placeholder="请选择" size="mini" style="width: 100%">
+                    <el-option v-for="item in departmentList" :label="item.department_name" :value="item.department_id" :key="item.department_id"> </el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+            </el-row>
+
+            <!-- 获奖级别，获奖等级 -->
+            <el-row :gutter="20">
+              <el-col :span="12">
+                <el-form-item label="获奖级别:" prop="ar_id">
+                  <el-select v-model="editForm.ar_id" placeholder="请选择" size="mini" style="width: 100%">
+                    <el-option v-for="item in arList" :label="item.ar_name" :value="item.ar_id" :key="item.ar_id"> </el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+
+              <el-col :span="12">
+                <el-form-item label="获奖等级:" prop="al_id">
+                  <el-select v-model="editForm.al_id" placeholder="请选择" size="mini" style="width: 100%">
+                    <el-option v-for="item in alList" :label="item.al_name" :value="item.al_id" :key="item.al_id"> </el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <!-- 学科门类，一级学科 -->
+            <el-row :gutter="20">
+              <el-col :span="12">
+                <el-form-item label="学科门类:" prop="sc_id">
+                  <el-select v-model="editForm.sc_id" placeholder="请选择" size="mini" style="width: 100%">
+                    <el-option v-for="item in scList" :label="item.sc_name" :value="item.sc_id" :key="item.sc_id"> </el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="一级学科:" prop="subject_id">
+                  <el-select v-model="editForm.subject_id" placeholder="请选择" size="mini" style="width: 100%">
+                    <el-option v-for="item in subjectList" :label="item.subject_name" :value="item.subject_id" :key="item.subject_id"> </el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <!-- 单位排名,成果形式 -->
+            <el-row :gutter="20">
+
+              <el-col :span="12">
+                <el-form-item label="成果形式:" prop="at_id">
+                  <el-select v-model="editForm.at_id" placeholder="请选择" size="mini" style="width: 100%">
+                    <el-option v-for="item in atList" :label="item.at_name" :value="item.at_id" :key="item.at_id"> </el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="7">
+                <el-form-item label="单位排名:" prop="dr_id">
+                  <el-input v-model="editForm.dr_id" size="mini"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+
+            <el-form-item label="作者:" prop="author" size="mini">
+              <el-button type="primary" size="mini" @click="addMemberDialogVisible = true">添加作者</el-button>
+            </el-form-item>
+
+            <el-table :data="memberList" style="width: 100%" ref="authorTableRef" size="mini" border height="250px"
+              :header-cell-style="{ background: '#f5f7fa' }"  :default-sort="{prop: 'contribution', order: 'descending'}">
+              <!-- 序号列 -->
+              <el-table-column type="index" label="#" align="center"></el-table-column>
+              <el-table-column prop="name" label="作者姓名" align="center"></el-table-column>
+              <el-table-column prop="role_name" label="成员类型" align="center"></el-table-column>
+              <el-table-column prop="department_name" label="归属单位" align="center">
+                <template slot-scope="scope">{{ departmentObj[scope.row.department_id] }}</template>
+              </el-table-column>
+              <el-table-column prop="contribution" label="贡献率" align="center">
+                <template slot-scope="scope">{{scope.row.contribution + '%'}}</template>
+              </el-table-column>
+              <el-table-column label="操作" align="center" width="120px">
+                <template slot-scope="scope">
+                  <el-button type="primary" icon="el-icon-edit" size="mini" @click="showEditMemberDialog(scope.row)"></el-button>
+                  <el-button type="danger" icon="el-icon-delete" size="mini" @click="deleteMember(scope.row.user_id)"></el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+          </el-col>
+        </el-row>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="editAwardsDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="editAwards">确 定</el-button>
+      </span>
+    </el-dialog>
+    <!-- 编辑成果获奖对话框中添加作者对话框 -->
+    <el-dialog title="添加作者" :visible.sync="addMemberDialogVisible" width="40%" @closed="addMemberDialogClosed">
+      <el-form :model="addMemberForm" :rules="addMemberFormRules" ref="addMemberFormRef" label-width="100px">
+        <el-form-item label="作者姓名：" prop="author_info">
+          <el-select v-model="addMemberForm.user_id" remote placeholder="请输入作者姓名" :remote-method="getLeaderList" filterable
+            :loading="loadingLeaderList" style="width: 100%;" @change="addMemberSelectionChanged">
+            <el-option v-for="item in leaderList" :key="item.user_id" :value="item.user_id" :label="item.user_name">
+              <span style="float: left">{{ item.user_name }}</span>
+              <span style="float: right; color: #8492a6; font-size: 13px">{{ item.user_id }}</span>
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="作者类型：" prop="author_type">
+          <el-input v-model="addMemberForm.role_name" disabled placeholder="请输入作者姓名"></el-input>
+        </el-form-item>
+        <el-form-item label="归属单位：" prop="author_department">
+          <el-input v-model="addMemberForm.department_name" disabled placeholder="请输入作者姓名"></el-input>
+        </el-form-item>
+        <el-form-item label="贡献率：">
+          <el-input-number v-model="addMemberForm.contribution" controls-position="right" :min="1" :max="100" style="width: 100px">
+          </el-input-number>
+          <span>  %</span>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="addMemberDialogVisble = false">取 消</el-button>
+        <el-button type="primary" @click="addMember">确 定</el-button>
+      </span>
+    </el-dialog>
+    <!-- 编辑著作对话框中的编辑作者对话框 -->
+    <el-dialog title="编辑作者" :visible.sync="editMemberDialogVisible" width="40%" @closed="editMemberDialogClosed">
+      <el-form :model="editMemberForm" :rules="editMemberFormRules" ref="editMemberFormRef" label-width="100px">
+        <el-form-item label="作者姓名：" prop="user_id">
+          <el-select v-model="editMemberForm.user_id" remote placeholder="请输入作者姓名" :remote-method="getLeaderList" filterable
+            :loading="loadingLeaderList" style="width: 100%;" @change="editMemberSelectionChanged" disabled>
+            <el-option v-for="item in leaderList" :key="item.user_id" :value="item.user_id" :label="item.user_name">
+              <span style="float: left">{{ item.user_name }}</span>
+              <span style="float: right; color: #8492a6; font-size: 13px">{{ item.user_id }}</span>
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="作者类型：" prop="role_name">
+          <el-input v-model="editMemberForm.role_name" disabled placeholder="请输入作者姓名"></el-input>
+        </el-form-item>
+        <el-form-item label="归属单位：" prop="department_name">
+          <el-input v-model="editMemberForm.department_name" disabled placeholder="请输入作者姓名"></el-input>
+        </el-form-item>
+        <el-form-item label="贡献率：" prop="contribution">
+          <el-input-number v-model="editMemberForm.contribution" controls-position="right" :min="1" :max="100" style="width: 100px">
+          </el-input-number>
+          <span>  %</span>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="editMemberDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="editMember">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import { stringify } from 'qs';
 export default {
   data() {
     return {
@@ -479,7 +672,26 @@ export default {
       // 正在编辑的位置
       editAuthorIndex: '',
       // 编辑作者表单验证对象
-      editAuthorFormRules: {}
+      editAuthorFormRules: {},
+      // 编辑成果获奖对话框显示控制变量
+      editAwardsDialogVisible: false,
+      // 编辑成果获奖表单对象
+      editForm: {},
+      // 编辑成果对话框中成员信息列表
+      memberList: [],
+      addMemberDialogVisible: false,
+      addMemberForm: {
+        user_id: '',
+        contribution: 1
+      },
+      addMemberFormRules: {
+        user_id: [{ required: true, message: '请输入作者姓名', trigger: 'change' }],
+      },
+      editMemberDialogVisible: false,
+      editMemberForm: {},
+      editMemberFormRules: {
+        user_id: [{ required: true, message: '请输入作者姓名', trigger: 'change' }],
+      },
     };
   },
   async created() {
@@ -542,11 +754,6 @@ export default {
         item.al_name = this.alObj[item.al_id];
         item.at_name = this.atObj[item.at_id];
       });
-      for(var i=0;i<this.awardsList.length;i++) {
-        const { data: res } = await this.$http.post('/user/findUserById', this.$qs.stringify({user_id: this.awardsList[i].leader_id}))
-        if( res.status !== '200' ) return this.$message.error('查询作者失败')
-        this.awardsList[i].authorName = res.data.user_name
-      }
       console.log(this.awardsList);
     },
     async getAwardList() {
@@ -694,6 +901,95 @@ export default {
       if(res2.status !== '200') return this.$message.error('删除成果获奖失败')
       this.$message.success('删除著作成功')
       this.getAwardList()
+    },
+    // 获取团队成员列表
+    async getMemberList(award_id) {
+      const { data: res } = await this.$http.post('/team/selectAwardTeam', stringify({ award_id: award_id }))
+      if( res.status !== '200' ) return this.$message.error('获取团队成员失败')
+      this.memberList = res.data
+      console.log(this.memberList)
+    },
+    // 点击成果获奖列表中的编辑按钮，显示编辑成果获奖对话框
+    async showEditAwardDialog(award_id) {
+      const { data: res } = await this.$http.post('/award/findAwardById', stringify({ award_id: award_id }))
+      if( res.status !== '200' ) return this.$message.error('获取成果获奖信息失败')
+      this.editForm = res.data
+      this.getMemberList(award_id)
+      this.editAwardsDialogVisible = true
+    },
+    // 编辑成果获奖对话框关闭事件，清空编辑成果获奖表单对象
+    editAwardsDialogClosed() {
+      this.$refs.editFormRef.resetFields()
+    },
+    addMemberDialogClosed() {
+      this.$refs.addMemberFormRef.resetFields()
+    },
+    addMemberSelectionChanged(user_id) {
+      this.leaderList.forEach(item => {
+        if(item.user_id === user_id) {
+          this.addMemberForm.role_name = item.role_name
+          this.addMemberForm.department_name = this.departmentObj[item.department_id]
+          return
+        }
+      })
+    },
+    async deleteMember(user_id) {
+      const res2 = await this.$confirm('此操作将永久删除该作者，是否继续？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).catch(err => err)
+      if( res2 === 'cancel' ) return this.$message.info('取消了本次操作')
+      const { data: res } = await this.$http.post('/team/delAwardTeamUser', stringify({ award_id: this.editForm.award_id, user_id: user_id }))
+      if( res.status !== '200' ) return this.$message.error('删除团队成员失败')
+      this.$message.success('删除团队成员成功')
+      await this.getMemberList(this.editForm.award_id)
+    },
+    async addMember() {
+      var postObj = JSON.parse(JSON.stringify(this.addMemberForm))
+      postObj.award_id = this.editForm.award_id
+      console.log(postObj)
+      const { data: res } = await this.$http.post('/team/addAwardTeamUser', this.$qs.stringify(postObj))
+      if( res.status !== '200' ) return this.$message.error('添加团队成员失败')
+      this.$message.success('添加团队成员成功')
+      await this.getMemberList(this.editForm.award_id)
+      this.addMemberDialogVisible = false
+    },
+    editMemberDialogClosed() {
+      this.$refs.editMemberFormRef.resetFields()
+    },
+    async showEditMemberDialog(val) {
+      console.log(val)
+      this.editMemberForm = JSON.parse(JSON.stringify(val))
+      await this.getLeaderList(this.editMemberForm.name)
+      await this.editMemberSelectionChanged(this.editMemberForm.user_id)
+      this.editMemberDialogVisible = true
+    },
+    editMemberSelectionChanged(user_id) {
+      this.leaderList.forEach(item => {
+        if(item.user_id === user_id) {
+          this.editMemberForm.user_name = item.user_name
+          this.editMemberForm.department_name = this.departmentObj[item.department_id]
+          return
+        }
+      })
+    },
+    async editMember() {
+      var postObj = JSON.parse(JSON.stringify( this.editMemberForm ))
+      postObj.award_id = this.editForm.award_id
+      const { data: res } = await this.$http.post('/team/updateAwardTeamUser', this.$qs.stringify(postObj))
+      if( res.status !== '200' ) return this.$message.error('编辑作者信息失败')
+      this.$message.success('编辑作者信息成功')
+      await this.getMemberList(this.editForm.award_id)
+      this.editMemberDialogVisible = false  
+    },
+    // 上传编辑成果获奖信息
+    async editAwards() {
+      const { data: res } = await this.$http.post('/award/updateAward', stringify(this.editForm))
+      if( res.status !== '200' ) return this.$message.error('上传编辑成果获奖信息失败')
+      this.$message.success('上传编辑成果获奖信息成功')
+      this.getAwardList()
+      this.editAwardsDialogVisible = false
     }
   },
 };

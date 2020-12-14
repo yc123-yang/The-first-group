@@ -305,11 +305,6 @@ export default {
         item.rt_name = this.rtObj[item.rt_id]
         item.language_name = this.languageObj[item.language_id]
       })
-      for(var i=0;i<this.booksList.length;i++) {
-        const { data: res } = await this.$http.post('/user/findUserById', this.$qs.stringify({user_id: this.booksList[i].leader_id}))
-        if( res.status !== '200' ) return this.$message.error('查询作者失败')
-        this.booksList[i].authorName = res.data.user_name
-      }
     },
     // 多选框条件发生变化
     selectionChange() {

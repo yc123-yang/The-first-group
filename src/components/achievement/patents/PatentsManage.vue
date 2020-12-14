@@ -116,7 +116,7 @@
       </el-table-column>
       <el-table-column label="操作" align="center" width="120" fixed="right">
         <template slot-scope="scope">
-          <el-button type="primary" icon="el-icon-edit" size="mini"></el-button>
+          <el-button type="primary" icon="el-icon-edit" size="mini" @click="showEditPatentDialog(scope.row.patent_id)"></el-button>
           <el-button type="danger" icon="el-icon-delete" size="mini" @click="deletePatentById(scope.row.patent_id)"></el-button>
         </template>
       </el-table-column>
@@ -180,7 +180,9 @@
               </el-col>
               <el-col :span="12">
                 <el-form-item label="申请日期:" prop="application_time">
-                  <el-date-picker type="date" placeholder="请选择日期" v-model="addForm.application_time" style="width: 100%" size="mini"> </el-date-picker>
+                  <el-date-picker placeholder="请选择日期" v-model="addForm.application_time"
+                    style="width: 100%" size="mini" value-format="yyyy-MM-dd 00:00:00">
+                  </el-date-picker>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -193,7 +195,9 @@
               </el-col>
               <el-col :span="12">
                 <el-form-item label="公开日期:" prop="public_time">
-                  <el-date-picker type="date" placeholder="请选择日期" v-model="addForm.public_time" style="width: 100%" size="mini"> </el-date-picker>
+                  <el-date-picker placeholder="请选择日期" v-model="addForm.public_time"
+                    style="width: 100%" size="mini" value-format="yyyy-MM-dd 00:00:00">
+                  </el-date-picker>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -206,7 +210,9 @@
               </el-col>
               <el-col :span="12">
                 <el-form-item label="授权日期:" prop="authorization_time">
-                  <el-date-picker type="date" placeholder="请选择日期" v-model="addForm.authorization_time" style="width: 100%" size="mini"> </el-date-picker>
+                  <el-date-picker placeholder="请选择日期" v-model="addForm.authorization_time"
+                    style="width: 100%" size="mini" value-format="yyyy-MM-dd 00:00:00">
+                  </el-date-picker>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -299,10 +305,189 @@
         <el-button type="primary" @click="editAuthor">确 定</el-button>
       </span>
     </el-dialog>
+
+    <el-dialog title="编辑专利成果" :visible.sync="editPatentsDialogVisible" width="60%" @close="editPatentsDialogClosed">
+      <el-form :model="editForm" :rules="addFormRules" ref="editFormRef" label-width="100px" size="mini">
+        <el-row :gutter="20">
+          <!-- 表单左侧 -->
+          <el-col>
+            <!-- 成果名字 -->
+            <el-form-item label="专利名字:" prop="patent_name">
+              <el-input v-model="editForm.patent_name" size="mini"></el-input>
+            </el-form-item>
+            <!-- 专利范围、专利状态 -->
+            <el-row :gutter="20">
+              <el-col :span="12">
+                <el-form-item label="专利范围:" prop="pr_id">
+                  <el-select v-model="editForm.pr_id" placeholder="请选择" size="mini" style="width: 100%">
+                    <el-option v-for="item in prList" :label="item.pr_name" :value="item.pr_id" :key="item.pr_id"> </el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="专利状态:" prop="ps_id">
+                  <el-select v-model="editForm.ps_id" placeholder="请选择" size="mini" style="width: 100%">
+                    <el-option v-for="item in psList" :label="item.ps_name" :value="item.ps_id" :key="item.ps_id"> </el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <!-- 成果归属单位、专利类型 -->
+            <el-row :gutter="20">
+              <el-col :span="12">
+                <el-form-item label="归属单位:" prop="aod_id">
+                  <el-select v-model="editForm.aod_id" placeholder="请选择" size="mini" style="width: 100%">
+                    <el-option v-for="item in departmentList" :label="item.department_name" :value="item.department_id" :key="item.department_id"> </el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="专利类型:" prop="pt_id">
+                  <el-select v-model="editForm.pt_id" placeholder="请选择" size="mini" style="width: 100%">
+                    <el-option v-for="item in ptList" :label="item.pt_name" :value="item.pt_id" :key="item.pt_id"> </el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+            </el-row>
+
+            <!-- 申请编号，申请日期 -->
+            <el-row :gutter="20">
+              <el-col :span="12">
+                <el-form-item label="申请编号:" prop="application_number">
+                  <el-input v-model="editForm.application_number" size="mini"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="申请日期:" prop="application_time">
+                  <el-date-picker placeholder="请选择日期" v-model="editForm.application_time"
+                    style="width: 100%" size="mini" value-format="yyyy-MM-dd 00:00:00"> </el-date-picker>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <!-- 公开编号，公开日期 -->
+            <el-row :gutter="20">
+              <el-col :span="12">
+                <el-form-item label="公开编号:" prop="public_number">
+                  <el-input v-model="editForm.public_number" size="mini"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="公开日期:" prop="public_time">
+                  <el-date-picker placeholder="请选择日期" v-model="editForm.public_time"
+                    style="width: 100%" size="mini" value-format="yyyy-MM-dd 00:00:00">
+                  </el-date-picker>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <!-- 授权编号，授权日期 -->
+            <el-row :gutter="20">
+              <el-col :span="12">
+                <el-form-item label="授权编号:" prop="authorization_number">
+                  <el-input v-model="editForm.authorization_number" size="mini"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="授权日期:" prop="authorization_time">
+                  <el-date-picker placeholder="请选择日期" v-model="editForm.authorization_time"
+                    style="width: 100%" size="mini" value-format="yyyy-MM-dd 00:00:00"> </el-date-picker>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-form-item label="作者:" prop="author" size="mini">
+                <el-button type="primary" size="mini" @click="addMemberDialogVisible = true">添加作者</el-button>
+              </el-form-item>
+            </el-row>
+            <el-table :data="memberList" style="width: 100%" ref="authorTableRef" size="mini" border height="250px"
+              :header-cell-style="{ background: '#f5f7fa' }"  :default-sort="{prop: 'contribution', order: 'descending'}">
+              <!-- 序号列 -->
+              <el-table-column type="index" label="#" align="center"></el-table-column>
+              <el-table-column prop="name" label="作者姓名" align="center"></el-table-column>
+              <el-table-column prop="role_name" label="成员类型" align="center"></el-table-column>
+              <el-table-column prop="department_name" label="归属单位" align="center">
+                <template slot-scope="scope">{{ departmentObj[scope.row.department_id] }}</template>
+              </el-table-column>
+              <el-table-column prop="contribution" label="贡献率" align="center">
+                <template slot-scope="scope">{{scope.row.contribution + '%'}}</template>
+              </el-table-column>
+              <el-table-column label="操作" align="center" width="120px">
+                <template slot-scope="scope">
+                  <el-button type="primary" icon="el-icon-edit" size="mini" @click="showEditMemberDialog(scope.row)"></el-button>
+                  <el-button type="danger" icon="el-icon-delete" size="mini" @click="deleteMember(scope.row.user_id)"></el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+          </el-col>
+        </el-row>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="addPatentsDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="editPatents">确 定</el-button>
+      </span>
+    </el-dialog>
+    <!-- 编辑成果获奖对话框中添加作者对话框 -->
+    <el-dialog title="添加作者" :visible.sync="addMemberDialogVisible" width="40%" @closed="addMemberDialogClosed">
+      <el-form :model="addMemberForm" :rules="addMemberFormRules" ref="addMemberFormRef" label-width="100px">
+        <el-form-item label="作者姓名：" prop="author_info">
+          <el-select v-model="addMemberForm.user_id" remote placeholder="请输入作者姓名" :remote-method="getLeaderList" filterable
+            :loading="loadingLeaderList" style="width: 100%;" @change="addMemberSelectionChanged">
+            <el-option v-for="item in leaderList" :key="item.user_id" :value="item.user_id" :label="item.user_name">
+              <span style="float: left">{{ item.user_name }}</span>
+              <span style="float: right; color: #8492a6; font-size: 13px">{{ item.user_id }}</span>
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="作者类型：" prop="author_type">
+          <el-input v-model="addMemberForm.role_name" disabled placeholder="请输入作者姓名"></el-input>
+        </el-form-item>
+        <el-form-item label="归属单位：" prop="author_department">
+          <el-input v-model="addMemberForm.department_name" disabled placeholder="请输入作者姓名"></el-input>
+        </el-form-item>
+        <el-form-item label="贡献率：">
+          <el-input-number v-model="addMemberForm.contribution" controls-position="right" :min="1" :max="100" style="width: 100px">
+          </el-input-number>
+          <span>  %</span>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="addMemberDialogVisble = false">取 消</el-button>
+        <el-button type="primary" @click="addMember">确 定</el-button>
+      </span>
+    </el-dialog>
+    <!-- 编辑著作对话框中的编辑作者对话框 -->
+    <el-dialog title="编辑作者" :visible.sync="editMemberDialogVisible" width="40%" @closed="editMemberDialogClosed">
+      <el-form :model="editMemberForm" :rules="editMemberFormRules" ref="editMemberFormRef" label-width="100px">
+        <el-form-item label="作者姓名：" prop="user_id">
+          <el-select v-model="editMemberForm.user_id" remote placeholder="请输入作者姓名" :remote-method="getLeaderList" filterable
+            :loading="loadingLeaderList" style="width: 100%;" @change="editMemberSelectionChanged" disabled>
+            <el-option v-for="item in leaderList" :key="item.user_id" :value="item.user_id" :label="item.user_name">
+              <span style="float: left">{{ item.user_name }}</span>
+              <span style="float: right; color: #8492a6; font-size: 13px">{{ item.user_id }}</span>
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="作者类型：" prop="role_name">
+          <el-input v-model="editMemberForm.role_name" disabled placeholder="请输入作者姓名"></el-input>
+        </el-form-item>
+        <el-form-item label="归属单位：" prop="department_name">
+          <el-input v-model="editMemberForm.department_name" disabled placeholder="请输入作者姓名"></el-input>
+        </el-form-item>
+        <el-form-item label="贡献率：" prop="contribution">
+          <el-input-number v-model="editMemberForm.contribution" controls-position="right" :min="1" :max="100" style="width: 100px">
+          </el-input-number>
+          <span>  %</span>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="editMemberDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="editMember">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import { stringify } from 'qs';
 export default {
   data() {
     return {
@@ -378,9 +563,9 @@ export default {
         application_number: [{ required: true, message: "请输入申请编号", trigger: "blur" }],
         public_number: [{ required: true, message: "请输入公开编号", trigger: "blur" }],
         authorization_number: [{ required: true, message: "请输入授权编号", trigger: "blur" }],
-        application_time: [{ type: "date", required: true, message: "请选择申请日期", trigger: "change" }],
-        public_time: [{ type: "date", required: true, message: "请选择公开日期", trigger: "change" }],
-        authorization_time: [{ type: "date", required: true, message: "请选择授权日期", trigger: "change" }],
+        application_time: [{ required: true, message: "请选择申请日期", trigger: "change" }],
+        public_time: [{ required: true, message: "请选择公开日期", trigger: "change" }],
+        authorization_time: [{ required: true, message: "请选择授权日期", trigger: "change" }],
         aod_id: [{ required: true, message: "请选择成果归属单位", trigger: "change" }]
       },
       // 作者列表查询表单
@@ -427,7 +612,26 @@ export default {
       // 正在编辑的位置
       editAuthorIndex: '',
       // 编辑作者表单验证对象
-      editAuthorFormRules: {}
+      editAuthorFormRules: {},
+      // 编辑专利成果对话框显示控制变量
+      editPatentsDialogVisible: false,
+      // 编辑专利成果表单对象
+      editForm: {},
+      // 编辑成果对话框中成员信息列表
+      memberList: [],
+      addMemberDialogVisible: false,
+      addMemberForm: {
+        user_id: '',
+        contribution: 1
+      },
+      addMemberFormRules: {
+        user_id: [{ required: true, message: '请输入作者姓名', trigger: 'change' }],
+      },
+      editMemberDialogVisible: false,
+      editMemberForm: {},
+      editMemberFormRules: {
+        user_id: [{ required: true, message: '请输入作者姓名', trigger: 'change' }],
+      },
     };
   },
   async created() {
@@ -652,6 +856,97 @@ export default {
       if(res2.status !== '200') return this.$message.error('删除专利成果失败')
       this.$message.success('删除专利成果成功')
       this.getPatentList()
+    },
+    // 获取团队成员列表
+    async getMemberList(patent_id) {
+      console.log(patent_id)
+      const { data: res } = await this.$http.post('/team/selectPatentTeam', stringify({ patent_id: patent_id }))
+      console.log(res)
+      if( res.status !== '200' ) return this.$message.error('获取团队成员失败')
+      this.memberList = res.data
+      console.log(this.memberList)
+    },
+    // 点击成果获奖列表中的编辑按钮，显示编辑成果获奖对话框
+    async showEditPatentDialog(patent_id) {
+      const { data: res } = await this.$http.post('/patent/findPatentById', stringify({ patent_id: patent_id }))
+      if( res.status !== '200' ) return this.$message.error('获取成果获奖信息失败')
+      this.editForm = res.data
+      this.getMemberList(patent_id)
+      this.editPatentsDialogVisible = true
+    },
+    // 编辑成果获奖对话框关闭事件，清空编辑成果获奖表单对象
+    editPatentsDialogClosed() {
+      this.$refs.editFormRef.resetFields()
+    },
+    addMemberDialogClosed() {
+      this.$refs.addMemberFormRef.resetFields()
+    },
+    addMemberSelectionChanged(user_id) {
+      this.leaderList.forEach(item => {
+        if(item.user_id === user_id) {
+          this.addMemberForm.role_name = item.role_name
+          this.addMemberForm.department_name = this.departmentObj[item.department_id]
+          return
+        }
+      })
+    },
+    async deleteMember(user_id) {
+      const res2 = await this.$confirm('此操作将永久删除该作者，是否继续？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).catch(err => err)
+      if( res2 === 'cancel' ) return this.$message.info('取消了本次操作')
+      const { data: res } = await this.$http.post('/team/delPatentTeamUser', stringify({ patent_id: this.editForm.patent_id, user_id: user_id }))
+      if( res.status !== '200' ) return this.$message.error('删除团队成员失败')
+      this.$message.success('删除团队成员成功')
+      await this.getMemberList(this.editForm.patent_id)
+    },
+    async addMember() {
+      var postObj = JSON.parse(JSON.stringify(this.addMemberForm))
+      postObj.patent_id = this.editForm.patent_id
+      console.log(postObj)
+      const { data: res } = await this.$http.post('/team/addPatentTeamUser', this.$qs.stringify(postObj))
+      if( res.status !== '200' ) return this.$message.error('添加团队成员失败')
+      this.$message.success('添加团队成员成功')
+      await this.getMemberList(this.editForm.patent_id)
+      this.addMemberDialogVisible = false
+    },
+    editMemberDialogClosed() {
+      this.$refs.editMemberFormRef.resetFields()
+    },
+    async showEditMemberDialog(val) {
+      console.log(val)
+      this.editMemberForm = JSON.parse(JSON.stringify(val))
+      await this.getLeaderList(this.editMemberForm.name)
+      await this.editMemberSelectionChanged(this.editMemberForm.user_id)
+      this.editMemberDialogVisible = true
+    },
+    editMemberSelectionChanged(user_id) {
+      this.leaderList.forEach(item => {
+        if(item.user_id === user_id) {
+          this.editMemberForm.user_name = item.user_name
+          this.editMemberForm.department_name = this.departmentObj[item.department_id]
+          return
+        }
+      })
+    },
+    async editMember() {
+      var postObj = JSON.parse(JSON.stringify( this.editMemberForm ))
+      postObj.patent_id = this.editForm.patent_id
+      const { data: res } = await this.$http.post('/team/updatePatentTeamUser', this.$qs.stringify(postObj))
+      if( res.status !== '200' ) return this.$message.error('编辑作者信息失败')
+      this.$message.success('编辑作者信息成功')
+      await this.getMemberList(this.editForm.patent_id)
+      this.editMemberDialogVisible = false  
+    },
+    // 上传编辑成果获奖信息
+    async editPatents() {
+      const { data: res } = await this.$http.post('/patent/updatePatent', stringify(this.editForm))
+      if( res.status !== '200' ) return this.$message.error('上传编辑成果获奖信息失败')
+      this.$message.success('上传编辑成果获奖信息成功')
+      this.getPatentList()
+      this.editPatentsDialogVisible = false
     }
   },
 };
