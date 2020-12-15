@@ -35,7 +35,7 @@
             </el-card>
           </el-col>
           <el-col :span="16">
-            <el-card  style="height: 107vh;">
+            <el-card  style="height: 107vh; overflow: auto; white-space: nowrap">
               <el-row v-for="item in allAuthList" :key="item.id" :class="['vcenter', showTag(item.id)?'borderBottom':'']">
                 <el-col :span="5">
                   <el-tag type="warning" v-if="showTag(item.id)">{{item.title}}</el-tag>
@@ -95,152 +95,7 @@ export default {
       // 角色权限id列表，列表
       authArr: [],
       // 所有权限列表，树形
-      allAuthList: [{
-        id: 1,
-        title: '科研项目',
-        resourcePath: 0,
-        childrenPermissions: [{
-          id: 6,
-          title: '科研项目',
-          resourcePath: 'projects',
-          childrenPermissions: [
-              { id: 18, title: '查看科研项目', resourcePath: 'projects/query' },
-              { id: 19, title: '管理科研项目', resourcePath: 'projects/manage' }
-            ]
-          }]
-        }, {
-          id: 2,
-          title: '科研成果',
-          resourcePath: 0,
-          childrenPermissions: [{
-            id: 7,
-            title: '论文成果',
-            resourcePath: 'papers',
-            childrenPermissions: [
-              { id: 20, title: '查看论文成果', resourcePath: 'papers/query' },
-              { id: 21, title: '管理论文成果', resourcePath: 'papers/manage' }
-            ]
-          }, {
-          id: 8,
-          title: '著作成果',
-          resourcePath: 'books',
-          childrenPermissions: [
-            { id: 22, title: '查看著作成果', resourcePath: 'books/query' },
-            { id: 23, title: '管理著作成果', resourcePath: 'books/manage' }
-          ]
-        }, {
-          id: 9,
-          title: '科研成果获奖',
-          resourcePath: 'awards',
-          childrenPermissions: [
-            { id: 24, title: '查看成果获奖', resourcePath: 'awards/query' },
-            { id: 25, title: '管理成果获奖', resourcePath: 'awards/manage' }
-          ]
-        }, {
-          id: 10,
-          title: '专利与产品',
-          resourcePath: 'patents',
-          childrenPermissions: [
-            { id: 26, title: '查看专利产品', resourcePath: 'patents/query' },
-            { id: 27, title: '管理专利产品', resourcePath: 'patents/manage' }
-          ]
-        }]
-      }, {
-        id: 3,
-        title: '项目经费',
-        resourcePath: 0,
-        childrenPermissions: [{
-          id: 11,
-          title: '管理项目经费',
-          resourcePath: 'funding',
-          childrenPermissions: [{ id: 28, title: '管理项目经费', resourcePath: 0 }]
-        }]
-      }, {
-        id: 4,
-        title: '科研考核',
-        resourcePath: 0,
-        childrenPermissions: [{
-          id: 12,
-          title: '考核结果',
-          resourcePath: 'assess',
-          childrenPermissions: [{ id: 29, title: '查看考核结果', resourcePath: 0 }]
-        }]
-      }, {
-        id: 5,
-        title: '审核申请',
-        resourcePath: 0,
-        childrenPermissions: [{
-          id: 13,
-          title: '审核项目申请',
-          resourcePath: 'checkproject',
-          childrenPermissions: [{ id: 30, title: '审核项目申请', resourcePath: 0 }]
-        }, {
-          id: 14,
-          title: '审核论文成果申请',
-          resourcePath: 'checkpapers',
-          childrenPermissions: [{ id: 31, title: '审核论文成果申请', resourcePath: 0 }]
-        }, {
-          id: 15,
-          title: '审核著作成果申请',
-          resourcePath: 'checkbooks',
-          childrenPermissions: [{ id: 32, title: '审核著作成果申请', resourcePath: 0 }]
-        }, {
-          id: 16,
-          title: '审核科研获奖申请',
-          resourcePath: 'checkawards',
-          childrenPermissions: [{ id: 33, title: '审核科研获奖申请', resourcePath: 0 }]
-        }, {
-          id: 17,
-          title: '审核专利产品申请',
-          resourcePath: 'checkproducts',
-          childrenPermissions: [{ id: 34, title: '审核专利产品申请', resourcePath: 0 }]
-        }]
-      }, {
-        id: 35,
-        title: '用户管理',
-        resourcePath: 0,
-        childrenPermissions: [{
-          id: 38,
-          title: '编辑用户信息',
-          resourcePath: 'userEdit',
-          childrenPermissions: [{ id: 42, title: '编辑用户信息', resourcePath: 0 }]
-        }]
-      }, {
-        id: 36,
-        title: '权限管理',
-        resourcePath: 0,
-        childrenPermissions: [{
-          id: 39,
-          title: '管理角色',
-          resourcePath: 'roleEdit',
-          childrenPermissions: [{ id: 43, title: '管理角色', resourcePath: 0 }]
-        }, {
-          id: 40,
-          title: '分配角色',
-          resourcePath: 'assignRole',
-          childrenPermissions: [{ id: 44, title: '分配角色', resourcePath: 0 }]
-        }]
-      }, {
-        id: 37,
-        title: '数据管理',
-        resourcePath: 0,
-        childrenPermissions: [{
-          id: 41,
-          title: '管理字典数据',
-          resourcePath: 'data',
-          childrenPermissions: [{ id: 45, title: '管理字典数据', resourcePath: 0 }]
-        }]
-      }, {
-        id: 46,
-        title: '安全日志',
-        resourcePath: '',
-        childrenPermissions: [{
-          id: 47,
-          title: '查看安全日志',
-          resourcePath: '/logs',
-          childrenPermissions: [{ id: 48, title: '查看安全日志', resourcePath: '' }]
-        }]
-      }],
+      allAuthList: [],
       // 权限编辑树形控件属性对象
       authTreeProps: {
         children: 'childrenPermissions',
@@ -264,8 +119,15 @@ export default {
   },
   created() {
     this.getRoleList()
+    this.getAllAuthTree()
   },
   methods: {
+    // 获取总权限列表
+    async getAllAuthTree() {
+      const { data: res } = await this.$http.post('/user/queryAllPermission')
+      if( res.status !== '200' ) return this.$message.error('获取全部权限列表失败')
+      this.allAuthList = res.data
+    },
     // 获取角色列表
     async getRoleList() {
       const { data: res } = await this.$http.post('/role/findAllRole')

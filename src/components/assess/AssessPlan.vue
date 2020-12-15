@@ -3,20 +3,18 @@
     <!-- 面包屑导航区域 -->
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>数据管理</el-breadcrumb-item>
-      <el-breadcrumb-item>管理字典数据</el-breadcrumb-item>
+      <el-breadcrumb-item>科研考核</el-breadcrumb-item>
+      <el-breadcrumb-item>考核方案</el-breadcrumb-item>
     </el-breadcrumb>
 
     <el-card>
       <el-table :header-cell-style="{background: '#f5f7fa'}" :data="dataList" style="width: 100%" border>
         <el-table-column type="index" label="#"></el-table-column>
         <el-table-column prop="cname" label="字典名称"></el-table-column>
-        <el-table-column label="简单说明"></el-table-column>
+        <el-table-column label="简单说明" prop="describe"></el-table-column>
         <el-table-column label="操作" width="200px">
           <template slot-scope="scope">
-            <el-button size="mini" type="primary" icon="el-icon-edit" @click="showEditDataDialog(scope.row)">
-              编辑
-            </el-button>
+            <el-button size="mini" type="primary" icon="el-icon-edit" @click="preShowDialog(scope.row)">编辑</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -29,7 +27,8 @@
         <el-table-column type="index" label="#"></el-table-column>
         <el-table-column :prop="dictInfo.id" label="编号"></el-table-column>
         <el-table-column :prop="dictInfo.name" label="名称"></el-table-column>
-        <el-table-column label="操作">
+        <el-table-column :prop="dictInfo.score" label="考核分数"></el-table-column>
+        <el-table-column label="操作" width="200px">
           <template slot-scope="scope">
             <el-button icon="el-icon-edit" size="mini" type="primary" @click="showEditDialog(scope.row)">编辑</el-button>
             <el-button icon="el-icon-delete" size="mini" type="danger" @click="deleteDataById(scope.row)">删除</el-button>
@@ -47,6 +46,9 @@
       <el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-width="100px">
         <el-form-item label="名称：" prop="name">
           <el-input v-model="addForm.name"></el-input>
+        </el-form-item>
+        <el-form-item label="考核分数：" prop="score">
+          <el-input v-model="addForm.score" onkeyup="value=value.replace(/[^\d]/g,'')"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -74,57 +76,9 @@
 export default {
   data() {
     return {
-      // 字典列表
       dataList: [{
-        cname: '成果类型', id: 'at_id', name: 'at_name',
-        path: {
-          add: '/achievementType/addAchievementType',
-          delete: '/achievementType/delAchievementType',
-          update: '/achievementType/updateAchievementType',
-          get: '/achievementType/findAllAchievementType'
-        }
-      }, {
-        cname: '获奖等级', id: 'al_id', name: 'al_name',
-        path: {
-          add: '/awardLevel/addAwardLevel',
-          delete: '/awardLevel/delAwardLevel',
-          update: '/awardLevel/updateAwardLevel',
-          get: '/awardLevel/findAllAwardLevel'
-        }
-      }, {
-        cname: '获奖级别', id: 'ar_id', name: 'ar_name',
-        path: {
-          add: '/awardRank/addAwardRank',
-          delete: '/awardRank/delAwardRank',
-          update: '/awardRank/updateAwardRank',
-          get: '/awardRank/findAllAwardRank'
-        }
-      }, {
-        cname: '著作类型', id: 'bt_id', name: 'bt_name',
-        path: {
-          add: '/bookType/addBookType',
-          delete: '/bookType/delBookType',
-          update: '/bookType/updateBookType',
-          get: '/bookType/findAllBookType'
-        }
-      }, {
-        cname: '结题形式', id: 'ct_id', name: 'ct_name',
-        path: {
-          add: '/conclusionType/addConclusionType',
-          delete: '/conclusionType/delConclusionType',
-          update: '/conclusionType/updateConclusionType',
-          get: '/conclusionType/findAllConclusionType'
-        }
-      }, {
-        cname: '归属单位', id: 'department_id', name: 'department_name',
-        path: {
-          add: '/department/addDepartment',
-          delete: '/department/delDepartment',
-          update: '/department/updateDepartment',
-          get: '/department/findAllDepartment'
-        }
-      }, {
-        cname: '项目级别', id: 'level_id', name: 'level_name',
+        cname: '项目级别', id: 'level_id', name: 'level_name', score: 'pl_score',
+        describe: '项目级别',
         path: {
           add: '/level/addLevel',
           delete: '/level/delLevel',
@@ -132,63 +86,26 @@ export default {
           get: '/level/findAllLevel'
         }
       }, {
-        cname: '翻译语种', id: 'language_id', name: 'language_name',
+        cname: '获奖等级', id: 'al_id', name: 'al_name', score: 'al_score',
+        describe: '获奖等级',
         path: {
-          add: '/language/addLanguage',
-          delete: '/language/delLanguage',
-          update: '/language/updateLanguage',
-          get: '/language/findAllLanguage'
+          add: '/awardLevel/addAwardLevel',
+          delete: '/awardLevel/delAwardLevel',
+          update: '/awardLevel/updateAwardLevel',
+          get: '/awardLevel/findAllAwardLevel'
         }
       }, {
-        cname: '项目性质', id: 'nature_id', name: 'nature_name',
+        cname: '获奖级别', id: 'ar_id', name: 'ar_name', score: 'ar_score',
+        describe: '获奖级别',
         path: {
-          add: '/nature/addNature',
-          delete: '/nature/delNature',
-          update: '/nature/updateNature',
-          get: '/nature/findAllNature'
+          add: '/awardRank/addAwardRank',
+          delete: '/awardRank/delAwardRank',
+          update: '/awardRank/updateAwardRank',
+          get: '/awardRank/findAllAwardRank'
         }
       }, {
-        cname: '论文类型', id: 'pt_id', name: 'pt_name',
-        path: {
-          add: '/paperType/addPaperType',
-          delete: '/paperType/delPaperType',
-          update: '/paperType/updatePaperType',
-          get: '/paperType/findAllPaperType'
-        }
-      }, {
-        cname: '专利范围', id: 'pr_id', name: 'pr_name',
-        path: {
-          add: '/patentRange/addPatentRange',
-          delete: '/patentRange/delPatentRange',
-          update: '/patentRange/updatePatentRange',
-          get: '/patentRange/findAllPatentRange'
-        }
-      }, {
-        cname: '专利状态', id: 'ps_id', name: 'ps_name',
-        path: {
-          add: '/patentStatus/addPatentStatus',
-          delete: '/patentStatus/delPatentStatus',
-          update: '/patentStatus/updatePatentStatus',
-          get: '/patentStatus/findAllPatentStatus'
-        }
-      }, {
-        cname: '专利类型', id: 'pt_id', name: 'pt_name',
-        path: {
-          add: '/patentType/addPatentType',
-          delete: '/patentType/delPatentType',
-          update: '/patentType/updatePatentType',
-          get: '/patentType/findAllPatentType'
-        }
-      }, {
-        cname: '期刊', id: 'periodical_id', name: 'periodical_name',
-        path: {
-          add: '/periodical/addPeriodical',
-          delete: '/periodical/delPeriodical',
-          update: '/periodical/updatePeriodical',
-          get: '/periodical/findAllPeriodical'
-        }
-      }, {
-        cname: '出版社等级', id: 'pl_id', name: 'pl_name',
+        cname: '出版社等级', id: 'pl_id', name: 'pl_name', score: 'bpl_score',
+        describe: '出版社等级',
         path: {
           add: '/pressLevel/addPressLevel',
           delete: '/pressLevel/delPressLevel',
@@ -196,45 +113,17 @@ export default {
           update: '/pressLevel/updatePressLevel'
         }
       }, {
-        cname: '出版地', id: 'pp_id', name: 'pp_name',
+        cname: '期刊', id: 'periodical_id', name: 'periodical_name', score: 'pp_score',
+        describe: '期刊',
         path: {
-          add: '/publicationPlace/addPublicationPlace',
-          delete: '/publicationPlace/delPublicationPlace',
-          get: '/publicationPlace/findAllPublicationPlace',
-          update: '/publicationPlace/updatePublicationPlace'
+          add: '/periodical/addPeriodical',
+          delete: '/periodical/delPeriodical',
+          update: '/periodical/updatePeriodical',
+          get: '/periodical/findAllPeriodical'
         }
       }, {
-        cname: '研究类型', id: 'rt_id', name: 'rt_name',
-        path: {
-          add: '/researchType/addResearchType',
-          delete: '/researchType/delResearchType',
-          get: '/researchType/findAllResearchType',
-          update: '/researchType/updateResearchType'
-        }
-      }, {
-        cname: '项目状态', id: 'status_id', name: 'status_name',
-        path: {
-          add: '/status/addStatus',
-          delete: '/status/delStatus',
-          get: '/status/findAllStatus',
-          update: '/status/updateStatus'
-        }
-      }, {
-        cname: '学科门类', id: 'sc_id', name: 'sc_name',
-        path: {
-          add: '/category/addSubjectCategory',
-          delete: '/category/delSubjectCategory',
-          get: '/category/findAllSubjectCategory',
-          update: '/category/updateSubjectCategory'
-        }
-      }, {
-        cname: '一级学科', id: 'subject_id', name: 'subject_name',
-        path: {
-          add: '/subject/addSubject',
-          delete: '/subject/delSubject',
-          get: '/subject/findAllSubject',
-          update: '/subject/updateSubject'
-        }
+        cname: '项目经费',
+        describe: '项目经费'
       }],
       // 控制编辑对话框显示与隐藏变量
       editDictDialogVisible: false,
@@ -245,9 +134,12 @@ export default {
       // 控制添加对话框显示与隐藏变量
       addDialogVisible: false,
       // 添加数据项表单
-      addForm: { name: '' },
+      addForm: { name: '', score: '' },
       // 添加数据验证表单
-      addFormRules: { name: [{ required: true, message: '请输入名称！', trigger: 'blur' }] },
+      addFormRules: {
+        name: [{ required: true, message: '请输入名称！', trigger: 'blur' }],
+        score: [{ required: true, message: '请输入考核分数！', trigger: 'blur' }]
+      },
       // 控制编辑对话框的显示与隐藏变量
       editDialogVisible: false,
       // 编辑数据项表单
@@ -260,6 +152,14 @@ export default {
 
   },
   methods: {
+    // 打开不同类型的对话框
+    preShowDialog(row) {
+      if(row.cname === '项目经费') {
+        console.log('项目经费对话框开启')
+      } else {
+        this.showEditDataDialog(row)
+      }
+    },
     // 获取字典数据项列表
     async getDictDataList() {
       const { data: res } = await this.$http.post(this.dictInfo.path.get)
@@ -282,6 +182,7 @@ export default {
         if(!valid) return
         var postObj = {}
         postObj[this.dictInfo.name] = this.addForm.name
+        postObj[this.dictInfo.score] = this.addForm.score
         const { data: res } = await this.$http.post(this.dictInfo.path.add, this.$qs.stringify(postObj))
         if(res.status !== '200') return this.$message.error('添加数据失败')
         this.$message.success('添加数据成果')
@@ -315,6 +216,7 @@ export default {
       var postObj = {}
       postObj[this.dictInfo.id] = this.editForm.id
       postObj[this.dictInfo.name] = this.editForm.name
+      postObj[this.dictInfo.score] = this.editForm.score
       const { data: res } = await this.$http.post(this.dictInfo.path.update, this.$qs.stringify(postObj))
       if( res.status !== '200' ) return this.$message.error('编辑数据失败')
       this.$message.success('编辑数据成功')

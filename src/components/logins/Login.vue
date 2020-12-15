@@ -23,7 +23,7 @@
       </div>
     </el-form>
     <!-- 注册 -->
-    <el-dialog append-to-body :visible.sync="registerDialogVisible" width="20%" @close="registerDialogClosed" title="注册">
+    <el-dialog append-to-body :visible.sync="registerDialogVisible" width="25%" @close="registerDialogClosed" title="注册">
       <el-form :model="registerForm" :rules="registerFormRules" ref="registerFormRef" label-width="0px" size="mini">
         <el-form-item prop="user_act">
           <el-input class="input" placeholder="请输入用户名" prefix-icon="el-icon-user" v-model="registerForm.user_act" auto-complete="new-password"></el-input>
@@ -52,9 +52,13 @@
         <el-form-item prop="user_number">
           <el-input class="input" prefix-icon="el-icon-s-custom" placeholder="请输入学号/职工号" v-model="registerForm.user_number"></el-input>
         </el-form-item>
+        <!-- 姓名 -->
+        <el-form-item prop="user_name">
+          <el-input class="input" prefix-icon="el-icon-postcard" placeholder="请输入姓名" v-model="registerForm.user_name"></el-input>
+        </el-form-item>
         <!-- 部门 -->
-        <el-form-item prop="department">
-          <el-select prefix-icon="el-icon-s-custom" v-model="registerForm.depatement" placeholder="请选择部门" size="mini" style="width: 100% ">
+        <el-form-item prop="department_id">
+          <el-select prefix-icon="el-icon-s-custom" v-model="registerForm.department_id" placeholder="请选择部门" size="mini" style="width: 100% ">
             <el-option v-for="item in departmentList" :label="item.department_name" :value="item.department_id" :key="item.department_id">
             </el-option>
           </el-select>
@@ -82,6 +86,7 @@
 </template>
 
 <script>
+import { stringify } from 'qs';
 export default {
   data() {
     var validatePass = (rule, value, callback) => {
@@ -93,6 +98,18 @@ export default {
         callback();
       }
     };
+    var validateCheckCode = async (rule, value, callback) => {
+      if( value === '' ) {
+        callback(new Error('请输入验证码'))
+      } else {
+        const { data: res } = await this.$http.post('/user/checkCode', stringify({ check_code: value }))
+        if(res.status !== '200') {
+          callback(new Error('请输入正确的验证码'))
+        } else {
+          callback()
+        }
+      }
+    }
     return {
       registerForm: {
         user_act: "",
@@ -101,14 +118,16 @@ export default {
         user_email: "",
         role_id: "",
         user_number: "",
+        user_name: '',
         yzm: "",
-        department: "",
+        department_id: "",
+        user_state: 0
       },
       // 表单验证规则对象
       registerFormRules: {
         user_act: [
           { required: true, message: "请输入用户名", trigger: "blur" },
-          { min: 2, max: 7, message: "长度在 2 到 7 个字符" },
+          { min: 2, max: 11, message: "长度在 2 到 11 个字符" },
         ],
         user_pwd: [
           { required: true, message: "请输入密码", trigger: "blur" },
@@ -133,17 +152,12 @@ export default {
         user_number: [
           { required: true, message: "请输入学号或者职工号", trigger: "blur" },
         ],
-        user_identity: [
+        user_name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
+        role_id: [
           { required: true, message: "请选择身份", trigger: "change" },
         ],
-        yzm: [{ required: true, message: "请输入邮箱验证码", trigger: "blur" }],
-        department: [
-          {
-            required: true,
-            message: "请选择部门",
-            trigger: "change",
-          },
-        ],
+        yzm: [{ validator: validateCheckCode, trigger: "blur" }],
+        department_id: [{ required: true, message: "请选择部门", trigger: "change" }],
       },
       registerDialogVisible: false,
       // 表单绑定对象
@@ -191,7 +205,13 @@ export default {
     },
 
     register() {
-      this.$refs.registerFormRef.validate(async (valid) => {});
+      this.$refs.registerFormRef.validate(async (valid) => {
+        const { data: res } = await this.$http.post('/user/register', stringify(this.registerForm))
+        console.log(res)
+        if( res.status !== '200' ) return this.$message.error(res.msg)
+        this.$message.success('注册账号成功')
+        this.registerDialogVisible = false
+      });
     },
     resetForm() {
       this.$refs.registerFormRef.resetFields();
@@ -199,7 +219,13 @@ export default {
     registerDialogClosed() {
       this.$refs.registerFormRef.resetFields();
     },
-    sendyzm() {},
+    async sendyzm() {
+      var reg = /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
+      if(!reg.test(this.registerForm.user_email)) return
+      const { data: res } = await this.$http.post('/user/addCode', stringify({ user_email: this.registerForm.user_email }))
+      if(res.status !== '200') return this.$message.error('邮箱验证码发送失败')
+      this.$message.success('邮箱验证码发送成功')
+    },
   },
 };
 </script>

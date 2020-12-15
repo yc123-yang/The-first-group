@@ -29,8 +29,9 @@ import CheckPapers from '../components/check/CheckPapers.vue'
 import CheckPatents from '../components/check/CheckPatents.vue'
 import CheckAwards from '../components/check/CheckAwards.vue'
 import Data from '../components/Data.vue'
-import Assess from '../components/Assess.vue'
+import Assess from '../components/assess/Assess.vue'
 import UserEdit from '../components/UserEdit.vue'
+import AssessPlan from '../components/assess/AssessPlan.vue'
 
 Vue.use(VueRouter)
 axios.defaults.baseURL = 'http://localhost:8080/'
@@ -101,7 +102,8 @@ const routes = [
       { path: '/checkpatents', component: CheckPatents },
       { path: '/data', component: Data },
       { path: '/assess', component: Assess },
-      { path: '/userEdit', component: UserEdit }
+      { path: '/userEdit', component: UserEdit },
+      { path: '/assessPlan', component: AssessPlan }
     ]
   }
 ]
