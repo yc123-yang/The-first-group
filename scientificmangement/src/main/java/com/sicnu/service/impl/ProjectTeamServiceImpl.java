@@ -27,16 +27,18 @@ public class ProjectTeamServiceImpl implements ProjectTeamService {
     ProjectTeamMapper projectTeamMapper;
 
     @Resource
-    UserMapper userMapper;
-
-    @Resource
     RoleMapper roleMapper;
     private Result rs = null;
     @Override
     public Result addProjectTeamUser(Integer project_id, Integer user_id, String team_role) {
         try {
-                projectTeamMapper.addProjectTeamUser(project_id, user_id,team_role);
-                rs = new Result("200", "成员添加成功", null);
+                ProjectTeam projectTeam = projectTeamMapper.selectProjectId(user_id, project_id);
+                if (projectTeam!=null){
+                    rs = new Result("400", "该成员已经存在", null);
+                }else{
+                    projectTeamMapper.addProjectTeamUser(project_id, user_id,team_role);
+                    rs = new Result("200", "成员添加成功", null);
+                }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -46,8 +48,13 @@ public class ProjectTeamServiceImpl implements ProjectTeamService {
     @Override
     public Result delProjectTeamUser(Integer project_id,Integer user_id) {
         try {
-            projectTeamMapper.delProjectTeamUser(project_id,user_id);
-            rs = new Result("200", "删除成功", null);
+            ProjectTeam projectTeam = projectTeamMapper.selectProjectId(user_id, project_id);
+            if (projectTeam==null){
+                rs = new Result("400", "该成员不存在", null);
+            }else{
+                projectTeamMapper.delProjectTeamUser(project_id,user_id);
+                rs = new Result("200", "删除成功", null);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -30,4 +30,5 @@
         where
         periodical_id = #{periodical_id}
     </delete>
+
 </mapper>

@@ -172,7 +172,7 @@ public class PatentServiceImpl implements PatentService {
             List<UserAuth> userAuths = roleAuthMapper.findUserAuth(user.getRole_id());
             int cnt =0;
             for (UserAuth userAuth : userAuths) {
-                if (userAuth.getAuth_resource().equals("/allPatent")){
+                if (userAuth.getAuth_resource().equals("/patents/allPatents")){
                     cnt=1;
                 }
             }

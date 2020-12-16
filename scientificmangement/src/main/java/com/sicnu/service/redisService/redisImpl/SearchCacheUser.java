@@ -6,6 +6,8 @@ import com.sicnu.pojo.CacheUser;
 import com.sicnu.service.redisService.SearchCacheUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -25,6 +27,7 @@ public class SearchCacheUser implements SearchCacheUserService {
     CacheUserMapper cacheUserMapper;
 
     public List searchCacheUser() {
+
         List list = new ArrayList<>();
         if (redisUtil.hasKey("cacheUserList")) {
             log.warn("从redis中获取数据.");

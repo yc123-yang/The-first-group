@@ -128,10 +128,6 @@
             <if test="word_number!=null and word_number!=''">
                 word_number = #{word_number},
             </if>
-
-            <if test="public_number!=null and public_number!=''">
-                public_number =#{public_number},
-            </if>
             <if test="trans!=null and trans!=''">
                 trans =#{trans},
             </if>
@@ -217,10 +213,6 @@
                 and rt_id =#{rt_id}
             </if>
         </where>
-        <if test="pageNum != null and pageSize != null">
-            <bind name="key_offset" value="(pageNum-1)*pageSize"></bind>
-            limit #{key_offset},#{pageSize}
-        </if>
     </select>
 
 

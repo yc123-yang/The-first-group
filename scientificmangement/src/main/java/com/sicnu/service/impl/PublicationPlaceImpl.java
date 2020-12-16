@@ -1,21 +1,29 @@
 package com.sicnu.service.impl;
 
 
+import com.sicnu.component.RedisUtil;
 import com.sicnu.mapper.PublicationPlaceMapper;
 import com.sicnu.pojo.PublicationPlace;
 import com.sicnu.service.PublicationPlaceService;
 import com.sicnu.util.Result;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
 
 @Service
+@Slf4j
 public class PublicationPlaceImpl implements PublicationPlaceService {
 
     @Resource
     PublicationPlaceMapper publicationPlaceMapper;
+    @Resource
+    private RedisUtil.redisList redisList;
 
+    @Autowired
+    private RedisUtil redisUtil;
     private Result rs;
 
     @Override
@@ -49,7 +57,17 @@ public class PublicationPlaceImpl implements PublicationPlaceService {
     @Override
     public Result findAllPublicationPlace() {
         try {
-            List<PublicationPlace> publicationPlaces = publicationPlaceMapper.findAllPublicationPlace();
+            List publicationPlaces = publicationPlaceMapper.findAllPublicationPlace();
+            if (redisUtil.hasKey("publicationPlaces")) {
+                log.warn("从redis中获取数据.");
+                publicationPlaces = redisList.get("publicationPlaces", 0, -1);
+            } else {
+                publicationPlaces = publicationPlaceMapper.findAllPublicationPlace();
+                log.warn("从数据库中获取数据.");
+                log.warn("将数据存入redis...");
+                redisList.set("publicationPlaces", publicationPlaces);
+                log.info("成功存入redis.");
+            }
             rs = new Result("200",null,publicationPlaces);
         } catch (Exception e) {
             e.printStackTrace();

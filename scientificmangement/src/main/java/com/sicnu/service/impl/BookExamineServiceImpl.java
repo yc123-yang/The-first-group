@@ -28,12 +28,12 @@ public class BookExamineServiceImpl implements BookExamineService {
 
     @Resource
     BookTeamExamineMapper bookTeamExamineMapper;
-    @Resource
-    CacheUserMapper cacheUserMapper;
+
     @Resource
     private HttpSession session;
     @Resource
     UserMapper userMapper;
+
     @Override
     public Result addBookExamine(BookExamine bookExamine,Integer[] user_id,Integer[] contribution) {
         try {

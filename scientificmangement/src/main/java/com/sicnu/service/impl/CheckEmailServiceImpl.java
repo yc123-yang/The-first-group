@@ -68,6 +68,10 @@ public class CheckEmailServiceImpl implements CheckEmailService {
         Result rs = null;
         try {
             CheckEmail check_email = check_emailDao.findByCode(check_code);
+            if (check_email!=null){
+                rs = new Result("401", "该验证码无效", null);
+                return rs;
+            }
             Date endTime = check_email.getOvertime();
             Date date = new Date();
             Date startTime = new Date(date.getTime());

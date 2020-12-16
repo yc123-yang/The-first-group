@@ -190,7 +190,7 @@ public class ProjectServiceImpl implements ProjectService {
             int cnt =0;
             for (UserAuth userAuth : userAuths) {
                 System.out.println(userAuth.getAuth_resource());
-                if (userAuth.getAuth_resource().equals("/allProject")){
+                if (userAuth.getAuth_resource().equals("/projects/allProjects")){
                     cnt=1;
                 }
             }

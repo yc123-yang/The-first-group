@@ -14,7 +14,7 @@ public interface ProjectTeamMapper {
 
     void delProjectTeamUser(Integer project_id,Integer user_id);
 
-    List<Integer> selectProject_id(Integer user_id);
+    ProjectTeam selectProjectId(Integer user_id,Integer project_id);
     List<ProjectTeamMap> selectProjectTeam(Integer project_id);
     void updateProjectTeamUser(ProjectTeam projectTeam);
 }

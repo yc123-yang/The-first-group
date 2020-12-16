@@ -7,7 +7,7 @@ import com.sicnu.util.Result;
 import java.util.List;
 
 public interface AuthService {
-    Result addAuth(String auth_name);
+    Result addAuth(Auth auth);
 
     Result delAuth(Integer auth_id);
 

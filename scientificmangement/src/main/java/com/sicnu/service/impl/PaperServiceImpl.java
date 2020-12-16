@@ -161,7 +161,7 @@ public class PaperServiceImpl implements PaperService {
             List<UserAuth> userAuths = roleAuthMapper.findUserAuth(user.getRole_id());
             int cnt =0;
             for (UserAuth userAuth : userAuths) {
-                if (userAuth.getAuth_resource().equals("/allPaper")){
+                if (userAuth.getAuth_resource().equals("/papers/allPapers")){
                     cnt=1;
                 }
             }

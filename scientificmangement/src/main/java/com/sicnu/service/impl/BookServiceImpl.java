@@ -138,7 +138,7 @@ public class BookServiceImpl implements BookService{
             List<UserAuth> userAuths = roleAuthMapper.findUserAuth(user.getRole_id());
             int cnt =0;
             for (UserAuth userAuth : userAuths) {
-                if (userAuth.getAuth_resource().equals("/allBook")){
+                if (userAuth.getAuth_resource().equals("/books/allBooks")){
                     cnt=1;
                 }
             }

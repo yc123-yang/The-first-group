@@ -22,11 +22,11 @@ public class AuthServiceImpl implements AuthService {
     private Result rs = null;
 
     @Override
-    public Result addAuth(String auth_name) {
+    public Result addAuth(Auth auth) {
         try {
-            Auth auth = authMapper.selectAuthByName(auth_name);
-            if (auth == null) {
-                authMapper.addAuth(auth_name);
+            Auth auth1 = authMapper.selectAuthByName(auth.getAuth_name());
+            if (auth1 == null) {
+                authMapper.addAuth(auth);
                 rs = new Result("200", "添加权限成功", null);
             } else {
                 rs = new Result("401", "该权限已存在", null);

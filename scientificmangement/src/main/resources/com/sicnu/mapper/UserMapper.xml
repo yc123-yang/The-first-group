@@ -88,7 +88,7 @@
         where role.role_id = #{role_id}
         and role.role_id = role_auth.role_id
         and auth.auth_id = role_auth.auth_id
-        and auth.open = 1
+
     </select>
     <select id="queryAllPermission" parameterType="int" resultType="Permission">
         select auth.auth_id id, auth_pid pid, auth_name title, auth_resource resourcePath, open isOpen
@@ -110,5 +110,17 @@
         where
         user_name like '%${user_name}%'
     </select>
+
+    <update id="updateUserMessage" parameterType="User">
+        update user
+        <trim prefix="set" suffix=",">
+            <if test="user_email!=null and user_email!=''">
+                user_email=#{user_email},
+            </if>
+            <if test="department_id!=null and department_id!=null">
+                department_id = #{department_id},
+            </if>
+        </trim>
+    </update>
 
 </mapper>

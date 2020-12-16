@@ -26,10 +26,12 @@
         and
         user_id = #{user_id}
     </delete>
-    <select id="selectProject_id" parameterType="ProjectTeam" resultType="int">
+    <select id="selectProjectId" parameterType="ProjectTeam" resultType="ProjectTeam">
         select project_id from project_team
         where
         user_id = #{user_id}
+        and
+        project_id = #{project_id}
     </select>
 
     <select id="selectProjectTeam" parameterType="int" resultType="com.sicnu.pojo.teamMap.ProjectTeamMap">

@@ -38,7 +38,11 @@ public class ProjectTeamController {
     }
     @PostMapping(value = "/team/selectProjectTeam")
     public Result selectProjectTeam(Integer project_id) {
-        rs = projectTeamService.selectProjectTeam(project_id);
+        try {
+            rs = projectTeamService.selectProjectTeam(project_id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rs;
     }
 

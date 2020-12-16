@@ -22,11 +22,6 @@ import java.time.Duration;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-/**
- * @author ：leigq
- * @date ：2019/6/28 16:53
- * @description：shiro配置
- */
 @Configuration
 @ConfigurationProperties(
         prefix = "spring.redis"

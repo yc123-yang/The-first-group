@@ -23,7 +23,16 @@
     </resultMap>
 
     <insert id="addAuth" parameterType="Auth">
-        insert into auth(auth_name) values(#{auth_name})
+        insert into auth(
+        auth_name,
+        auth_pid,
+        auth_resource,
+        `open`)
+        values(
+        #{auth_name},
+        #{auth_pid},
+        #{auth_resource},
+        #{open})
     </insert>
     <delete id="delAuth" parameterType="Auth">
         delete from auth where auth_id = #{auth_id}
@@ -54,5 +63,7 @@
         user.role_id = role_auth.role_id
         and
         auth.auth_id = role_auth.auth_id
+        and
+        auth.open = 1
     </select>
 </mapper>

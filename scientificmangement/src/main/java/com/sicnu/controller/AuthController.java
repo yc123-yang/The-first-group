@@ -24,10 +24,10 @@ public class AuthController {
     private Result rs = null;
 
     @PostMapping("/auth/addAuth")
-    public Result addAuth(String auth_name) {
+    public Result addAuth(Auth auth) {
 
         try {
-            rs = authService.addAuth(auth_name);
+            rs = authService.addAuth(auth);
         } catch (Exception e) {
             e.printStackTrace();
         }

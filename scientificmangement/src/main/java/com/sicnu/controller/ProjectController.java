@@ -67,7 +67,7 @@ public class ProjectController {
      * @return@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
      */
     @RequestMapping(value = "/project/selectProjectByCondition", method = RequestMethod.POST)
-    public Result selectProject(Project project, String start_time_start, String start_time_end, String complete_time_start, String complete_time_end, String plan_time_start, String plan_time_end, Integer pageNum, Integer pageSize) throws Exception {
+    public Result selectProjectByCondition(Project project, String start_time_start, String start_time_end, String complete_time_start, String complete_time_end, String plan_time_start, String plan_time_end, Integer pageNum, Integer pageSize) throws Exception {
         try {
             rs = projectService.selectProjectByCondition(project, start_time_start, start_time_end, complete_time_start, complete_time_end, plan_time_start, plan_time_end, pageNum, pageSize);
         } catch (Exception e) {

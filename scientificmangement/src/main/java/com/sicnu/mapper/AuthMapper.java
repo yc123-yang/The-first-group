@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 @Mapper
 public interface AuthMapper {
-    void addAuth(String auth_name);
+    void addAuth(Auth auth);
 
     void delAuth(Integer auth_id);
 

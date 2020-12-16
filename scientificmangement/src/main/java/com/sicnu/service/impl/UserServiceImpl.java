@@ -345,10 +345,15 @@ public class UserServiceImpl implements UserService {
         User user = null;
         try {
             user = userDao.findUserById(user_id);
+            if (user!=null){
+                rs = new Result("200", "查询成功", user);
+            }else{
+                rs = new Result("401", "用户不存在", null);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return rs = new Result("200", "查询成功", user);
+        return rs;
     }
 
     @Override
@@ -362,6 +367,17 @@ public class UserServiceImpl implements UserService {
                 mapList.add(map);
             }
             rs =  new Result("200",null,mapList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
+    @Override
+    public Result updateUserMessage(User user) {
+        try {
+            userDao.updateUserMessage(user);
+            rs = new Result("200","更改成功",null);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -174,4 +174,14 @@ public class UserController {
         }
         return rs;
     }
+
+    @PostMapping("/user/updateUserMessage")
+    public Result updateUserMessage(User user) {
+        try {
+            rs = userService.updateUserMessage(user);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
 }

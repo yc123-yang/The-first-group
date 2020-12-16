@@ -37,7 +37,7 @@ public class ProjectExamineController {
     @PostMapping("/projectExamine/selectProjectExamineByCondition")
     public Result selectProjectExamineByCondition(ProjectExamine projectExamine, String start_time_start, String start_time_end, String complete_time_start, String complete_time_end, String plan_time_start, String plan_time_end, Integer pageNum, Integer pageSize,String apply_time_start,String apply_time_end) {
         try {
-            rs =projectExamineService.selectProjectExamineByCondition(projectExamine, start_time_start, start_time_end, complete_time_start, complete_time_end, plan_time_start, plan_time_end, pageNum, pageSize,start_time_start,start_time_end);
+            rs =projectExamineService.selectProjectExamineByCondition(projectExamine, start_time_start, start_time_end, complete_time_start, complete_time_end, plan_time_start, plan_time_end, pageNum, pageSize,apply_time_start,apply_time_end);
         } catch (Exception e) {
             e.printStackTrace();
         }

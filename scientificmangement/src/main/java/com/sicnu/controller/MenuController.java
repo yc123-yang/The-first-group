@@ -44,7 +44,6 @@ public class MenuController {
             User user = (User) session.getAttribute("user");
             System.out.println(user.getUser_id());
             Set<Permission> userPermissions = userService.queryPermissionByUserId(user.getUser_id());
-//        System.out.println("permissionNodes:"+userPermissions);
 
             Set<Permission> userPermissionSet = new HashSet<>(userPermissions);
 

@@ -137,7 +137,7 @@ public class AwardServiceImpl implements AwardService {
             List<UserAuth> userAuths = roleAuthMapper.findUserAuth(user.getRole_id());
             int cnt =0;
             for (UserAuth userAuth : userAuths) {
-                if (userAuth.getAuth_resource().equals("/allAward")){
+                if (userAuth.getAuth_resource().equals("/awards/allAwards")){
                     cnt=1;
                 }
             }

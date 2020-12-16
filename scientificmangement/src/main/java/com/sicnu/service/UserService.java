@@ -35,4 +35,6 @@ public interface UserService {
     Result findUserById(Integer user_id);
 
     Result findNameId(String user_name);
+
+    Result updateUserMessage(User user);
 }

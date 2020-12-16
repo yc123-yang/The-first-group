@@ -83,6 +83,12 @@ public class RedisUtil {
         }
     }
 
+    public void flushDB(){
+        redisTemplate.delete(redisTemplate.keys("*"));
+    }
+
+
+
     //===============================String===============================
     @Component
     public class redisString {
