@@ -184,7 +184,7 @@
           <el-col :span="12"><el-form-item label="所在单位：">{{projectInfo.department_name}}</el-form-item></el-col>
         </el-row>
         <el-row>
-          <el-col :span="12"><el-form-item label="负责人：">{{projectInfo.leader_name}}</el-form-item></el-col>
+          <el-col :span="12"><el-form-item label="负责人：">{{projectInfo.user_name}}</el-form-item></el-col>
           <el-col :span="12"><el-form-item label="成果归属单位：">{{projectInfo.department_name}}</el-form-item></el-col>
         </el-row>
         <el-row>
@@ -213,6 +213,22 @@
           <el-col :span="12"><el-form-item label="结项日期：">{{projectInfo.complete_time}}</el-form-item></el-col>
           <el-col :span="12"><el-form-item label="合同经费：">{{projectInfo.outlay}}</el-form-item></el-col>
         </el-row>
+        <el-row>
+          <el-form-item label="团队成员：">
+          </el-form-item>
+        </el-row>
+        <el-row>
+          <el-table :data="memberList" style="width: 100%; margin-top: 15px;" :header-cell-style="{background: '#f5f7fa'}"
+            size="mini" border>
+            <el-table-column type="index" label="#"></el-table-column>
+            <el-table-column prop="name" label="成员姓名"></el-table-column>
+            <el-table-column prop="role_name" label="成员类型"></el-table-column>
+            <el-table-column prop="team_role" label="成员角色"></el-table-column>
+            <el-table-column prop="department_name" label="归属单位">
+              <template slot-scope="scope">{{departmentObj[scope.row.department_id]}}</template>
+            </el-table-column>
+          </el-table>
+        </el-row>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button type="danger" @click="denyProjectDialogVisible = true">驳 回</el-button>
@@ -236,6 +252,7 @@
 </template>
 
 <script>
+import { stringify } from 'qs'
 export default {
   data() {
     return {
@@ -315,7 +332,8 @@ export default {
         reason: [
           { required: true, message: '请填写驳回理由！', trigger: 'blur' }
         ]
-      }
+      },
+      memberList: []
     }
   },
   async created() {
@@ -407,6 +425,10 @@ export default {
       const { data: res } = await this.$http.post('/projectExamine/findProjectExamineById', this.$qs.stringify({pe_id: projectId}))
       if(res.status !== '200') return this.$message.error('获取待审核项目信息失败')
       this.projectInfo = res.data
+      const { data: res2 } = await this.$http.post('/teamExamine/selectProjectTeamExamineUser', stringify({ pe_id: projectId }))
+      if(res2.status !== '200') return this.$message.error('获取待审核项目团队信息失败')
+      this.memberList = res2.data
+      
       this.projectInfo.department_name = this.departmentObj[this.projectInfo.department_id]
       this.projectInfo.sc_name = this.scObj[this.projectInfo.sc_id]
       this.projectInfo.subject_name = this.subjectObj[this.projectInfo.subject_id]
@@ -418,9 +440,6 @@ export default {
       this.projectInfo.plan_time = this.projectInfo.plan_time.substring(0, 10)
       this.projectInfo.complete_time = this.projectInfo.complete_time.substring(0, 10)
       this.projectInfo.ct_name = this.ctObj[this.projectInfo.ct_id]
-      const { data: res2 } = await this.$http.post('/user/findUserById', this.$qs.stringify({ user_id: this.projectInfo.leader_id }))
-      if( res2.status !== '200' ) return this.$message.error('获取用户信息失败')
-      this.projectInfo.leader_name = res2.data.user_name
       this.checkProjectDialogVisible = true
     },
     // 点击通过按钮，通过该待审核项目的申请

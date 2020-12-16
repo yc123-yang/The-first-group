@@ -118,54 +118,83 @@
     </el-card>
 
     <el-dialog title="审核论文成果申请" :visible.sync="checkPaperDialogVisible" width="50%">
-      <el-form class="dialog" label-width="110px">
-        <el-row>
-          <el-form-item label="论文题目：">{{ paperInfo.paper_name }}</el-form-item>
-        </el-row>
-        <el-row>
-          <el-col :span="12"
-            ><el-form-item label="论文编号：">{{ paperInfo.pe_id }}</el-form-item></el-col
-          >
-          <el-col :span="12"
-            ><el-form-item label="论文类型：">{{ paperInfo.pt_name}}</el-form-item></el-col
-          >
-        </el-row>
-        <el-row>
-          <el-col :span="12"
-            ><el-form-item label="负责人：">{{ paperInfo.leader_name }}</el-form-item></el-col
-          >
-          <el-col :span="12"
-            ><el-form-item label="发表期刊：">{{ paperInfo.periodical_name}}</el-form-item></el-col
-          >
-        </el-row>
-        <el-row>
-          <el-col :span="12"
-            ><el-form-item label="发表时间：">{{ paperInfo.publish_time}}</el-form-item></el-col
-          >
-          <el-col :span="12"
-            ><el-form-item label="收录号：">{{ paperInfo.include_number }}</el-form-item></el-col
-          >
-        </el-row>
-        <el-row>
-          <el-col :span="12"
-            ><el-form-item label="学科门类：">{{ paperInfo.sc_name}}</el-form-item></el-col
-          >
-          <el-col :span="12"
-            ><el-form-item label="一级学科：">{{ paperInfo.subject_name}}</el-form-item></el-col
-          >
-        </el-row>
-        <el-row>
-          <el-col :span="12"
-            ><el-form-item label="归属单位：">{{ paperInfo.aod_name }}</el-form-item></el-col
-          >
-          <el-col :span="12"
-            ><el-form-item label="来源单位：">{{ paperInfo.sd_name }}</el-form-item></el-col
-          >
-        </el-row>
-
-
-
+      <el-form class="dialog" label-width="90px" label-position="left">
+      <el-row :gutter="20">
+        <el-col :span="16">
+          <el-row>
+            <el-form-item label="论文题目：">{{ paperInfo.paper_name }}</el-form-item>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="论文编号：">{{ paperInfo.pe_id }}</el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="论文类型：">{{ paperInfo.pt_name}}</el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="负责人：">{{ paperInfo.user_name }}</el-form-item>
+            </el-col>
+            <el-col :span="12"
+              ><el-form-item label="发表期刊：">{{ paperInfo.periodical_name}}</el-form-item></el-col
+            >
+          </el-row>
+          <el-row>
+            <el-col :span="12"
+              ><el-form-item label="发表时间：">{{ paperInfo.publish_time}}</el-form-item></el-col
+            >
+            <el-col :span="12"
+              ><el-form-item label="收录号：">{{ paperInfo.include_number }}</el-form-item></el-col
+            >
+          </el-row>
+          <el-row>
+            <el-col :span="12"
+              ><el-form-item label="学科门类：">{{ paperInfo.sc_name}}</el-form-item></el-col
+            >
+            <el-col :span="12"
+              ><el-form-item label="一级学科：">{{ paperInfo.subject_name}}</el-form-item></el-col
+            >
+          </el-row>
+          <el-row>
+            <el-col :span="12"
+              ><el-form-item label="归属单位：">{{ paperInfo.aod_name }}</el-form-item></el-col
+            >
+            <el-col :span="12"
+              ><el-form-item label="来源单位：">{{ paperInfo.sd_name }}</el-form-item></el-col
+            >
+          </el-row>
+          <el-row>
+            <el-form-item label="备注">{{paperInfo.remark}}</el-form-item>
+          </el-row>
+          <el-form-item label="作者:" prop="author" size="mini">
+          </el-form-item>
+          <el-table :data="memberList" style="width: 100%" ref="authorTableRef" size="mini" border height="250px"
+            :header-cell-style="{ background: '#f5f7fa' }" :default-sort="{prop: 'contribution', order: 'descending'}">
+            <!-- 序号列 -->
+            <el-table-column type="index" label="#" align="center"></el-table-column>
+            <el-table-column prop="name" label="作者姓名" align="center"></el-table-column>
+            <el-table-column prop="role_name" label="成员类型" align="center"></el-table-column>
+            <el-table-column label="归属单位" align="center">
+              <template slot-scope="scope">{{ departmentObj[scope.row.department_id] }}</template>
+            </el-table-column>
+            <el-table-column prop="contribution" label="贡献率" align="center">
+              <template slot-scope="scope">{{scope.row.contribution + '%'}}</template>
+            </el-table-column>
+          </el-table>
+        </el-col>
+        <el-col :span="8">
+          <el-table  :data="ppList" style="width: 100%; margin: 0" height="550px" border
+            size="mini":header-cell-style="{ background: '#f5f7fa' }">
+            <el-table-column label="#" type="index"></el-table-column>
+            <el-table-column label="收录情况" prop="periodical_name">
+            </el-table-column>
+          </el-table>
+        </el-col>
+      </el-row>
       </el-form>
+
+
       <span slot="footer" class="dialog-footer">
         <el-button type="danger" @click="denyPaperDialogVisible = true">驳 回</el-button>
         <el-button type="primary" @click="approvePaper">通 过</el-button>
@@ -188,6 +217,7 @@
 </template>
 
 <script>
+import { stringify } from 'qs';
 export default {
   data() {
     return {
@@ -249,7 +279,11 @@ export default {
       denyInfoRules: {
         reason: [{ required: true, message: "请填写驳回理由！", trigger: "blur" }],
       },
-
+      // 团队列表
+      memberList: [],
+      // 收录期刊列表
+      ppList: [],
+      ppSelection: []
     };
   },
   async created() {
@@ -308,13 +342,6 @@ export default {
         item.publish_time = item.publish_time.substring(0, 10);
         item.pt_name = this.ptObj[item.pt_id];
       });
-      for(var i=0;i<this.papersList.length;i++) {
-        const { data: res } = await this.$http.post('/user/findUserById', this.$qs.stringify({user_id: this.papersList[i].leader_id}))
-        if( res.status !== '200' ) return this.$message.error('查询作者失败')
-        console.log(res)
-        this.papersList[i].authorName = res.data.user_name
-      }
-      console.log(this.papersList);
     },
 
     // 列表页面大小改变
@@ -333,8 +360,21 @@ export default {
       console.log(paperId)
       const { data: res } = await this.$http.post("/paperExamine/findPaperExamineById", this.$qs.stringify({ pe_id: paperId }));
       if (res.status !== "200") return this.$message.error("获取待审核论文成果信息失败");
-      console.log(res.data)
       this.paperInfo = res.data;
+      const { data: res2 } = await this.$http.post('/teamExamine/selectPaperTeamExamineUser', stringify({ pe_id: paperId }))
+      if( res2.status !== '200' ) return this.$message.error('获取待审核论文成果团队失败')
+      this.memberList = res2.data
+      const { data: res3 } = await this.$http.post('/periodicalExamine/findPeriodicalExamineByPaperId', stringify({ pe_id: paperId }))
+      if( res3.status !== '200' ) return this.$message.error('获取待审核论文收录期刊列表失败')
+      this.ppList = []
+      this.periodicalList.forEach(item => {
+        if(res3.data.indexOf(item.periodical_id) !== -1) this.ppList.push(item)
+      })
+      console.log(this.paperInfo)
+      console.log(this.memberList)
+      console.log(this.ppList)
+
+      
       this.paperInfo.aod_name = this.departmentObj[this.paperInfo.aod_id];
       this.paperInfo.sc_name = this.scObj[this.paperInfo.sc_id];
       this.paperInfo.subject_name = this.subjectObj[this.paperInfo.subject_id];
@@ -342,10 +382,6 @@ export default {
       this.paperInfo.periodical_name = this.periodicalObj[this.paperInfo.periodical_id];
       this.paperInfo.publish_time = this.paperInfo.publish_time.substring(0, 10);
       this.paperInfo.pt_name = this.ptObj[this.paperInfo.pt_id];
-
-      const { data: res2 } = await this.$http.post("/user/findUserById", this.$qs.stringify({ user_id: this.paperInfo.leader_id }));
-      if (res2.status !== "200") return this.$message.error("获取用户信息失败");
-      this.paperInfo.leader_name = res2.data.user_name;
       this.checkPaperDialogVisible = true;
     },
     // 点击通过按钮，通过该待审核论文成果的申请
@@ -385,7 +421,7 @@ export default {
     // 关闭驳回理由填写对话框，清空表单
     denyPaperDialogClosed() {
       this.$refs.denyInfoRef.resetFields();
-    },
+    }
   },
 };
 </script>

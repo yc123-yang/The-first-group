@@ -173,6 +173,20 @@
             <el-form-item label="授权日期：">{{ patentInfo.authorization_time }}</el-form-item>
           </el-col>
         </el-row>
+        <el-form-item label="作者:" prop="author" size="mini">
+        </el-form-item>
+        <el-table :data="memberList" style="width: 100%" ref="authorTableRef" size="mini" border height="250px"
+          :header-cell-style="{ background: '#f5f7fa' }" :default-sort="{prop: 'contribution', order: 'descending'}">
+          <el-table-column type="index" label="#" align="center"></el-table-column>
+          <el-table-column prop="name" label="作者姓名" align="center"></el-table-column>
+          <el-table-column prop="role_name" label="成员类型" align="center"></el-table-column>
+          <el-table-column label="归属单位" align="center">
+            <template slot-scope="scope">{{ departmentObj[scope.row.department_id] }}</template>
+          </el-table-column>
+          <el-table-column prop="contribution" label="贡献率" align="center">
+            <template slot-scope="scope">{{scope.row.contribution + '%'}}</template>
+          </el-table-column>
+        </el-table>
 
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -260,6 +274,7 @@ export default {
       denyInfoRules: {
         reason: [{ required: true, message: "请填写驳回理由！", trigger: "blur" }],
       },
+      memberList: []
     };
   },
   async created() {
@@ -320,12 +335,6 @@ export default {
         item.pr_name = this.prObj[item.pr_id];
         item.ps_name = this.psObj[item.ps_id];
       });
-      for(var i=0;i<this.patentsList.length;i++) {
-        const { data: res } = await this.$http.post('/user/findUserById', this.$qs.stringify({user_id: this.patentsList[i].leader_id}))
-        if( res.status !== '200' ) return this.$message.error('查询作者失败')
-        this.patentsList[i].authorName = res.data.user_name
-      }
-      console.log(this.patentsList);
     },
     async getPatentList() {
       await this.preGetPatentList()
@@ -347,7 +356,9 @@ export default {
       const { data: res } = await this.$http.post("/patentExamine/findPatentExamineById", this.$qs.stringify({ pe_id: patentId }));
       if (res.status !== "200") return this.$message.error("获取待审核专利成果信息失败");
       this.patentInfo = res.data;
-
+      const { data: res2 } = await this.$http.post('/teamExamine/selectPatentTeamExamineUser', this.$qs.stringify({ pe_id: patentId }))
+      if( res2.status !== '200' ) return this.$message.error('获取待审核专利成果团队信息失败')
+      this.memberList = res2.data
       this.patentInfo.aod_name = this.departmentObj[this.patentInfo.aod_id];
       this.patentInfo.application_time = this.patentInfo.application_time.substring(0, 10);
       this.patentInfo.public_time = this.patentInfo.public_time.substring(0, 10);
@@ -356,9 +367,6 @@ export default {
       this.patentInfo.pr_name = this.prObj[this.patentInfo.pr_id];
       this.patentInfo.ps_name = this.psObj[this.patentInfo.ps_id];
 
-      const { data: res2 } = await this.$http.post("/user/findUserById", this.$qs.stringify({ user_id: this.patentInfo.leader_id }));
-      if (res2.status !== "200") return this.$message.error("获取用户信息失败");
-      this.patentInfo.leader_name = res2.data.user_name;
       this.checkPatentDialogVisible = true;
     },
     // 点击通过按钮，通过该待审核专利成果的申请

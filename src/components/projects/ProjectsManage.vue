@@ -522,7 +522,7 @@
         </el-row>
         <el-row>
           <el-form-item label="团队成员：" prop="members">
-            <el-button type="primary" size="mini" icon="el-icon-plus" @click="addMemberDialogVisible = true">添加成员</el-button>
+            <el-button type="primary" size="mini" icon="el-icon-plus" @click="addEditMemberDialogVisible = true">添加成员</el-button>
           </el-form-item>
         </el-row>
         <el-row>
@@ -549,7 +549,7 @@
     </el-dialog>
 
     <!-- 编辑项目对话框中添加成员对话框 -->
-    <el-dialog title="添加团队成员" :visible.sync="addMemberDialogVisible" width="40%" @closed="addMemberDialogClosed">
+    <el-dialog title="添加团队成员" :visible.sync="addEditMemberDialogVisible" width="40%" @closed="addMemberDialogClosed">
       <el-form :model="addMemberForm" :rules="addMemberFormRules" ref="addMemberFormRef" label-width="100px">
         <el-form-item label="成员姓名：" prop="member_info">
           <el-select v-model="addMemberForm.member_info" remote placeholder="请输入成员姓名" :remote-method="getLeaderList" filterable
@@ -781,7 +781,7 @@ export default {
       // 编辑项目表单中的成员列表
       editMemberList: [],
       addEditMemberDialogVisible: false,
-      editEditMemberDialogVisible: false
+      editEditMemberDialogVisible: false,
     }
   },
   async created() {

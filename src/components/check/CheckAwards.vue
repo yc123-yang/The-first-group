@@ -164,7 +164,7 @@
         </el-row>
         <el-row>
           <el-col :span="12"
-            ><el-form-item label="负责人：">{{ awardInfo.leader_name }}</el-form-item></el-col
+            ><el-form-item label="负责人：">{{ awardInfo.user_name }}</el-form-item></el-col
           >
           <el-col :span="12"
             ><el-form-item label="发表日期：">{{ awardInfo.award_time }}</el-form-item></el-col
@@ -210,6 +210,20 @@
             ><el-form-item label="项目来源：">{{ awardInfo.sd_name }}</el-form-item></el-col
           >
         </el-row>
+        <el-form-item label="作者:" prop="author" size="mini">
+        </el-form-item>
+        <el-table :data="memberList" style="width: 100%" ref="authorTableRef" size="mini" border height="250px"
+          :header-cell-style="{ background: '#f5f7fa' }" :default-sort="{prop: 'contribution', order: 'descending'}">
+          <el-table-column type="index" label="#" align="center"></el-table-column>
+          <el-table-column prop="name" label="作者姓名" align="center"></el-table-column>
+          <el-table-column prop="role_name" label="成员类型" align="center"></el-table-column>
+          <el-table-column label="归属单位" align="center">
+            <template slot-scope="scope">{{ departmentObj[scope.row.department_id] }}</template>
+          </el-table-column>
+          <el-table-column prop="contribution" label="贡献率" align="center">
+            <template slot-scope="scope">{{scope.row.contribution + '%'}}</template>
+          </el-table-column>
+        </el-table>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button type="danger" @click="denyAwardDialogVisible = true">驳 回</el-button>
@@ -301,6 +315,7 @@ export default {
       denyInfoRules: {
         reason: [{ required: true, message: "请填写驳回理由！", trigger: "blur" }],
       },
+      memberList: []
     };
   },
   async created() {
@@ -366,11 +381,6 @@ export default {
         item.al_name = this.alObj[item.al_id];
         item.at_name = this.atObj[item.at_id];
       });
-      for(var i=0;i<this.awardsList.length;i++) {
-        const { data: res } = await this.$http.post('/user/findUserById', this.$qs.stringify({user_id: this.awardsList[i].leader_id}))
-        if( res.status !== '200' ) return this.$message.error('查询作者失败')
-        this.awardsList[i].authorName = res.data.user_name
-      }
     },
     async getAwardList() {
       await this.preGetAwardList()
@@ -392,6 +402,9 @@ export default {
       const { data: res } = await this.$http.post("/awardExamine/findAwardExamineById", this.$qs.stringify({ ae_id: awardId }));
       if (res.status !== "200") return this.$message.error("获取待审核获奖成果信息失败");
       this.awardInfo = res.data;
+      const { data: res2 } = await this.$http.post('/teamExamine/selectAwardTeamExamineUser', this.$qs.stringify({ ae_id: awardId }))
+      if( res2.status !== '200' ) return this.$message.error('获取待审核成果获奖团队信息失败')
+      this.memberList = res2.data
       this.awardInfo.aod_name = this.departmentObj[this.awardInfo.aod_id];
       this.awardInfo.sc_name = this.scObj[this.awardInfo.sc_id];
       this.awardInfo.subject_name = this.subjectObj[this.awardInfo.subject_id];
@@ -400,10 +413,7 @@ export default {
       this.awardInfo.ar_name = this.arObj[this.awardInfo.ar_id];
       this.awardInfo.al_name = this.alObj[this.awardInfo.al_id];
       this.awardInfo.at_name = this.atObj[this.awardInfo.at_id];
-
-      const { data: res2 } = await this.$http.post("/user/findUserById", this.$qs.stringify({ user_id: this.awardInfo.leader_id }));
-      if (res2.status !== "200") return this.$message.error("获取用户信息失败");
-      this.awardInfo.leader_name = res2.data.user_name;
+      console.log(this.awardInfo)
       this.checkAwardDialogVisible = true;
     },
     // 点击通过按钮，通过该待审核获奖成果的申请

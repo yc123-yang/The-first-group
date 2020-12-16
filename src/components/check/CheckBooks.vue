@@ -182,7 +182,7 @@
         </el-row>
         <el-row>
           <el-col :span="12"
-            ><el-form-item label="负责人：">{{ bookInfo.leader_name }}</el-form-item></el-col
+            ><el-form-item label="负责人：">{{ bookInfo.user_name }}</el-form-item></el-col
           >
           <el-col :span="12"
             ><el-form-item label="出版地：">{{ bookInfo.pp_name }}</el-form-item></el-col
@@ -237,6 +237,20 @@
             ><el-form-item label="研究类别：">{{ bookInfo.rt_name }}</el-form-item></el-col
           >
         </el-row>
+        <el-form-item label="作者:" prop="author" size="mini">
+        </el-form-item>
+        <el-table :data="memberList" style="width: 100%" ref="authorTableRef" size="mini" border height="250px"
+          :header-cell-style="{ background: '#f5f7fa' }" :default-sort="{prop: 'contribution', order: 'descending'}">
+          <el-table-column type="index" label="#" align="center"></el-table-column>
+          <el-table-column prop="name" label="作者姓名" align="center"></el-table-column>
+          <el-table-column prop="role_name" label="成员类型" align="center"></el-table-column>
+          <el-table-column label="归属单位" align="center">
+            <template slot-scope="scope">{{ departmentObj[scope.row.department_id] }}</template>
+          </el-table-column>
+          <el-table-column prop="contribution" label="贡献率" align="center">
+            <template slot-scope="scope">{{scope.row.contribution + '%'}}</template>
+          </el-table-column>
+        </el-table>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button type="danger" @click="denyBookDialogVisible = true">驳 回</el-button>
@@ -260,6 +274,7 @@
 </template>
 
 <script>
+import { stringify } from 'qs';
 export default {
   data() {
     return {
@@ -339,6 +354,7 @@ export default {
       denyInfoRules: {
         reason: [{ required: true, message: "请填写驳回理由！", trigger: "blur" }],
       },
+      memberList: []
     };
   },
   async created() {
@@ -406,12 +422,6 @@ export default {
       console.log(res)
       this.total = res.data[0].total;
       this.booksList = res.data[1];
-      this.booksList.forEach(async item => {
-        const { data: res } = await this.$http.post('/user/findUserById', this.$qs.stringify({user_id: item.leader_id}))
-        if( res.status !== '200' ) return this.$message.error('查询作者失败')
-        item.authorName = res.data.user_name
-        this.booksList = JSON.parse(JSON.stringify(this.booksList))
-      })
       // 通过 id:name 对象处理著作成果列表，为其加上各name属性，截取时间日期
       this.booksList.forEach(item => {
         item.aod_name = this.departmentObj[item.aod_id];
@@ -445,8 +455,10 @@ export default {
       console.log(bookId)
       const { data: res } = await this.$http.post("/bookExamine/findBookExamineById", this.$qs.stringify({ be_id: bookId }));
       if (res.status !== "200") return this.$message.error("获取待审核著作成果信息失败");
-      console.log(res.data)
       this.bookInfo = res.data;
+      const { data: res2 } = await this.$http.post('/teamExamine/selectBookTeamExamineUser', stringify({ be_id: bookId }))
+      if( res2.status !== '200' ) return this.$message.error('获取待审核著作成果团队信息失败')
+      this.memberList = res2.data
       this.bookInfo.aod_name = this.departmentObj[this.bookInfo.aod_id];
       this.bookInfo.sc_name = this.scObj[this.bookInfo.sc_id];
       this.bookInfo.subject_name = this.subjectObj[this.bookInfo.subject_id];
@@ -457,9 +469,6 @@ export default {
       this.bookInfo.bt_name = this.btObj[this.bookInfo.bt_id];
       this.bookInfo.rt_name = this.rtObj[this.bookInfo.rt_id];
       this.bookInfo.language_name = this.languageObj[this.bookInfo.language_id];
-      const { data: res2 } = await this.$http.post("/user/findUserById", this.$qs.stringify({ user_id: this.bookInfo.leader_id }));
-      if (res2.status !== "200") return this.$message.error("获取用户信息失败");
-      this.bookInfo.leader_name = res2.data.user_name;
       this.checkBookDialogVisible = true;
     },
     // 点击通过按钮，通过该待审核著作成果的申请

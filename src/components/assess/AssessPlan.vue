@@ -21,7 +21,7 @@
     </el-card>
 
     <!-- 字典数据项详情对话框 -->
-    <el-dialog :title="dictInfo.cname + ' —— 字典数据项'" :visible.sync="editDictDialogVisible" width="50%" style="min-width: 1270px;">
+    <el-dialog :title="dictInfo.cname" :visible.sync="editDictDialogVisible" width="50%" style="min-width: 1270px;">
       <el-button type="primary" icon="el-icon-plus" @click="showAddDialog">添加</el-button>
       <el-table :header-cell-style="{background: '#f5f7fa'}" :data="dictDataList" style="width: 100%;margin-top: 15px" border>
         <el-table-column type="index" label="#"></el-table-column>
@@ -63,18 +63,93 @@
         <el-form-item label="名称：" prop="name">
           <el-input v-model="editForm.name"></el-input>
         </el-form-item>
+        <el-form-item label="考核分数：" prop="score">
+          <el-input v-model="editForm.score" onkeyup="value=value.replace(/[^\d]/g,'')"></el-input>
+        </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="editDialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="editData">确 定</el-button>
       </span>
     </el-dialog>
+
+
+    <!-- 项目经费对话框 -->
+    <el-dialog title="项目经费" :visible.sync="outlayDialogVisible" width="50%" style="min-width: 1270px;">
+      <el-button type="primary" icon="el-icon-plus" @click="addOutlayDialogVisible = true">添加</el-button>
+      <el-table :header-cell-style="{background: '#f5f7fa'}" :data="outlayList" style="width: 100%;margin-top: 15px" border>
+        <el-table-column label="#" type="index"></el-table-column>
+        <el-table-column label="开始" prop="outlay_start"></el-table-column>
+        <el-table-column label="结束" prop="outlay_end"></el-table-column>
+        <el-table-column label="分数" prop="outlay_score"></el-table-column>
+        <el-table-column label="操作" width="200px">
+          <template slot-scope="scope">
+            <el-button type="primary" icon="el-icon-edit" size="mini" @click="showEditOutlayDialog(scope.row.outlay_id)">编辑</el-button>
+            <el-button type="danger" icon="el-icon-delete" size="mini" @click="deleteOutlay(scope.row.outlay_id)">删除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="outlayDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="outlayDialogVisible = false">确 定</el-button>
+      </span>
+    </el-dialog>
+    <!-- 添加经费区间对话框 -->
+    <el-dialog title="添加" :visible.sync="addOutlayDialogVisible" width="40%" @closed="addOutlayDialogClosed">
+      <el-form :model="addOutlayForm" :rules="addOutlayFormRules" ref="addOutlayFormRef" label-width="100px">
+        <el-form-item label="开始额度：" prop="outlay_start">
+          <el-input v-model="addOutlayForm.outlay_start" onkeyup="value=value.replace(/[^\d]/g,'')">
+          </el-input>
+        </el-form-item>
+        <el-form-item label="结束额度：" prop="outlay_end">
+          <el-input v-model="addOutlayForm.outlay_end" onkeyup="value=value.replace(/[^\d]/g,'')">
+          </el-input>
+        </el-form-item>
+        <el-form-item label="考核分数：" prop="outlay_score">
+          <el-input v-model="addOutlayForm.outlay_score" onkeyup="value=value.replace(/[^\d]/g,'')">
+          </el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="addOutlayDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="addOutlay">确 定</el-button>
+      </span>
+    </el-dialog>
+    <!-- 编辑经费区间对话框 -->
+    <el-dialog title="添加" :visible.sync="editOutlayDialogVisible" width="40%" @closed="editOutlayDialogClosed">
+      <el-form :model="editOutlayForm" :rules="addOutlayFormRules" ref="editOutlayFormRef" label-width="100px">
+        <el-form-item label="开始额度：" prop="outlay_start">
+          <el-input v-model="editOutlayForm.outlay_start" onkeyup="value=value.replace(/[^\d]/g,'')" disabled>
+          </el-input>
+        </el-form-item>
+        <el-form-item label="结束额度：" prop="outlay_end">
+          <el-input v-model="editOutlayForm.outlay_end" onkeyup="value=value.replace(/[^\d]/g,'')" disabled>
+          </el-input>
+        </el-form-item>
+        <el-form-item label="考核分数：" prop="outlay_score">
+          <el-input v-model="editOutlayForm.outlay_score" onkeyup="value=value.replace(/[^\d]/g,'')">
+          </el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="editOutlayDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="editOutlay">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import { stringify } from 'qs'
 export default {
   data() {
+    var validOutlayEnd = (rule, value, callback) => {
+      if(parseInt(this.addOutlayForm.outlay_start)  > parseInt(value)) {
+        callback(new Error('请输入正确的结束额度'))
+      } else {
+        callback()
+      }
+    }
     return {
       dataList: [{
         cname: '项目级别', id: 'level_id', name: 'level_name', score: 'pl_score',
@@ -143,9 +218,38 @@ export default {
       // 控制编辑对话框的显示与隐藏变量
       editDialogVisible: false,
       // 编辑数据项表单
-      editForm: { name: '', id: ''},
+      editForm: { name:  '', id: '', score: ''},
       // 编辑数据项表单验证规则对象
-      editFormRules: { name: [{ required: true, message: '请输入名称！', trigger: 'blur' }] }
+      editFormRules: {
+        name: [{ required: true, message: '请输入名称！', trigger: 'blur' }],
+        score: [{ required: true, message: '请输入考核分数！', trigger: 'blur' }]
+      },
+      // 项目经费对话框显示控制变量
+      outlayDialogVisible: false,
+      // 经费区间列表
+      outlayList: [],
+      // 添加经费区间对话框显示控制变量
+      addOutlayDialogVisible: false,
+      // 添加经费区间表单
+      addOutlayForm: {
+        outlay_start: '',
+        outlay_end: '',
+        outlay_score: ''
+      },
+      // 添加经费区间表单验证对象
+      addOutlayFormRules: {
+        outlay_start: [{ required: true, message: '请输入开始额度', trigger: 'blur' }],
+        outlay_end: [
+          { required: true, message: '请输入结束额度', trigger: 'blur' },
+          { validator: validOutlayEnd, trigger: 'blur' }
+        ],
+        outlay_score: [{ required: true, message: '请输入考核分数！', trigger: 'blur' }]
+      },
+      // 编辑经费区间对话框显示控制变量
+      editOutlayDialogVisible: false,
+      // 编辑经费区间表单
+      editOutlayForm: {},
+
     }
   },
   created() {
@@ -155,7 +259,7 @@ export default {
     // 打开不同类型的对话框
     preShowDialog(row) {
       if(row.cname === '项目经费') {
-        console.log('项目经费对话框开启')
+        this.showOutlayDialog()
       } else {
         this.showEditDataDialog(row)
       }
@@ -207,8 +311,9 @@ export default {
     },
     // 点击编辑，显示编辑数据项对话框
     showEditDialog(editObj) {
-      this.editForm.name = JSON.parse(JSON.stringify(editObj))[this.dictInfo.name]
-      this.editForm.id = JSON.parse(JSON.stringify(editObj))[this.dictInfo.id]
+      this.editForm.name = JSON.parse(JSON.stringify(editObj[this.dictInfo.name]))
+      this.editForm.id = JSON.parse(JSON.stringify(editObj[this.dictInfo.id]))
+      this.editForm.score = JSON.parse(JSON.stringify(editObj[this.dictInfo.score]))
       this.editDialogVisible = true
     },
     // 点击确定，上传编辑数据
@@ -222,6 +327,61 @@ export default {
       this.$message.success('编辑数据成功')
       this.getDictDataList()
       this.editDialogVisible = false
+    },
+    // 获取经费考核区间列表
+    async getOutlayList() {
+      const { data: res } = await this.$http.post('/outlay/selectAllOutlay')
+      if( res.status !== '200' ) return this.$message.error('获取项目经费分数失败')
+      this.outlayList = res.data
+    },
+    // 显示项目经费对话框
+    async showOutlayDialog() {
+      this.getOutlayList()
+      this.outlayDialogVisible = true
+    },
+    // 添加经费区间对话框关闭清空表单
+    addOutlayDialogClosed() {
+      this.$refs.addOutlayFormRef.resetFields()
+    },
+    // 添加经费考核区间
+    async addOutlay() {
+      const { data: res } = await this.$http.post('/outlay/addOutlay', stringify(this.addOutlayForm))
+      if( res.status !== '200' ) return this.$message.error(res.msg)
+      this.$message.success('添加经费考核区间成功')
+      this.getOutlayList()
+      this.addOutlayDialogVisible = false
+    },
+    // 删除经费考核区间
+    async deleteOutlay(outlay_id) {
+      const res = await this.$confirm('此操作将永久删除该考核分区间，是否继续？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).catch(err => err)
+      if( res === 'cancel' ) return this.$message.info('取消了本次操作')
+      const { data: res1 } = await this.$http.post('/outlay/delOutlayById', stringify({ outlay_id: outlay_id }))
+      if( res1.status !== '200' ) return this.$message.error('删除区间失败')
+      this.$message.success('删除区间成功')
+      this.getOutlayList()
+    },
+    // 编辑经费区间对话框关闭，清空表单
+    editOutlayDialogClosed() {
+      this.$refs.editOutlayFormRef.resetFields()
+    },
+    // 点击编辑按钮，显示编辑经费区间对话框
+    async showEditOutlayDialog(outlay_id) {
+      const { data: res } = await this.$http.post('/outlay/selectOutlayById', stringify({ outlay_id: outlay_id }))
+      if( res.status !== '200' ) return this.$message.error('获取经费区间信息失败')
+      this.editOutlayForm = res.data
+      this.editOutlayDialogVisible = true
+    },
+    // 上传编辑经费区间表单
+    async editOutlay() {
+      const { data: res } = await this.$http.post('/outlay/updateOutlay', stringify(this.editOutlayForm))
+      if( res.status !== '200' ) return this.$message.error('更新经费区间信息失败')
+      this.$message.success('更新经费区间信息成功')
+      this.getOutlayList()
+      this.editOutlayDialogVisible = false
     }
   }
 }
