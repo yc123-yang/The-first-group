@@ -15,7 +15,7 @@ Vue.component('downloadExcel', JsonExcel)
 
 // 配置请求的根路径
 // baseURL里面是网站的根目录
-axios.defaults.baseURL = 'http://localhost:8080/'
+axios.defaults.baseURL = 'http://127.0.0.1:8080/'
 axios.defaults.withCredentials = true
 axios.interceptors.request.use(config => {
   // console.log(config)

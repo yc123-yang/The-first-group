@@ -13,12 +13,15 @@
       <el-table-column type="index" label="#" align="center" fixed></el-table-column>
       <!-- 多选列 -->
       <el-table-column type="selection" align="center" fixed></el-table-column>
-      <el-table-column prop="project_name" label="项目名称" width="300px" align="center" fixed>
-        <template slot="header" slot-scope="scope">{{scope.haha}}
+      <el-table-column label="项目名称" width="300px" align="center" fixed>
+        <template slot="header" slot-scope="scope">
           <div style="line-height: 14px;">项目名称</div>
           <el-input class="columnInput" size="mini" clearable v-model="queryInfo.project_name"
             placeholder="请输入" @change="QueryProjectList">
           </el-input>
+        </template>
+        <template slot-scope="scope">
+          <el-link type="primary" @click="showProjectInfoDialog(scope.row.project_id)">{{scope.row.project_name}}</el-link>
         </template>
       </el-table-column>
       <el-table-column prop="project_id" label="项目编号" width="200px" align="center">
@@ -603,11 +606,73 @@
         <el-button type="primary" @click="editEditMember">确 定</el-button>
       </span>
     </el-dialog>
+
+    <el-dialog title="查看项目详细信息" :visible.sync="projectInfoDialogVisible" width="50%">
+      <el-form class="dialog" label-width="110px">
+        <el-row>
+          <el-form-item label="项目名称：">{{projectInfo.project_name}}</el-form-item>
+        </el-row>
+        <el-row>
+          <el-col :span="12"><el-form-item label="项目编号：">{{projectInfo.project_id}}</el-form-item></el-col>
+          <el-col :span="12"><el-form-item label="所在单位：">{{departmentObj[ projectInfo.department_id ]}}</el-form-item></el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12"><el-form-item label="负责人：">{{projectInfo.user_name}}</el-form-item></el-col>
+          <el-col :span="12"><el-form-item label="成果归属单位：">{{departmentObj[ projectInfo.aod_id ]}}</el-form-item></el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12"><el-form-item label="学科门类：">{{scObj[projectInfo.sc_id]}}</el-form-item></el-col>
+          <el-col :span="12"><el-form-item label="一级学科：">{{subjectObj[projectInfo.subject_id]}}</el-form-item></el-col>
+        </el-row>
+        <el-row>
+          <el-col><el-form-item label="项目性质：">{{natureObj[projectInfo.nature_id]}}</el-form-item></el-col>
+        </el-row>
+        <el-row>
+          <el-col><el-form-item label="项目级别：">{{levelObj[projectInfo.level_id]}}</el-form-item></el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12"><el-form-item label="项目状态：">{{statusObj[projectInfo.status_id]}}</el-form-item></el-col>
+          <el-col :span="12"><el-form-item label="来源单位：">{{departmentObj[projectInfo.sd_id]}}</el-form-item></el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12"><el-form-item label="成果形式：">{{ctObj[projectInfo.ct_id]}}</el-form-item></el-col>
+          <el-col :span="12"><el-form-item label="批准文号：">{{projectInfo.approval_number}}</el-form-item></el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12"><el-form-item label="立项日期：">{{projectInfo.start_time}}</el-form-item></el-col>
+          <el-col :span="12"><el-form-item label="计划完成日期：">{{projectInfo.plan_time}}</el-form-item></el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12"><el-form-item label="结项日期：">{{projectInfo.complete_time}}</el-form-item></el-col>
+          <el-col :span="12"><el-form-item label="合同经费：">{{projectInfo.outlay}}</el-form-item></el-col>
+        </el-row>
+        <el-row>
+          <el-form-item label="团队成员：">
+          </el-form-item>
+        </el-row>
+        <el-row>
+          <el-table :data="memberList" style="width: 100%; margin-top: 15px;" :header-cell-style="{background: '#f5f7fa'}"
+            size="mini" border>
+            <el-table-column type="index" label="#"></el-table-column>
+            <el-table-column prop="name" label="成员姓名"></el-table-column>
+            <el-table-column prop="role_name" label="成员类型"></el-table-column>
+            <el-table-column prop="team_role" label="成员角色"></el-table-column>
+            <el-table-column prop="department_name" label="归属单位">
+              <template slot-scope="scope">{{departmentObj[scope.row.department_id]}}</template>
+            </el-table-column>
+          </el-table>
+        </el-row>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="projectInfoDialogVisible = false">确 定</el-button>
+        <el-button @click="projectInfoDialogVisible = false">取 消</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { parse } from 'qs'
+import { parse, stringify } from 'qs'
 export default {
   data() {
     return{
@@ -782,6 +847,8 @@ export default {
       editMemberList: [],
       addEditMemberDialogVisible: false,
       editEditMemberDialogVisible: false,
+      projectInfoDialogVisible: false,
+      projectInfo: {}
     }
   },
   async created() {
@@ -1097,6 +1164,19 @@ export default {
       this.$message.success('编辑项目信息成功')
       this.getProjectList()
       this.editProjectDialogVisible = false
+    },
+    async showProjectInfoDialog(project_id) {
+      const { data: res } = await this.$http.post('/project/findProjectById', stringify({ project_id: project_id }))
+      if( res.status !== '200' ) return this.$message.error('获取项目详细信息失败')
+      this.projectInfo = res.data
+      const { data: res2 } = await this.$http.post('/team/selectProjectTeam', stringify({ project_id: project_id }))
+      if( res2.status !== '200' ) return this.$message.error('获取项目团队信息失败')
+      this.memberList = res2.data
+      if(this.projectInfo.start_time !== null) this.projectInfo.start_time = this.projectInfo.start_time.substr(0, 10)
+      if(this.projectInfo.plan_time !== null) this.projectInfo.plan_time = this.projectInfo.plan_time.substr(0, 10)
+      if(this.projectInfo.complete_time !== null) this.projectInfo.complete_time = this.projectInfo.complete_time.substr(0, 10)
+      console.log(this.memberList)
+      this.projectInfoDialogVisible = true
     }
   }
 }

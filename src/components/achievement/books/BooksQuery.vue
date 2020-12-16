@@ -14,6 +14,9 @@
               <div style="line-height: 14px">著作题目</div>
               <el-input class="columnInput" size="mini" clearable v-model="queryInfo.book_name" placeholder="请输入" @change="QueryBookList"> </el-input>
             </template>
+            <template slot-scope="scope">
+              <el-link type="primary" @click="showBookInfoDialog(scope.row.book_id)">{{scope.row.book_name}}</el-link>
+            </template>
           </el-table-column>
 
           <el-table-column prop="authorName" label="著作作者" width="150px" align="center">
@@ -146,16 +149,108 @@
       <!-- 分页组件 -->
       <el-pagination @size-change="handleSizeChange" 
       @current-change="handleCurrentChange" 
-      :current-page="queryInfo.pagenum" 
+      :current-page="queryInfo.pageNum" 
       :page-sizes="[1, 2, 5, 10]" 
-      :page-size="queryInfo.pagesize" 
+      :page-size="queryInfo.pageSize" 
       layout="total, sizes, prev, pager, next, jumper" 
       :total="total"> 
       </el-pagination>
+
+    <el-dialog title="著作成果详情" :visible.sync="bookInfoDialogVisible" width="50%">
+      <el-form class="dialog" label-width="110px">
+        <el-row>
+          <el-form-item label="著作题目：">{{ bookInfo.book_name }}</el-form-item>
+        </el-row>
+        <el-row>
+          <el-col :span="12"
+            ><el-form-item label="著作编号：">{{ bookInfo.book_id }}</el-form-item></el-col
+          >
+          <el-col :span="12"
+            ><el-form-item label="著作类别：">{{ bookInfo.bt_name }}</el-form-item></el-col
+          >
+        </el-row>
+        <el-row>
+          <el-col :span="12"
+            ><el-form-item label="负责人：">{{ bookInfo.user_name }}</el-form-item></el-col
+          >
+          <el-col :span="12"
+            ><el-form-item label="出版地：">{{ bookInfo.pp_name }}</el-form-item></el-col
+          >
+        </el-row>
+        <el-row>
+          <el-col :span="12"
+            ><el-form-item label="出版社：">{{ bookInfo.press }}</el-form-item></el-col
+          >
+          <el-col :span="12"
+            ><el-form-item label="出版社级别：">{{ bookInfo.pl_name }}</el-form-item></el-col
+          >
+        </el-row>
+        <el-row>
+          <el-col :span="12"
+            ><el-form-item label="学科门类：">{{ bookInfo.sc_name }}</el-form-item></el-col
+          >
+          <el-col :span="12"
+            ><el-form-item label="一级学科：">{{ bookInfo.subject_name }}</el-form-item></el-col
+          >
+        </el-row>
+        <el-row>
+          <el-col :span="12"
+            ><el-form-item label="归属单位：">{{ bookInfo.aod_name }}</el-form-item></el-col
+          >
+          <el-col :span="12"
+            ><el-form-item label="来源单位：">{{ bookInfo.sd_name }}</el-form-item></el-col
+          >
+        </el-row>
+        <el-row>
+          <el-col :span="12"
+            ><el-form-item label="ISBN号：">{{ bookInfo.isbn }}</el-form-item></el-col
+          >
+          <el-col :span="12"
+            ><el-form-item label="总字数：">{{ bookInfo.word_number }}</el-form-item></el-col
+          >
+        </el-row>
+        <el-row>
+          <el-col :span="12"
+            ><el-form-item label="是否翻译：">{{ bookInfo.trans }}</el-form-item></el-col
+          >
+          <el-col :span="12"
+            ><el-form-item label="翻译语种：">{{ bookInfo.language_name }}</el-form-item></el-col
+          >
+        </el-row>
+
+        <el-row>
+          <el-col :span="12"
+            ><el-form-item label="发表时间：">{{ bookInfo.publish_time }}</el-form-item></el-col
+          >
+          <el-col :span="12"
+            ><el-form-item label="研究类别：">{{ bookInfo.rt_name }}</el-form-item></el-col
+          >
+        </el-row>
+        <el-form-item label="作者:" prop="author" size="mini">
+        </el-form-item>
+        <el-table :data="memberList" style="width: 100%" ref="authorTableRef" size="mini" border height="250px"
+          :header-cell-style="{ background: '#f5f7fa' }" :default-sort="{prop: 'contribution', order: 'descending'}">
+          <el-table-column type="index" label="#" align="center"></el-table-column>
+          <el-table-column prop="name" label="作者姓名" align="center"></el-table-column>
+          <el-table-column prop="role_name" label="成员类型" align="center"></el-table-column>
+          <el-table-column label="归属单位" align="center">
+            <template slot-scope="scope">{{ departmentObj[scope.row.department_id] }}</template>
+          </el-table-column>
+          <el-table-column prop="contribution" label="贡献率" align="center">
+            <template slot-scope="scope">{{scope.row.contribution + '%'}}</template>
+          </el-table-column>
+        </el-table>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="bookInfoDialogVisible = false">确 定</el-button>
+        <el-button @click="bookInfoDialogVisible = false">取 消</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import { stringify } from 'qs'
 export default {
   data () {
     return {
@@ -185,9 +280,9 @@ export default {
 
 
         // 当前页码
-        pagenum: 1,
+        pageNum: 1,
         // 当前页大小
-        pagesize: 2
+        pageSize: 5
       },
 
 
@@ -224,12 +319,10 @@ export default {
       languageList:[],
       // 研究类型
       rtObj:{},
-      rtList:[]
-
-      // // 表格多选记录
-      // selection: [],
-      // // 控制录入论文成果对话框显示与隐藏变量
-      // addPaperDialogVisible: false,
+      rtList:[],
+      bookInfoDialogVisible: false,
+      bookInfo: {},
+      memberList: []
     }
   },
   async created() {
@@ -330,7 +423,26 @@ export default {
     handleCurrentChange(val) {
       this.queryInfo.pageNum = val
       this.getBookList()
-    }
+    },
+    async showBookInfoDialog(bookId) {
+      const { data: res } = await this.$http.post("/book/findBookById", this.$qs.stringify({ book_id: bookId }));
+      if (res.status !== "200") return this.$message.error("获取著作成果信息失败");
+      this.bookInfo = res.data;
+      const { data: res2 } = await this.$http.post('/team/selectBookTeam', stringify({ book_id: bookId }))
+      if( res2.status !== '200' ) return this.$message.error('获取著作成果团队信息失败')
+      this.memberList = res2.data
+      this.bookInfo.aod_name = this.departmentObj[this.bookInfo.aod_id];
+      this.bookInfo.sc_name = this.scObj[this.bookInfo.sc_id];
+      this.bookInfo.subject_name = this.subjectObj[this.bookInfo.subject_id];
+      this.bookInfo.sd_name = this.departmentObj[this.bookInfo.sd_id];
+      this.bookInfo.publish_time = this.bookInfo.publish_time.substring(0, 10);
+      this.bookInfo.pl_name = this.plObj[this.bookInfo.pl_id];
+      this.bookInfo.pp_name = this.ppObj[this.bookInfo.pp_id];
+      this.bookInfo.bt_name = this.btObj[this.bookInfo.bt_id];
+      this.bookInfo.rt_name = this.rtObj[this.bookInfo.rt_id];
+      this.bookInfo.language_name = this.languageObj[this.bookInfo.language_id];
+      this.bookInfoDialogVisible = true;
+    },
   }
 }
 </script>

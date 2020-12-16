@@ -22,7 +22,7 @@ import AwardsManage from '../components/achievement/awards/AwardsManage.vue'
 import Patents from '../components/achievement/patents/Patents.vue'
 import PatentsManage from '../components/achievement/patents/PatentsManage.vue'
 import PatentsQuery from '../components/achievement/patents/PatentsQuery.vue'
-import Logs from '../components/Logs.vue'
+import Logs from '../components/logs/Logs.vue'
 import CheckProject from '../components/check/CheckProject.vue'
 import CheckBooks from '../components/check/CheckBooks.vue'
 import CheckPapers from '../components/check/CheckPapers.vue'
@@ -32,6 +32,14 @@ import Data from '../components/Data.vue'
 import Assess from '../components/assess/Assess.vue'
 import UserEdit from '../components/UserEdit.vue'
 import AssessPlan from '../components/assess/AssessPlan.vue'
+import SystemLogs from '../components/logs/SystemLogs.vue'
+import OperationLogs from '../components/logs/OperationLogs.vue'
+import Anounce from '../components/Anounce.vue'
+
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
 
 Vue.use(VueRouter)
 axios.defaults.baseURL = 'http://localhost:8080/'
@@ -94,7 +102,14 @@ const routes = [
       },
       { path: '/roleEdit', component: RoleEdit },
       { path: '/assignRole', component: AssignRole },
-      { path: '/logs', component: Logs },
+      {
+        path: '/logs',
+        component: Logs,
+        children: [
+          { path: '/logs/systemLogs', component: SystemLogs },
+          { path: '/logs/operationLogs', component: OperationLogs }
+        ]
+      },
       { path: '/checkproject', component: CheckProject },
       { path: '/checkbooks', component: CheckBooks },
       { path: '/checkawards', component: CheckAwards },
@@ -103,7 +118,8 @@ const routes = [
       { path: '/data', component: Data },
       { path: '/assess', component: Assess },
       { path: '/userEdit', component: UserEdit },
-      { path: '/assessPlan', component: AssessPlan }
+      { path: '/assessPlan', component: AssessPlan },
+      { path: '/anounce', component: Anounce }
     ]
   }
 ]

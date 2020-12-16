@@ -34,9 +34,21 @@ import {
   InputNumber,
   Radio,
   RadioGroup,
-  Cascader
+  Cascader,
+  Link,
+  Switch,
+  Carousel,
+  CarouselItem,
+  Divider,
+  Footer
 } from 'element-ui'
 
+Vue.use(Footer)
+Vue.use(Divider)
+Vue.use(CarouselItem)
+Vue.use(Carousel)
+Vue.use(Switch)
+Vue.use(Link)
 Vue.use(Cascader)
 Vue.use(RadioGroup)
 Vue.use(Radio)

@@ -35,11 +35,23 @@
             </el-submenu>
           </el-menu>
         </el-aside>
-
-        <!-- 页面内容 -->
-        <el-main>
-          <router-view></router-view>
-        </el-main>
+        <el-container>
+          <!-- 页面内容 -->
+          <el-main>
+            <router-view></router-view>
+          </el-main>
+          <el-footer style="text-align: center">
+            <div>
+              <i class="el-icon-edit" style="color: gray"></i>
+              <span style="color: gray">2018级4班第1小组</span>
+            </div>
+            <div style="color: gray">
+              <span style="vertical-align:  middle;">项目地址：</span>
+              <img src="https://img.icons8.com/windows/32/000000/github.png" @click="toGitHub"
+                style="cursor: pointer;width: 22px;height: 22px;vertical-align:  middle;"/>
+            </div>
+          </el-footer>
+        </el-container>
       </el-container>
     </el-container>
 </template>
@@ -86,6 +98,9 @@ export default {
     saveNavState (activeNav) {
       window.sessionStorage.setItem('activeNav', activeNav)
       this.activeNav = activeNav
+    },
+    toGitHub() {
+      window.open("https://github.com/yc123-yang/The-first-group")
     }
   }
 }
@@ -114,6 +129,9 @@ export default {
   }
 }
 .el-main {
+  background-color: #f2f2f2;
+}
+.el-footer {
   background-color: #f2f2f2;
 }
 .homeContainer {

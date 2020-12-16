@@ -14,6 +14,9 @@
           <div style="line-height: 14px">专利名字</div>
           <el-input class="columnInput" size="mini" clearable v-model="queryInfo.patent_name" placeholder="请输入" @change="QueryPatentList"> </el-input>
         </template>
+        <template slot-scope="scope">
+          <el-link type="primary" @click="showPatentInfoDialog(scope.row.patent_id)">{{scope.row.patent_name}}</el-link>
+        </template>
       </el-table-column>
 
       <el-table-column prop="authorName" label="负责人" width="150px" align="center">
@@ -114,7 +117,74 @@
     </el-table>
 
     <!-- 分页组件 -->
-    <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="queryInfo.pagenum" :page-sizes="[1, 2, 5, 10]" :page-size="queryInfo.pagesize" layout="total, sizes, prev, pager, next, jumper" :total="total"> </el-pagination>
+    <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="queryInfo.pageNum" :page-sizes="[1, 2, 5, 10]" :page-size="queryInfo.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total"> </el-pagination>
+
+    <el-dialog title="专利成果详情" :visible.sync="patentInfoDialogVisible" width="50%">
+      <el-form class="dialog" label-width="110px">
+        <el-row>
+          <el-form-item label="专利名字：">{{ patentInfo.patent_name }}</el-form-item>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="专利范围：">{{ patentInfo.pr_name}}</el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="专利状态：">{{ patentInfo.ps_name }}</el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="归属单位：">{{ patentInfo.aod_name }}</el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="专利类型：">{{ patentInfo.pt_name }}</el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="申请编号：">{{ patentInfo.application_number }}</el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="申请日期：">{{ patentInfo.application_time }}</el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="公开编号：">{{ patentInfo.public_number }}</el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="公开日期：">{{ patentInfo.public_time }}</el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="授权编号：">{{ patentInfo.authorization_number }}</el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="授权日期：">{{ patentInfo.authorization_time }}</el-form-item>
+          </el-col>
+        </el-row>
+        <el-form-item label="作者:" prop="author" size="mini">
+        </el-form-item>
+        <el-table :data="memberList" style="width: 100%" ref="authorTableRef" size="mini" border height="250px"
+          :header-cell-style="{ background: '#f5f7fa' }" :default-sort="{prop: 'contribution', order: 'descending'}">
+          <el-table-column type="index" label="#" align="center"></el-table-column>
+          <el-table-column prop="name" label="作者姓名" align="center"></el-table-column>
+          <el-table-column prop="role_name" label="成员类型" align="center"></el-table-column>
+          <el-table-column label="归属单位" align="center">
+            <template slot-scope="scope">{{ departmentObj[scope.row.department_id] }}</template>
+          </el-table-column>
+          <el-table-column prop="contribution" label="贡献率" align="center">
+            <template slot-scope="scope">{{scope.row.contribution + '%'}}</template>
+          </el-table-column>
+        </el-table>
+
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="patentInfoDialogVisible = false">确 定</el-button>
+        <el-button @click="patentInfoDialogVisible = false">取 消</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -143,9 +213,9 @@ export default {
         authorization_time: "",
 
         // 当前页码
-        pagenum: 1,
+        pageNum: 1,
         // 当前页大小
-        pagesize: 10,
+        pageSize: 10,
       },
 
       // 总的数据条数
@@ -169,11 +239,9 @@ export default {
       // 专利状态
       psObj: {},
       psList: [],
-
-      // // 表格多选记录
-      // selection: [],
-      // // 控制录入论文成果对话框显示与隐藏变量
-      // addPaperDialogVisible: false,
+      patentInfoDialogVisible: false,
+      patentInfo: {},
+      memberList: []
     };
   },
   async created() {
@@ -218,7 +286,7 @@ export default {
         this.queryInfo.application_time_end = this.queryInfo.application_time[1]
       } else this.queryInfo.application_time_start = this.queryInfo.application_time_end = ''
       // 通过 post 请求获取科研项目列表
-      const { data: res } = await this.$http.post("patent/selectPatentByCondition", this.$qs.stringify(this.queryInfo));
+      const { data: res } = await this.$http.post("/patent/selectAllPatentByCondition", this.$qs.stringify(this.queryInfo));
       if (res.status === "404") {
         return this.$router.push("/home");
       }
@@ -269,6 +337,23 @@ export default {
     handleCurrentChange(val) {
       this.queryInfo.pageNum = val;
       this.getPatentList();
+    },
+    async showPatentInfoDialog(patentId) {
+      const { data: res } = await this.$http.post("/patent/findPatentById", this.$qs.stringify({ patent_id: patentId }));
+      if (res.status !== "200") return this.$message.error("获取专利成果信息失败");
+      this.patentInfo = res.data;
+      const { data: res2 } = await this.$http.post('/team/selectPatentTeam', this.$qs.stringify({ patent_id: patentId }))
+      if( res2.status !== '200' ) return this.$message.error('获取专利成果团队信息失败')
+      this.memberList = res2.data
+      this.patentInfo.aod_name = this.departmentObj[this.patentInfo.aod_id];
+      this.patentInfo.application_time = this.patentInfo.application_time.substring(0, 10);
+      this.patentInfo.public_time = this.patentInfo.public_time.substring(0, 10);
+      this.patentInfo.authorization_time = this.patentInfo.authorization_time.substring(0, 10);
+      this.patentInfo.pt_name = this.ptObj[this.patentInfo.pt_id];
+      this.patentInfo.pr_name = this.prObj[this.patentInfo.pr_id];
+      this.patentInfo.ps_name = this.psObj[this.patentInfo.ps_id];
+
+      this.patentInfoDialogVisible = true;
     },
   },
 };

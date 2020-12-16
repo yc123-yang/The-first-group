@@ -14,6 +14,9 @@
           <div style="line-height: 14px">成果名字</div>
           <el-input class="columnInput" size="mini" clearable v-model="queryInfo.achievement_name" placeholder="请输入" @change="QueryAwardList"> </el-input>
         </template>
+        <template slot-scope="scope">
+          <el-link type="primary" @click="showAwardInfoDialog(scope.row.award_id)">{{scope.row.award_id}}</el-link>
+        </template>
       </el-table-column>
 
       <el-table-column prop="authorName" label="著作作者" width="150px" align="center">
@@ -134,11 +137,95 @@
     </el-table>
 
     <!-- 分页组件 -->
-    <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="queryInfo.pagenum" :page-sizes="[1, 2, 5, 10]" :page-size="queryInfo.pagesize" layout="total, sizes, prev, pager, next, jumper" :total="total"> </el-pagination>
+    <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="queryInfo.pageNum" :page-sizes="[1, 2, 5, 10]" :page-size="queryInfo.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total"> </el-pagination>
+
+    <el-dialog title="获奖成果详情" :visible.sync="awardInfoDialogVisible" width="50%">
+      <el-form class="dialog" label-width="110px">
+        <el-row>
+          <el-form-item label="成果名字：">{{ awardInfo.achievement_name }}</el-form-item>
+        </el-row>
+        <el-row>
+          <el-col :span="12"
+            ><el-form-item label="成果编号：">{{ awardInfo.award_id }}</el-form-item></el-col
+          >
+          <el-col :span="12"
+            ><el-form-item label="获奖名字：">{{ awardInfo.award_name }}</el-form-item></el-col
+          >
+        </el-row>
+        <el-row>
+          <el-col :span="12"
+            ><el-form-item label="负责人：">{{ awardInfo.user_name }}</el-form-item></el-col
+          >
+          <el-col :span="12"
+            ><el-form-item label="发表日期：">{{ awardInfo.award_time }}</el-form-item></el-col
+          >
+        </el-row>
+        <el-row>
+          <el-col :span="12"
+            ><el-form-item label="发证机关：">{{ awardInfo.issuing_authority }}</el-form-item></el-col
+          >
+          <el-col :span="12"
+            ><el-form-item label="奖励批准号：">{{ awardInfo.approval_number }}</el-form-item></el-col
+          >
+        </el-row>
+        <el-row>
+          <el-col :span="12"
+            ><el-form-item label="单位排名：">{{ awardInfo.dr_id }}</el-form-item></el-col
+          >
+          <el-col :span="12"
+            ><el-form-item label="获奖级别：">{{ awardInfo.ar_name }}</el-form-item></el-col
+          >
+        </el-row>
+        <el-row>
+          <el-col :span="12"
+            ><el-form-item label="获奖等级：">{{ awardInfo.al_name }}</el-form-item></el-col
+          >
+          <el-col :span="12"
+            ><el-form-item label="成果形式：">{{ awardInfo.at_name }}</el-form-item></el-col
+          >
+        </el-row>
+        <el-row>
+          <el-col :span="12"
+            ><el-form-item label="学科门类：">{{ awardInfo.sc_name }}</el-form-item></el-col
+          >
+          <el-col :span="12"
+            ><el-form-item label="一级学科：">{{ awardInfo.subject_name }}</el-form-item></el-col
+          >
+        </el-row>
+        <el-row>
+          <el-col :span="12"
+            ><el-form-item label="归属单位:">{{ awardInfo.aod_name }}</el-form-item></el-col
+          >
+          <el-col :span="12"
+            ><el-form-item label="项目来源：">{{ awardInfo.sd_name }}</el-form-item></el-col
+          >
+        </el-row>
+        <el-form-item label="作者:" prop="author" size="mini">
+        </el-form-item>
+        <el-table :data="memberList" style="width: 100%" ref="authorTableRef" size="mini" border height="250px"
+          :header-cell-style="{ background: '#f5f7fa' }" :default-sort="{prop: 'contribution', order: 'descending'}">
+          <el-table-column type="index" label="#" align="center"></el-table-column>
+          <el-table-column prop="name" label="作者姓名" align="center"></el-table-column>
+          <el-table-column prop="role_name" label="成员类型" align="center"></el-table-column>
+          <el-table-column label="归属单位" align="center">
+            <template slot-scope="scope">{{ departmentObj[scope.row.department_id] }}</template>
+          </el-table-column>
+          <el-table-column prop="contribution" label="贡献率" align="center">
+            <template slot-scope="scope">{{scope.row.contribution + '%'}}</template>
+          </el-table-column>
+        </el-table>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="awardInfoDialogVisible = false">确 定</el-button>
+        <el-button @click="awardInfoDialogVisible = false">取 消</el-button>
+      </span>
+    </el-dialog>
+
   </div>
 </template>
 
 <script>
+import { stringify } from 'qs';
 export default {
   data() {
     return {
@@ -164,9 +251,9 @@ export default {
         sd_id: "",
         at_id: "",
         // 当前页码
-        pagenum: 1,
+        pageNum: 1,
         // 当前页大小
-        pagesize: 10,
+        pageSize: 10,
       },
 
       // 总的数据条数
@@ -194,11 +281,9 @@ export default {
       // 成果形式
       atObj: {},
       atList: [],
-
-      // // 表格多选记录
-      // selection: [],
-      // // 控制录入论文成果对话框显示与隐藏变量
-      // addPaperDialogVisible: false,
+      awardInfoDialogVisible: false,
+      awardInfo: {},
+      memberList: []
     };
   },
   async created() {
@@ -287,6 +372,23 @@ export default {
     handleCurrentChange(val) {
       this.queryInfo.pageNum = val;
       this.getAwardList();
+    },
+    async showAwardInfoDialog(awardId) {
+      const { data: res } = await this.$http.post("/award/findAwardById", this.$qs.stringify({ award_id: awardId }));
+      if (res.status !== "200") return this.$message.error("获取获奖成果信息失败");
+      this.awardInfo = res.data;
+      const { data: res2 } = await this.$http.post('/team/selectAwardTeam', this.$qs.stringify({ award_id: awardId }))
+      if( res2.status !== '200' ) return this.$message.error('获取成果获奖团队信息失败')
+      this.memberList = res2.data
+      this.awardInfo.aod_name = this.departmentObj[this.awardInfo.aod_id];
+      this.awardInfo.sc_name = this.scObj[this.awardInfo.sc_id];
+      this.awardInfo.subject_name = this.subjectObj[this.awardInfo.subject_id];
+      this.awardInfo.sd_name = this.departmentObj[this.awardInfo.sd_id];
+      this.awardInfo.award_time = this.awardInfo.award_time.substring(0, 10);
+      this.awardInfo.ar_name = this.arObj[this.awardInfo.ar_id];
+      this.awardInfo.al_name = this.alObj[this.awardInfo.al_id];
+      this.awardInfo.at_name = this.atObj[this.awardInfo.at_id];
+      this.awardInfoDialogVisible = true;
     },
   },
 };

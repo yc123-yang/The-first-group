@@ -16,6 +16,9 @@
                 placeholder="请输入" @change="QueryPaperList">
               </el-input>
             </template>
+            <template slot-scope="scope">
+              <el-link type="primary" @click="showPaperInfoDialog(scope.row.paper_id)">{{scope.row.paper_name}}</el-link>
+            </template>
           </el-table-column>
           <el-table-column prop="authorName" label="论文作者" width="150px" align="center">
             <template slot="header" slot-scope="scope">{{scope.haha}}
@@ -124,10 +127,95 @@
       layout="total, sizes, prev, pager, next, jumper"
       :total="total">
     </el-pagination>
+
+    <el-dialog title="论文成果详情" :visible.sync="paperInfoDialogVisible" width="50%">
+      <el-form class="dialog" label-width="90px" label-position="left">
+      <el-row :gutter="20">
+        <el-col :span="16">
+          <el-row>
+            <el-form-item label="论文题目：">{{ paperInfo.paper_name }}</el-form-item>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="论文编号：">{{ paperInfo.paper_id }}</el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="论文类型：">{{ paperInfo.pt_name}}</el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="负责人：">{{ paperInfo.user_name }}</el-form-item>
+            </el-col>
+            <el-col :span="12"
+              ><el-form-item label="发表期刊：">{{ paperInfo.periodical_name}}</el-form-item></el-col
+            >
+          </el-row>
+          <el-row>
+            <el-col :span="12"
+              ><el-form-item label="发表时间：">{{ paperInfo.publish_time}}</el-form-item></el-col
+            >
+            <el-col :span="12"
+              ><el-form-item label="收录号：">{{ paperInfo.include_number }}</el-form-item></el-col
+            >
+          </el-row>
+          <el-row>
+            <el-col :span="12"
+              ><el-form-item label="学科门类：">{{ paperInfo.sc_name}}</el-form-item></el-col
+            >
+            <el-col :span="12"
+              ><el-form-item label="一级学科：">{{ paperInfo.subject_name}}</el-form-item></el-col
+            >
+          </el-row>
+          <el-row>
+            <el-col :span="12"
+              ><el-form-item label="归属单位：">{{ paperInfo.aod_name }}</el-form-item></el-col
+            >
+            <el-col :span="12"
+              ><el-form-item label="来源单位：">{{ paperInfo.sd_name }}</el-form-item></el-col
+            >
+          </el-row>
+          <el-row>
+            <el-form-item label="备注">{{paperInfo.remark}}</el-form-item>
+          </el-row>
+          <el-form-item label="作者:" prop="author" size="mini">
+          </el-form-item>
+          <el-table :data="memberList" style="width: 100%" ref="authorTableRef" size="mini" border height="250px"
+            :header-cell-style="{ background: '#f5f7fa' }" :default-sort="{prop: 'contribution', order: 'descending'}">
+            <!-- 序号列 -->
+            <el-table-column type="index" label="#" align="center"></el-table-column>
+            <el-table-column prop="name" label="作者姓名" align="center"></el-table-column>
+            <el-table-column prop="role_name" label="成员类型" align="center"></el-table-column>
+            <el-table-column label="归属单位" align="center">
+              <template slot-scope="scope">{{ departmentObj[scope.row.department_id] }}</template>
+            </el-table-column>
+            <el-table-column prop="contribution" label="贡献率" align="center">
+              <template slot-scope="scope">{{scope.row.contribution + '%'}}</template>
+            </el-table-column>
+          </el-table>
+        </el-col>
+        <el-col :span="8">
+          <el-table  :data="ppList" style="width: 100%; margin: 0" height="550px" border
+            size="mini":header-cell-style="{ background: '#f5f7fa' }">
+            <el-table-column label="#" type="index"></el-table-column>
+            <el-table-column label="收录情况" prop="periodical_name">
+            </el-table-column>
+          </el-table>
+        </el-col>
+      </el-row>
+      </el-form>
+
+
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="paperInfoDialogVisible = false">确 定</el-button>
+        <el-button @click="paperInfoDialogVisible = false">取 消</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import { stringify } from 'qs'
 export default {
   data () {
     return {
@@ -178,12 +266,9 @@ export default {
       ptObj:{},
       //论文类型 列表
       ptList:[],
-
-
-      // // 表格多选记录
-      // selection: [],
-      // // 控制录入论文成果对话框显示与隐藏变量
-      // addPaperDialogVisible: false,
+      paperInfoDialogVisible: false,
+      paperInfo: {},
+      ppList: []
     }
   },
   async created() {
@@ -269,7 +354,30 @@ export default {
     handleCurrentChange(val) {
       this.queryInfo.pageNum = val
       this.getPaperList()
-    }
+    },
+    async showPaperInfoDialog(paperId) {
+      console.log(paperId)
+      const { data: res } = await this.$http.post("/paper/findPaperById", this.$qs.stringify({ paper_id: paperId }));
+      if (res.status !== "200") return this.$message.error("获取待审核论文成果信息失败");
+      this.paperInfo = res.data;
+      const { data: res2 } = await this.$http.post('/team/selectPaperTeam', stringify({ paper_id: paperId }))
+      if( res2.status !== '200' ) return this.$message.error('获取待审核论文成果团队失败')
+      this.memberList = res2.data
+      const { data: res3 } = await this.$http.post('/periodicalPaper/findPeriodicalByPaperId', stringify({ paper_id: paperId }))
+      if( res3.status !== '200' ) return this.$message.error('获取待审核论文收录期刊列表失败')
+      this.ppList = []
+      this.periodicalList.forEach(item => {
+        if(res3.data.indexOf(item.periodical_id) !== -1) this.ppList.push(item)
+      })
+      this.paperInfo.aod_name = this.departmentObj[this.paperInfo.aod_id];
+      this.paperInfo.sc_name = this.scObj[this.paperInfo.sc_id];
+      this.paperInfo.subject_name = this.subjectObj[this.paperInfo.subject_id];
+      this.paperInfo.sd_name = this.departmentObj[this.paperInfo.sd_id];
+      this.paperInfo.periodical_name = this.periodicalObj[this.paperInfo.periodical_id];
+      this.paperInfo.pt_name = this.ptObj[this.paperInfo.pt_id];
+      if(this.paperInfo.publish_time !== null) this.paperInfo.publish_time = this.paperInfo.publish_time.substring(0, 10);
+      this.paperInfoDialogVisible = true;
+    },
   }
 }
 </script>
