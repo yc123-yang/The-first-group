@@ -1,6 +1,9 @@
 <template>
     <div style="margin-top: 25px" v-loading="isLoading">
-    <el-button type="warning" size="medium" @click="print">导出信息</el-button>
+    <download-excel :data="selectionList" :fields="excelFields" style="display: inline;">
+      <el-button type="warning" size="medium" :disabled="selectionList.length === 0">导出信息</el-button>
+    </download-excel>
+
 
     <el-table :data="booksList" style="width: 100%; margin-top: 15px;" border
       @selection-change="selectionChange"
@@ -323,7 +326,9 @@ export default {
       bookInfoDialogVisible: false,
       bookInfo: {},
       memberList: [],
-      isLoading: false
+      isLoading: false,
+      selectionList: [],
+      excelFields: this.$excelFields.book
     }
   },
   async created() {
@@ -452,8 +457,8 @@ export default {
       this.isLoading = false
     },
     // 多选框条件发生变化
-    selectionChange() {
-      console.log('selection change!!!')
+    selectionChange(val) {
+      this.selectionList = val
     },
     // 导出
     print() {

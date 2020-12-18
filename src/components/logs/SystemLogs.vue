@@ -1,7 +1,9 @@
 <template>
   <div style="margin-top: 25px">
-    <el-button type="warning" size="medium">导出信息</el-button>
-    <el-button type="danger" @click="deleteAllLogs" size="medium">清空日志</el-button>
+    <download-excel :data="selectionList" :fields="excelFields" style="display: inline; margin-right: 10px">
+      <el-button type="warning" size="medium" :disabled="selectionList.length === 0">导出信息</el-button>
+    </download-excel>
+    <el-button type="danger" size="medium" @click="deleteAllLogs">清空日志</el-button>
 
     <el-table :data="logList" style="width: 100%; margin-top: 15px;" :header-cell-style="{background: '#f5f7fa'}">
       <el-table-column type="index" label="#"></el-table-column>
@@ -35,7 +37,7 @@
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page="queryInfo.pageNum"
-      :page-sizes="[1, 2, 5, 10, 20]"
+      :page-sizes="pageSizeList"
       :page-size="queryInfo.pageSize"
       layout="total, sizes, prev, pager, next, jumper"
       :total="total">
@@ -55,11 +57,15 @@ export default {
         pageNum: 1
       },
       // 安全日志列表总条数
-      total: 5
+      total: 5,
+      selectionList: [],
+      pageSizeList: [1, 2, 5, 10, 20],
+      excelFields: this.$excelFields.systemLog
     }
   },
-  created() {
-    this.getLogList()
+  async created() {
+    await this.getLogList()
+    this.pageSizeList.push(this.total)
   },
   methods: {
     // 获取安全日志列表
@@ -93,7 +99,10 @@ export default {
       if(res2.status !== '200') return this.$message.error('清空日志失败')
       this.$message.success('清空日志成功')
       this.getLogList()
-    }
+    },
+    selectionChange(val) {
+      this.selectionList = val
+    },
   }
 }
 </script>

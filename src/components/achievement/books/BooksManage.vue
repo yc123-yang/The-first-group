@@ -1,8 +1,9 @@
 <template>
   <div style="margin-top: 25px" v-loading="isLoading">
     <el-button type="primary" size="medium" @click="addBooksDialogVisible = true">录入著作</el-button>
-    <el-button type="danger" size="medium" :disabled="selection.length === 0">删除著作</el-button>
-    <el-button type="warning" size="medium" @click="print">导出信息</el-button>
+    <download-excel :data="selectionList" :fields="excelFields" style="display: inline; margin-left: 10px">
+      <el-button type="warning" size="medium" :disabled="selectionList.length === 0">导出信息</el-button>
+    </download-excel>
 
     <el-table :data="booksList" style="width: 100%; margin-top: 15px" border @selection-change="selectionChange"
       :header-cell-style="{ background: '#f5f7fa' }" v-loading="isLoading">
@@ -857,7 +858,9 @@ export default {
       },
       bookInfoDialogVisible: false,
       bookInfo: {},
-      isLoading: true
+      isLoading: true,
+      selectionList: [],
+      excelFields: this.$excelFields.book
     };
   },
   async created() {
@@ -994,8 +997,8 @@ export default {
       this.isLoading = false
     },
     // 多选框条件发生变化
-    selectionChange() {
-      console.log("selection change!!!");
+    selectionChange(val) {
+      this.selectionList = val
     },
     // 导出
     print() {

@@ -1,8 +1,10 @@
 <template>
   <div style="margin-top: 25px">
-    <el-button type="warning" size="medium">导出信息</el-button>
+    <download-excel :data="selectionList" :fields="excelFields" style="display: inline; margin-right: 10px">
+      <el-button type="warning" size="medium" :disabled="selectionList.length === 0">导出信息</el-button>
+    </download-excel>
     <el-button type="danger" @click="deleteLogs" size="medium">清空日志</el-button>
-    <el-table :data="logList" style="width: 100%; margin-top: 15px;" :header-cell-style="{background: '#f5f7fa'}">
+    <el-table :data="logList" style="width: 100%; margin-top: 15px;" :header-cell-style="{background: '#f5f7fa'}" @selection-change="selectionChange">
       <el-table-column type="index" label="#"></el-table-column>
       <el-table-column type="selection"></el-table-column>
       <el-table-column label="日志时间" prop="ol_time"></el-table-column>
@@ -39,7 +41,7 @@
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page="queryInfo.pageNum"
-      :page-sizes="[1, 2, 5, 10, 20]"
+      :page-sizes="pageSizeList"
       :page-size="queryInfo.pageSize"
       layout="total, sizes, prev, pager, next, jumper"
       :total="total">
@@ -58,11 +60,15 @@ export default {
       },
       // 日志列表
       logList: [],
-      total: 10
+      total: 10,
+      selectionList: [],
+      excelFields: this.$excelFields.operationLog,
+      pageSizeList: [1, 2, 5, 10, 20]
     }
   },
-  created() {
-    this.getLogList()
+  async created() {
+    await this.getLogList()
+    this.pageSizeList.push(this.total)
   },
   methods: {
     async getLogList() {
@@ -95,7 +101,10 @@ export default {
       if(res2.status !== '200') return this.$message.error('清空日志失败')
       this.$message.success('清空日志成功')
       this.getLogList()
-    }
+    },
+    selectionChange(val) {
+      this.selectionList = val
+    },
   }
 }
 </script>

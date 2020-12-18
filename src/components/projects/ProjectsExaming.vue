@@ -1,7 +1,8 @@
 <template>
   <div style="margin-top: 25px" v-loading="isLoading">
-    <el-button type="warning" size="medium" @click="print">导出信息</el-button>
-
+    <download-excel :data="selectionList" :fields="excelFields" style="display: inline;">
+      <el-button type="warning" size="medium" :disabled="selectionList.length === 0">导出信息</el-button>
+    </download-excel>
     <el-table :data="projectsList" style="width: 100%; margin-top: 15px;" border
       @selection-change="selectionChange"
       :header-cell-style="{background: '#f5f7fa'}">
@@ -303,22 +304,36 @@ export default {
       ctObj: {},
       // 结题形式列表
       ctList: [],
+      atList: [],
       isLoading: false,
       projectInfoDialogVisible: false,
       projectInfo: {},
-      memberList: {}
+      memberList: {},
+      selectionList: [],
+      excelFields: this.$excelFields.project
     }
   },
   async created() {
+      this.excelFields['项目编号'] = 'pe_id'
+      console.log(this.excelFields)
       this.isLoading = true
       await Promise.all([
-        this.getDepartmentList(), this.getScList(), this.getSubjectList(),
+        this.getDepartmentList(), this.getScList(), this.getSubjectList(), this.getAtList(),
         this.getLevelList(), this.getStatusList(), this.getCtList(), this.getNatureList()
       ])
       this.isLoading = false
       this.getProjectList()
   },
   methods: {
+    async getAtList() {
+      return new Promise((resolve, reject) => {
+        this.$http.post('/achievementType/findAllAchievementType').then(resp => {
+          if(resp.data.status !== '200') reject(this.$message.error('获取成果形式列表失败')) 
+          this.atList = resp.data.data
+          resolve()
+        })
+      })
+    },
     // 获取单位列表，构造单位 id:name 对象
     async getDepartmentList() {
       return new Promise((resolve, reject) => {
@@ -423,8 +438,8 @@ export default {
       this.isLoading = false
     },
     // 多选框条件发生变化
-    selectionChange() {
-      console.log('selection change!!!')
+    selectionChange(val) {
+      this.selectionList = val
     },
     // 导出
     print() {

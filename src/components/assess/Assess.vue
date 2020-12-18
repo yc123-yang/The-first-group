@@ -10,11 +10,14 @@
     <el-card>
       <!-- 级联选择器选择考核时间 -->
       <span style="margin-right: 15px">考核批次：</span>
+      <download-excel :data="selectionList" :fields="excelFields" style="display: inline; float: right">
+        <el-button type="warning" size="medium" :disabled="selectionList.length === 0">导出信息</el-button>
+      </download-excel>
       <el-cascader v-model="assessTime" :options="assessTimeOption" :props="{ expandTrigger: 'hover' }" clearable @change="getAssessList">
 
       </el-cascader>
 
-      <el-table :data="assessList" style="width: 100%; margin-top: 15px;" border  :header-cell-style="{ background: '#f5f7fa' }">
+      <el-table :data="assessList" style="width: 100%; margin-top: 15px;" border  :header-cell-style="{ background: '#f5f7fa' }" @selection-change="selectionChange" ref="assessTable">
         <el-table-column type="index" label="#" fixed></el-table-column>
         <el-table-column type="selection" fixed></el-table-column>
         <el-table-column prop="check_time" label="考核批次" align="center" width="200px"></el-table-column>
@@ -26,7 +29,7 @@
         <el-table-column prop="award_count" label="成果获奖" align="center" width="200px"></el-table-column>
         <el-table-column prop="patent_count" label="专利成果" align="center" width="200px"></el-table-column>
         <el-table-column prop="outlay_sum" label="经费合计" align="center" width="200px"></el-table-column>
-        <el-table-column prop="total_Score" label="合计" align="center" width="200px"></el-table-column>
+        <el-table-column prop="total_Score" label="合计" align="center" width="200px" fixed="right"></el-table-column>
       </el-table>
     </el-card>
   </div>
@@ -44,6 +47,8 @@ export default {
       assessList: [],
       // 单位对象列表，name:id 对象
       departmentList: [], departmentObj: {},
+      selectionList: [],
+      excelFields: this.$excelFields.assess
       
     }
   },
@@ -93,7 +98,10 @@ export default {
       this.assessList.forEach(item => {
         item.department_name = this.departmentObj[item.department_id]
       })
-    }
+    },
+    selectionChange(val) {
+      this.selectionList = val
+    },
   }
 }
 </script>

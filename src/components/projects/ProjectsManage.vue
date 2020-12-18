@@ -1,7 +1,7 @@
 <template>
   <div style="margin-top: 25px" v-loading="isLoading">
     <el-button type="primary" size="medium" @click="addProjectDialogVisible = true">录入项目</el-button>
-    <el-button type="danger" size="medium" :disabled="selectionList.length === 0">删除项目</el-button>
+    <!-- <el-button type="danger" size="medium" :disabled="selectionList.length === 0">删除项目</el-button> -->
     <download-excel :data="selectionList" :fields="excelFields" style="display: inline; margin-left: 10px;">
       <el-button type="warning" size="medium" :disabled="selectionList.length === 0">导出信息</el-button>
     </download-excel>
@@ -854,13 +854,22 @@ export default {
   async created() {
       this.isLoading = true
       await Promise.all([
-        this.getDepartmentList(), this.getScList(), this.getSubjectList(),
+        this.getDepartmentList(), this.getScList(), this.getSubjectList(), this.getAtList(),
         this.getLevelList(), this.getStatusList(), this.getCtList(), this.getNatureList()
       ])
       this.isLoading = false
     this.getProjectList()
   },
   methods: {
+    async getAtList() {
+      return new Promise((resolve, reject) => {
+        this.$http.post('/achievementType/findAllAchievementType').then(resp => {
+          if(resp.data.status !== '200') reject(this.$message.error('获取成果形式列表失败')) 
+          this.atList = resp.data.data
+          resolve()
+        })
+      })
+    },
     // 获取单位列表，构造单位 id:name 对象
     async getDepartmentList() {
       return new Promise((resolve, reject) => {
@@ -957,9 +966,9 @@ export default {
         item.level_name = this.levelObj[item.level_id]
         item.status_name = this.statusObj[item.status_id]
         item.sd_name = this.departmentObj[item.sd_id]
-        item.start_time = item.start_time.substring(0, 10) + ' 00:00:00'
-        item.plan_time = item.plan_time.substring(0, 10) + ' 00:00:00'
-        item.complete_time = item.complete_time.substring(0, 10) + ' 00:00:00'
+        item.start_time = item.start_time.substring(0, 10)
+        item.plan_time = item.plan_time.substring(0, 10)
+        item.complete_time = item.complete_time.substring(0, 10)
         item.ct_name = this.ctObj[item.ct_id]
       })
       this.isLoading = false

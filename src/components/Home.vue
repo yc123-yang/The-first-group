@@ -7,7 +7,18 @@
           <img class="logoImg" src="../assets/image/sicnu.jpg" alt="" style="height: 80%;">
           <span class="logoTextSpan">高校科研管理系统</span>
         </div>
-        <el-button type="info" @click="logout">退出</el-button>
+        <span style="font">
+          <span>欢迎，{{userInfo.role_name}}：</span>
+          <el-dropdown trigger="click" @command="handleCommand">
+            <el-link type="primary">{{userInfo.user_name}}</el-link>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item icon="el-icon-edit">更改信息</el-dropdown-item>
+              <el-dropdown-item icon="el-icon-switch-button" command="logout">退出登录</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </span>
+        
+        <!-- <el-button type="info" @click="logout">退出</el-button> -->
       </el-header>
 
       <el-container>
@@ -66,6 +77,8 @@
 export default {
   data () {
     return {
+      // 用户数据
+      userInfo: {},
       // 左侧菜单数据
       menulist: [],
       // 图标转换对象
@@ -92,6 +105,10 @@ export default {
   created () {
     this.getMenuList()
     this.activeNav = window.sessionStorage.getItem('activeNav')
+    this.userInfo.user_name = window.sessionStorage.getItem('user_name')
+    this.userInfo.user_id = window.sessionStorage.getItem('user_id')
+    this.userInfo.role_name = window.sessionStorage.getItem('role_name')
+    console.log(this.userInfo)
   },
   methods: {
     logout () {
@@ -130,6 +147,9 @@ export default {
         }
       })
     },
+    handleCommand(command) {
+      if(command === 'logout') this.logout()
+    }
   }
 }
 </script>
@@ -140,9 +160,9 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 30px;
-  font-family: "华文行楷";
   > div {
+    font-size: 30px;
+    font-family: "华文行楷";
     display: flex;
     align-items: center;
     span {

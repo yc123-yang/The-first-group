@@ -1,6 +1,8 @@
 <template>
     <div style="margin-top: 25px" v-loading="isLoading">
-    <el-button type="warning" size="medium" @click="print">导出信息</el-button>
+    <download-excel :data="selectionList" :fields="excelFields" style="display: inline;">
+      <el-button type="warning" size="medium" :disabled="selectionList.length === 0">导出信息</el-button>
+    </download-excel>
 
     <el-table :data="papersList" style="width: 100%; margin-top: 15px;" border
       @selection-change="selectionChange"
@@ -270,10 +272,13 @@ export default {
       paperInfo: {},
       ppList: [],
       isLoading: false,
-      memberList: []
+      memberList: [],
+      selectionList: [],
+      excelFields: this.$excelFields.paper
     }
   },
   async created() {
+    console.log(this.excelFields)
     this.isLoading = true
     await Promise.all([
       this.getDepartmentList(), this.getScList(), this.getSubjectList(), this.getPeriodicalList(), this.getPtList()
@@ -362,8 +367,8 @@ export default {
       this.isLoading = false
     },
     // 多选框条件发生变化
-    selectionChange() {
-      console.log('selection change!!!')
+    selectionChange(val) {
+      this.selectionList = val
     },
     // 导出
     print() {

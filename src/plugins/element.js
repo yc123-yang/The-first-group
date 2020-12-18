@@ -41,9 +41,15 @@ import {
   CarouselItem,
   Divider,
   Footer,
-  Badge
+  Badge,
+  Dropdown,
+  DropdownMenu,
+  DropdownItem
 } from 'element-ui'
 
+Vue.use(DropdownItem)
+Vue.use(DropdownMenu)
+Vue.use(Dropdown)
 Vue.use(Badge)
 Vue.use(Footer)
 Vue.use(Divider)

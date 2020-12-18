@@ -1,8 +1,9 @@
 <template>
   <div style="margin-top: 25px" v-loading="isLoading">
     <el-button type="primary" size="medium" @click="addPaperDialogVisible = true">录入论文</el-button>
-    <el-button type="danger" size="medium" :disabled="selection.length === 0">删除论文</el-button>
-    <el-button type="warning" size="medium" @click="print">导出信息</el-button>
+    <download-excel :data="selectionList" :fields="excelFields" style="display: inline; margin-left: 10px">
+      <el-button type="warning" size="medium" :disabled="selectionList.length === 0">导出信息</el-button>
+    </download-excel>
 
     <el-table :data="papersList" style="width: 100%; margin-top: 15px" border @selection-change="selectionChange"
       :header-cell-style="{ background: '#f5f7fa' }">
@@ -688,7 +689,9 @@ export default {
       paperInfo: {},
       ppList: [],
       memberList: [],
-      isLoading: false
+      isLoading: false,
+      selectionList: [],
+      excelFields: this.$excelFields.paper
     }
   },
 
@@ -780,8 +783,8 @@ export default {
       this.isLoading = false
     },
     // 多选框条件发生变化
-    selectionChange() {
-      console.log("selection change!!!");
+    selectionChange(val) {
+      this.selectionList = val
     },
     // 导出
     print() {

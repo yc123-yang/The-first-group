@@ -1,6 +1,8 @@
 <template>
   <div style="margin-top: 25px" v-loading="isLoading">
-    <el-button type="warning" size="medium" @click="print">导出信息</el-button>
+    <download-excel :data="selectionList" :fields="excelFields" style="display: inline;">
+      <el-button type="warning" size="medium" :disabled="selectionList.length === 0">导出信息</el-button>
+    </download-excel>
 
     <el-table :data="patentsList" style="width: 100%; margin-top: 15px" border @selection-change="selectionChange"
       :header-cell-style="{ background: '#f5f7fa' }">
@@ -243,7 +245,9 @@ export default {
       patentInfoDialogVisible: false,
       patentInfo: {},
       memberList: [],
-      isLoading: false
+      isLoading: false,
+      selectionList: [],
+      excelFields: this.$excelFields.patent
     };
   },
   async created() {
@@ -315,8 +319,8 @@ export default {
       this.patentsList = JSON.parse(JSON.stringify(this.patentsList))
     },
     // 多选框条件发生变化
-    selectionChange() {
-      console.log("selection change!!!");
+    selectionChange(val) {
+      this.selectionList = val
     },
     // 导出
     print() {

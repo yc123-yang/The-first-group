@@ -199,7 +199,10 @@ export default {
         // 登录成功，跳转到主页
         this.$message.success(res.msg);
         console.log(res.data);
-        window.sessionStorage.setItem("token", res.data.user_token);
+        window.sessionStorage.setItem("token", res.data.user_token)
+        window.sessionStorage.setItem('role_name', res.data.role_name)
+        window.sessionStorage.setItem("user_name", res.data.user_name)
+        window.sessionStorage.setItem('user_id', res.data.user_id)
         this.$router.push("/home");
       });
     },
