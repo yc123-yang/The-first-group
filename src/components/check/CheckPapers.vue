@@ -7,7 +7,7 @@
       <el-breadcrumb-item>审核论文成果申请</el-breadcrumb-item>
     </el-breadcrumb>
 
-    <el-card>
+    <el-card v-loading="isLoading">
       <!-- 待审核论文成果表格 -->
     <el-table :data="papersList" style="width: 100%" border  :header-cell-style="{ background: '#f5f7fa' }">
       <!-- 序号列 -->
@@ -283,7 +283,8 @@ export default {
       memberList: [],
       // 收录期刊列表
       ppList: [],
-      ppSelection: []
+      ppSelection: [],
+      isLoading: false
     };
   },
   async created() {
@@ -294,6 +295,7 @@ export default {
   methods: {
     // 获取论文成果列表
     async getPaperData() {
+      this.isLoading = true
        // 获取单位列表
       const { data: res1 } = await this.$http.post('/department/findAllDepartment')
       this.departmentList = res1.data
@@ -319,10 +321,12 @@ export default {
       this.ptList = res5.data
       // 构造 论文类型对象
       this.ptList.forEach(item => this.ptObj[item.pt_id] = item.pt_name)
+      this.isLoading = false
     },
 
     // 获取论文成果列表
     async getPaperList() {
+      this.isLoading = true
       if(this.queryInfo.publish_time !== ''){
         this.queryInfo.publish_time_start = this.queryInfo.publish_time[0]
         this.queryInfo.publish_time_end = this.queryInfo.publish_time[1]
@@ -342,6 +346,7 @@ export default {
         item.publish_time = item.publish_time.substring(0, 10);
         item.pt_name = this.ptObj[item.pt_id];
       });
+      this.isLoading = false
     },
 
     // 列表页面大小改变
@@ -370,10 +375,6 @@ export default {
       this.periodicalList.forEach(item => {
         if(res3.data.indexOf(item.periodical_id) !== -1) this.ppList.push(item)
       })
-      console.log(this.paperInfo)
-      console.log(this.memberList)
-      console.log(this.ppList)
-
       
       this.paperInfo.aod_name = this.departmentObj[this.paperInfo.aod_id];
       this.paperInfo.sc_name = this.scObj[this.paperInfo.sc_id];
@@ -404,13 +405,10 @@ export default {
     denyPaper() {
       this.$refs.denyInfoRef.validate(async (valid) => {
         if (!valid) return;
-        const { data: res } = await this.$http.post(
-          "/check/paper/deny",
-          this.$qs.stringify({
-            paper_id: this.paperInfo.paper_id,
-            reason: this.denyInfo.reason,
-          })
-        );
+        var postObj = JSON.parse(JSON.stringify(this.paperInfo))
+        postObj.checkMessage = 'fail'
+        postObj.message = this.denyInfo.reason
+        const { data: res } = await this.$http.post("/paper/addPaper", this.$qs.stringify(postObj))
         if (res.status !== "200") return this.$message.error("驳回论文成果申请失败");
         this.denyPaperDialogVisible = false;
         this.$message.success("驳回论文成果申请成功");

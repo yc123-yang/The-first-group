@@ -7,7 +7,7 @@
       <el-breadcrumb-item>审核著作成果申请</el-breadcrumb-item>
     </el-breadcrumb>
 
-    <el-card>
+    <el-card v-loading="isLoading">
       <!-- 待审核著作成果表格 -->
       <el-table :data="booksList" style="width: 100%" border :header-cell-style="{ background: '#f5f7fa' }">
         <!-- 序号列 -->
@@ -354,7 +354,8 @@ export default {
       denyInfoRules: {
         reason: [{ required: true, message: "请填写驳回理由！", trigger: "blur" }],
       },
-      memberList: []
+      memberList: [],
+      isLoading: false
     };
   },
   async created() {
@@ -365,6 +366,7 @@ export default {
   methods: {
     // 获取著作成果列表
     async getBookData() {
+      this.isLoading = true
       // 获取单位列表
       const { data: res1 } = await this.$http.post("/department/findAllDepartment");
       this.departmentList = res1.data;
@@ -402,10 +404,12 @@ export default {
       const { data: res9 } = await this.$http.post("/researchType/findAllResearchType");
       this.rtList = res9.data;
       this.rtList.forEach((item) => (this.rtObj[item.rt_id] = item.rt_name));
+      this.isLoading = false
     },
 
     // 获取著作成果列表
     async getBookList() {
+      this.isLoading = true
       // 通过 post 请求获取著作成果列表
       if(this.queryInfo.publish_time !== '') {
         this.queryInfo.publish_time_start = this.queryInfo.publish_time[0]
@@ -419,7 +423,6 @@ export default {
       if (res.status === "404") {
         return this.$router.push("/home");
       }      
-      console.log(res)
       this.total = res.data[0].total;
       this.booksList = res.data[1];
       // 通过 id:name 对象处理著作成果列表，为其加上各name属性，截取时间日期
@@ -434,9 +437,8 @@ export default {
         item.bt_name = this.btObj[item.bt_id];
         item.rt_name = this.rtObj[item.rt_id];
         item.language_name = this.languageObj[item.language_id];
-
       });
-      console.log(this.booksList);
+      this.isLoading = false
     },
 
     // 列表页面大小改变
@@ -491,13 +493,10 @@ export default {
     denyBook() {
       this.$refs.denyInfoRef.validate(async (valid) => {
         if (!valid) return;
-        const { data: res } = await this.$http.post(
-          "/check/book/deny",
-          this.$qs.stringify({
-            book_id: this.bookInfo.book_id,
-            reason: this.denyInfo.reason,
-          })
-        );
+        var postObj = JSON.parse(JSON.stringify(this.bookInfo))
+        postObj.checkMessage = 'fail'
+        postObj.message = this.denyInfo.reason
+        const { data: res } = await this.$http.post("/book/addBook", this.$qs.stringify(postObj))
         if (res.status !== "200") return this.$message.error("驳回著作成果申请失败");
         this.denyBookDialogVisible = false;
         this.$message.success("驳回著作成果申请成功");

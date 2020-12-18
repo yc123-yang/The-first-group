@@ -7,7 +7,7 @@
       <el-breadcrumb-item>审核获奖成果申请</el-breadcrumb-item>
     </el-breadcrumb>
 
-    <el-card>
+    <el-card v-loading="isLoading">
       <!-- 待审核获奖成果表格 -->
       <el-table :data="awardsList" style="width: 100%" border :header-cell-style="{ background: '#f5f7fa' }">
         <!-- 序号列 -->
@@ -315,7 +315,8 @@ export default {
       denyInfoRules: {
         reason: [{ required: true, message: "请填写驳回理由！", trigger: "blur" }],
       },
-      memberList: []
+      memberList: [],
+      isLoading: false
     };
   },
   async created() {
@@ -325,6 +326,7 @@ export default {
   methods: {
     // 获取获奖成果列表
     async getAwardData() {
+      this.isLoading = true
       // 获取单位列表
       const { data: res1 } = await this.$http.post("/department/findAllDepartment");
       this.departmentList = res1.data;
@@ -352,12 +354,14 @@ export default {
       const { data: res6 } = await this.$http.post("/achievementType/findAllAchievementType");
       this.atList = res6.data;
       this.atList.forEach((item) => (this.atObj[item.at_id] = item.at_name));
+      this.isLoading = false
     },
 
 
 
     // 获取获奖成果列表
     async preGetAwardList() {
+      this.isLoading = true
       if(this.queryInfo.award_time !== ''){
         this.queryInfo.award_time_start = this.queryInfo.award_time[0]
         this.queryInfo.award_time_end = this.queryInfo.award_time[1]
@@ -381,6 +385,7 @@ export default {
         item.al_name = this.alObj[item.al_id];
         item.at_name = this.atObj[item.at_id];
       });
+      this.isLoading = false
     },
     async getAwardList() {
       await this.preGetAwardList()
@@ -436,13 +441,10 @@ export default {
     denyAward() {
       this.$refs.denyInfoRef.validate(async (valid) => {
         if (!valid) return;
-        const { data: res } = await this.$http.post(
-          "/check/award/deny",
-          this.$qs.stringify({
-            award_id: this.awardInfo.award_id,
-            reason: this.denyInfo.reason,
-          })
-        );
+        var postObj = JSON.parse(JSON.stringify(this.awardInfo))
+        postObj.checkMessage = 'fail'
+        postObj.message = this.denyInfo.reason
+        const { data: res } = await this.$http.post("/award/addAward", this.$qs.stringify(postObj));
         if (res.status !== "200") return this.$message.error("驳回获奖成果申请失败");
         this.denyAwardDialogVisible = false;
         this.$message.success("驳回获奖成果申请成功");

@@ -1,11 +1,12 @@
 <template>
-  <div style="margin-top: 25px">
+  <div style="margin-top: 25px" v-loading="isLoading">
    <el-button type="primary" size="medium" @click="addAwardsDialogVisible = true">录入获奖成果</el-button>
     <el-button type="danger" size="medium" :disabled="selection.length === 0">删除获奖成果</el-button>
     <el-button type="warning" size="medium" @click="print">导出信息</el-button>
 
 
-    <el-table :data="awardsList" style="width: 100%; margin-top: 15px" border @selection-change="selectionChange" :header-cell-style="{ background: '#f5f7fa' }">
+    <el-table :data="awardsList" style="width: 100%; margin-top: 15px" border @selection-change="selectionChange"
+      :header-cell-style="{ background: '#f5f7fa' }">
       <!-- 序号列 -->
       <el-table-column type="index" label="#" align="center" fixed></el-table-column>
       <!-- 多选列 -->
@@ -18,7 +19,7 @@
           <el-input class="columnInput" size="mini" clearable v-model="queryInfo.achievement_name" placeholder="请输入" @change="QueryAwardList"> </el-input>
         </template>
         <template slot-scope="scope">
-          <el-link type="primary" @click="showAwardInfoDialog(scope.row.award_id)">{{scope.row.award_id}}</el-link>
+          <el-link type="primary" @click="showAwardInfoDialog(scope.row.award_id)">{{scope.row.achievement_name}}</el-link>
         </template>
       </el-table-column>
 
@@ -779,46 +780,83 @@ export default {
       },
       awardInfoDialogVisible: false,
       awardInfo: {},
+      isLoading: false
     };
   },
   async created() {
-    await this.getAwardData();
+    this.isLoading = true
+    await Promise.all([
+      this.getDepartmentList(), this.getScList(), this.getSubjectList(),
+      this.getArList(), this.getAlList(), this.getAtList()
+    ])
+    this.isLoading = false
     this.getAwardList();
   },
   methods: {
-    // 获取论文成果列表
-    async getAwardData() {
-      // 获取单位列表
-      const { data: res1 } = await this.$http.post("/department/findAllDepartment");
-      this.departmentList = res1.data;
-      // 构造单位 id:name 对象
-      this.departmentList.forEach((item) => (this.departmentObj[item.department_id] = item.department_name));
-      // 获取学科门类列表
-      const { data: res2 } = await this.$http.post("/category/findAllSubjectCategory");
-      this.scList = res2.data;
-      // 构造学科门类 id:name 对象
-      this.scList.forEach((item) => (this.scObj[item.sc_id] = item.sc_name));
-      // 获取一级学科列表
-      const { data: res3 } = await this.$http.post("/subject/findAllSubject");
-      this.subjectList = res3.data;
-      // 构造一级学科 id:name 对象
-      this.subjectList.forEach((item) => (this.subjectObj[item.subject_id] = item.subject_name));
-      // 构造 获奖级别
-      const { data: res4 } = await this.$http.post("/awardRank/findAllAwardRank");
-      this.arList = res4.data;
-      this.arList.forEach((item) => (this.arObj[item.ar_id] = item.ar_name));
-      // 构造 获奖等级
-      const { data: res5 } = await this.$http.post("/awardLevel/findAllAwardLevel");
-      this.alList = res5.data;
-      this.alList.forEach((item) => (this.alObj[item.al_id] = item.al_name));
-      // 构造 成果形式
-      const { data: res6 } = await this.$http.post("/achievementType/findAllAchievementType");
-      this.atList = res6.data;
-      this.atList.forEach((item) => (this.atObj[item.at_id] = item.at_name));
+    async getDepartmentList() {
+      return new Promise((resolve, reject) => {
+        this.$http.post('/department/findAllDepartment').then(resp => {
+          if(resp.data.status !== '200') reject(this.$message.error('获取单位数据失败')) 
+          this.departmentList = resp.data.data
+          this.departmentList.forEach(item => this.departmentObj[item.department_id] = item.department_name)
+          resolve()
+        })
+      })
+    },
+    async getScList() {
+      return new Promise((resolve, reject) => {
+        this.$http.post('/category/findAllSubjectCategory').then(resp => {
+          if(resp.data.status !== '200') reject(this.$message.error('获取学科门类数据失败')) 
+          this.scList = resp.data.data
+          this.scList.forEach(item => this.scObj[item.sc_id] = item.sc_name)
+          resolve()
+        })
+      })
+    },
+    async getSubjectList() {
+      return new Promise((resolve, reject) => {
+        this.$http.post('/subject/findAllSubject').then(resp => {
+          if(resp.data.status !== '200') reject(this.$message.error('获取一级学科列表失败')) 
+          this.subjectList = resp.data.data
+          this.subjectList.forEach(item => this.subjectObj[item.subject_id] = item.subject_name)
+          resolve()
+        })
+      })
+    },
+    async getArList() {
+      return new Promise((resolve, reject) => {
+        this.$http.post('/awardRank/findAllAwardRank').then(resp => {
+          if(resp.data.status !== '200') reject(this.$message.error('获取获奖级别列表失败')) 
+          this.arList = resp.data.data
+          this.arList.forEach((item) => (this.arObj[item.ar_id] = item.ar_name));
+          resolve()
+        })
+      })
+    },
+    async getAlList() {
+      return new Promise((resolve, reject) => {
+        this.$http.post('/awardLevel/findAllAwardLevel').then(resp => {
+          if(resp.data.status !== '200') reject(this.$message.error('获取获奖等级列表失败')) 
+          this.alList = resp.data.data
+          this.alList.forEach((item) => (this.alObj[item.al_id] = item.al_name));
+          resolve()
+        })
+      })
+    },
+    async getAtList() {
+      return new Promise((resolve, reject) => {
+        this.$http.post('/achievementType/findAllAchievementType').then(resp => {
+          if(resp.data.status !== '200') reject(this.$message.error('获取成果形式列表失败')) 
+          this.atList = resp.data.data
+          this.atList.forEach((item) => (this.atObj[item.at_id] = item.at_name));
+          resolve()
+        })
+      })
     },
 
     // 获取获奖成果列表
     async preGetAwardList() {
+      this.isLoading = true
       if(this.queryInfo.award_time !== ''){
         this.queryInfo.award_time_start = this.queryInfo.award_time[0]
         this.queryInfo.award_time_end = this.queryInfo.award_time[1]
@@ -841,7 +879,7 @@ export default {
         item.al_name = this.alObj[item.al_id];
         item.at_name = this.atObj[item.at_id];
       });
-      console.log(this.awardsList);
+      this.isLoading = false
     },
     async getAwardList() {
       await this.preGetAwardList()

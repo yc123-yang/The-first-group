@@ -7,7 +7,7 @@
       <el-breadcrumb-item>审核专利成果申请</el-breadcrumb-item>
     </el-breadcrumb>
 
-    <el-card>
+    <el-card v-loading="isLoading">
       <!-- 待审核专利成果表格 -->
       <el-table :data="patentsList" style="width: 100%" border :header-cell-style="{ background: '#f5f7fa' }">
         <!-- 序号列 -->
@@ -274,7 +274,8 @@ export default {
       denyInfoRules: {
         reason: [{ required: true, message: "请填写驳回理由！", trigger: "blur" }],
       },
-      memberList: []
+      memberList: [],
+      isLoading: false
     };
   },
   async created() {
@@ -284,6 +285,7 @@ export default {
   methods: {
     // 获取专利成果列表
     async getPatentData() {
+      this.isLoading = true
       // 获取单位列表
       const { data: res1 } = await this.$http.post("/department/findAllDepartment");
       this.departmentList = res1.data;
@@ -302,10 +304,12 @@ export default {
       const { data: res4 } = await this.$http.post("/patentStatus/findAllPatentStatus");
       this.psList = res4.data;
       this.psList.forEach((item) => (this.psObj[item.ps_id] = item.ps_name));
+      this.isLoading = false
     },
 
     // 获取专利成果列表
     async preGetPatentList() {
+      this.isLoading = true
       // 通过 post 请求获取专利成果列表
       if(this.queryInfo.public_time !== '') {
         this.queryInfo.public_time_start = this.queryInfo.public_time[0]
@@ -335,6 +339,7 @@ export default {
         item.pr_name = this.prObj[item.pr_id];
         item.ps_name = this.psObj[item.ps_id];
       });
+      this.isLoading = false
     },
     async getPatentList() {
       await this.preGetPatentList()
@@ -378,7 +383,7 @@ export default {
       }).catch((err) => err);
       if (res === "cancel") return this.$message.info("取消了本次操作");
       var postObj = JSON.parse(JSON.stringify(this.patentInfo))
-      postObj.checkMessage = '未通过'
+      postObj.checkMessage = 'success'
       const { data: res2 } = await this.$http.post("/patent/addPatent", this.$qs.stringify(postObj));
       if (res2.status !== "200") return this.$message.error("批准专利成果申请失败");
       this.$message.success("批准专利成果申请成功");
@@ -390,13 +395,10 @@ export default {
     denyPatent() {
       this.$refs.denyInfoRef.validate(async (valid) => {
         if (!valid) return;
-        const { data: res } = await this.$http.post(
-          "/check/patent/deny",
-          this.$qs.stringify({
-            patent_id: this.patentInfo.patent_id,
-            reason: this.denyInfo.reason,
-          })
-        );
+        var postObj = JSON.parse(JSON.stringify(this.patentInfo))
+        postObj.checkMessage = 'fail'
+        postObj.message = this.denyInfo.reason
+        const { data: res } = await this.$http.post("/patent/addPatent", this.$qs.stringify(postObj));
         if (res.status !== "200") return this.$message.error("驳回专利成果申请失败");
         this.denyPatentDialogVisible = false;
         this.$message.success("驳回专利成果申请成功");

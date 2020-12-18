@@ -1,5 +1,5 @@
 <template>
-  <div style="margin-top: 25px">
+  <div style="margin-top: 25px" v-loading="isLoading">
     <el-button type="primary" size="medium" @click="addProjectDialogVisible = true">录入项目</el-button>
     <el-button type="danger" size="medium" :disabled="selectionList.length === 0">删除项目</el-button>
     <download-excel :data="selectionList" :fields="excelFields" style="display: inline; margin-left: 10px;">
@@ -7,7 +7,7 @@
     </download-excel>
 
     <el-table :data="projectsList" style="width: 100%; margin-top: 15px;" border
-      @selection-change="selectionChange" v-loading="isLoading"
+      @selection-change="selectionChange" 
       :header-cell-style="{background: '#f5f7fa'}">
       <!-- 序号列 -->
       <el-table-column type="index" label="#" align="center" fixed></el-table-column>
@@ -852,62 +852,91 @@ export default {
     }
   },
   async created() {
-    await this.getProjectData()
+      this.isLoading = true
+      await Promise.all([
+        this.getDepartmentList(), this.getScList(), this.getSubjectList(),
+        this.getLevelList(), this.getStatusList(), this.getCtList(), this.getNatureList()
+      ])
+      this.isLoading = false
     this.getProjectList()
   },
   methods: {
-    // 获取科研项目页面所需的全部数据项，构造id:name字典
-    async getProjectData() {
-      this.isLoading = true
-      // 获取单位列表
-      const { data: res1 } = await this.$http.post('/department/findAllDepartment')
-      if(res1.status !== '200') return this.$message.error('获取单位数据失败')
-      this.departmentList = res1.data
-      // 构造单位 id:name 对象
-      this.departmentList.forEach(item => this.departmentObj[item.department_id] = item.department_name)
-      // 获取学科门类列表
-      const { data: res2 } = await this.$http.post('/category/findAllSubjectCategory')
-      if(res2.status !== '200') return this.$message.error('获取学科门类数据失败')
-      this.scList = res2.data
-      // 构造学科门类 id:name 对象
-      this.scList.forEach(item => this.scObj[item.sc_id] = item.sc_name)
-      // 获取一级学科列表
-      const { data: res3 } = await this.$http.post('/subject/findAllSubject')
-      if(res3.status !== '200') return this.$message.error('获取一级学科列表失败')
-      this.subjectList = res3.data
-      // 构造一级学科 id:name 对象
-      this.subjectList.forEach(item => this.subjectObj[item.subject_id] = item.subject_name)
-      // 获取项目性质列表
-      const { data: res4 } = await this.$http.post('/nature/findAllNature')
-      if(res4.status !== '200') return this.$message.error('获取项目性质列表失败')
-      this.natureList = res4.data
-      // 构造项目性质 id:name 对象
-      this.natureList.forEach(item => this.natureObj[item.nature_id] = item.nature_name)
-      // 获取项目级别列表
-      const { data: res5 } = await this.$http.post('/level/findAllLevel')
-      if(res5.status !== '200') return this.$message.error('获取项目级别列表失败')
-      this.levelList = res5.data
-      // 构造项目级别 id:name 对象
-      this.levelList.forEach(item => this.levelObj[item.level_id] = item.level_name)
-      // 获取项目状态列表
-      const { data: res6 } = await this.$http.post('/status/findAllStatus')
-      if(res6.status !== '200') return this.$message.error('获取项目状态列表失败')
-      this.statusList = res6.data
-      // 构造项目状态 id:name 对象
-      this.statusList.forEach(item => this.statusObj[item.status_id] = item.status_name)
-      // 获取结题形式列表
-      const { data: res7 } = await this.$http.post('/conclusionType/findAllConclusionType')
-      console.log(res7)
-      if(res7.status !== '200') return this.$message.error('获取结题形式列表失败')
-      this.ctList = res7.data
-      console.log(this.ctList)
-      // 构造结题形式 id:name 对象
-      this.ctList.forEach(item => this.ctObj[item.ct_id]=item.ct_name)
-      // 获取成果形式列表
-      const { data: res8 } = await this.$http.post('/achievementType/findAllAchievementType')
-      if(res8.status !== '200') return this.$message.error('获取成果形式列表失败')
-      this.atList = res8.data
-      this.isLoading = false
+    // 获取单位列表，构造单位 id:name 对象
+    async getDepartmentList() {
+      return new Promise((resolve, reject) => {
+        this.$http.post('/department/findAllDepartment').then(resp => {
+          if(resp.data.status !== '200') reject(this.$message.error('获取单位数据失败')) 
+          this.departmentList = resp.data.data
+          this.departmentList.forEach(item => this.departmentObj[item.department_id] = item.department_name)
+          resolve()
+        })
+      })
+    },
+    // 获取学科门类列表，构造学科门类 id:name 对象
+    async getScList() {
+      return new Promise((resolve, reject) => {
+        this.$http.post('/category/findAllSubjectCategory').then(resp => {
+          if(resp.data.status !== '200') reject(this.$message.error('获取学科门类数据失败')) 
+          this.scList = resp.data.data
+          this.scList.forEach(item => this.scObj[item.sc_id] = item.sc_name)
+          resolve()
+        })
+      })
+    },
+    // 获取一级学科列表，构造一级学科 id:name 对象
+    async getSubjectList() {
+      return new Promise((resolve, reject) => {
+        this.$http.post('/subject/findAllSubject').then(resp => {
+          if(resp.data.status !== '200') reject(this.$message.error('获取一级学科列表失败')) 
+          this.subjectList = resp.data.data
+          this.subjectList.forEach(item => this.subjectObj[item.subject_id] = item.subject_name)
+          resolve()
+        })
+      })
+    },
+    // 获取项目性质列表，构造项目级别 id:name 对象
+    async getNatureList() {
+      return new Promise((resolve, reject) => {
+        this.$http.post('/nature/findAllNature').then(resp => {
+          if(resp.data.status !== '200') reject(this.$message.error('获取项目性质列表失败')) 
+          this.natureList = resp.data.data
+          this.natureList.forEach(item => this.natureObj[item.nature_id] = item.nature_name)
+          resolve()
+        })
+      })
+    },
+    // 获取项目级别列表，构造项目级别 id:name 对象
+    async getLevelList() {
+      return new Promise((resolve, reject) => {
+        this.$http.post('/level/findAllLevel').then(resp => {
+          if(resp.data.status !== '200') reject(this.$message.error('获取项目级别列表失败')) 
+          this.levelList = resp.data.data
+          this.levelList.forEach(item => this.levelObj[item.level_id] = item.level_name)
+          resolve()
+        })
+      })
+    },
+    // 获取项目状态列表，构造项目状态 id:name 对象
+    async getStatusList() {
+      return new Promise((resolve, reject) => {
+        this.$http.post('/status/findAllStatus').then(resp => {
+          if(resp.data.status !== '200') reject(this.$message.error('获取项目状态列表失败')) 
+          this.statusList = resp.data.data
+          this.statusList.forEach(item => this.statusObj[item.status_id] = item.status_name)
+          resolve()
+        })
+      })
+    },
+    // 获取结题形式列表，构造结题形式 id:name 对象
+    async getCtList() {
+      return new Promise((resolve, reject) => {
+        this.$http.post('/conclusionType/findAllConclusionType').then(resp => {
+          if(resp.data.status !== '200') reject(this.$message.error('获取结题形式列表失败')) 
+          this.ctList = resp.data.data
+          this.ctList.forEach(item => this.ctObj[item.ct_id]=item.ct_name)
+          resolve()
+        })
+      })
     },
     // 获取科研项目列表
     async getProjectList() {
@@ -933,9 +962,6 @@ export default {
         item.complete_time = item.complete_time.substring(0, 10) + ' 00:00:00'
         item.ct_name = this.ctObj[item.ct_id]
       })
-      console.log(this.projectsList)
-      console.log(this.subjectObj)
-      console.log(this.scObj)
       this.isLoading = false
     },
     // 多选框条件发生变化
@@ -1125,7 +1151,7 @@ export default {
       this.$message.success('添加团队成员成功')
       await this.getEditMemberList(this.editForm.project_id)
       this.editMemberList = JSON.parse(JSON.stringify(this.editMemberList))
-      this.addMemberDialogVisible = false
+      this.addEditMemberDialogVisible = false
     },
     // 点击确定，删除成员
     async deleteEditMember(scope) {

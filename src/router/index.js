@@ -35,6 +35,11 @@ import AssessPlan from '../components/assess/AssessPlan.vue'
 import SystemLogs from '../components/logs/SystemLogs.vue'
 import OperationLogs from '../components/logs/OperationLogs.vue'
 import Anounce from '../components/Anounce.vue'
+import ProjectsExaming from '../components/projects/ProjectsExaming.vue'
+import AwardsExaming from '../components/achievement/awards/AwardsExaming.vue'
+import BooksExaming from '../components/achievement/books/BooksExaming.vue'
+import PapersExaming from '../components/achievement/papers/PapersExaming.vue'
+import PatentsExaming from '../components/achievement/patents/PatentsExaming.vue'
 
 const originalPush = VueRouter.prototype.push
 VueRouter.prototype.push = function push(location) {
@@ -50,7 +55,7 @@ const routes = [
     component: NotLogin,
     redirect: '/login',
     children: [
-      { path: '/login', component: Login }
+      { path: '/login', component: Login },
     ]
   },
   {
@@ -65,7 +70,8 @@ const routes = [
         redirect: '/papers/query',
         children: [
           { path: '/papers/query', component: PapersQuery },
-          { path: '/papers/manage', component: PapersManage }
+          { path: '/papers/manage', component: PapersManage },
+          { path: '/papers/examing', component: PapersExaming }
         ]
       }, {
         path: '/books',
@@ -73,7 +79,8 @@ const routes = [
         redirect: '/books/query',
         children: [
           { path: '/books/query', component: BooksQuery },
-          { path: '/books/manage', component: BooksManage }
+          { path: '/books/manage', component: BooksManage },
+          { path: '/books/examing', component: BooksExaming }
         ]
       }, {
         path: '/projects',
@@ -81,7 +88,8 @@ const routes = [
         redirect: '/projects/query',
         children: [
           { path: '/projects/query', component: ProjectsQuery },
-          { path: '/projects/manage', component: ProjectsManage }
+          { path: '/projects/manage', component: ProjectsManage },
+          { path: '/projects/examing', component: ProjectsExaming }
         ]
       }, {
         path: '/awards',
@@ -89,7 +97,8 @@ const routes = [
         redirect: '/awards/query',
         children: [
           { path: '/awards/query', component: AwardsQuery },
-          { path: '/awards/manage', component: AwardsManage }
+          { path: '/awards/manage', component: AwardsManage },
+          { path: '/awards/examing', component: AwardsExaming }
         ]
       }, {
         path: '/patents',
@@ -97,7 +106,8 @@ const routes = [
         redirect: '/patents/query',
         children: [
           { path: '/patents/query', component: PatentsQuery },
-          { path: '/patents/manage', component: PatentsManage }
+          { path: '/patents/manage', component: PatentsManage },
+          { path: '/patents/examing', component: PatentsExaming }
         ]
       },
       { path: '/roleEdit', component: RoleEdit },

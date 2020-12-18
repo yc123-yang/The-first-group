@@ -18,9 +18,9 @@
         <div id="main" style="width: 400px;height: 455px;"></div>
       </el-col>
       <el-col :span="15" style="border-left: 1px solid gray; height: 400px">
-          <h1>公告</h1>
-          <el-table :data="anounceList" :show-header="false" size="large" :row-style="{height: '62px'}"
-            style="margin-top: 15px" height="312px" ref="anounceTableRef">
+          <h1 style="font-size: 20px">公告</h1>
+          <el-table :data="anounceList" :show-header="false" size="large" :row-style="{height: '61px'}"
+            style="margin-top: 15px" height="305px" ref="anounceTableRef">
             <el-table-column label="公告标题" prop="anounce_title" :show-overflow-tooltip="true">
               <template slot-scope="scope">
                 <el-link @click="showAnounceInfoDialog(scope.row.anounce_id)">

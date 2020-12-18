@@ -1,9 +1,8 @@
 <template>
-  <div style="margin-top: 25px" v-loading="isLoading">
+  <div style="margin-top: 25px" v-loading="isloading">
     <el-button type="warning" size="medium" @click="print">导出信息</el-button>
 
-    <el-table :data="awardsList" style="width: 100%; margin-top: 15px" border @selection-change="selectionChange"
-      :header-cell-style="{ background: '#f5f7fa' }">
+    <el-table :data="awardsList" style="width: 100%; margin-top: 15px" border @selection-change="selectionChange" :header-cell-style="{ background: '#f5f7fa' }">
       <!-- 序号列 -->
       <el-table-column type="index" label="#" align="center" fixed></el-table-column>
       <!-- 多选列 -->
@@ -16,7 +15,7 @@
           <el-input class="columnInput" size="mini" clearable v-model="queryInfo.achievement_name" placeholder="请输入" @change="QueryAwardList"> </el-input>
         </template>
         <template slot-scope="scope">
-          <el-link type="primary" @click="showAwardInfoDialog(scope.row.award_id)">{{scope.row.achievement_name}}</el-link>
+          <el-link type="primary" @click="showAwardInfoDialog(scope.row.ae_id)">{{scope.row.achievement_name}}</el-link>
         </template>
       </el-table-column>
 
@@ -147,7 +146,7 @@
         </el-row>
         <el-row>
           <el-col :span="12"
-            ><el-form-item label="成果编号：">{{ awardInfo.award_id }}</el-form-item></el-col
+            ><el-form-item label="成果编号：">{{ awardInfo.ae_id }}</el-form-item></el-col
           >
           <el-col :span="12"
             ><el-form-item label="获奖名字：">{{ awardInfo.award_name }}</el-form-item></el-col
@@ -236,7 +235,7 @@ export default {
       awardsList: [],
       // 搜索条件表单
       queryInfo: {
-        award_id: "",
+        ae_id: "",
         leader_id: "",
         achievement_name: "",
         award_name: "",
@@ -285,7 +284,7 @@ export default {
       awardInfoDialogVisible: false,
       awardInfo: {},
       memberList: [],
-      isLoading: false
+      isloading: false
     };
   },
   async created() {
@@ -360,13 +359,14 @@ export default {
     },
     // 获取论文成果列表
     async getAwardList() {
-      this.isLoading = true
+      this.isloading = true
       if(this.queryInfo.award_time !== ''){
         this.queryInfo.award_time_start = this.queryInfo.award_time[0]
         this.queryInfo.award_time_end = this.queryInfo.award_time[1]
       } else this.queryInfo.award_time_start = this.queryInfo.award_time_end = ''
+      this.queryInfo.apply_time_start = this.queryInfo.apply_time_end = ''
       // 通过 post 请求获取科研项目列表
-      const { data: res } = await this.$http.post("/award/selectAllAwardByCondition", this.$qs.stringify(this.queryInfo));
+      const { data: res } = await this.$http.post("/awardExamine/selectAwardExamineByCondition", this.$qs.stringify(this.queryInfo));
       if (res.status === "404") {
         return this.$router.push("/home");
       }
@@ -383,7 +383,7 @@ export default {
         item.al_name = this.alObj[item.al_id];
         item.at_name = this.atObj[item.at_id];
       });
-      this.isLoading = false
+      this.isloading=false
     },
     // 多选框条件发生变化
     selectionChange() {
@@ -411,10 +411,10 @@ export default {
       this.getAwardList();
     },
     async showAwardInfoDialog(awardId) {
-      const { data: res } = await this.$http.post("/award/findAwardById", this.$qs.stringify({ award_id: awardId }));
+      const { data: res } = await this.$http.post("/awardExamine/findAwardExamineById", this.$qs.stringify({ ae_id: awardId }));
       if (res.status !== "200") return this.$message.error("获取获奖成果信息失败");
       this.awardInfo = res.data;
-      const { data: res2 } = await this.$http.post('/team/selectAwardTeam', this.$qs.stringify({ award_id: awardId }))
+      const { data: res2 } = await this.$http.post('/teamExamine/selectAwardTeamExamineUser', this.$qs.stringify({ ae_id: awardId }))
       if( res2.status !== '200' ) return this.$message.error('获取成果获奖团队信息失败')
       this.memberList = res2.data
       this.awardInfo.aod_name = this.departmentObj[this.awardInfo.aod_id];

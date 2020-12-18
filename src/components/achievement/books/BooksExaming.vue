@@ -15,7 +15,7 @@
               <el-input class="columnInput" size="mini" clearable v-model="queryInfo.book_name" placeholder="请输入" @change="QueryBookList"> </el-input>
             </template>
             <template slot-scope="scope">
-              <el-link type="primary" @click="showBookInfoDialog(scope.row.book_id)">{{scope.row.book_name}}</el-link>
+              <el-link type="primary" @click="showBookInfoDialog(scope.row.be_id)">{{scope.row.book_name}}</el-link>
             </template>
           </el-table-column>
 
@@ -163,7 +163,7 @@
         </el-row>
         <el-row>
           <el-col :span="12"
-            ><el-form-item label="著作编号：">{{ bookInfo.book_id }}</el-form-item></el-col
+            ><el-form-item label="著作编号：">{{ bookInfo.be_id }}</el-form-item></el-col
           >
           <el-col :span="12"
             ><el-form-item label="著作类别：">{{ bookInfo.bt_name }}</el-form-item></el-col
@@ -260,7 +260,7 @@ export default {
       booksList: [],
       // 搜索条件表单
       queryInfo: {
-        book_id:'',
+        be_id:'',
         leader_id:'',
         book_name:'',
         press:'',
@@ -420,7 +420,7 @@ export default {
           resolve()
         })
       })
-    },
+    },    
     // 获取论文成果列表
     async getBookList() {
       this.isLoading = true
@@ -429,7 +429,8 @@ export default {
         this.queryInfo.publish_time_start = this.publish_time[0]
         this.queryInfo.publish_time_end = this.publish_time[0]
       } else this.queryInfo.publish_time_start = this.queryInfo.publish_time_end = ''
-      const { data: res } = await this.$http.post('/book/selectAllBookByCondition', this.$qs.stringify(this.queryInfo))
+      this.queryInfo.apply_time_start = this.queryInfo.apply_time_end = ''
+      const { data: res } = await this.$http.post('/bookExamine/selectBookExamineByCondition', this.$qs.stringify(this.queryInfo))
       if( res.status === '404' ) {
         return this.$router.push('/home')
       }
@@ -477,10 +478,10 @@ export default {
       this.getBookList()
     },
     async showBookInfoDialog(bookId) {
-      const { data: res } = await this.$http.post("/book/findBookById", this.$qs.stringify({ book_id: bookId }));
+      const { data: res } = await this.$http.post("/bookExamine/findBookExamineById", this.$qs.stringify({ be_id: bookId }));
       if (res.status !== "200") return this.$message.error("获取著作成果信息失败");
       this.bookInfo = res.data;
-      const { data: res2 } = await this.$http.post('/team/selectBookTeam', stringify({ book_id: bookId }))
+      const { data: res2 } = await this.$http.post('/teamExamine/selectBookTeamExamineUser', stringify({ be_id: bookId }))
       if( res2.status !== '200' ) return this.$message.error('获取著作成果团队信息失败')
       this.memberList = res2.data
       this.bookInfo.aod_name = this.departmentObj[this.bookInfo.aod_id];

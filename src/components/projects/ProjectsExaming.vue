@@ -17,13 +17,13 @@
           </el-input>
         </template>
         <template slot-scope="scope">
-          <el-link type="primary" @click="showProjectInfoDialog(scope.row.project_id)">{{scope.row.project_name}}</el-link>
+          <el-link type="primary" @click="showProjectInfoDialog(scope.row.pe_id)">{{scope.row.project_name}}</el-link>
         </template>
       </el-table-column>
-      <el-table-column prop="project_id" label="项目编号" width="200px" align="center">
+      <el-table-column prop="pe_id" label="项目编号" width="200px" align="center">
         <template slot="header" slot-scope="scope">{{scope.haha}}
           <div style="line-height: 14px;">项目编号</div>
-          <el-input class="columnInput" size="mini" clearable v-model="queryInfo.project_id"
+          <el-input class="columnInput" size="mini" clearable v-model="queryInfo.pe_id"
             placeholder="请输入" @change="QueryProjectList">
           </el-input>
         </template>
@@ -176,7 +176,7 @@
           <el-form-item label="项目名称：">{{projectInfo.project_name}}</el-form-item>
         </el-row>
         <el-row>
-          <el-col :span="12"><el-form-item label="项目编号：">{{projectInfo.project_id}}</el-form-item></el-col>
+          <el-col :span="12"><el-form-item label="项目编号：">{{projectInfo.pe_id}}</el-form-item></el-col>
           <el-col :span="12"><el-form-item label="所在单位：">{{departmentObj[ projectInfo.department_id ]}}</el-form-item></el-col>
         </el-row>
         <el-row>
@@ -247,7 +247,7 @@ export default {
       // 查询表单
       queryInfo: {
         project_name: '',
-        project_id: '',
+        pe_id: '',
         department_id: '',
         sc_id: '',
         subject_id: '',
@@ -400,7 +400,7 @@ export default {
     async getProjectList() {
       this.isLoading = true
       // 通过 post 请求获取科研项目列表
-      const { data: res } = await this.$http.post('/project/selectProjectByCondition', this.$qs.stringify(this.queryInfo))
+      const { data: res } = await this.$http.post('/projectExamine/selectProjectExamineByCondition', this.$qs.stringify(this.queryInfo))
       if( res.status === '404' ) {
         return this.$router.push('/home')
       }
@@ -458,16 +458,16 @@ export default {
       this.queryInfo.pageNum = val
       this.getProjectList()
     },
-    async showProjectInfoDialog(project_id) {
-      const { data: res } = await this.$http.post('/project/findProjectById', stringify({ project_id: project_id }))
+    async showProjectInfoDialog(pe_id) {
+      const { data: res } = await this.$http.post('/projectExamine/findProjectExamineById', stringify({ pe_id: pe_id }))
       if( res.status !== '200' ) return this.$message.error('获取项目详细信息失败')
       this.projectInfo = res.data
-      const { data: res2 } = await this.$http.post('/team/selectProjectTeam', stringify({ project_id: project_id }))
+      const { data: res2 } = await this.$http.post('/teamExamine/selectProjectTeamExamineUser', stringify({ pe_id: pe_id }))
       if( res2.status !== '200' ) return this.$message.error('获取项目团队信息失败')
       this.memberList = res2.data
-      if(this.projectInfo.start_time !== null) this.projectInfo.start_time = this.projectInfo.start_time.substr(0, 10)
-      if(this.projectInfo.plan_time !== null) this.projectInfo.plan_time = this.projectInfo.plan_time.substr(0, 10)
-      if(this.projectInfo.complete_time !== null) this.projectInfo.complete_time = this.projectInfo.complete_time.substr(0, 10)
+      if(this.projectInfo.start_time !== undefined) this.projectInfo.start_time = this.projectInfo.start_time.substr(0, 10)
+      if(this.projectInfo.plan_time !== undefined) this.projectInfo.plan_time = this.projectInfo.plan_time.substr(0, 10)
+      if(this.projectInfo.complete_time !== undefined) this.projectInfo.complete_time = this.projectInfo.complete_time.substr(0, 10)
       console.log(this.memberList)
       this.projectInfoDialogVisible = true
     }

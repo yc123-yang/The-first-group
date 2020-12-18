@@ -16,7 +16,7 @@
           <el-input class="columnInput" size="mini" clearable v-model="queryInfo.patent_name" placeholder="请输入" @change="QueryPatentList"> </el-input>
         </template>
         <template slot-scope="scope">
-          <el-link type="primary" @click="showPatentInfoDialog(scope.row.patent_id)">{{scope.row.patent_name}}</el-link>
+          <el-link type="primary" @click="showPatentInfoDialog(scope.row.pe_id)">{{scope.row.patent_name}}</el-link>
         </template>
       </el-table-column>
 
@@ -199,7 +199,7 @@ export default {
       patentsList: [],
       // 搜索条件表单
       queryInfo: {
-        patent_id: "",
+        pe_id: "",
         leader_id: "",
         patent_name: "",
         pt_id: "",
@@ -247,52 +247,34 @@ export default {
     };
   },
   async created() {
-    this.isLoading = true
-    await Promise.all([ this.getDepartmentList(), this.getPtList(), this.getPrList(), this.getPsList() ])
-    this.isLoading = false
+    await this.getPatentData();
     this.getPatentList();
   },
   methods: {
-    async getDepartmentList() {
-      return new Promise((resolve, reject) => {
-        this.$http.post('/department/findAllDepartment').then(resp => {
-          if(resp.data.status !== '200') reject(this.$message.error('获取单位数据失败')) 
-          this.departmentList = resp.data.data
-          this.departmentList.forEach(item => this.departmentObj[item.department_id] = item.department_name)
-          resolve()
-        })
-      })
+    // 获取论文成果列表
+    async getPatentData() {
+      this.isLoading = true
+      // 获取单位列表
+      const { data: res1 } = await this.$http.post("/department/findAllDepartment");
+      this.departmentList = res1.data;
+      // 构造单位 id:name 对象
+      this.departmentList.forEach((item) => (this.departmentObj[item.department_id] = item.department_name));
+
+      // 构造 专利类型
+      const { data: res2 } = await this.$http.post("/patentType/findAllPatentType");
+      this.ptList = res2.data;
+      this.ptList.forEach((item) => (this.ptObj[item.pt_id] = item.pt_name));
+      // 构造 专利范围
+      const { data: res3 } = await this.$http.post("/patentRange/findAllPatentRange");
+      this.prList = res3.data;
+      this.prList.forEach((item) => (this.prObj[item.pr_id] = item.pr_name));
+      // 构造 专利状态
+      const { data: res4 } = await this.$http.post("/patentStatus/findAllPatentStatus");
+      this.psList = res4.data;
+      this.psList.forEach((item) => (this.psObj[item.ps_id] = item.ps_name));
+      this.isLoading = false
     },
-    async getPtList() {
-      return new Promise((resolve, reject) => {
-        this.$http.post('/patentType/findAllPatentType').then(resp => {
-          if(resp.data.status !== '200') reject(this.$message.error('获取专利类型列表失败')) 
-          this.ptList = resp.data.data
-          this.ptList.forEach((item) => (this.ptObj[item.pt_id] = item.pt_name));
-          resolve()
-        })
-      })
-    },
-    async getPrList() {
-      return new Promise((resolve, reject) => {
-        this.$http.post('/patentRange/findAllPatentRange').then(resp => {
-          if(resp.data.status !== '200') reject(this.$message.error('获取专利范围列表失败')) 
-          this.prList = resp.data.data
-          this.prList.forEach((item) => (this.prObj[item.pr_id] = item.pr_name));
-          resolve()
-        })
-      })
-    },
-    async getPsList() {
-      return new Promise((resolve, reject) => {
-        this.$http.post('/patentStatus/findAllPatentStatus').then(resp => {
-          if(resp.data.status !== '200') reject(this.$message.error('获取专利状态列表失败')) 
-          this.psList = resp.data.data
-          this.psList.forEach((item) => (this.psObj[item.ps_id] = item.ps_name));
-          resolve()
-        })
-      })
-    },
+
     // 获取论文成果列表
     async preGetPatentList() {
       this.isLoading = true
@@ -308,8 +290,9 @@ export default {
         this.queryInfo.application_time_start = this.queryInfo.application_time[0]
         this.queryInfo.application_time_end = this.queryInfo.application_time[1]
       } else this.queryInfo.application_time_start = this.queryInfo.application_time_end = ''
+      this.queryInfo.apply_time_start = this.queryInfo.apply_time_end = ''
       // 通过 post 请求获取科研项目列表
-      const { data: res } = await this.$http.post("/patent/selectAllPatentByCondition", this.$qs.stringify(this.queryInfo));
+      const { data: res } = await this.$http.post("/patentExamine/selectPatentExamineByCondition", this.$qs.stringify(this.queryInfo));
       if (res.status === "404") {
         return this.$router.push("/home");
       }
@@ -357,10 +340,10 @@ export default {
       this.getPatentList();
     },
     async showPatentInfoDialog(patentId) {
-      const { data: res } = await this.$http.post("/patent/findPatentById", this.$qs.stringify({ patent_id: patentId }));
+      const { data: res } = await this.$http.post("/patentExamine/findPatentExamineById", this.$qs.stringify({ pe_id: patentId }));
       if (res.status !== "200") return this.$message.error("获取专利成果信息失败");
       this.patentInfo = res.data;
-      const { data: res2 } = await this.$http.post('/team/selectPatentTeam', this.$qs.stringify({ patent_id: patentId }))
+      const { data: res2 } = await this.$http.post('/teamExamine/selectPatentTeamExamineUser', this.$qs.stringify({ pe_id: patentId }))
       if( res2.status !== '200' ) return this.$message.error('获取专利成果团队信息失败')
       this.memberList = res2.data
       this.patentInfo.aod_name = this.departmentObj[this.patentInfo.aod_id];

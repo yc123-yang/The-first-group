@@ -19,17 +19,23 @@
             :default-active="activeNav">
             <!-- 一级菜单 -->
             <el-submenu :index="item.id+''" v-for="item in menulist" :key="item.id">
-              <template slot="title">
-                <!-- 图标 -->
-                <i :class="iconsObj[item.id]"></i>
-                <!-- 文本 -->
-                <span>{{ item.title }}</span>
-              </template>
+                <template slot="title">
+                  <!-- 图标 -->
+                  <el-badge :is-dot="item.id === 5 && checkTotal > 0" style="margin: 0">
+                    <i :class="iconsObj[item.id]"></i>
+                  </el-badge>
+                  <!-- 文本 -->
+                  <span>{{ item.title }}</span>
+                  
+                </template>
               <el-menu-item v-for="subItem in item.childrenPermissions" :index="subItem.resourcePath" :key="subItem.id"
                 @click="saveNavState(subItem.resourcePath)">
                 <template slot="title">
                   <i class="el-icon-menu"></i>
-                  <span>{{subItem.title}}</span>
+                  <el-badge v-if="checkId.indexOf(subItem.id) !== -1 && checkNum[subItem.id] > 0" :value="checkNum[subItem.id]" :max="99">
+                    <span>{{subItem.title}}</span>
+                  </el-badge>
+                  <span v-else>{{subItem.title}}</span>
                 </template>
               </el-menu-item>
             </el-submenu>
@@ -77,7 +83,10 @@ export default {
       // 是否折叠菜单
       isCollapse: false,
       // 激活的菜单项
-      activeNav: ''
+      activeNav: '',
+      checkId: [13, 14, 15, 16, 17],
+      checkNum: {13: 0, 14: 0, 15: 0, 16: 0, 17: 0},
+      checkTotal: 0
     }
   },
   created () {
@@ -92,8 +101,17 @@ export default {
     },
     async getMenuList() {
       const { data: res } = await this.$http.post('/user/getUserMenu')
-      console.log(res)
       this.menulist = res.data
+      res.data.forEach(item => {
+        if(item.id === 5){
+          const timer = setInterval(() => {
+            setTimeout(this.getCheckNum(), 0)
+          }, 2000)
+          this.$once('hook:beforeDestroy', () => {
+            clearInterval(timer)
+          })
+        }
+      })
     },
     saveNavState (activeNav) {
       window.sessionStorage.setItem('activeNav', activeNav)
@@ -101,7 +119,17 @@ export default {
     },
     toGitHub() {
       window.open("https://github.com/yc123-yang/The-first-group")
-    }
+    },
+    getCheckNum() {
+      this.$http.post('/count/check').then(resp => {
+        if( resp.data.status !== '200' ) return
+        this.checkTotal = 0
+        for(var i = 0; i < 5; i++) {
+          this.checkNum[this.checkId[i]] = resp.data.data[i]
+          this.checkTotal += resp.data.data[i]
+        }
+      })
+    },
   }
 }
 </script>
@@ -145,5 +173,9 @@ export default {
   text-align: center;
   letter-spacing: 0.2em;
   cursor: pointer;
+}
+
+::-webkit-scrollbar {
+  display: none;
 }
 </style>

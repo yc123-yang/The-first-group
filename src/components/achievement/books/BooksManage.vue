@@ -1,10 +1,11 @@
 <template>
-  <div style="margin-top: 25px">
+  <div style="margin-top: 25px" v-loading="isLoading">
     <el-button type="primary" size="medium" @click="addBooksDialogVisible = true">录入著作</el-button>
     <el-button type="danger" size="medium" :disabled="selection.length === 0">删除著作</el-button>
     <el-button type="warning" size="medium" @click="print">导出信息</el-button>
 
-    <el-table :data="booksList" style="width: 100%; margin-top: 15px" border @selection-change="selectionChange" :header-cell-style="{ background: '#f5f7fa' }">
+    <el-table :data="booksList" style="width: 100%; margin-top: 15px" border @selection-change="selectionChange"
+      :header-cell-style="{ background: '#f5f7fa' }" v-loading="isLoading">
       <!-- 序号列 -->
       <el-table-column type="index" label="#" align="center" fixed></el-table-column>
       <!-- 多选列 -->
@@ -855,57 +856,116 @@ export default {
         user_id: [{ required: true, message: '请输入作者姓名', trigger: 'change' }],
       },
       bookInfoDialogVisible: false,
-      bookInfo: {}
+      bookInfo: {},
+      isLoading: true
     };
   },
   async created() {
-    await this.getBookData();
-    await this.getBookList();
-    this.booksList = JSON.parse(JSON.stringify(this.booksList))
+    this.isLoading = true
+    await Promise.all([
+      this.getDepartmentList(), this.getScList(), this.getSubjectList(), this.getPtList(),
+      this.getBtList(), this.getPpList(), this.getLanguageListList(), this.getRtList()
+    ])
+    this.isLoading = false
+    this.getBookList()
   },
   methods: {
-    // 获取论文成果列表
-    async getBookData () {
-       // 获取单位列表
-      const { data: res1 } = await this.$http.post('/department/findAllDepartment')
-      this.departmentList = res1.data
-      // 构造单位 id:name 对象
-      this.departmentList.forEach(item => this.departmentObj[item.department_id] = item.department_name)
-      // 获取学科门类列表
-      const { data: res2 } = await this.$http.post('/category/findAllSubjectCategory')
-      this.scList = res2.data
-      // 构造学科门类 id:name 对象
-      this.scList.forEach(item => this.scObj[item.sc_id] = item.sc_name)
-      // 获取一级学科列表
-      const { data: res3 } = await this.$http.post('/subject/findAllSubject')
-      this.subjectList = res3.data
-      // 构造一级学科 id:name 对象
-      this.subjectList.forEach(item => this.subjectObj[item.subject_id] = item.subject_name)
-      // 获取出版社等级列表
-      const { data: res5 } = await this.$http.post('/pressLevel/findAllPressLevel')
-      this.plList = res5.data
-      // 构造 出版社等级对象
-      this.plList.forEach(item => this.plObj[item.pl_id] = item.pl_name)
-      // 构造 著作类型
-      const { data: res6 } = await this.$http.post('/bookType/findAllBookType')
-      this.btList = res6.data
-      this.btList.forEach(item => this.btObj[item.bt_id] = item.bt_name)
-      // 构造 出版地
-      const { data: res7 } = await this.$http.post('/publicationPlace/findAllPublicationPlace')
-      this.ppList = res7.data
-      this.ppList.forEach(item => this.ppObj[item.pp_id] = item.pp_name)
-      // 构造语种
-      const { data: res8 } = await this.$http.post('/language/findAllLanguage')
-      this.languageList = res8.data
-      this.languageList.forEach(item => this.languageObj[item.language_id] = item.language_name)
-      // 构造研究类型
-      const { data: res9 } = await this.$http.post('researchType/findAllResearchType')
-      this.rtList = res9.data
-      this.rtList.forEach(item => this.rtObj[item.rt_id] = item.rt_name)
+    async getDepartmentList() {
+      return new Promise((resolve, reject) => {
+        this.$http.post('/department/findAllDepartment').then(resp => {
+          console.log(1)
+          if(resp.data.status !== '200') reject(this.$message.error('获取单位数据失败')) 
+          this.departmentList = resp.data.data
+          this.departmentList.forEach(item => this.departmentObj[item.department_id] = item.department_name)
+          resolve()
+        })
+      })
     },
-
+    async getScList() {
+      return new Promise((resolve, reject) => {
+        this.$http.post('/category/findAllSubjectCategory').then(resp => {
+          console.log(2)
+          if(resp.data.status !== '200') reject(this.$message.error('获取学科门类数据失败')) 
+          this.scList = resp.data.data
+          this.scList.forEach(item => this.scObj[item.sc_id] = item.sc_name)
+          resolve()
+        })
+      })
+    },
+    async getSubjectList() {
+      return new Promise((resolve, reject) => {
+        this.$http.post('/subject/findAllSubject').then(resp => {
+          console.log(3)
+          if(resp.data.status !== '200') reject(this.$message.error('获取一级学科列表失败')) 
+          this.subjectList = resp.data.data
+          this.subjectList.forEach(item => this.subjectObj[item.subject_id] = item.subject_name)
+          resolve()
+        })
+      })
+    },
+    // 出版社等级列表
+    async getPtList() {
+      return new Promise((resolve, reject) => {
+        this.$http.post('/pressLevel/findAllPressLevel').then(resp => {
+          console.log(4)
+          if(resp.data.status !== '200') reject(this.$message.error('获取出版社等级列表失败')) 
+          this.plList = resp.data.data
+          this.plList.forEach(item => this.plObj[item.pl_id] = item.pl_name)
+          resolve()
+        })
+      })
+    },
+    // 著作类型
+    async getBtList() {
+      return new Promise((resolve, reject) => {
+        this.$http.post('/bookType/findAllBookType').then(resp => {
+          console.log(5)
+          if(resp.data.status !== '200') reject(this.$message.error('获取著作类型列表失败')) 
+          this.btList = resp.data.data
+          this.btList.forEach(item => this.btObj[item.bt_id] = item.bt_name)
+          resolve()
+        })
+      })
+    },
+    // 出版地
+    async getPpList() {
+      return new Promise((resolve, reject) => {
+        this.$http.post('/publicationPlace/findAllPublicationPlace').then(resp => {
+          console.log(6)
+          if(resp.data.status !== '200') reject(this.$message.error('获取出版地列表失败')) 
+          this.ppList = resp.data.data
+          this.ppList.forEach(item => this.ppObj[item.pp_id] = item.pp_name)
+          resolve()
+        })
+      })
+    },
+    // 语种
+    async getLanguageListList() {
+      return new Promise((resolve, reject) => {
+        this.$http.post('/language/findAllLanguage').then(resp => {
+          console.log(7)
+          if(resp.data.status !== '200') reject(this.$message.error('获取翻译语种列表失败')) 
+          this.languageList = resp.data.data
+          this.languageList.forEach(item => this.ppObj[item.pp_id] = item.pp_name)
+          resolve()
+        })
+      })
+    },
+    // 研究类型
+    async getRtList() {
+      return new Promise((resolve, reject) => {
+        this.$http.post('/researchType/findAllResearchType').then(resp => {
+          console.log(8)
+          if(resp.data.status !== '200') reject(this.$message.error('获取研究类型列表失败')) 
+          this.rtList = resp.data.data
+          this.rtList.forEach(item => this.rtObj[item.rt_id] = item.rt_name)
+          resolve()
+        })
+      })
+    },
     // 获取论文成果列表
     async getBookList() {
+      this.isLoading = true
       if(this.queryInfo.publish_time !== '') {
         this.queryInfo.publish_time_start = this.queryInfo.publish_time[0]
         this.queryInfo.publish_time_end = this.queryInfo.publish_time[1]
@@ -931,6 +991,7 @@ export default {
         item.rt_name = this.rtObj[item.rt_id];
         item.language_name = this.languageObj[item.language_id];
       });
+      this.isLoading = false
     },
     // 多选框条件发生变化
     selectionChange() {

@@ -17,7 +17,7 @@
               </el-input>
             </template>
             <template slot-scope="scope">
-              <el-link type="primary" @click="showPaperInfoDialog(scope.row.paper_id)">{{scope.row.paper_name}}</el-link>
+              <el-link type="primary" @click="showPaperInfoDialog(scope.row.pe_id)">{{scope.row.paper_name}}</el-link>
             </template>
           </el-table-column>
           <el-table-column prop="authorName" label="论文作者" width="150px" align="center">
@@ -137,7 +137,7 @@
           </el-row>
           <el-row>
             <el-col :span="12">
-              <el-form-item label="论文编号：">{{ paperInfo.paper_id }}</el-form-item>
+              <el-form-item label="论文编号：">{{ paperInfo.pe_id }}</el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="论文类型：">{{ paperInfo.pt_name}}</el-form-item>
@@ -225,7 +225,7 @@ export default {
       papersList: [],
       // 搜索条件表单
       queryInfo: {
-      paper_id:'',
+      pe_id:'',
       paper_name:'',
       pt_id:'',
       periodical_id:'',
@@ -279,7 +279,7 @@ export default {
       this.getDepartmentList(), this.getScList(), this.getSubjectList(), this.getPeriodicalList(), this.getPtList()
     ])
     this.isLoading = false
-    this.getPaperList()
+    this.getPaperList();
   },
   methods: {
     async getDepartmentList() {
@@ -334,7 +334,6 @@ export default {
         })
       })
     },
-
     // 获取论文成果列表
     async getPaperList() {
       this.isLoading = true
@@ -342,8 +341,9 @@ export default {
         this.queryInfo.publish_time_start = this.queryInfo.publish_time[0]
         this.queryInfo.publish_time_end = this.queryInfo.publish_time[1]
       }else this.queryInfo.publish_time_start = this.queryInfo.publish_time_end = ''
+      this.queryInfo.apply_time_start = this.queryInfo.apply_time_end = ''
       // 通过 post 请求获取科研项目列表
-      const { data: res } = await this.$http.post('/paper/selectAllPaperByCondition', this.$qs.stringify(this.queryInfo))
+      const { data: res } = await this.$http.post('/paperExamine/selectPaperExamineByCondition', this.$qs.stringify(this.queryInfo))
       if( res.status === '404' ) {
         return this.$router.push('/home')
       }
@@ -388,13 +388,13 @@ export default {
     },
     async showPaperInfoDialog(paperId) {
       console.log(paperId)
-      const { data: res } = await this.$http.post("/paper/findPaperById", this.$qs.stringify({ paper_id: paperId }));
+      const { data: res } = await this.$http.post("/paperExamine/findPaperExamineById", this.$qs.stringify({ pe_id: paperId }));
       if (res.status !== "200") return this.$message.error("获取待审核论文成果信息失败");
       this.paperInfo = res.data;
-      const { data: res2 } = await this.$http.post('/team/selectPaperTeam', stringify({ paper_id: paperId }))
+      const { data: res2 } = await this.$http.post('/teamExamine/selectPaperTeamExamineUser', stringify({ pe_id: paperId }))
       if( res2.status !== '200' ) return this.$message.error('获取待审核论文成果团队失败')
       this.memberList = res2.data
-      const { data: res3 } = await this.$http.post('/periodicalPaper/findPeriodicalByPaperId', stringify({ paper_id: paperId }))
+      const { data: res3 } = await this.$http.post('/periodicalExamine/findPeriodicalExamineByPaperId', stringify({ pe_id: paperId }))
       if( res3.status !== '200' ) return this.$message.error('获取待审核论文收录期刊列表失败')
       this.ppList = []
       this.periodicalList.forEach(item => {

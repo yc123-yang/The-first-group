@@ -1,11 +1,12 @@
 <template>
-  <div style="margin-top: 25px">
+  <div style="margin-top: 25px" v-loading="isLoading">
    <el-button type="primary" size="medium" @click="addPatentsDialogVisible = true">录入专利成果</el-button>
     <el-button type="danger" size="medium" :disabled="selection.length === 0">删除专利成果</el-button>
     <el-button type="warning" size="medium" @click="print">导出信息</el-button>
 
 
-    <el-table :data="patentsList" style="width: 100%; margin-top: 15px" border @selection-change="selectionChange" :header-cell-style="{ background: '#f5f7fa' }">
+    <el-table :data="patentsList" style="width: 100%; margin-top: 15px" border @selection-change="selectionChange"
+      :header-cell-style="{ background: '#f5f7fa' }">
       <!-- 序号列 -->
       <el-table-column type="index" label="#" align="center" fixed></el-table-column>
       <!-- 多选列 -->
@@ -704,6 +705,7 @@ export default {
       },
       patentInfoDialogVisible: false,
       patentInfo: {},
+      isLoading: false
     };
   },
   async created() {
@@ -713,6 +715,7 @@ export default {
   methods: {
     // 获取专利成果列表
     async getPatentData() {
+      this.isLoading = true
       // 获取单位列表
       const { data: res1 } = await this.$http.post("/department/findAllDepartment");
       this.departmentList = res1.data;
@@ -731,10 +734,12 @@ export default {
       const { data: res4 } = await this.$http.post("/patentStatus/findAllPatentStatus");
       this.psList = res4.data;
       this.psList.forEach((item) => (this.psObj[item.ps_id] = item.ps_name));
+      this.isLoading = false
     },
 
     // 获取论文成果列表
     async preGetPatentList() {
+      this.isLoading = true
       if(this.queryInfo.public_time !== '') {
         this.queryInfo.public_time_start = this.queryInfo.public_time[0]
         this.queryInfo.public_time_end = this.queryInfo.public_time[1]
@@ -764,12 +769,7 @@ export default {
         item.pr_name = this.prObj[item.pr_id];
         item.ps_name = this.psObj[item.ps_id];
       });
-      for(var i=0;i<this.patentsList.length;i++) {
-        const { data: res } = await this.$http.post('/user/findUserById', this.$qs.stringify({user_id: this.patentsList[i].leader_id}))
-        if( res.status !== '200' ) return this.$message.error('查询作者失败')
-        this.patentsList[i].authorName = res.data.user_name
-      }
-      console.log(this.patentsList);
+      this.isLoading = false
     },
     async getPatentList() {
       await this.preGetPatentList()

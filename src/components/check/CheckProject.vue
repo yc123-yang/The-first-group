@@ -7,7 +7,7 @@
       <el-breadcrumb-item>审核项目申请</el-breadcrumb-item>
     </el-breadcrumb>
 
-    <el-card>
+    <el-card v-loading="isLoading">
       <!-- 待审核项目表格 -->
       <el-table :data="projectList" style="width: 100%;" border :header-cell-style="{background: '#f5f7fa'}">
         <el-table-column type="index" label="#" align="center" fixed></el-table-column>
@@ -333,7 +333,8 @@ export default {
           { required: true, message: '请填写驳回理由！', trigger: 'blur' }
         ]
       },
-      memberList: []
+      memberList: [],
+      isLoading: false
     }
   },
   async created() {
@@ -343,6 +344,7 @@ export default {
   methods: {
     // 预先获取待审核项目所需的字典数据
     async getProjectData() {
+      this.isLoading = true
       // 处理单位列表和 id:name 对象
       const { data: res1 } = await this.$http.post('/department/findAllDepartment')
       this.departmentList = res1.data
@@ -371,9 +373,11 @@ export default {
       const { data: res7 } = await this.$http.post('/conclusionType/findAllConclusionType')
       this.ctList = res7.data
       this.ctList.forEach(item => this.ctObj[item.ct_id]=item.ct_name)
+      this.isLoading = false
     },
     // 根据条件，获取待审核项目列表
     async getProjectList() {
+      this.isLoading = true
       // 预处理日期相关
       if( this.start_time !== null ) {
         this.queryInfo.start_time_start = this.start_time[0]
@@ -407,7 +411,7 @@ export default {
         item.complete_time = item.complete_time.substring(0, 10)
         item.ct_name = this.ctObj[item.ct_id]
       })
-      console.log(this.projectList)
+      this.isLoading = false
     },
     // 一页的数据条数发生变化
     handleSizeChange(newSize) {
@@ -465,10 +469,14 @@ export default {
     denyProject() {
       this.$refs.denyInfoRef.validate(async valid => {
         if(!valid) return
-        const { data: res } = await this.$http.post('/check/project/deny', this.$qs.stringify({
-          project_id: this.projectInfo.project_id,
-          reason: this.denyInfo.reason
-        }))
+        var postObj = JSON.parse(JSON.stringify(this.projectInfo))
+        postObj.complete_time = postObj.complete_time + " 00:00:00"
+        postObj.start_time = postObj.start_time + " 00:00:00"
+        postObj.plan_time = postObj.plan_time + " 00:00:00"
+        postObj.checkMessage = 'fail'
+        postObj.message = this.denyInfo.reason
+        console.log(postObj)
+        const { data: res } = await this.$http.post('/project/addProject', this.$qs.stringify(postObj))
         if(res.status !== '200') return this.$message.error('驳回项目申请失败')
         this.denyProjectDialogVisible = false
         this.$message.success('驳回项目申请成功')

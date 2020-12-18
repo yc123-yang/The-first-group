@@ -1,10 +1,11 @@
 <template>
-  <div style="margin-top: 25px">
+  <div style="margin-top: 25px" v-loading="isLoading">
     <el-button type="primary" size="medium" @click="addPaperDialogVisible = true">录入论文</el-button>
     <el-button type="danger" size="medium" :disabled="selection.length === 0">删除论文</el-button>
     <el-button type="warning" size="medium" @click="print">导出信息</el-button>
 
-    <el-table :data="papersList" style="width: 100%; margin-top: 15px" border @selection-change="selectionChange" :header-cell-style="{ background: '#f5f7fa' }">
+    <el-table :data="papersList" style="width: 100%; margin-top: 15px" border @selection-change="selectionChange"
+      :header-cell-style="{ background: '#f5f7fa' }">
       <!-- 序号列 -->
       <el-table-column type="index" label="#" align="center" fixed></el-table-column>
       <!-- 多选列 -->
@@ -685,47 +686,76 @@ export default {
       },
       paperInfoDialogVisible: false,
       paperInfo: {},
-      ppList: []
+      ppList: [],
+      memberList: [],
+      isLoading: false
     }
   },
 
   async created() {
-    await this.getPaperData();
-    await this.getPaperList();
-    this.papersList = JSON.parse(JSON.stringify(this.papersList))
+    this.isLoading = true
+    await Promise.all([
+      this.getDepartmentList(), this.getScList(), this.getSubjectList(), this.getPeriodicalList(), this.getPtList()
+    ])
+    this.isLoading = false
+    this.getPaperList();
   },
   methods: {
-    // 获取论文成果列表
-    async getPaperData() {
-       // 获取单位列表
-      const { data: res1 } = await this.$http.post('/department/findAllDepartment')
-      this.departmentList = res1.data
-      // 构造单位 id:name 对象
-      this.departmentList.forEach(item => this.departmentObj[item.department_id] = item.department_name)
-      // 获取学科门类列表
-      const { data: res2 } = await this.$http.post('/category/findAllSubjectCategory')
-      this.scList = res2.data
-      // 构造学科门类 id:name 对象
-      this.scList.forEach(item => this.scObj[item.sc_id] = item.sc_name)
-      // 获取一级学科列表
-      const { data: res3 } = await this.$http.post('/subject/findAllSubject')
-      this.subjectList = res3.data
-      // 构造一级学科 id:name 对象
-      this.subjectList.forEach(item => this.subjectObj[item.subject_id] = item.subject_name)
-      // 获取期刊列表
-      const { data: res4 } = await this.$http.post('/periodical/findAllPeriodical')
-      this.periodicalList = res4.data
-      // 构造 期刊 对象
-      this.periodicalList.forEach(item => this.periodicalObj[item.periodical_id] = item.periodical_name)
-      // 获取论文类型列表
-      const { data: res5 } = await this.$http.post('/paperType/findAllPaperType')
-      this.ptList = res5.data
-      // 构造 论文类型对象
-      this.ptList.forEach(item => this.ptObj[item.pt_id] = item.pt_name)
+    async getDepartmentList() {
+      return new Promise((resolve, reject) => {
+        this.$http.post('/department/findAllDepartment').then(resp => {
+          if(resp.data.status !== '200') reject(this.$message.error('获取单位数据失败')) 
+          this.departmentList = resp.data.data
+          this.departmentList.forEach(item => this.departmentObj[item.department_id] = item.department_name)
+          resolve()
+        })
+      })
     },
-
+    async getScList() {
+      return new Promise((resolve, reject) => {
+        this.$http.post('/category/findAllSubjectCategory').then(resp => {
+          if(resp.data.status !== '200') reject(this.$message.error('获取学科门类数据失败')) 
+          this.scList = resp.data.data
+          this.scList.forEach(item => this.scObj[item.sc_id] = item.sc_name)
+          resolve()
+        })
+      })
+    },
+    async getSubjectList() {
+      return new Promise((resolve, reject) => {
+        this.$http.post('/subject/findAllSubject').then(resp => {
+          if(resp.data.status !== '200') reject(this.$message.error('获取一级学科列表失败')) 
+          this.subjectList = resp.data.data
+          this.subjectList.forEach(item => this.subjectObj[item.subject_id] = item.subject_name)
+          resolve()
+        })
+      })
+    },
+    // 获取期刊列表，构造期刊对象
+    async getPeriodicalList() {
+      return new Promise((resolve, reject) => {
+        this.$http.post('/periodical/findAllPeriodical').then(resp => {
+          if(resp.data.status !== '200') reject(this.$message.error('获取期刊列表失败')) 
+          this.periodicalList = resp.data.data
+          this.periodicalList.forEach(item => this.periodicalObj[item.periodical_id] = item.periodical_name)
+          resolve()
+        })
+      })
+    },
+    // 获取论文类型列表
+    async getPtList() {
+      return new Promise((resolve, reject) => {
+        this.$http.post('/paperType/findAllPaperType').then(resp => {
+          if(resp.data.status !== '200') reject(this.$message.error('获取论文类型列表失败')) 
+          this.ptList = resp.data.data
+          this.ptList.forEach(item => this.ptObj[item.pt_id] = item.pt_name)
+          resolve()
+        })
+      })
+    },
     // 获取论文成果列表
     async getPaperList() {
+      this.isLoading = true
       if(this.queryInfo.publish_time !== ''){
         this.queryInfo.publish_time_start = this.queryInfo.publish_time[0]
         this.queryInfo.publish_time_end = this.queryInfo.publish_time[1]
@@ -747,6 +777,7 @@ export default {
         item.publish_time = item.publish_time.substring(0, 10);
         item.pt_name = this.ptObj[item.pt_id];
       });
+      this.isLoading = false
     },
     // 多选框条件发生变化
     selectionChange() {
@@ -901,7 +932,7 @@ export default {
       this.editForm = res.data
       await this.getMemberList()
       this.editPaperDialogVisible = true
-      await this.getPeriodicalList()
+      await this.getPaperPeriodicalList()
     },
     // 获取编辑论文对话框中的成员列表
     async getMemberList() {
@@ -911,11 +942,11 @@ export default {
       // this.editForm.authorList = res.data
     },
     // 获取收录期刊列表
-    async getPeriodicalList() {
+    async getPaperPeriodicalList() {
       console.log(this.editForm.paper_id)
       const { data: res } = await this.$http.post('/periodicalPaper/findPeriodicalByPaperId', this.$qs.stringify({ paper_id: this.editForm.paper_id }))
       if( res.status !== '200' ) return this.$message.error('获取收录期刊列表失败')
-      this.$refs.editPeriodicalTableRef.clearSelection()
+      // this.$refs.editPeriodicalTableRef.clearSelection()
       this.periodicalList.forEach(item => {
         if(res.data.indexOf(item.periodical_id) !== -1)
           this.$refs.editPeriodicalTableRef.toggleRowSelection(item)

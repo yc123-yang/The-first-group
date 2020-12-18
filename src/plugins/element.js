@@ -40,9 +40,11 @@ import {
   Carousel,
   CarouselItem,
   Divider,
-  Footer
+  Footer,
+  Badge
 } from 'element-ui'
 
+Vue.use(Badge)
 Vue.use(Footer)
 Vue.use(Divider)
 Vue.use(CarouselItem)
