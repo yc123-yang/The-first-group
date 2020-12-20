@@ -1,4 +1,5 @@
 <template>
+  <div style="height: 100%">
     <el-container class="homeContainer">
       <!-- 头部容器 -->
       <el-header>
@@ -12,7 +13,7 @@
           <el-dropdown trigger="click" @command="handleCommand">
             <el-link type="primary">{{userInfo.user_name}}</el-link>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item icon="el-icon-edit">更改信息</el-dropdown-item>
+              <el-dropdown-item icon="el-icon-edit" command="updateUser">更改信息</el-dropdown-item>
               <el-dropdown-item icon="el-icon-switch-button" command="logout">退出登录</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
@@ -71,9 +72,30 @@
         </el-container>
       </el-container>
     </el-container>
+
+
+    <el-dialog title="修改用户信息" :visible.sync="updateUserDialogVisible" width="30%" @closed="updateUserDialogClosed">
+      <el-form :model="editUserForm" :rules="editUserFormRules" ref="editUserFormRef" label-width="100px">
+        <el-form-item label="电子邮箱" prop="user_email">
+          <el-input v-model="editUserForm.user_email"></el-input>
+        </el-form-item>
+        <el-form-item label="单位" prop="department_id">
+          <el-select v-model="editUserForm.department_id" style="width: 100%">
+            <el-option v-for="item in departmentList" :label="item.department_name" :value="item.department_id"
+              :key="item.department_id"></el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="updateUserDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="updateUser">确 定</el-button>
+      </span>
+    </el-dialog>
+  </div>
 </template>
 
 <script>
+import { stringify } from 'qs'
 export default {
   data () {
     return {
@@ -99,7 +121,20 @@ export default {
       activeNav: '',
       checkId: [13, 14, 15, 16, 17],
       checkNum: {13: 0, 14: 0, 15: 0, 16: 0, 17: 0},
-      checkTotal: 0
+      checkTotal: 0,
+      updateUserDialogVisible: false,
+      editUserForm: {},
+      editUserFormRules: {
+        user_email: [
+          { required: true, message: "请输入邮箱", trigger: "blur" },
+          {
+            pattern: /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/,
+            message: "邮箱格式错误",
+          },
+        ],
+        department_id: [{ required: true, message: '请选择单位', trigger: 'change' }]
+      },
+      departmentList: []
     }
   },
   created () {
@@ -108,9 +143,19 @@ export default {
     this.userInfo.user_name = window.sessionStorage.getItem('user_name')
     this.userInfo.user_id = window.sessionStorage.getItem('user_id')
     this.userInfo.role_name = window.sessionStorage.getItem('role_name')
-    console.log(this.userInfo)
+    this.getDepartmentList()
   },
   methods: {
+    // 获取单位列表，构造单位 id:name 对象
+    async getDepartmentList() {
+      return new Promise((resolve, reject) => {
+        this.$http.post('/department/findAllDepartment').then(resp => {
+          if(resp.data.status !== '200') reject(this.$message.error('获取单位数据失败')) 
+          this.departmentList = resp.data.data
+          resolve()
+        })
+      })
+    },
     logout () {
       window.sessionStorage.clear()
       this.$message('退出登录')
@@ -123,7 +168,7 @@ export default {
         if(item.id === 5){
           const timer = setInterval(() => {
             setTimeout(this.getCheckNum(), 0)
-          }, 2000)
+          }, 10000)
           this.$once('hook:beforeDestroy', () => {
             clearInterval(timer)
           })
@@ -147,8 +192,22 @@ export default {
         }
       })
     },
+    async showUpdateUserDialog(user_id) {
+      const { data: res } = await this.$http.post('/user/findUserById', stringify({ user_id: user_id }))
+      if( res.status !== '200' ) return this.$message.error('获取用户信息失败')
+      this.editUserForm = res.data
+      this.updateUserDialogVisible = true
+    },
     handleCommand(command) {
       if(command === 'logout') this.logout()
+      if(command === 'updateUser') this.showUpdateUserDialog(window.sessionStorage.getItem('user_id'))
+    },
+    updateUserDialogClosed() { this.$refs.editUserFormRef.resetFields() },
+    async updateUser() {
+      const { data: res } = await this.$http.post('/user/updateUserMessage', stringify(this.editUserForm))
+      if( res.status !== '200' ) return this.$message.error('更新用户信息失败')
+      this.$message.success('更新用户信息成功')
+      this.updateUserDialogVisible = false 
     }
   }
 }

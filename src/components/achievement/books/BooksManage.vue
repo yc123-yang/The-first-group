@@ -38,7 +38,7 @@
       <el-table-column prop="pl_name" label="出版社级别" width="200px" align="center">
         <template slot="header" slot-scope="scope">
           <div style="line-height: 14px">出版社级别</div>
-          <el-select class="columnInput" v-model="queryInfo.pl" size="mini" placeholder="请选择" @change="QueryBookList">
+          <el-select class="columnInput" v-model="queryInfo.pl_id" size="mini" placeholder="请选择" @change="QueryBookList" clearable>
             <el-option v-for="item in plList" :key="item.pl_id" :label="item.pl_name" :value="item.pl_id"> </el-option>
           </el-select>
         </template>
@@ -47,7 +47,7 @@
       <el-table-column prop="bt_name" label="著作类型" width="200px" align="center">
         <template slot="header" slot-scope="scope">
           <div style="line-height: 14px">著作类型</div>
-          <el-select class="columnInput" v-model="queryInfo.bt" size="mini" placeholder="请选择" @change="QueryBookList">
+          <el-select class="columnInput" v-model="queryInfo.bt_id" size="mini" placeholder="请选择" @change="QueryBookList" clearable>
             <el-option v-for="item in btList" :key="item.bt_id" :label="item.bt_name" :value="item.bt_id"> </el-option>
           </el-select>
         </template>
@@ -57,7 +57,7 @@
         <template slot="header" slot-scope="scope"
           >
           <div style="line-height: 14px">出版地</div>
-          <el-select class="columnInput" v-model="queryInfo.pp_id" size="mini" placeholder="请选择" @change="QueryBookList">
+          <el-select class="columnInput" v-model="queryInfo.pp_id" size="mini" placeholder="请选择" @change="QueryBookList" clearable>
             <el-option v-for="item in ppList" :key="item.pp_id" :label="item.pp_name" :value="item.pp_id"> </el-option>
           </el-select>
         </template>
@@ -66,7 +66,8 @@
       <el-table-column prop="publish_time" label="发表日期" width="230px" align="center">
         <template slot="header" slot-scope="scope">
           <div style="line-height: 14px">发表日期</div>
-          <el-date-picker class="columnInput" style="width: 200px; padding-right: 0" size="mini" @change="QueryBookList" v-model="queryInfo.publish_time" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"> </el-date-picker>
+          <el-date-picker class="columnInput" style="width: 200px; padding-right: 0" size="mini" @change="QueryBookList" value-format="yyyy-MM-dd 00:00:00"
+            v-model="publish_time" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"> </el-date-picker>
         </template>
       </el-table-column>
 
@@ -94,7 +95,7 @@
       <el-table-column prop="language_name" label="翻译语种" width="200px" align="center">
         <template slot="header" slot-scope="scope">
           <div style="line-height: 14px">翻译语种</div>
-          <el-select @change="QueryBookList" class="columnInput" v-model="queryInfo.language_id" multiple size="mini" collapse-tags placeholder="请选择">
+          <el-select @change="QueryBookList" class="columnInput" v-model="queryInfo.language_id" size="mini" clearable placeholder="请选择">
             <el-option v-for="item in languageList" :key="item.language_id" :label="item.language_name" :value="item.language_id"> </el-option>
           </el-select>
         </template>
@@ -103,7 +104,7 @@
       <el-table-column prop="sc_name" label="学科门类" width="200px" align="center">
         <template slot="header" slot-scope="scope">
           <div style="line-height: 14px">学科门类</div>
-          <el-select @change="QueryBookList" class="columnInput" v-model="queryInfo.sc_id" multiple size="mini" collapse-tags placeholder="请选择">
+          <el-select @change="QueryBookList" class="columnInput" v-model="queryInfo.sc_id" size="mini" clearable placeholder="请选择">
             <el-option v-for="item in scList" :key="item.sc_id" :label="item.sc_name" :value="item.sc_id"> </el-option>
           </el-select>
         </template>
@@ -111,7 +112,7 @@
       <el-table-column prop="subject_name" label="一级学科" width="200px" align="center">
         <template slot="header" slot-scope="scope">
           <div style="line-height: 14px">一级学科</div>
-          <el-select @change="QueryBookList" class="columnInput" v-model="queryInfo.subject" multiple size="mini" collapse-tags placeholder="请选择">
+          <el-select @change="QueryBookList" class="columnInput" v-model="queryInfo.subject_id" size="mini" clearable placeholder="请选择">
             <el-option v-for="item in subjectList" :key="item.subject_id" :label="item.subject_name" :value="item.subject_id"> </el-option>
           </el-select>
         </template>
@@ -119,7 +120,7 @@
       <el-table-column prop="aod_name" label="归属单位" width="200px" align="center">
         <template slot="header" slot-scope="scope">
           <div style="line-height: 14px">归属单位</div>
-          <el-select @change="QueryBookList" class="columnInput" v-model="queryInfo.aod_id" multiple size="mini" collapse-tags placeholder="请选择">
+          <el-select @change="QueryBookList" class="columnInput" v-model="queryInfo.aod_id" size="mini" clearable placeholder="请选择">
             <el-option v-for="item in departmentList" :key="item.department_id" :label="item.department_name" :value="item.department_id"> </el-option>
           </el-select>
         </template>
@@ -128,7 +129,7 @@
       <el-table-column prop="sd_name" label="项目来源" width="250px" align="center">
         <template slot="header" slot-scope="scope">
           <div style="line-height: 14px">项目来源</div>
-          <el-select @change="QueryBookList" class="columnInput" v-model="queryInfo.sd_id" multiple size="mini" collapse-tags placeholder="请选择">
+          <el-select @change="QueryBookList" class="columnInput" v-model="queryInfo.sd_id" size="mini"  clearable placeholder="请选择">
             <el-option v-for="item in departmentList" :key="item.department_id" :label="item.department_name" :value="item.department_id"> </el-option>
           </el-select>
         </template>
@@ -137,7 +138,7 @@
       <el-table-column prop="rt_name" label="研究类别" width="250px" align="center">
         <template slot="header" slot-scope="scope">
           <div style="line-height: 14px">研究类别</div>
-          <el-select @change="QueryBookList" class="columnInput" v-model="queryInfo.rt_id" multiple size="mini" collapse-tags placeholder="请选择">
+          <el-select @change="QueryBookList" class="columnInput" v-model="queryInfo.rt_id" size="mini" clearable placeholder="请选择">
             <el-option v-for="item in rtList" :key="item.rt_id" :label="item.rt_name" :value="item.rt_id"> </el-option>
           </el-select>
         </template>
@@ -703,7 +704,6 @@ export default {
         language_id: "",
         sc_id: "",
         subject_id: "",
-        publish_time: "",
         aod_id: "",
         sd_id: "",
         rt_id: "",
@@ -969,9 +969,9 @@ export default {
     // 获取论文成果列表
     async getBookList() {
       this.isLoading = true
-      if(this.queryInfo.publish_time !== '') {
-        this.queryInfo.publish_time_start = this.queryInfo.publish_time[0]
-        this.queryInfo.publish_time_end = this.queryInfo.publish_time[1]
+      if(this.publish_time !== null) {
+        this.queryInfo.publish_time_start = this.publish_time[0]
+        this.queryInfo.publish_time_end = this.publish_time[1]
       } else this.queryInfo.publish_time_start = this.queryInfo.publish_time_end = ''
       // 通过 post 请求获取科研项目列表
       const { data: res } = await this.$http.post("book/selectBookByCondition", this.$qs.stringify(this.queryInfo));

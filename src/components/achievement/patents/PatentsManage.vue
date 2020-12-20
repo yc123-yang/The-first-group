@@ -36,7 +36,7 @@
         <template slot="header" slot-scope="scope"
           >{{ scope.haha }}
           <div style="line-height: 14px">专利类型</div>
-          <el-select @change="QueryPatentList" class="columnInput" v-model="queryInfo.pt_id" multiple size="mini" collapse-tags placeholder="请选择">
+          <el-select @change="QueryPatentList" class="columnInput" v-model="queryInfo.pt_id" size="mini" clearable placeholder="请选择">
             <el-option v-for="item in ptList" :key="item.pt_id" :label="item.pt_name" :value="item.pt_id"> </el-option>
           </el-select>
         </template>
@@ -46,7 +46,7 @@
         <template slot="header" slot-scope="scope"
           >{{ scope.haha }}
           <div style="line-height: 14px">专利范围</div>
-          <el-select @change="QueryPatentList" class="columnInput" v-model="queryInfo.pr_id" multiple size="mini" collapse-tags placeholder="请选择">
+          <el-select @change="QueryPatentList" class="columnInput" v-model="queryInfo.pr_id" size="mini" clearable placeholder="请选择">
             <el-option v-for="item in prList" :key="item.pr_id" :label="item.pr_name" :value="item.pr_id"> </el-option>
           </el-select>
         </template>
@@ -56,7 +56,7 @@
         <template slot="header" slot-scope="scope"
           >{{ scope.haha }}
           <div style="line-height: 14px">专利状态</div>
-          <el-select @change="QueryPatentList" class="columnInput" v-model="queryInfo.ps_id" multiple size="mini" collapse-tags placeholder="请选择">
+          <el-select @change="QueryPatentList" class="columnInput" v-model="queryInfo.ps_id" size="mini" clearable placeholder="请选择">
             <el-option v-for="item in psList" :key="item.ps_id" :label="item.ps_name" :value="item.ps_id"> </el-option>
           </el-select>
         </template>
@@ -66,7 +66,7 @@
         <template slot="header" slot-scope="scope"
           >{{ scope.haha }}
           <div style="line-height: 14px">归属单位</div>
-          <el-select @change="QueryPatentList" class="columnInput" v-model="queryInfo.aod_id" multiple size="mini" collapse-tags placeholder="请选择">
+          <el-select @change="QueryPatentList" class="columnInput" v-model="queryInfo.aod_id" size="mini" clearable placeholder="请选择">
             <el-option v-for="item in departmentList" :key="item.department_id" :label="item.department_name" :value="item.department_id"> </el-option>
           </el-select>
         </template>
@@ -84,7 +84,8 @@
         <template slot="header" slot-scope="scope"
           >{{ scope.haha }}
           <div style="line-height: 14px">申请日期</div>
-          <el-date-picker class="columnInput" style="width: 200px; padding-right: 0" size="mini" v-model="queryInfo.application_time" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" @change="QueryPatentList"> </el-date-picker>
+          <el-date-picker class="columnInput" style="width: 200px; padding-right: 0" size="mini" value-format="yyyy-MM-dd 00:00:00"
+            v-model="application_time" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" @change="QueryPatentList"> </el-date-picker>
         </template>
       </el-table-column>
 
@@ -100,7 +101,8 @@
         <template slot="header" slot-scope="scope"
           >{{ scope.haha }}
           <div style="line-height: 14px">公开日期</div>
-          <el-date-picker class="columnInput" style="width: 200px; padding-right: 0" size="mini" v-model="queryInfo.public_time" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" @change="QueryPatentList"> </el-date-picker>
+          <el-date-picker class="columnInput" style="width: 200px; padding-right: 0" size="mini" value-format="yyyy-MM-dd 00:00:00"
+            v-model="public_time" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" @change="QueryPatentList"> </el-date-picker>
         </template>
       </el-table-column>
 
@@ -116,7 +118,8 @@
         <template slot="header" slot-scope="scope"
           >{{ scope.haha }}
           <div style="line-height: 14px">授权日期</div>
-          <el-date-picker class="columnInput" style="width: 200px; padding-right: 0" size="mini" v-model="queryInfo.authorization_time" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" @change="QueryPatentList"> </el-date-picker>
+          <el-date-picker class="columnInput" style="width: 200px; padding-right: 0" size="mini" value-format="yyyy-MM-dd 00:00:00"
+            v-model="authorization_time" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" @change="QueryPatentList"> </el-date-picker>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" width="120" fixed="right">
@@ -185,7 +188,7 @@
               </el-col>
               <el-col :span="12">
                 <el-form-item label="申请日期:" prop="application_time">
-                  <el-date-picker placeholder="请选择日期" v-model="addForm.application_time"
+                  <el-date-picker placeholder="请选择日期" v-model="application_time"
                     style="width: 100%" size="mini" value-format="yyyy-MM-dd 00:00:00">
                   </el-date-picker>
                 </el-form-item>
@@ -200,7 +203,7 @@
               </el-col>
               <el-col :span="12">
                 <el-form-item label="公开日期:" prop="public_time">
-                  <el-date-picker placeholder="请选择日期" v-model="addForm.public_time"
+                  <el-date-picker placeholder="请选择日期" v-model="public_time"
                     style="width: 100%" size="mini" value-format="yyyy-MM-dd 00:00:00">
                   </el-date-picker>
                 </el-form-item>
@@ -215,7 +218,7 @@
               </el-col>
               <el-col :span="12">
                 <el-form-item label="授权日期:" prop="authorization_time">
-                  <el-date-picker placeholder="请选择日期" v-model="addForm.authorization_time"
+                  <el-date-picker placeholder="请选择日期" v-model="authorization_time"
                     style="width: 100%" size="mini" value-format="yyyy-MM-dd 00:00:00">
                   </el-date-picker>
                 </el-form-item>
@@ -577,11 +580,8 @@ export default {
         ps_id: "",
         aod_id: "",
         application_number: "",
-        application_time: "",
         public_number: "",
-        public_time: "",
         authorization_number: "",
-        authorization_time: "",
 
         // 当前页码
         pagenum: 1,
@@ -743,17 +743,17 @@ export default {
     // 获取论文成果列表
     async preGetPatentList() {
       this.isLoading = true
-      if(this.queryInfo.public_time !== '') {
-        this.queryInfo.public_time_start = this.queryInfo.public_time[0]
-        this.queryInfo.public_time_end = this.queryInfo.public_time[1]
+      if(this.public_time !== null) {
+        this.queryInfo.public_time_start = this.public_time[0]
+        this.queryInfo.public_time_end = this.public_time[1]
       } else this.queryInfo.public_time_start = this.queryInfo.public_time_end = ''
-      if(this.queryInfo.authorization_time !== '') {
-        this.queryInfo.authorization_time_start = this.queryInfo.authorization_time[0]
-        this.queryInfo.authorization_time_end = this.queryInfo.authorization_time[1]
+      if(this.authorization_time !== null) {
+        this.queryInfo.authorization_time_start = this.authorization_time[0]
+        this.queryInfo.authorization_time_end = this.authorization_time[1]
       } else this.queryInfo.authorization_time_start = this.queryInfo.authorization_time_end = ''
-      if(this.queryInfo.application_time !== '') {
-        this.queryInfo.application_time_start = this.queryInfo.application_time[0]
-        this.queryInfo.application_time_end = this.queryInfo.application_time[1]
+      if(this.application_time !== null) {
+        this.queryInfo.application_time_start = this.application_time[0]
+        this.queryInfo.application_time_end = this.application_time[1]
       } else this.queryInfo.application_time_start = this.queryInfo.application_time_end = ''
       // 通过 post 请求获取科研项目列表
       const { data: res } = await this.$http.post("patent/selectPatentByCondition", this.$qs.stringify(this.queryInfo));

@@ -42,7 +42,8 @@
         <template slot="header" slot-scope="scope"
           >{{ scope.haha }}
           <div style="line-height: 14px">发表日期</div>
-          <el-date-picker class="columnInput" style="width: 200px; padding-right: 0" size="mini" v-model="queryInfo.award_time" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" @change="QueryAwardList"> </el-date-picker>
+          <el-date-picker class="columnInput" style="width: 200px; padding-right: 0" size="mini" v-model="award_time" value-format="yyyy-MM-dd 00:00:00"
+            type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" @change="QueryAwardList"> </el-date-picker>
         </template>
       </el-table-column>
 
@@ -74,7 +75,7 @@
         <template slot="header" slot-scope="scope"
           >{{ scope.haha }}
           <div style="line-height: 14px">获奖级别</div>
-          <el-select @change="QueryAwardList" class="columnInput" v-model="queryInfo.ar_id" multiple size="mini" collapse-tags placeholder="请选择">
+          <el-select @change="QueryAwardList" class="columnInput" v-model="queryInfo.ar_id" size="mini" clearable placeholder="请选择">
             <el-option v-for="item in arList" :key="item.ar_id" :label="item.ar_name" :value="item.ar_id"> </el-option>
           </el-select>
         </template>
@@ -84,7 +85,7 @@
         <template slot="header" slot-scope="scope"
           >{{ scope.haha }}
           <div style="line-height: 14px">获奖等级</div>
-          <el-select @change="QueryAwardList" class="columnInput" v-model="queryInfo.al_id" multiple size="mini" collapse-tags placeholder="请选择">
+          <el-select @change="QueryAwardList" class="columnInput" v-model="queryInfo.al_id" size="mini" clearable placeholder="请选择">
             <el-option v-for="item in alList" :key="item.al_id" :label="item.al_name" :value="item.al_id"> </el-option>
           </el-select>
         </template>
@@ -94,7 +95,7 @@
         <template slot="header" slot-scope="scope"
           >{{ scope.haha }}
           <div style="line-height: 14px">学科门类</div>
-          <el-select @change="QueryAwardList" class="columnInput" v-model="queryInfo.sc_id" multiple size="mini" collapse-tags placeholder="请选择">
+          <el-select @change="QueryAwardList" class="columnInput" v-model="queryInfo.sc_id" size="mini" clearable placeholder="请选择">
             <el-option v-for="item in scList" :key="item.sc_id" :label="item.sc_name" :value="item.sc_id"> </el-option>
           </el-select>
         </template>
@@ -103,7 +104,7 @@
         <template slot="header" slot-scope="scope"
           >{{ scope.haha }}
           <div style="line-height: 14px">一级学科</div>
-          <el-select @change="QueryAwardList" class="columnInput" v-model="queryInfo.subject" multiple size="mini" collapse-tags placeholder="请选择">
+          <el-select @change="QueryAwardList" class="columnInput" v-model="queryInfo.subject_id" size="mini" clearable placeholder="请选择">
             <el-option v-for="item in subjectList" :key="item.subject_id" :label="item.subject_name" :value="item.subject_id"> </el-option>
           </el-select>
         </template>
@@ -112,7 +113,7 @@
         <template slot="header" slot-scope="scope"
           >{{ scope.haha }}
           <div style="line-height: 14px">归属单位</div>
-          <el-select @change="QueryAwardList" class="columnInput" v-model="queryInfo.aod_id" multiple size="mini" collapse-tags placeholder="请选择">
+          <el-select @change="QueryAwardList" class="columnInput" v-model="queryInfo.aod_id" size="mini" clearable placeholder="请选择">
             <el-option v-for="item in departmentList" :key="item.department_id" :label="item.department_name" :value="item.department_id"> </el-option>
           </el-select>
         </template>
@@ -122,7 +123,7 @@
         <template slot="header" slot-scope="scope"
           >{{ scope.haha }}
           <div style="line-height: 14px">项目来源</div>
-          <el-select @change="QueryAwardList" class="columnInput" v-model="queryInfo.sd_id" multiple size="mini" collapse-tags placeholder="请选择">
+          <el-select @change="QueryAwardList" class="columnInput" v-model="queryInfo.sd_id" size="mini" clearable placeholder="请选择">
             <el-option v-for="item in departmentList" :key="item.department_id" :label="item.department_name" :value="item.department_id"> </el-option>
           </el-select>
         </template>
@@ -132,7 +133,7 @@
         <template slot="header" slot-scope="scope"
           >{{ scope.haha }}
           <div style="line-height: 14px">成果形式</div>
-          <el-select @change="QueryAwardList" class="columnInput" v-model="queryInfo.at_id" multiple size="mini" collapse-tags placeholder="请选择">
+          <el-select @change="QueryAwardList" class="columnInput" v-model="queryInfo.at_id" size="mini" clearable placeholder="请选择">
             <el-option v-for="item in atList" :key="item.at_id" :label="item.at_name" :value="item.at_id"> </el-option>
           </el-select>
         </template>
@@ -242,7 +243,6 @@ export default {
         leader_id: "",
         achievement_name: "",
         award_name: "",
-        award_time: "",
         issuing_authority: "",
         approval_number: "",
         aod_id: "",
@@ -258,11 +258,11 @@ export default {
         // 当前页大小
         pageSize: 10,
       },
-
-      // 总的数据条数
-      total: 2,
       // 查询条件：发表日期
       award_time: null,
+      // 总的数据条数
+      total: 2,
+      
       // 单位 id:name 对象
       departmentObj: {},
       // 单位对象列表
@@ -365,11 +365,12 @@ export default {
     // 获取论文成果列表
     async getAwardList() {
       this.isLoading = true
-      if(this.queryInfo.award_time !== ''){
-        this.queryInfo.award_time_start = this.queryInfo.award_time[0]
-        this.queryInfo.award_time_end = this.queryInfo.award_time[1]
+      if(this.award_time !== null){
+        this.queryInfo.award_time_start = this.award_time[0]
+        this.queryInfo.award_time_end = this.award_time[1]
       } else this.queryInfo.award_time_start = this.queryInfo.award_time_end = ''
       // 通过 post 请求获取科研项目列表
+      console.log(this.queryInfo)
       const { data: res } = await this.$http.post("/award/selectAllAwardByCondition", this.$qs.stringify(this.queryInfo));
       if (res.status === "404") {
         return this.$router.push("/home");

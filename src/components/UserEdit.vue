@@ -38,7 +38,7 @@
         </el-table-column>
         <el-table-column label="操作" align="center">
           <template slot-scope="scope">
-            <el-button type="primary" icon="el-icon-edit" size="mini">修改信息</el-button>
+            <el-button type="primary" icon="el-icon-edit" size="mini" @click="showUpdateUserDialog(scope.row.user_id)">修改信息</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -56,6 +56,29 @@
       
     </el-card>
 
+        <el-dialog title="修改用户信息" :visible.sync="updateUserDialogVisible" width="30%" @closed="updateUserDialogClosed">
+      <el-form :model="editUserForm" :rules="editUserFormRules" ref="editUserFormRef" label-width="100px">
+        <el-form-item label="用户名">
+          <el-input disabled v-model="editUserForm.user_act"></el-input>
+        </el-form-item>
+        <el-form-item label="姓名">
+          <el-input disabled v-model="editUserForm.user_name"></el-input>
+        </el-form-item>
+        <el-form-item label="电子邮箱" prop="user_email">
+          <el-input v-model="editUserForm.user_email"></el-input>
+        </el-form-item>
+        <el-form-item label="单位" prop="department_id">
+          <el-select v-model="editUserForm.department_id" style="width: 100%">
+            <el-option v-for="item in departmentList" :label="item.department_name" :value="item.department_id"
+              :key="item.department_id"></el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="updateUserDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="updateUser">确 定</el-button>
+      </span>
+    </el-dialog>
 
   </div>
 </template>
@@ -79,7 +102,19 @@ export default {
       departmentList: [],
       // 用户列表
       userList: [],
-      isLoading: false
+      isLoading: false,
+      updateUserDialogVisible: false,
+      editUserForm: {},
+      editUserFormRules: {
+        user_email: [
+          { required: true, message: "请输入邮箱", trigger: "blur" },
+          {
+            pattern: /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/,
+            message: "邮箱格式错误",
+          },
+        ],
+        department_id: [{ required: true, message: '请选择单位', trigger: 'change' }]
+      },
     }
   },
   created() {
@@ -123,6 +158,19 @@ export default {
     searchUserList() {
       this.queryInfo.pageNum = 1
       this.getUserList()
+    },
+    async showUpdateUserDialog(user_id) {
+      const { data: res } = await this.$http.post('/user/findUserById', stringify({ user_id: user_id }))
+      if( res.status !== '200' ) return this.$message.error('获取用户信息失败')
+      this.editUserForm = res.data
+      this.updateUserDialogVisible = true
+    },
+    updateUserDialogClosed() { this.$refs.editUserFormRef.resetFields() },
+    async updateUser() {
+      const { data: res } = await this.$http.post('/user/updateUserMessage', stringify(this.editUserForm))
+      if( res.status !== '200' ) return this.$message.error('更新用户信息失败')
+      this.$message.success('更新用户信息成功')
+      this.updateUserDialogVisible = false 
     }
   }
 }

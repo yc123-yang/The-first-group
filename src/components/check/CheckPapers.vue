@@ -42,7 +42,8 @@
         <template slot="header" slot-scope="scope"
           >{{ scope.haha }}
           <div style="line-height: 14px">发表日期</div>
-          <el-date-picker class="columnInput" style="width: 200px; padding-right: 0" size="mini" v-model="queryInfo.publish_time" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" @change="getPaperList"> </el-date-picker>
+          <el-date-picker class="columnInput" style="width: 200px; padding-right: 0" size="mini" v-model="publish_time" value-format="yyyy-MM-dd 00:00:00"
+            type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" @change="getPaperList"> </el-date-picker>
         </template>
       </el-table-column>
 
@@ -229,7 +230,6 @@ export default {
         paper_name: "",
         pt_id: "",
         periodical_id: "",
-        publish_time: "",
         include_number: "",
         sc_id: "",
         subject_id: "",
@@ -327,9 +327,9 @@ export default {
     // 获取论文成果列表
     async getPaperList() {
       this.isLoading = true
-      if(this.queryInfo.publish_time !== ''){
-        this.queryInfo.publish_time_start = this.queryInfo.publish_time[0]
-        this.queryInfo.publish_time_end = this.queryInfo.publish_time[1]
+      if(this.publish_time !== null){
+        this.queryInfo.publish_time_start = this.publish_time[0]
+        this.queryInfo.publish_time_end = this.publish_time[1]
       }else this.queryInfo.publish_time_start = this.queryInfo.publish_time_end = ''
       this.queryInfo.apply_time_start = this.queryInfo.apply_time_end = ''
       const { data: res } = await this.$http.post("/paperExamine/selectAllPaperExamineByCondition", this.$qs.stringify(this.queryInfo));

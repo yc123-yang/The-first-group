@@ -18,7 +18,7 @@
         <el-form-item>
           <el-button type="primary" class="loginBtn" @click="login">登录</el-button>
           <el-button type="text" class="registerBtn" @click="registerDialogVisible = true">创建用户</el-button>
-          <el-button type="text" class="forgetPwdBtn">忘记密码?</el-button>
+          <!-- <el-button type="text" class="forgetPwdBtn">忘记密码?</el-button> -->
         </el-form-item>
       </div>
     </el-form>
@@ -281,6 +281,7 @@ export default {
   .registerBtn {
     font-size: 16px;
     width: 16%;
+    float: right;
   }
 }
 </style>

@@ -414,7 +414,7 @@ export default {
     async getProjectList() {
       this.isLoading = true
       // 通过 post 请求获取科研项目列表
-      const { data: res } = await this.$http.post('/project/selectProjectByCondition', this.$qs.stringify(this.queryInfo))
+      const { data: res } = await this.$http.post('/project/selectAllProjectByCondition', this.$qs.stringify(this.queryInfo))
       if( res.status === '404' ) {
         return this.$router.push('/home')
       }
